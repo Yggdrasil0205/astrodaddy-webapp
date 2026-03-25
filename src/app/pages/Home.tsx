@@ -5,6 +5,26 @@ import { GlassCard } from '../components/GlassCard';
 import { Button } from '../components/ui/button';
 import { ImageWithFallback } from '../components/figma/ImageWithFallback';
 import { AnimatedDNA } from '../components/AnimatedDNA';
+import { 
+  Heart, 
+  Brain, 
+  Activity, 
+  Star, 
+  ArrowRight, 
+  ShoppingCart, 
+  CheckCircle,
+  Sparkles,
+  TrendingUp,
+  Mountain,
+  Leaf,
+  Sunrise,
+  AlertCircle,
+  Flame,
+  Dumbbell,
+  Quote
+} from 'lucide-react';
+import { motion } from 'motion/react';
+import { Link } from 'react-router';
 
 export default function Home() {
   const { addToCart } = useCart();

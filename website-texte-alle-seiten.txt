@@ -1,0 +1,485 @@
+================================================================================
+HAPPYAGER WEBSITE - ALLE TEXTE ALLER SEITEN
+================================================================================
+
+================================================================================
+STARTSEITE (Home)
+================================================================================
+
+--- Hero Section ---
+
+Badge: Dein Weg zu gesundem Altern
+
+H1 Headline: 
+Glücklich
+älter werden
+
+Beschreibung: 
+Entdecke mit Markus Miersbe die Geheimnisse der Longevity. Natürlich, achtsam und voller Lebensfreude – dein HappyAger Lifestyle beginnt hier.
+
+Buttons:
+- Zum Shop
+- Mehr erfahren
+
+--- Über Markus Section ---
+
+Badge: Über Markus
+
+H2 Headline: 
+Dein Guide für
+gesundes Altern
+
+Beschreibung: 
+Als zertifizierter Longevity-Coach und Yoga-Lehrer verbinde ich östliche Weisheit mit moderner Wissenschaft. Meine Mission: Menschen zu zeigen, dass Altern nicht Verzicht bedeutet, sondern eine Phase voller Energie, Freude und Gesundheit sein kann.
+
+Feature 1 Headline: 15+ Jahre Erfahrung
+Feature 1 Text: In Longevity & Wellness Coaching
+
+Feature 2 Headline: 5.000+ zufriedene Kunden
+Feature 2 Text: Auf ihrem Weg zu mehr Lebensqualität
+
+--- Bestseller Section ---
+
+Badge: Bestseller
+
+H2 Headline: 
+Unsere Top Produkte
+
+Beschreibung: 
+Sorgfältig ausgewählte Premium-Supplements für deine Longevity-Reise
+
+Buttons:
+- Details
+- In den Warenkorb
+- Alle Produkte ansehen
+
+--- Longevity Facts Section ---
+
+H2 Headline: 
+Fakten über Longevity
+
+Beschreibung: 
+Wissenschaftlich fundierte Erkenntnisse für ein längeres, gesünderes Leben
+
+Fakt 1 Statistik: 30%
+Fakt 1 Text: Regelmäßige Bewegung reduziert Herzkrankheiten um 30%
+
+Fakt 2 Statistik: 40%
+Fakt 2 Text: Pflanzenbasierte Kost reduziert das Krankheitsrisiko um bis zu 40%
+
+Fakt 3 Statistik: Bessere Lebensqualität
+Fakt 3 Text: Meditation und Achtsamkeit verbessern die Lebensqualität nachweislich
+
+Fakt 4 Statistik: 15%
+Fakt 4 Text: Optimismus kann die Lebenserwartung um bis zu 15% steigern
+
+--- Testimonials Section ---
+
+Badge: Kundenstimmen
+
+H2 Headline: 
+Was andere sagen
+
+Beschreibung: 
+Echte Erfahrungen von echten Menschen auf ihrer HappyAger-Reise
+
+Testimonial 1:
+Name: Maria S.
+Alter: 58 Jahre
+Text: "Seit ich Markus' Programm folge, fühle ich mich 10 Jahre jünger! Die Produkte sind fantastisch."
+
+Testimonial 2:
+Name: Thomas K.
+Alter: 62 Jahre
+Text: "Endlich verstehe ich, wie ich gesund und glücklich älter werden kann. Danke Markus!"
+
+Testimonial 3:
+Name: Petra L.
+Alter: 55 Jahre
+Text: "Die besten Tipps für Longevity und Lebensfreude. Absolute Empfehlung!"
+
+--- CTA Section ---
+
+H2 Headline: 
+Bereit für deine Transformation?
+
+Beschreibung: 
+Starte jetzt deine Reise zu mehr Lebensqualität, Energie und Glück. Entdecke die Kraft der Longevity!
+
+Buttons:
+- Jetzt starten
+- Login / Registrieren
+
+--- Footer ---
+
+Copyright: © 2026 HappyAger. Alle Rechte vorbehalten.
+
+
+================================================================================
+SHOP SEITE
+================================================================================
+
+H1 Headline: HappyAger Shop
+
+Beschreibung: Premium Produkte für deine Longevity-Reise
+
+Suchfeld Placeholder: Produkte suchen...
+
+Filter Label: Kategorien
+
+Kategorien:
+- Alle Produkte
+- Nahrungsergänzung
+- Energie & Vitalität
+- Schlaf & Regeneration
+- Gehirngesundheit
+- Beweglichkeit
+- Darmgesundheit
+
+Buttons:
+- In den Warenkorb
+- Details
+
+Empty State Headline: Keine Produkte gefunden
+Empty State Text: Versuche eine andere Kategorie oder Suchbegriff
+
+--- Newsletter CTA (Shop) ---
+
+H2 Headline: Exklusive Angebote & Tipps
+
+Beschreibung: Abonniere unseren Newsletter und erhalte 10% Rabatt auf deine erste Bestellung
+
+Input Placeholder: Deine E-Mail Adresse
+
+Button: 10% sichern
+
+
+================================================================================
+LOGIN / REGISTRIERUNG SEITE
+================================================================================
+
+H1 Headline: HappyAger
+
+Login Text: Willkommen zurück!
+Registrierung Text: Werde Teil der Community
+
+Tab Labels:
+- Login
+- Registrieren
+
+Formularfelder:
+- Name (Label): Name - Placeholder: Dein Name
+- E-Mail (Label): E-Mail - Placeholder: deine@email.de
+- Passwort (Label): Passwort - Placeholder: ••••••••
+
+Checkbox: Angemeldet bleiben
+Link: Passwort vergessen?
+
+Buttons:
+- Anmelden
+- Account erstellen
+- Mit Google fortfahren
+- Mit Facebook fortfahren
+
+Benefits Text: 
+Als Mitglied erhältst du exklusive Rabatte, Zugang zu Premium-Inhalten und persönliche Longevity-Tipps von Markus.
+
+Divider: oder
+
+Footer Text: 
+Mit der Anmeldung akzeptierst du unsere AGB und Datenschutzerklärung
+
+
+================================================================================
+PRODUKTDETAIL SEITE
+================================================================================
+
+Button: Zurück
+
+Kategorie-Label: [Dynamisch je nach Produkt]
+
+Produktname H1: [Dynamisch je nach Produkt]
+
+Beschreibung: [Dynamisch je nach Produkt]
+
+Preis-Zusatz: inkl. MwSt.
+
+Menge Label: Menge
+
+Buttons:
+- In den Warenkorb
+- Hinzugefügt! (nach Klick)
+- Teilen
+
+Abschnitt Headlines:
+- Produktdetails
+- Inhaltsstoffe
+- Vorteile
+- Anwendung
+
+404 Fallback:
+Headline: Produkt nicht gefunden
+Button: Zurück zum Shop
+
+
+================================================================================
+CHECKOUT SEITE
+================================================================================
+
+Button: Zurück
+
+H1 Headline: Checkout
+
+Beschreibung: Schließe deine Bestellung ab
+
+Formular-Überschriften:
+- Kontaktinformationen
+- Versandadresse
+- Zahlungsinformationen
+
+--- Kontaktinformationen ---
+
+E-Mail Adresse (Label) - Placeholder: deine@email.de
+
+--- Versandadresse ---
+
+Formularfelder:
+- Vorname (Label)
+- Nachname (Label)
+- Straße und Hausnummer (Label)
+- Postleitzahl (Label)
+- Stadt (Label)
+- Land (Label)
+
+Land-Optionen:
+- Deutschland
+- Österreich
+- Schweiz
+
+--- Zahlungsinformationen ---
+
+Formularfelder:
+- Karteninhaber (Label)
+- Kartennummer (Label) - Placeholder: 1234 5678 9012 3456
+- Ablaufdatum (Label) - Placeholder: MM/JJ
+- CVV (Label) - Placeholder: 123
+
+Button Labels:
+- Jetzt kaufen
+- Wird verarbeitet...
+
+--- Bestellübersicht ---
+
+H2: Bestellübersicht
+- Zwischensumme:
+- Versand:
+- Gesamt:
+- Menge: [X]
+
+Sicherheit: Sichere Zahlung mit SSL-Verschlüsselung
+
+--- Empty Cart ---
+
+Headline: Dein Warenkorb ist leer
+Text: Füge Produkte hinzu, um mit dem Checkout fortzufahren.
+Button: Zum Shop
+
+--- Erfolgsseite ---
+
+Headline: Bestellung erfolgreich!
+Text: Vielen Dank für deine Bestellung. Du erhältst in Kürze eine Bestätigungsmail.
+Redirect Text: Du wirst in wenigen Sekunden zur Startseite weitergeleitet...
+
+
+================================================================================
+PRODUKTE - ALLE 6 PRODUKTE
+================================================================================
+
+================================================================================
+PRODUKT 1: Longevity Essentials
+================================================================================
+
+Name: Longevity Essentials
+Kurzbeschreibung: Premium Nahrungsergänzung für gesundes Altern
+Kategorie: Nahrungsergänzung
+Badge: Bestseller
+Preis: 49,90€
+
+Details: 
+Unsere Longevity Essentials sind eine sorgfältig abgestimmte Mischung aus hochwertigen Inhaltsstoffen, die deine Zellen unterstützen und den Alterungsprozess positiv beeinflussen. Entwickelt mit neuesten wissenschaftlichen Erkenntnissen aus der Longevity-Forschung.
+
+Inhaltsstoffe:
+- Resveratrol
+- NMN (Nicotinamid-Mononukleotid)
+- Quercetin
+- Vitamin D3
+- Omega-3-Fettsäuren
+
+Vorteile:
+- Unterstützt die zelluläre Gesundheit
+- Fördert gesundes Altern
+- Stärkt das Immunsystem
+- Verbessert die Energieproduktion
+- Reduziert oxidativen Stress
+
+Anwendung: 
+Täglich 2 Kapseln mit einer Mahlzeit einnehmen. Für beste Ergebnisse kombiniere die Einnahme mit einer ausgewogenen Ernährung und regelmäßiger Bewegung.
+
+
+================================================================================
+PRODUKT 2: Vitality Boost
+================================================================================
+
+Name: Vitality Boost
+Kurzbeschreibung: Natürliche Energie für jeden Tag
+Kategorie: Energie & Vitalität
+Badge: Neu
+Preis: 39,90€
+
+Details: 
+Vitality Boost gibt dir die natürliche Energie, die du für einen aktiven und erfüllten Tag brauchst. Ohne künstliche Stimulanzien, dafür mit der Kraft adaptogener Pflanzen und essentieller Nährstoffe.
+
+Inhaltsstoffe:
+- Ashwagandha
+- Rhodiola Rosea
+- Ginseng
+- B-Vitamin-Komplex
+- Magnesium
+
+Vorteile:
+- Natürlicher Energieschub ohne Crash
+- Reduziert Stress und Erschöpfung
+- Verbessert mentale Klarheit
+- Unterstützt die Nebennierenfunktion
+- Fördert körperliche Ausdauer
+
+Anwendung: 
+Morgens 1-2 Kapseln auf nüchternen Magen oder zum Frühstück einnehmen. Kann bei Bedarf auch mittags wiederholt werden.
+
+
+================================================================================
+PRODUKT 3: Regeneration Plus
+================================================================================
+
+Name: Regeneration Plus
+Kurzbeschreibung: Für erholsamen Schlaf und Regeneration
+Kategorie: Schlaf & Regeneration
+Badge: Beliebt
+Preis: 44,90€
+
+Details: 
+Regeneration Plus unterstützt deinen Körper dabei, sich nachts optimal zu erholen. Tiefer, erholsamer Schlaf ist der Schlüssel zu Longevity und Lebensqualität. Mit natürlichen Inhaltsstoffen für süße Träume und morgendliche Frische.
+
+Inhaltsstoffe:
+- Melatonin
+- L-Theanin
+- Baldrian
+- Passionsblume
+- Magnesium-Glycinat
+
+Vorteile:
+- Fördert schnelleres Einschlafen
+- Verbessert die Schlafqualität
+- Unterstützt die nächtliche Regeneration
+- Reduziert nächtliches Aufwachen
+- Sorgt für erholten Morgen
+
+Anwendung: 
+1-2 Kapseln 30-60 Minuten vor dem Schlafengehen mit einem Glas Wasser einnehmen. Für beste Ergebnisse eine regelmäßige Schlafenszeit etablieren.
+
+
+================================================================================
+PRODUKT 4: Mind & Focus
+================================================================================
+
+Name: Mind & Focus
+Kurzbeschreibung: Für mentale Klarheit und Konzentration
+Kategorie: Gehirngesundheit
+Badge: Empfohlen
+Preis: 42,90€
+
+Details: 
+Mind & Focus ist deine mentale Geheimwaffe für produktive Tage. Die synergistische Formel aus Nootropika und Nährstoffen unterstützt Konzentration, Gedächtnis und kognitive Leistung.
+
+Inhaltsstoffe:
+- Lion's Mane Pilz
+- Bacopa Monnieri
+- Ginkgo Biloba
+- Alpha-GPC
+- Phosphatidylserin
+
+Vorteile:
+- Verbessert Fokus und Konzentration
+- Unterstützt Gedächtnis und Lernfähigkeit
+- Fördert neuronale Gesundheit
+- Reduziert mentale Müdigkeit
+- Erhöht geistige Klarheit
+
+Anwendung: 
+Täglich 2 Kapseln am Morgen oder bei Bedarf vor geistig anspruchsvollen Aufgaben einnehmen.
+
+
+================================================================================
+PRODUKT 5: Joint Support
+================================================================================
+
+Name: Joint Support
+Kurzbeschreibung: Für bewegliche und gesunde Gelenke
+Kategorie: Beweglichkeit
+Preis: 38,90€
+
+Details: 
+Joint Support hält deine Gelenke beweglich und gesund. Mit Kollagen und natürlichen entzündungshemmenden Inhaltsstoffen für ein aktives Leben in jedem Alter.
+
+Inhaltsstoffe:
+- Kollagen Typ II
+- Glucosamin
+- Chondroitin
+- MSM
+- Kurkuma-Extrakt
+
+Vorteile:
+- Unterstützt Gelenkgesundheit
+- Fördert Knorpelregeneration
+- Reduziert Gelenkbeschwerden
+- Verbessert Beweglichkeit
+- Entzündungshemmende Wirkung
+
+Anwendung: 
+Täglich 3 Kapseln mit einer Mahlzeit einnehmen. Für optimale Ergebnisse über mindestens 3 Monate einnehmen.
+
+
+================================================================================
+PRODUKT 6: Gut Health Pro
+================================================================================
+
+Name: Gut Health Pro
+Kurzbeschreibung: Probiotika für eine gesunde Darmflora
+Kategorie: Darmgesundheit
+Badge: Top-Seller
+Preis: 45,90€
+
+Details: 
+Gut Health Pro unterstützt deine Darmflora mit 20 Milliarden KBE pro Kapsel. Ein gesunder Darm ist die Grundlage für Immunsystem, Stimmung und Langlebigkeit.
+
+Inhaltsstoffe:
+- Lactobacillus acidophilus
+- Bifidobacterium lactis
+- Lactobacillus rhamnosus
+- Präbiotische Ballaststoffe
+- Verdauungsenzyme
+
+Vorteile:
+- Fördert gesunde Darmflora
+- Stärkt das Immunsystem
+- Verbessert Verdauung
+- Unterstützt Nährstoffaufnahme
+- Reduziert Blähungen
+
+Anwendung: 
+Täglich 1 Kapsel auf nüchternen Magen oder zu einer Mahlzeit einnehmen. Im Kühlschrank aufbewahren.
+
+
+================================================================================
+ENDE DER TEXTDATEI
+================================================================================

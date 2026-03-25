@@ -1,0 +1,149 @@
+====================================================================
+BENÖTIGTE INFORMATIONEN FÜR IMPRESSUM UND DATENSCHUTZERKLÄRUNG
+HappyAger Website - Markus Miersbe
+====================================================================
+
+Sehr geehrter Kunde,
+
+für die vollständige Implementierung des rechtssicheren Impressums und der 
+Datenschutzerklärung auf Ihrer Website benötigen wir noch folgende Informationen 
+von Ihnen:
+
+
+═══════════════════════════════════════════════════════════════════
+1. IMPRESSUM - GRUNDLEGENDE ANGABEN
+═══════════════════════════════════════════════════════════════════
+
+□ Vollständiger Name / Firmenname:
+   _________________________________________________________________
+
+□ Rechtsform (z.B. Einzelunternehmen, GmbH, UG, etc.):
+   _________________________________________________________________
+
+□ Vollständige Anschrift:
+   Straße und Hausnummer: ___________________________________________
+   PLZ: _____________  Ort: _________________________________________
+   Land: ____________________________________________________________
+
+□ Kontaktdaten:
+   Telefonnummer: ___________________________________________________
+   E-Mail-Adresse: __________________________________________________
+   Website-URL: _____________________________________________________
+
+
+═══════════════════════════════════════════════════════════════════
+2. REGISTRIERUNG UND STEUERN
+═══════════════════════════════════════════════════════════════════
+
+□ Handelsregister (falls zutreffend):
+   Registergericht: _________________________________________________
+   Registernummer: __________________________________________________
+
+□ Umsatzsteuer-Identifikationsnummer (USt-ID):
+   DE_______________________________________________________________
+
+□ Wirtschafts-Identifikationsnummer (falls vorhanden):
+   _________________________________________________________________
+
+□ Berufsbezeichnung (falls reglementierter Beruf):
+   Berufsbezeichnung: _______________________________________________
+   Zuständige Kammer: _______________________________________________
+   Verliehen in (Land): _____________________________________________
+   Berufsrechtliche Regelungen: _____________________________________
+
+
+═══════════════════════════════════════════════════════════════════
+3. DATENSCHUTZ - VERANTWORTLICHE STELLE
+═══════════════════════════════════════════════════════════════════
+
+□ Datenschutzbeauftragter (falls vorhanden):
+   Name: ____________________________________________________________
+   Kontaktdaten: ____________________________________________________
+   E-Mail: __________________________________________________________
+
+□ Anschrift des Verantwortlichen (für Datenschutz):
+   Straße und Hausnummer: ___________________________________________
+   PLZ: _____________  Ort: _________________________________________
+
+
+═══════════════════════════════════════════════════════════════════
+4. SOCIAL MEDIA PROFILE
+═══════════════════════════════════════════════════════════════════
+
+Bitte tragen Sie Ihre Social-Media-Profile ein:
+
+   Facebook: ________________________________________________________
+   Instagram: _______________________________________________________
+   TikTok: __________________________________________________________
+   YouTube: _________________________________________________________
+
+
+═══════════════════════════════════════════════════════════════════
+5. STREITSCHLICHTUNG
+═══════════════════════════════════════════════════════════════════
+
+□ Teilnahme an Verbraucherschlichtungsverfahren:
+   ☐ Nein, wir nehmen nicht teil (Standard)
+   ☐ Ja, wir nehmen teil
+   
+   Falls Ja - Name der Schlichtungsstelle:
+   _________________________________________________________________
+
+
+═══════════════════════════════════════════════════════════════════
+6. ZUSÄTZLICHE HINWEISE
+═══════════════════════════════════════════════════════════════════
+
+Gibt es weitere rechtliche Besonderheiten oder Anforderungen:
+___________________________________________________________________
+___________________________________________________________________
+___________________________________________________________________
+
+
+═══════════════════════════════════════════════════════════════════
+BEREITS KONFIGURIERT
+═══════════════════════════════════════════════════════════════════
+
+Folgende Dienste wurden bereits in die Datenschutzerklärung integriert:
+
+✓ Hosting: do.de (Domain-Offensive)
+✓ Zahlungsdienstleister: PayPal, Klarna, Sofortüberweisung, Apple Pay, 
+  Vorkasse, Rechnung
+✓ Newsletter: Mailchimp
+✓ Webanalyse: Google Analytics, Hotjar
+✓ Marketing-Tools: Google Ads, Facebook Pixel, LinkedIn Insight Tag, 
+  TikTok Pixel, Instagram Tracking
+✓ Social Media Plugins: Facebook, Instagram, TikTok, YouTube
+✓ Bildquellen: Unsplash, eigene Fotografien, HappyAger Logo
+✓ Datenschutzbehörde: Bayerisches Landesamt für Datenschutzaufsicht
+
+
+═══════════════════════════════════════════════════════════════════
+EMPFEHLUNGEN
+═══════════════════════════════════════════════════════════════════
+
+1. Lassen Sie Impressum und Datenschutzerklärung nach Ausfüllen 
+   dieser Informationen von einem Fachanwalt für IT-Recht oder 
+   Datenschutzrecht prüfen.
+
+2. Aktualisieren Sie die Datenschutzerklärung, sobald Sie neue 
+   Tools oder Dienste einbinden.
+
+3. Dokumentieren Sie alle Einwilligungen der Nutzer (Cookie-Banner 
+   speichert dies automatisch im Browser).
+
+4. Prüfen Sie regelmäßig, ob Ihre Dienstleister ihre 
+   Datenschutzerklärungen aktualisiert haben.
+
+
+════════════════════════════════════════════════════════════════════
+
+Bitte füllen Sie dieses Formular vollständig aus und senden Sie es 
+zurück, damit wir die rechtlichen Seiten finalisieren können.
+
+Bei Fragen stehen wir jederzeit zur Verfügung.
+
+Mit freundlichen Grüßen
+Ihr Entwicklerteam
+
+════════════════════════════════════════════════════════════════════

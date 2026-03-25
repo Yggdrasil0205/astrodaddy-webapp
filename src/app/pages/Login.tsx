@@ -1,6 +1,5 @@
 import { useAuth } from '../context/AuthContext';
 import { LogIn, UserPlus, Sparkles } from 'lucide-react';
-import { HappyAgerLogo } from '../components/HappyAgerLogo';
 
 export default function Login() {
   const [isLogin, setIsLogin] = useState(true);
@@ -60,7 +59,11 @@ export default function Login() {
         <GlassCard className="rounded-3xl p-8 md:p-10">
           {/* Logo & Header */}
           <div className="text-center mb-8">
-            <HappyAgerLogo className="h-20 w-auto mx-auto mb-4" />
+            <img 
+              src="/logo.png" 
+              alt="HappyAger - Mit Markus Miersbe" 
+              className="h-20 w-auto mx-auto mb-4"
+            />
             
             <div className="inline-flex items-center px-3 py-1 rounded-full bg-gradient-to-r from-[#8268AB]/20 to-[#BFADD5]/20 backdrop-blur-sm mb-3">
               <Sparkles className="w-4 h-4 mr-2 text-[#8268AB]" />

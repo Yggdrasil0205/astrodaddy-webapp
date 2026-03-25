@@ -65,7 +65,9 @@ export default function ForgotPassword() {
           {/* Logo & Header */}
           <div className="text-center mb-8">
             <Link to="/login">
-              <HappyAgerLogo 
+              <img 
+                src="/logo.png" 
+                alt="HappyAger - Mit Markus Miersbe" 
                 className="h-20 w-auto mx-auto mb-4"
               />
             </Link>

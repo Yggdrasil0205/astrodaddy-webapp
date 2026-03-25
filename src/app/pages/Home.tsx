@@ -1,23 +1,5 @@
-import React from 'react';
-import { motion } from 'motion/react';
-import { Link } from 'react-router';
-import { 
-  Heart, 
-  TrendingUp, 
-  Mountain, 
-  Leaf, 
-  Sunrise, 
-  Star, 
-  Quote, 
-  Sparkles,
-  AlertCircle,
-  Flame,
-  Dumbbell,
-  Brain
-} from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { CookieSettingsButton } from '../components/CookieSettingsButton';
-import { HappyAgerLogo } from '../components/HappyAgerLogo';
 import { products } from '../data/products';
 import { GlassCard } from '../components/GlassCard';
 import { Button } from '../components/ui/button';
@@ -739,7 +721,11 @@ export default function Home() {
       <footer className="relative py-12 px-4 sm:px-6 lg:px-8 border-t border-white/20">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col items-center justify-center text-center gap-4">
-            <HappyAgerLogo />
+            <img 
+              src="/logo.png" 
+              alt="HappyAger - Mit Markus Miersbe" 
+              className="h-20 w-auto"
+            />
             <div className="flex gap-4 text-sm text-[#1b2a23]/70">
               <Link to="/impressum" className="hover:text-[#8268AB] transition-colors">
                 Impressum

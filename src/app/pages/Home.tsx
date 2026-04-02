@@ -84,8 +84,14 @@ export default function Home() {
     {
       icon: Sunrise,
       stat: '15 %',
-      description: 'Optimismus und ein klarer Lebenssinn können die Lebenserwartung um bis zu 15 % erhöhen – belegt durch Blue-Zone-Forschung',
+      description: 'Optimismus kann die Lebenserwartung um bis zu 15 % erhöhen – belegt durch Blue-Zone-Forschung',
       color: '#F9C4B5'
+    },
+    {
+      icon: Heart,
+      stat: '100 Jahre',
+      description: 'Durch ihre besondere Lebensweise gibt es in den „Bluezones" überdurchschnittlich viele 90-100 Jahre alte Menschen, die sich bester Gesundheit erfreuen.',
+      color: '#2D5953'
     }
   ];
 
@@ -229,8 +235,8 @@ export default function Home() {
                     Wissens und der richtigen Gewohnheiten. Die Menschen, die weltweit am 
                     längsten und gesündesten leben, in den sogenannten Blauen Zonen, folgen 
                     denselben einfachen Prinzipien: tägliche Bewegung, pflanzenreiche 
-                    Ernährung, tiefe soziale Bindungen und ein klarer Lebenssinn. Genau 
-                    dieses Wissen mache ich für dich alltagstauglich.
+                    Ernährung, tiefe soziale Bindungen und ein klarer Lebenssinn. Genau
+                    dieses Wissen lebe ich und mache ich für dich alltagstauglich.
                   </p>
                   <div className="space-y-3">
                     <div className="flex items-start">
@@ -371,11 +377,11 @@ export default function Home() {
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
           <ImageWithFallback
-            src="https://images.unsplash.com/photo-1773049322617-73bdc38b0d0c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxncmVlbiUyMGZvcmVzdCUyMG5hdHVyZSUyMHBlYWNlZnVsJTIwemVufGVufDF8fHx8MTc3MzE0OTU4M3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
-            alt="Nature Background"
+            src="https://images.unsplash.com/photo-1597362925123-77861d3fbac7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb2xvcmZ1bCUyMHZlZ2V0YWJsZSUyMHZhcmlldHklMjBtaXglMjBmcmVzaHxlbnwxfHx8fDE3NzUxMTQ5MDd8MA&ixlib=rb-4.1.0&q=80&w=1080"
+            alt="Fresh Vegetables Mix"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#1b2a23]/60 via-[#1b2a23]/50 to-[#1b2a23]/60" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#1b2a23]/40 via-[#1b2a23]/30 to-[#1b2a23]/40" />
         </div>
         
         <div className="max-w-7xl mx-auto relative z-10">
@@ -468,9 +474,9 @@ export default function Home() {
                   Säule 3: Mentale Bestform
                 </h3>
                 <p className="text-white/90 leading-relaxed mb-6 flex-grow">
-                  Körperliche Bewegung schützt auch das Gehirn: Sie fördert die 
-                  Ausschüttung von BDNF, einem Schutzprotein fr Nervenzellen, das 
-                  Gedächtnis und Lernfähigkeit stärkt. Dazu kommen Schlaf, Ernährung und 
+                  Körperliche Bewegung schützt auch das Gehirn: Sie fördert die
+                  Ausschüttung von BDNF, einem Schutzprotein für Nervenzellen, das
+                  Gedächtnis und Lernfähigkeit stärkt. Dazu kommen Schlaf, Ernährung und
                   soziale Kontakte – alles, was dich geistig fit hält.
                 </p>
                 <Link to="/community">
@@ -517,7 +523,7 @@ export default function Home() {
               Unsere <span className="bg-gradient-to-r from-[#1b2a23] via-[#8268AB] to-[#F9C4B5] bg-clip-text text-transparent">Top Produkte</span>
             </h2>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-              Sorgfältig ausgewählte Premium-Supplements für deine Longevity-Reise
+              Sorgfältig ausgewählte Premium-Artikel für deine Longevity-Reise
             </p>
           </motion.div>
 
@@ -612,7 +618,7 @@ export default function Home() {
             </p>
           </motion.div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {longevityStats.map((fact, index) => {
               const Icon = fact.icon;
               return (
@@ -743,7 +749,7 @@ export default function Home() {
           <div className="flex flex-col items-center justify-center text-center gap-4">
             <img 
               src="/logo.png" 
-              alt="HappyAger - Mit Markus Miersbe" 
+              alt="HappyAger - mit Markus Miersbe" 
               className="h-20 w-auto"
             />
             <div className="flex gap-4 text-sm text-[#1b2a23]/70">

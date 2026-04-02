@@ -36,7 +36,7 @@ export function Navigation() {
           <Link to="/" className="flex items-center group">
             <img 
               src="/logo.png" 
-              alt="HappyAger - Mit Markus Miersbe" 
+              alt="HappyAger - mit Markus Miersbe" 
               className="h-16 w-auto transition-transform group-hover:scale-105"
             />
           </Link>

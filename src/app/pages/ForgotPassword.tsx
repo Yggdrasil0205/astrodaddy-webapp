@@ -67,7 +67,7 @@ export default function ForgotPassword() {
             <Link to="/login">
               <img 
                 src="/logo.png" 
-                alt="HappyAger - Mit Markus Miersbe" 
+                alt="HappyAger - mit Markus Miersbe" 
                 className="h-20 w-auto mx-auto mb-4"
               />
             </Link>

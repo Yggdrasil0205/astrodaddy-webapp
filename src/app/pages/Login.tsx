@@ -61,7 +61,7 @@ export default function Login() {
           <div className="text-center mb-8">
             <img 
               src="/logo.png" 
-              alt="HappyAger - Mit Markus Miersbe" 
+              alt="HappyAger - mit Markus Miersbe" 
               className="h-20 w-auto mx-auto mb-4"
             />
             

@@ -6,15 +6,16 @@ import { GlassCard } from '../components/GlassCard';
 import { Button } from '../components/ui/button';
 import { ImageWithFallback } from '../components/figma/ImageWithFallback';
 import { AddedToCartModal } from '../components/AddedToCartModal';
-import { 
-  Users, 
-  Calendar, 
-  Check, 
-  Video, 
-  Award, 
-  BookOpen, 
-  Sparkles, 
-  MessageCircle 
+import {
+  Users,
+  Calendar,
+  Check,
+  Video,
+  Award,
+  BookOpen,
+  Sparkles,
+  MessageCircle,
+  Activity
 } from 'lucide-react';
 import { motion } from 'motion/react';
 
@@ -31,17 +32,33 @@ export default function Community() {
   // Mitgliedschaften als Produkte
   const membershipProducts = [
     {
+      id: 'membership-free',
+      name: 'Free Mitgliedschaft',
+      price: 0,
+      originalPrice: 0,
+      description: 'Kostenlos und unverbindlich',
+      features: [
+        '4-teilige Webinarreihe Longevity',
+        'Monatlicher Newsletter mit News aus der Longevity Szene',
+        'Austausch mit Gleichgesinnten'
+      ],
+      badge: 'Kostenlos starten',
+      highlighted: false
+    },
+    {
       id: 'membership-monthly',
       name: 'Monatliche Mitgliedschaft',
-      price: 13.99,
+      price: 8.99,
       originalPrice: 19.99,
       description: 'Monatlich kündbar',
       features: [
-        'Monatliche Live-Gruppenberatung mit Markus',
-        'Vollständige Longevity-Webinarreihe',
-        'Exklusive Inhalte & Community',
-        '10 % Rabatt im HappyAger Shop',
-        'Rabatt auf 1:1 Coaching'
+        'Monatliche Live-Beratung in kleinen Gruppen per Webcam',
+        'Vollständige vierteilige Longevity-Webinarreihe',
+        'Exklusive Longevity-Inhalte zu Ernährung, Mental Health, Krafttraining uvm.',
+        'Online-Workshops: Faszien-Fitness, Yin Yoga, Meditationen, Fit im Büro',
+        'Community-Austausch mit Gleichgesinnten',
+        'Exklusiver Rabatt auf 1:1 Coaching',
+        'Persönliche Longevity-Empfehlungen'
       ],
       badge: 'Flexibel starten',
       highlighted: false
@@ -49,31 +66,18 @@ export default function Community() {
     {
       id: 'membership-yearly',
       name: 'Jährliche Mitgliedschaft',
-      price: 99,
+      price: 89,
       originalPrice: 150,
-      priceNote: 'Nur 8,25 € pro Monat',
+      priceNote: 'Nur 7,42 € pro Monat',
       description: 'Einmal zahlen, ein Jahr profitieren',
       features: [
         'Alles aus Monatlich',
+        '1:1 Call mit Markus zum Besprechen deiner persönlichen Longevity-Ziele',
+        'Priorität bei Live-Calls und Support',
         '2 Monate gratis gegenüber Monatsmitgliedschaft'
       ],
       badge: 'Beliebteste Wahl',
       highlighted: true
-    },
-    {
-      id: 'membership-lifetime',
-      name: 'Lebenslange Mitgliedschaft',
-      price: 249,
-      originalPrice: 399,
-      description: 'Einmal zahlen – für immer dabei',
-      features: [
-        'Alles aus Jährlich',
-        '2 × 45 Min. persönliches 1:1 Coaching mit Markus (Wert: 180 €)',
-        'Alle zukünftigen Inhalte ohne Aufpreis',
-        'Priorität bei Live-Sessions'
-      ],
-      badge: 'Bestes Angebot',
-      highlighted: false
     }
   ];
 
@@ -96,27 +100,32 @@ export default function Community() {
     {
       icon: Video,
       title: 'Monatliche Live-Beratung in kleinen Gruppen per Webcam',
-      description: 'Kostenlos für alle Community-Mitglieder. Persönliche Ziele besprechen, Fragen stellen, direkt mit Markus ins Gespräch kommen.'
-    },
-    {
-      icon: Award,
-      title: 'Exklusiver Rabatt auf 1:1 Coaching mit Markus',
-      description: 'Für alle, die ihre Longevity-Reise individuell begleiten lassen möchten'
+      description: 'Kostenlos für alle kostenpflichtigen Mitglieder. Persönliche Ziele besprechen, Fragen stellen, direkt mit Markus ins Gespräch kommen.'
     },
     {
       icon: BookOpen,
-      title: 'Zugang zur vollständigen Longevity-Webinarreihe',
-      description: 'Inflammaging, Kraft & Bewegung, Mentale Bestform'
+      title: 'Zugang zur vollständigen vierteiligen Longevity-Webinarreihe',
+      description: 'Bonusjahre, Inflammaging, Kraft & Bewegung, Mentale Bestform'
     },
     {
       icon: Sparkles,
       title: 'Exklusive Longevity-Inhalte',
-      description: 'Studien und Praxistipps direkt von Markus'
+      description: 'Vertieftes Wissen und Praxistipps zu gesunder Ernährung, Gewichtsmanagement, Mental Health, Krafttraining, Regeneration, Burn-out und Depression'
+    },
+    {
+      icon: Activity,
+      title: 'Online-Workshops',
+      description: 'Faszien-Fitness, Yin Yoga, Meditationen, Fit im Büro'
     },
     {
       icon: MessageCircle,
       title: 'Community-Austausch',
       description: 'Mit Gleichgesinnten auf demselben Weg'
+    },
+    {
+      icon: Award,
+      title: 'Exklusiver Rabatt auf 1:1 Coaching mit Markus',
+      description: 'Für alle, die ihre Longevity-Reise individuell begleiten lassen möchten'
     },
     {
       icon: Users,
@@ -128,7 +137,7 @@ export default function Community() {
   const pillars = [
     {
       title: 'Inflammaging',
-      description: 'Warum stilles Altern eine Entzündungsfrage ist, und wie du aktiv dagegen wirkst: durch Ernährung, Darmgesundheit, Antioxidantien und einfache Alltagsgewohnheiten.',
+      description: 'Warum Altern eine stille Entzündung ist, und wie du aktiv dagegenwirkst: durch Ernährung, Darmgesundheit, Antioxidantien und einfache Alltagsgewohnheiten.',
       image: 'https://images.unsplash.com/photo-1543362905-bddfadc3d44f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxpbmZsYW1tYXRpb24lMjBoZWFsdGh5JTIwZm9vZCUyMGFudGlveGlkYW50c3xlbnwxfHx8fDE3NzMxNDg2Njl8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral'
     },
     {
@@ -138,7 +147,7 @@ export default function Community() {
     },
     {
       title: 'Mentale Bestform',
-      description: 'Wie du dein Gehirn mit Bewegung, Ernährung, Schlaf und sozialen Kontakten bis ins hohe Alter scharf und gesund hältst.',
+      description: 'Wie du dein Gehirn trainierst und durch Bewegung, Ernährung, Schlaf und sozialen Kontakten bis ins hohe Alter scharf fit und gesund hältst.',
       image: 'https://images.unsplash.com/photo-1767611102585-baf80e9be291?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtZWRpdGF0aW9uJTIwbWVudGFsJTIwd2VsbG5lc3MlMjB5b2dhfGVufDF8fHx8MTc3MzE0ODY3MHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral'
     }
   ];
@@ -322,17 +331,22 @@ export default function Community() {
                       </div>
                       <h3 className="text-2xl font-bold mb-2">{membership.name}</h3>
                       <div className="flex items-baseline gap-2 mb-2">
-                        <span className="text-5xl font-bold text-[#1b2a23]">
-                          {membership.price.toFixed(2).replace('.', ',')} €
-                        </span>
-                        {membership.id === 'membership-monthly' && (
-                          <span className="text-muted-foreground">/ Monat</span>
-                        )}
-                        {membership.id === 'membership-yearly' && (
-                          <span className="text-muted-foreground">/ Jahr</span>
-                        )}
-                        {membership.id === 'membership-lifetime' && (
-                          <span className="text-muted-foreground">einmalig</span>
+                        {membership.id === 'membership-free' ? (
+                          <span className="text-5xl font-bold text-[#1b2a23]">
+                            Kostenlos
+                          </span>
+                        ) : (
+                          <>
+                            <span className="text-5xl font-bold text-[#1b2a23]">
+                              {membership.price.toFixed(2).replace('.', ',')} €
+                            </span>
+                            {membership.id === 'membership-monthly' && (
+                              <span className="text-muted-foreground">/ Monat</span>
+                            )}
+                            {membership.id === 'membership-yearly' && (
+                              <span className="text-muted-foreground">/ Jahr</span>
+                            )}
+                          </>
                         )}
                       </div>
                       {membership.priceNote && (
@@ -340,9 +354,11 @@ export default function Community() {
                           {membership.priceNote}
                         </p>
                       )}
-                      <p className="text-sm line-through text-muted-foreground mb-2">
-                        später {membership.originalPrice.toFixed(2).replace('.', ',')} €
-                      </p>
+                      {membership.id !== 'membership-free' && (
+                        <p className="text-sm line-through text-muted-foreground mb-2">
+                          später {membership.originalPrice.toFixed(2).replace('.', ',')} €
+                        </p>
+                      )}
                       <p className="text-sm text-muted-foreground">
                         {membership.description}
                       </p>
@@ -366,9 +382,9 @@ export default function Community() {
                           : 'bg-[#1b2a23]/80 hover:bg-[#1b2a23]/90 text-white'
                       }`}
                     >
+                      {membership.id === 'membership-free' && 'Kostenlos registrieren'}
                       {membership.id === 'membership-monthly' && 'Monatlich starten'}
                       {membership.id === 'membership-yearly' && 'Jetzt Jahresmitglied werden'}
-                      {membership.id === 'membership-lifetime' && 'Lebenslang Mitglied werden'}
                     </Button>
                   </GlassCard>
                 </motion.div>
@@ -484,7 +500,7 @@ export default function Community() {
           >
             <GlassCard className="rounded-3xl p-8 text-center">
               <p className="text-lg font-medium">
-                Bereits <span className="text-[#1b2a23] font-bold">5.000+ Menschen</span> auf dem Weg zu gesundem Altern
+                Bereits <span className="text-[#1b2a23] font-bold">2.000+ Menschen</span> auf dem Weg zu gesundem Alter
               </p>
             </GlassCard>
           </motion.div>

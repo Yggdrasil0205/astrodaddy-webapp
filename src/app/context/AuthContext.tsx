@@ -26,6 +26,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setSession(session);
       setUser(session?.user ?? null);
       setIsLoading(false);
+    }).catch(() => {
+      // Supabase not yet configured – show app without auth
+      setIsLoading(false);
     });
 
     // Listen for auth state changes

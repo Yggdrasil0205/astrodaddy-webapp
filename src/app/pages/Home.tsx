@@ -514,7 +514,7 @@ export default function Home() {
           >
             <div className="inline-flex items-center px-3 py-1 rounded-full bg-[#8268AB]/20 backdrop-blur-sm mb-4">
               <Star className="w-4 h-4 mr-2 text-[#8268AB]" />
-              <span className="text-sm text-[#8268AB] font-medium">Bestseller</span>
+              <span className="text-sm text-[#8268AB] font-medium">Unsere Empfehlung</span>
             </div>
             <h2 className="text-4xl md:text-5xl font-bold mb-4">
               Unsere <span className="bg-gradient-to-r from-[#1b2a23] via-[#8268AB] to-[#F9C4B5] bg-clip-text text-transparent">Top Lebensmittel</span>
@@ -725,59 +725,6 @@ export default function Home() {
               </div>
             </GlassCard>
           </motion.div>
-        </div>
-      </section>
-
-      {/* Testimonials */}
-      <section className="relative py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-12"
-          >
-            <div className="inline-flex items-center px-3 py-1 rounded-full bg-[#8268AB]/20 backdrop-blur-sm mb-4">
-              <Quote className="w-4 h-4 mr-2 text-[#8268AB]" />
-              <span className="text-sm text-[#8268AB] font-medium">Kundenstimmen</span>
-            </div>
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              Was andere <span className="bg-gradient-to-r from-[#1b2a23] via-[#8268AB] to-[#F9C4B5] bg-clip-text text-transparent">sagen</span>
-            </h2>
-            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-              Echte Erfahrungen von echten Menschen auf ihrer HappyAger-Reise
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-3 gap-6">
-            {testimonials.map((testimonial, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-              >
-                <GlassCard className="rounded-2xl p-6 h-full">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-14 h-14 rounded-full overflow-hidden flex-shrink-0">
-                      <ImageWithFallback
-                        src={testimonial.avatar}
-                        alt={testimonial.name}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    <div className="flex-1">
-                      <p className="font-semibold">{testimonial.name}</p>
-                      <p className="text-sm text-muted-foreground">{testimonial.age}</p>
-                    </div>
-                  </div>
-                  <p className="text-muted-foreground italic">"{testimonial.text}"</p>
-                </GlassCard>
-              </motion.div>
-            ))}
-          </div>
         </div>
       </section>
 

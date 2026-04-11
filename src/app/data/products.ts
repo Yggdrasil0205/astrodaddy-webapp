@@ -11,19 +11,18 @@ export interface Product {
   price: number;
   priceFormatted: string;
   image: string;
-  images?: string[];           // Bildergalerie
+  images?: string[];
   badge?: string;
   bestseller?: boolean;
-  rating?: number;
   category: string;
   details: string;
   benefits?: string[];
   usage?: string;
-  affiliateUrl: string;        // Link zum Hersteller
+  affiliateUrl: string;
   discountCode?: string;
   discountInfo?: string;
-  variants?: ProductVariant[]; // z.B. Schoko / Vanille
-  variantNote?: string;        // Hinweis zur Variantenauswahl
+  variants?: ProductVariant[];
+  variantNote?: string;
 }
 
 const DISCOUNT_CODE = '528217';
@@ -46,7 +45,6 @@ export const products: Product[] = [
     ],
     badge: 'Empfohlen',
     bestseller: true,
-    rating: 4.9,
     category: 'Mikronährstoffkonzentrat',
     details: 'Mit der 100-Tage-Basiskur mit Cellagon aurum kannst du von Tag eins an dazu beitragen, dass sich deine Zellen problemlos erneuern und ihre Aufgaben und Funktionen bestmöglich erledigen können. Statt einzelner Flaschen erhältst du das komplette Paket für 100 Tage – günstiger als Einzelkauf (201 € statt 211,60 €).',
     benefits: [
@@ -74,7 +72,7 @@ export const products: Product[] = [
     images: [
       '/cellagon/cellagon-aurum.png',
       '/cellagon/cellagon-aurum-glas.png',
-      '/cellagon/Cellagon_alle_Flaschen.png',
+      '/cellagon/cellagon-alle-flaschen.png',
       '/cellagon/cellagon-aurum-origin-1_1920x1920.jpg',
       '/cellagon/cellagon-aurum-dosierhilfe_1920x1920.jpg',
       '/cellagon/cellagon-aurum-qualitaetssiegel-1_1920x1920.jpg',
@@ -87,7 +85,6 @@ export const products: Product[] = [
     ],
     badge: 'Bestseller',
     bestseller: true,
-    rating: 4.9,
     category: 'Mikronährstoffkonzentrat',
     details: 'Cellagon aurum ist ein flüssiges Mikronährstoffkonzentrat zur täglichen Basisversorgung: mit Vitaminen aus natürlichen Quellen und Mineralstoffen aus über 80 Zutaten wie Obst, Gemüse und Kräutern. Die flüssige Form ermöglicht eine optimale Aufnahme der Nährstoffe.',
     benefits: [
@@ -115,9 +112,8 @@ export const products: Product[] = [
     images: [
       '/cellagon/cellagon-felice-packshot-1_600x600.jpg',
       '/cellagon/cellagon-felice-freivon-1_600x600.jpg',
-      '/cellagon/Cellagon_alle_Flaschen.png',
+      '/cellagon/cellagon-alle-flaschen.png',
     ],
-    rating: 4.8,
     category: 'Mikronährstoffkonzentrat',
     details: 'Cellagon felice ist ein flüssiges Mikronährstoffkonzentrat zur gezielten Versorgung von Haut, Haaren, Nägeln, Bindegewebe und Schleimhäuten. Mit ausgewählten Mikronährstoffen für deine äußere und innere Schönheit.',
     benefits: [
@@ -128,7 +124,7 @@ export const products: Product[] = [
       'Natürliche Inhaltsstoffe',
     ],
     usage: 'Täglich 20 ml pur oder in Wasser/Saft gemischt einnehmen.',
-    affiliateUrl: '#', // Link wird nachgereicht
+    affiliateUrl: '#',
     discountCode: DISCOUNT_CODE,
     discountInfo: DISCOUNT_INFO,
   },
@@ -142,7 +138,6 @@ export const products: Product[] = [
     price: 41.40,
     priceFormatted: '41,40 €',
     image: '/cellagon/cellagon-vitale-plus-flasche_1920x1920.png',
-    rating: 4.8,
     category: 'Mikronährstoffkonzentrat',
     details: 'Cellagon vitale plus ist ein flüssiges Mikronährstoffkonzentrat zur gezielten Versorgung der Gehirn- und Nervenzellen sowie der Augen. Ideal für alle, die ihre kognitive Gesundheit und Sehkraft langfristig unterstützen möchten.',
     benefits: [
@@ -153,7 +148,7 @@ export const products: Product[] = [
       'Für langfristige kognitive Gesundheit',
     ],
     usage: 'Täglich 20 ml pur oder in Wasser/Saft gemischt einnehmen.',
-    affiliateUrl: 'https://www.cellagon.de/vitalstoffsystem/mikronaehrstoffe/vitale-plus', // Affiliate-Link wird ergänzt
+    affiliateUrl: 'https://www.cellagon.de/vitalstoffsystem/mikronaehrstoffe/vitale-plus',
     discountCode: DISCOUNT_CODE,
     discountInfo: DISCOUNT_INFO,
   },
@@ -168,11 +163,10 @@ export const products: Product[] = [
     priceFormatted: '46,50 €',
     image: '/cellagon/cellagon-tgo-flasche_1920x1920.png',
     images: [
-      '/cellagon/Cellagon_alle_Flaschen.png',
+      '/cellagon/cellagon-alle-flaschen.png',
     ],
-    rating: 4.8,
     category: 'Mikronährstoffkonzentrat',
-    details: 'Cellagon T.GO ist ein flüssiges Mikronährstoffkonzentrat zur speziellen Ernährung bei regelmäßiger Bewegung und sportlicher Aktivität: mit Vitaminen aus natürlichen Quellen und Mineralstoffen aus Obst, Gemüse und Kräutern. Ideal als Begleiter für deinen aktiven Lebensstil.',
+    details: 'Cellagon T.GO ist ein flüssiges Mikronährstoffkonzentrat zur speziellen Ernährung bei regelmäßiger Bewegung und sportlicher Aktivität: mit Vitaminen aus natürlichen Quellen und Mineralstoffen aus Obst, Gemüse und Kräutern.',
     benefits: [
       'Speziell für sportlich aktive Menschen',
       'Vitamine aus natürlichen Quellen',
@@ -181,7 +175,7 @@ export const products: Product[] = [
       'Flüssige Form für schnelle Aufnahme',
     ],
     usage: 'Täglich 20 ml pur oder in Wasser/Saft gemischt einnehmen, idealerweise vor oder nach dem Sport.',
-    affiliateUrl: 'https://www.cellagon.de/vitalstoffsystem/mikronaehrstoffe/t-go', // Affiliate-Link wird ergänzt
+    affiliateUrl: 'https://www.cellagon.de/vitalstoffsystem/mikronaehrstoffe/t-go',
     discountCode: DISCOUNT_CODE,
     discountInfo: DISCOUNT_INFO,
   },
@@ -194,10 +188,9 @@ export const products: Product[] = [
     description: 'Reines Bio-Leinöl, kaltgepresst und besonders reich an der pflanzlichen Omega-3-Fettsäure Alpha-Linolensäure.',
     price: 12.90,
     priceFormatted: '12,90 €',
-    image: '/cellagon/CellaVie pur.jpg',
-    rating: 4.7,
+    image: '/cellagon/cellavie-pur.jpg',
     category: 'Omega-3-Öle',
-    details: 'CellaVie Bio-Leinöl ist reines Bio-Leinöl, kaltgepresst und besonders reich an der pflanzlichen Omega-3-Fettsäure Alpha-Linolensäure. Es unterstützt eine ausgewogene Ernährung bei bewusster Fettzufuhr. Schonend hergestellt unter Ausschluss von Licht und Sauerstoff. Neutral im Geschmack und vielseitig in der kalten Küche einsetzbar.',
+    details: 'CellaVie Bio-Leinöl ist reines Bio-Leinöl, kaltgepresst und besonders reich an der pflanzlichen Omega-3-Fettsäure Alpha-Linolensäure. Schonend hergestellt unter Ausschluss von Licht und Sauerstoff. Neutral im Geschmack und vielseitig in der kalten Küche einsetzbar.',
     benefits: [
       'Reich an pflanzlichem Omega-3 (Alpha-Linolensäure)',
       'Kaltgepresst und bio-zertifiziert',
@@ -205,8 +198,8 @@ export const products: Product[] = [
       'Neutral im Geschmack',
       'Vielseitig in der kalten Küche einsetzbar',
     ],
-    usage: 'Täglich 1–2 EL pur oder in kalten Speisen (Salate, Joghurt, Müsli). Nicht zum Erhitzen geeignet. Nach dem Öffnen kühl und dunkel lagern.',
-    affiliateUrl: 'https://www.cellagon.de/vitalstoffsystem/omega-3-oele/cellavie-bio-leinoel-pur', // Affiliate-Link wird ergänzt
+    usage: 'Täglich 1–2 EL pur oder in kalten Speisen (Salate, Joghurt, Müsli). Nicht zum Erhitzen geeignet.',
+    affiliateUrl: 'https://www.cellagon.de/vitalstoffsystem/omega-3-oele/cellavie-bio-leinoel-pur',
     discountCode: DISCOUNT_CODE,
     discountInfo: DISCOUNT_INFO,
   },
@@ -219,11 +212,10 @@ export const products: Product[] = [
     description: 'Geschmacksneutrales veganes Omega-3 Algenöl. Pflanzliche Quelle für DHA und EPA im Verhältnis 2:1 mit Vitamin D3.',
     price: 29.90,
     priceFormatted: '29,90 €',
-    image: '/cellagon/Algenöle kurz.jpg',
+    image: '/cellagon/algenoel-kurz.jpg',
     images: [
-      '/cellagon/Algenöl pur.png',
+      '/cellagon/algenoel-pur.png',
     ],
-    rating: 4.8,
     category: 'Omega-3-Öle',
     details: 'Geschmacksneutrales veganes Omega-3 Algenöl. Pflanzliche Quelle für DHA und EPA im Verhältnis 2:1 mit Vitamin D3. Ideal zum Mischen in kalte Speisen wie Salate oder Joghurt. Erhältlich in drei Geschmacksrichtungen.',
     benefits: [
@@ -234,13 +226,13 @@ export const products: Product[] = [
       '100 % pflanzlich',
     ],
     usage: 'Täglich 5 ml (1 TL) pur oder in kalten Speisen (Salate, Joghurt). Nicht zum Erhitzen geeignet.',
-    affiliateUrl: 'https://www.cellagon.de/vitalstoffsystem/omega-3-oele/omega-3-algenoel', // Affiliate-Link wird ergänzt
+    affiliateUrl: 'https://www.cellagon.de/vitalstoffsystem/omega-3-oele/omega-3-algenoel',
     discountCode: DISCOUNT_CODE,
     discountInfo: DISCOUNT_INFO,
     variants: [
-      { name: 'Pur', image: '/cellagon/Algenöl pur.png' },
-      { name: 'Orange', image: '/cellagon/Algenöle kurz.jpg' },
-      { name: 'Zitrone', image: '/cellagon/Algenöle kurz.jpg' },
+      { name: 'Pur', image: '/cellagon/algenoel-pur.png' },
+      { name: 'Orange', image: '/cellagon/algenoel-kurz.jpg' },
+      { name: 'Zitrone', image: '/cellagon/algenoel-kurz.jpg' },
     ],
     variantNote: 'Geschmack nach Wahl: Pur, Orange oder Zitrone. Bitte beim Kauf auf der Herstellerseite auswählen.',
   },
@@ -253,13 +245,12 @@ export const products: Product[] = [
     description: 'Veganes Proteinpulver mit vollständigem Aminosäureprofil. Frei von Gluten, Soja, Laktose und Gentechnik.',
     price: 26.90,
     priceFormatted: '26,90 €',
-    image: '/cellagon/Cellamino Schoko.png',
+    image: '/cellagon/cellamino-schoko.png',
     images: [
-      '/cellagon/Cellamino Vanille.png',
+      '/cellagon/cellamino-vanille.png',
     ],
-    rating: 4.7,
     category: 'Veganes Proteinpulver',
-    details: 'Cellamino ist ein veganes Proteinpulver mit vollständigem Aminosäureprofil aus Erbsen-, Reis-, Sonnenblumen- und Kürbiskernprotein. Es liefert alle essentiellen Aminosäuren, die der Körper täglich benötigt. Frei von Gluten, Soja, Laktose und Gentechnik – gut verträglich und ideal in eine ausgewogene pflanzliche Ernährung integrierbar.',
+    details: 'Cellamino ist ein veganes Proteinpulver mit vollständigem Aminosäureprofil aus Erbsen-, Reis-, Sonnenblumen- und Kürbiskernprotein. Es liefert alle essentiellen Aminosäuren, die der Körper täglich benötigt. Frei von Gluten, Soja, Laktose und Gentechnik.',
     benefits: [
       'Vollständiges Aminosäureprofil',
       'Aus Erbsen-, Reis-, Sonnenblumen- und Kürbiskernprotein',
@@ -268,12 +259,12 @@ export const products: Product[] = [
       'Unterstützt eine bewusste pflanzliche Ernährung',
     ],
     usage: 'Ca. 30 g (2 gehäufte EL) in 250–300 ml Wasser, Pflanzendrink oder Saft einrühren oder mixen.',
-    affiliateUrl: 'https://www.cellagon.de/produkte/vegane-proteinpulver/', // Affiliate-Link wird ergänzt
+    affiliateUrl: 'https://www.cellagon.de/produkte/vegane-proteinpulver/',
     discountCode: DISCOUNT_CODE,
     discountInfo: DISCOUNT_INFO,
     variants: [
-      { name: 'Schoko', image: '/cellagon/Cellamino Schoko.png' },
-      { name: 'Vanille', image: '/cellagon/Cellamino Vanille.png' },
+      { name: 'Schoko', image: '/cellagon/cellamino-schoko.png' },
+      { name: 'Vanille', image: '/cellagon/cellamino-vanille.png' },
     ],
   },
 ];

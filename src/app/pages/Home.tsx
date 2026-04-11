@@ -551,10 +551,7 @@ export default function Home() {
                       <span className="text-xs font-medium text-[#8268AB] bg-[#8268AB]/10 px-2 py-1 rounded-full">
                         {product.category}
                       </span>
-                      <div className="flex items-center">
-                        <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                        <span className="text-sm ml-1">{product.rating}</span>
-                      </div>
+                      <div />
                     </div>
                     <h3 className="text-xl font-bold mb-2">{product.name}</h3>
                     <p className="text-muted-foreground text-sm mb-4 flex-grow">{product.shortDescription}</p>
@@ -775,11 +772,6 @@ export default function Home() {
                       <p className="font-semibold">{testimonial.name}</p>
                       <p className="text-sm text-muted-foreground">{testimonial.age}</p>
                     </div>
-                  </div>
-                  <div className="flex items-center mb-3">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                    ))}
                   </div>
                   <p className="text-muted-foreground italic">"{testimonial.text}"</p>
                 </GlassCard>

@@ -4,7 +4,7 @@ import { motion } from 'motion/react';
 import { GlassCard } from '../components/GlassCard';
 import { Button } from '../components/ui/button';
 import { ImageWithFallback } from '../components/figma/ImageWithFallback';
-import { ArrowLeft, Check, ExternalLink, Tag, Star, ChevronRight } from 'lucide-react';
+import { ArrowLeft, Check, ExternalLink, Tag, ChevronRight } from 'lucide-react';
 import { getProductById } from '../data/products';
 
 export default function ProductDetail() {
@@ -137,19 +137,6 @@ export default function ProductDetail() {
                 </span>
               </h1>
 
-              {/* Rating */}
-              {product.rating && (
-                <div className="flex items-center gap-1">
-                  {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className={`w-4 h-4 ${i < Math.floor(product.rating!) ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`}
-                    />
-                  ))}
-                  <span className="text-sm text-muted-foreground ml-1">{product.rating}</span>
-                </div>
-              )}
-
               {/* Description */}
               <p className="text-xl text-muted-foreground">{product.description}</p>
 
@@ -190,11 +177,11 @@ export default function ProductDetail() {
 
               {/* Discount Code */}
               {product.discountInfo && (
-                <div className="flex items-start gap-3 px-4 py-3 rounded-xl bg-[#F9C4B5]/15 border border-[#F9C4B5]/30">
-                  <Tag className="w-5 h-5 text-[#8268AB] flex-shrink-0 mt-0.5" />
+                <div className="flex items-start gap-3 px-5 py-4 rounded-xl bg-orange-500 border border-orange-400">
+                  <Tag className="w-5 h-5 text-white flex-shrink-0 mt-0.5" />
                   <div>
-                    <p className="text-sm font-semibold text-[#1b2a23]">Neukundenrabatt</p>
-                    <p className="text-sm text-muted-foreground">{product.discountInfo}</p>
+                    <p className="text-sm font-bold text-white">Neukundenrabatt</p>
+                    <p className="text-sm text-white/90">{product.discountInfo}</p>
                   </div>
                 </div>
               )}

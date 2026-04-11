@@ -190,35 +190,6 @@ export default function Shop() {
           </motion.div>
         )}
 
-        {/* Newsletter CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mt-20"
-        >
-          <GlassCard className="rounded-3xl p-8 md:p-12 text-center">
-            <h2 className="text-3xl font-bold mb-4">
-              Exklusive Angebote & Tipps
-            </h2>
-            <p className="text-lg text-muted-foreground mb-6">
-              Abonniere unseren Newsletter und erhalte 10% Rabatt auf deine erste Bestellung
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center max-w-xl mx-auto">
-              <input
-                type="email"
-                placeholder="Deine E-Mail Adresse"
-                className="px-6 py-3 rounded-xl bg-white/50 backdrop-blur-sm border border-white/30 w-full focus:outline-none focus:ring-2 focus:ring-[#1b2a23]"
-              />
-              <Button 
-                size="lg" 
-                className="bg-[#1b2a23]/80 hover:bg-[#1b2a23]/90 text-white w-full sm:w-auto whitespace-nowrap"
-              >
-                10% sichern
-              </Button>
-            </div>
-          </GlassCard>
-        </motion.div>
       </div>
     </div>
   );

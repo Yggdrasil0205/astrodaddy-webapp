@@ -708,10 +708,10 @@ export default function Home() {
                   <span className="bg-gradient-to-r from-[#1b2a23] via-[#8268AB] to-[#F9C4B5] bg-clip-text text-transparent">Bereit für deine Transformation?</span>
                 </h2>
                 <p className="text-muted-foreground text-lg mb-8 max-w-2xl mx-auto">
-                  Starte jetzt deine Reise zu mehr Energie, Gesundheit und Lebensfreude. 
-                  Werde Teil der HappyAger Community und erhalte Zugang zu Markus' 
-                  Longevity-Wissen, exklusiven Webinaren und einem Shop mit sorgfältig 
-                  ausgewählten Premium-Supplements.
+                  Starte jetzt deine Reise zu mehr Energie, Gesundheit und Lebensfreude.
+                  Werde Teil der HappyAger Community und erhalte Zugang zu Markus'
+                  Longevity-Wissen, exklusiven Webinaren und einem Shop mit sorgfältig
+                  ausgewählten Premium-Lebensmitteln.
                 </p>
                 <div className="flex flex-wrap gap-4 justify-center">
                   <Link to="/community">

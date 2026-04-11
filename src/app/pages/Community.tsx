@@ -241,13 +241,9 @@ export default function Community() {
               </p>
               
               {/* Stats */}
-              <div className="grid grid-cols-3 gap-4 mb-8">
+              <div className="grid grid-cols-2 gap-4 mb-8">
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-[#1b2a23]">5.000+</div>
-                  <div className="text-xs text-muted-foreground">Mitglieder</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-[#8268AB]">15+</div>
+                  <div className="text-3xl font-bold text-[#8268AB]">25+</div>
                   <div className="text-xs text-muted-foreground">Jahre Erfahrung</div>
                 </div>
                 <div className="text-center">

@@ -81,7 +81,7 @@ export default function Home() {
     {
       icon: Sunrise,
       stat: '15 %',
-      description: 'Optimismus kann die Lebenserwartung um bis zu 15 % erhöhen – belegt durch Blue-Zone-Forschung',
+      description: 'Optimismus kann die Lebenserwartung um bis zu 15 % erhöhen – belegt durch Studien',
       color: '#F9C4B5'
     },
     {

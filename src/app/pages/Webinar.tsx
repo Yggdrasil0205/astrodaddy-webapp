@@ -254,7 +254,7 @@ export default function Webinar() {
                   </div>
                   <div>
                     <p className="font-bold text-[#1b2a23] text-sm">Markus Miersbe</p>
-                    <p className="text-xs text-muted-foreground">Longevity-Experte · 15+ Jahre Erfahrung</p>
+                    <p className="text-xs text-muted-foreground">Longevity-Experte · 25+ Jahre Erfahrung</p>
                   </div>
                 </GlassCard>
               </motion.div>

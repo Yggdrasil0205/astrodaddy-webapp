@@ -249,8 +249,12 @@ export default function Webinar() {
                 className="mt-4"
               >
                 <GlassCard className="rounded-2xl p-5 flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#8268AB] to-[#1b2a23] flex-shrink-0 flex items-center justify-center">
-                    <span className="text-white font-bold text-lg">M</span>
+                  <div className="w-16 h-16 rounded-full overflow-hidden flex-shrink-0">
+                    <img
+                      src="https://i.imgur.com/MKGxW6v.jpeg"
+                      alt="Markus Miersbe"
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                   <div>
                     <p className="font-bold text-[#1b2a23] text-sm">Markus Miersbe</p>

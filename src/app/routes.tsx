@@ -1,3 +1,4 @@
+import React from "react";
 import { createBrowserRouter } from "react-router";
 import Home from "./pages/Home";
 import Shop from "./pages/Shop";
@@ -9,6 +10,8 @@ import ForgotPassword from "./pages/ForgotPassword";
 import Impressum from "./pages/Impressum";
 import Datenschutz from "./pages/Datenschutz";
 import Webinar from "./pages/Webinar";
+import MemberDashboard from "./pages/MemberDashboard";
+import { ProtectedRoute } from "./components/ProtectedRoute";
 import Root from "./Root";
 
 export const router = createBrowserRouter([
@@ -26,6 +29,10 @@ export const router = createBrowserRouter([
       { path: "impressum", Component: Impressum },
       { path: "datenschutz", Component: Datenschutz },
       { path: "webinar", Component: Webinar },
+      {
+        path: "mitglieder",
+        element: <ProtectedRoute><MemberDashboard /></ProtectedRoute>,
+      },
     ],
   },
 ]);

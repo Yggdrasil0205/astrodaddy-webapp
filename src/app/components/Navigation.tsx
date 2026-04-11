@@ -108,10 +108,12 @@ export function Navigation() {
             
             {isAuthenticated ? (
               <div className="flex items-center space-x-2 ml-4">
-                <div className="hidden md:flex items-center px-3 py-2 rounded-full bg-white/40 backdrop-blur-sm">
-                  <User className="w-4 h-4 mr-2 text-[#8268AB]" />
-                  <span className="text-sm">{user?.name}</span>
-                </div>
+                <Link to="/mitglieder">
+                  <div className="hidden md:flex items-center px-3 py-2 rounded-full bg-white/40 backdrop-blur-sm cursor-pointer hover:bg-white/60 transition-colors">
+                    <User className="w-4 h-4 mr-2 text-[#8268AB]" />
+                    <span className="text-sm">{user?.user_metadata?.full_name ?? user?.email?.split('@')[0]}</span>
+                  </div>
+                </Link>
                 <Button
                   variant="ghost"
                   size="sm"

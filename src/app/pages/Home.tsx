@@ -538,7 +538,7 @@ export default function Home() {
                     <ImageWithFallback
                       src={product.image}
                       alt={product.name}
-                      className="w-full h-full object-cover"
+                      className={`w-full h-full ${product.imageFit === 'contain' ? 'object-contain' : 'object-cover'}`}
                     />
                     {product.bestseller && (
                       <div className="absolute top-4 right-4 px-3 py-1 rounded-full bg-[#F9C4B5] text-white text-xs font-semibold">

@@ -12,6 +12,7 @@ export interface Product {
   priceFormatted: string;
   image: string;
   images?: string[];
+  imageFit?: 'cover' | 'contain';
   badge?: string;
   bestseller?: boolean;
   category: string;
@@ -189,6 +190,7 @@ export const products: Product[] = [
     price: 12.90,
     priceFormatted: '12,90 €',
     image: '/cellagon/cellavie-pur.jpg',
+    imageFit: 'contain',
     category: 'Omega-3-Öle',
     details: 'CellaVie Bio-Leinöl ist reines Bio-Leinöl, kaltgepresst und besonders reich an der pflanzlichen Omega-3-Fettsäure Alpha-Linolensäure. Schonend hergestellt unter Ausschluss von Licht und Sauerstoff. Neutral im Geschmack und vielseitig in der kalten Küche einsetzbar.',
     benefits: [

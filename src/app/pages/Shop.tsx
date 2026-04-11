@@ -117,7 +117,7 @@ export default function Shop() {
                   <ImageWithFallback
                     src={product.image}
                     alt={product.name}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    className={`w-full h-full ${product.imageFit === 'contain' ? 'object-contain' : 'object-cover group-hover:scale-110'} transition-transform duration-500`}
                   />
                   
                   {/* Badge */}

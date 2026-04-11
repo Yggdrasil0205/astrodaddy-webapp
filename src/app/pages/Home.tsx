@@ -624,7 +624,7 @@ export default function Home() {
                     <div className="inline-flex items-center px-3 py-1 rounded-full bg-[#F9C4B5]/20 mb-2">
                       <span className="text-[#F9C4B5] text-xs font-semibold uppercase tracking-wide">Kostenlos</span>
                     </div>
-                    <h2 className="text-xl md:text-2xl font-bold text-white leading-tight">
+                    <h2 className="text-3xl md:text-4xl font-bold text-white leading-tight">
                       Free Webinar: Die 4 Säulen der Longevity
                     </h2>
                     <p className="text-white/70 text-sm mt-1">

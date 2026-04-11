@@ -50,7 +50,7 @@ export default function Webinar() {
   ];
 
   const facts = [
-    { icon: Clock, label: 'Dauer', value: '60 Minuten' },
+    { icon: Clock, label: 'Dauer', value: '30 Min + Q&A' },
     { icon: Video, label: 'Format', value: 'Online · Live' },
     { icon: Users, label: 'Plätze', value: 'Begrenzt' },
     { icon: Calendar, label: 'Kosten', value: 'Kostenlos' },

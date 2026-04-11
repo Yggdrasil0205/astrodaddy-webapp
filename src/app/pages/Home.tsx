@@ -600,6 +600,55 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Free Webinar CTA Band */}
+      <section className="relative py-6 px-4 sm:px-6 lg:px-8 overflow-hidden">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="relative rounded-3xl overflow-hidden bg-gradient-to-r from-[#1b2a23] via-[#2d4a3e] to-[#8268AB] p-8 md:p-10">
+              {/* Decorative blobs */}
+              <div className="absolute -top-10 -right-10 w-48 h-48 rounded-full bg-[#F9C4B5]/20 blur-3xl pointer-events-none" />
+              <div className="absolute -bottom-10 -left-10 w-48 h-48 rounded-full bg-[#BFADD5]/20 blur-3xl pointer-events-none" />
+
+              <div className="relative flex flex-col md:flex-row items-center justify-between gap-6">
+                {/* Left */}
+                <div className="flex items-center gap-5">
+                  <div className="flex-shrink-0 w-14 h-14 rounded-2xl bg-white/10 backdrop-blur-sm flex items-center justify-center">
+                    <Sparkles className="w-7 h-7 text-[#F9C4B5]" />
+                  </div>
+                  <div>
+                    <div className="inline-flex items-center px-3 py-1 rounded-full bg-[#F9C4B5]/20 mb-2">
+                      <span className="text-[#F9C4B5] text-xs font-semibold uppercase tracking-wide">Kostenlos</span>
+                    </div>
+                    <h2 className="text-xl md:text-2xl font-bold text-white leading-tight">
+                      Free Webinar: Die 4 Säulen der Longevity
+                    </h2>
+                    <p className="text-white/70 text-sm mt-1">
+                      Mit Markus Miersbe – live & kostenlos. Sichere dir deinen Platz.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Right */}
+                <Link to="/webinar" className="flex-shrink-0">
+                  <Button
+                    size="lg"
+                    className="bg-[#F9C4B5] hover:bg-[#F9C4B5]/90 text-[#1b2a23] font-bold px-8 whitespace-nowrap"
+                  >
+                    Jetzt kostenlos anmelden
+                    <ArrowRight className="w-5 h-5 ml-2" />
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
       {/* Longevity Facts */}
       <section className="relative py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">

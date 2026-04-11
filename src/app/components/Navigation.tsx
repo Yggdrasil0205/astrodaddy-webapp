@@ -4,7 +4,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
-import { Home, ShoppingBag, Users, LogOut, LogIn, User } from 'lucide-react';
+import { Home, ShoppingBag, Users, LogOut, LogIn, User, Video } from 'lucide-react';
 
 export function Navigation() {
   const { getTotalItems } = useCart();
@@ -78,8 +78,8 @@ export function Navigation() {
                 variant={isActive('/community') ? 'default' : 'ghost'}
                 size="sm"
                 className={`${
-                  isActive('/community') 
-                    ? 'bg-[#8268AB] text-white hover:bg-[#8268AB]/90' 
+                  isActive('/community')
+                    ? 'bg-[#8268AB] text-white hover:bg-[#8268AB]/90'
                     : 'text-foreground hover:bg-white/50'
                 }`}
               >
@@ -87,7 +87,22 @@ export function Navigation() {
                 <span className="hidden sm:inline">Community</span>
               </Button>
             </Link>
-            
+
+            <Link to="/webinar">
+              <Button
+                variant={isActive('/webinar') ? 'default' : 'ghost'}
+                size="sm"
+                className={`${
+                  isActive('/webinar')
+                    ? 'bg-[#8268AB] text-white hover:bg-[#8268AB]/90'
+                    : 'text-foreground hover:bg-white/50'
+                }`}
+              >
+                <Video className="w-4 h-4 mr-2" />
+                <span className="hidden sm:inline">Free Webinar</span>
+              </Button>
+            </Link>
+
             {/* Cart Dropdown */}
             <CartDropdown />
             

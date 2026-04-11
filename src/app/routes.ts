@@ -8,6 +8,7 @@ import Checkout from "./pages/Checkout";
 import ForgotPassword from "./pages/ForgotPassword";
 import Impressum from "./pages/Impressum";
 import Datenschutz from "./pages/Datenschutz";
+import Webinar from "./pages/Webinar";
 import Root from "./Root";
 
 export const router = createBrowserRouter([
@@ -24,6 +25,7 @@ export const router = createBrowserRouter([
       { path: "forgot-password", Component: ForgotPassword },
       { path: "impressum", Component: Impressum },
       { path: "datenschutz", Component: Datenschutz },
+      { path: "webinar", Component: Webinar },
     ],
   },
 ]);

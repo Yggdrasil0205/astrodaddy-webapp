@@ -40,7 +40,8 @@ export default function Community() {
       features: [
         '4-teilige Webinarreihe Longevity',
         'Monatlicher Newsletter mit News aus der Longevity Szene',
-        'Austausch mit Gleichgesinnten'
+        'Austausch mit Gleichgesinnten',
+        'Gratis Longevity Inhalte'
       ],
       badge: 'Kostenlos starten',
       highlighted: false
@@ -307,7 +308,9 @@ export default function Community() {
             </motion.div>
 
             <div className="grid md:grid-cols-3 gap-8 mt-12">
-              {membershipProducts.map((membership, index) => (
+              {membershipProducts.map((membership, index) => {
+                const isComingSoon = membership.id !== 'membership-free';
+                return (
                 <motion.div
                   key={membership.id}
                   initial={{ opacity: 0, y: 30 }}
@@ -316,15 +319,24 @@ export default function Community() {
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                   className={membership.highlighted ? 'md:-mt-4 md:mb-4' : ''}
                 >
-                  <GlassCard 
+                  <GlassCard
                     className={`rounded-3xl p-8 h-full flex flex-col relative overflow-hidden ${
                       membership.highlighted ? 'ring-2 ring-[#8268AB]' : ''
-                    }`}
+                    } ${isComingSoon ? 'opacity-60' : ''}`}
                   >
+                    {/* Coming Soon overlay */}
+                    {isComingSoon && (
+                      <div className="absolute inset-0 z-10 flex items-center justify-center rounded-3xl bg-white/10 backdrop-blur-[2px]">
+                        <div className="bg-[#1b2a23] text-white text-sm font-bold px-6 py-3 rounded-full shadow-lg tracking-wide uppercase">
+                          Coming Soon
+                        </div>
+                      </div>
+                    )}
+
                     {membership.highlighted && (
                       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#1b2a23] via-[#8268AB] to-[#F9C4B5]" />
                     )}
-                    
+
                     <div className="mb-6">
                       <div className="inline-flex px-3 py-1 rounded-full bg-[#8268AB]/20 text-[#8268AB] text-xs font-semibold mb-4">
                         {membership.badge}
@@ -375,7 +387,8 @@ export default function Community() {
 
                     <Button
                       size="lg"
-                      onClick={() => handleAddMembership(membership)}
+                      onClick={() => !isComingSoon && handleAddMembership(membership)}
+                      disabled={isComingSoon}
                       className={`w-full ${
                         membership.highlighted
                           ? 'bg-[#8268AB] hover:bg-[#8268AB]/90 text-white'
@@ -388,7 +401,8 @@ export default function Community() {
                     </Button>
                   </GlassCard>
                 </motion.div>
-              ))}
+                );
+              })}
             </div>
 
             <motion.div

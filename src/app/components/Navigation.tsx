@@ -103,8 +103,8 @@ export function Navigation() {
               </Button>
             </Link>
 
-            {/* Cart Dropdown */}
-            <CartDropdown />
+            {/* Cart Dropdown – temporarily hidden */}
+            {/* <CartDropdown /> */}
             
             {isAuthenticated ? (
               <div className="flex items-center space-x-2 ml-4">

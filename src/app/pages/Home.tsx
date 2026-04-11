@@ -1,4 +1,3 @@
-import { useCart } from '../context/CartContext';
 import { CookieSettingsButton } from '../components/CookieSettingsButton';
 import { products } from '../data/products';
 import { GlassCard } from '../components/GlassCard';
@@ -27,9 +26,7 @@ import { motion } from 'motion/react';
 import { Link } from 'react-router';
 
 export default function Home() {
-  const { addToCart } = useCart();
-  
-  // Get first 3 products as bestsellers
+  // First 3 products as recommendations (100-Tage-Basiskur first)
   const bestsellerProducts = products.slice(0, 3);
 
   const testimonials = [
@@ -520,10 +517,10 @@ export default function Home() {
               <span className="text-sm text-[#8268AB] font-medium">Bestseller</span>
             </div>
             <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              Unsere <span className="bg-gradient-to-r from-[#1b2a23] via-[#8268AB] to-[#F9C4B5] bg-clip-text text-transparent">Top Produkte</span>
+              Unsere <span className="bg-gradient-to-r from-[#1b2a23] via-[#8268AB] to-[#F9C4B5] bg-clip-text text-transparent">Top Lebensmittel</span>
             </h2>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-              Sorgfältig ausgewählte Premium-Artikel für deine Longevity-Reise
+              Sorgfältig ausgewählte Premium-Lebensmittel für deine Longevity-Reise
             </p>
           </motion.div>
 
@@ -569,13 +566,13 @@ export default function Home() {
                             Details
                           </Button>
                         </Link>
-                        <Button 
-                          size="sm" 
-                          className="bg-[#1b2a23]/80 hover:bg-[#1b2a23]/90"
-                          onClick={() => addToCart(product)}
-                        >
-                          In den Warenkorb
-                        </Button>
+                        {product.affiliateUrl && product.affiliateUrl !== '#' && (
+                          <a href={product.affiliateUrl} target="_blank" rel="noopener noreferrer">
+                            <Button size="sm" className="bg-[#1b2a23]/80 hover:bg-[#1b2a23]/90 text-white">
+                              Kaufen
+                            </Button>
+                          </a>
+                        )}
                       </div>
                     </div>
                   </div>

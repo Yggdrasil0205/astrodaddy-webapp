@@ -4,23 +4,18 @@ import { GlassCard } from '../components/GlassCard';
 import { ImageWithFallback } from '../components/figma/ImageWithFallback';
 import { Button } from '../components/ui/button';
 import { Badge } from '../components/ui/badge';
-import { ShoppingCart, Filter, Search, Star } from 'lucide-react';
+import { Filter, Search, Star, ExternalLink } from 'lucide-react';
 import { Link } from 'react-router';
 import { products } from '../data/products';
-import { useCart } from '../context/CartContext';
 
 export default function Shop() {
   const [selectedCategory, setSelectedCategory] = useState('all');
-  const { addToCart } = useCart();
-  
+
   const categories = [
-    { id: 'all', name: 'Alle Produkte' },
-    { id: 'Nahrungsergänzung', name: 'Nahrungsergänzung' },
-    { id: 'Energie & Vitalität', name: 'Energie & Vitalität' },
-    { id: 'Schlaf & Regeneration', name: 'Schlaf & Regeneration' },
-    { id: 'Gehirngesundheit', name: 'Gehirngesundheit' },
-    { id: 'Beweglichkeit', name: 'Beweglichkeit' },
-    { id: 'Darmgesundheit', name: 'Darmgesundheit' }
+    { id: 'all', name: 'Alle Lebensmittel' },
+    { id: 'Mikronährstoffkonzentrat', name: 'Mikronährstoffkonzentrate' },
+    { id: 'Omega-3-Öle', name: 'Omega-3-Öle' },
+    { id: 'Veganes Proteinpulver', name: 'Veganes Proteinpulver' },
   ];
 
   const filteredProducts = selectedCategory === 'all' 
@@ -58,8 +53,8 @@ export default function Shop() {
           className="text-center mb-12"
         >
           <div className="inline-flex items-center px-3 py-1 rounded-full bg-gradient-to-r from-[#8268AB]/20 to-[#BFADD5]/20 backdrop-blur-sm mb-4">
-            <ShoppingCart className="w-4 h-4 mr-2 text-[#8268AB]" />
-            <span className="text-sm text-[#8268AB] font-medium">Premium Produkte</span>
+            <Star className="w-4 h-4 mr-2 text-[#8268AB]" />
+            <span className="text-sm text-[#8268AB] font-medium">Empfehlungen</span>
           </div>
           <h1 className="text-5xl md:text-6xl font-bold mb-4">
             <span className="bg-gradient-to-r from-[#1b2a23] via-[#8268AB] to-[#F9C4B5] bg-clip-text text-transparent">
@@ -67,7 +62,7 @@ export default function Shop() {
             </span>
           </h1>
           <p className="text-xl text-muted-foreground">
-            Premium Produkte für deine Longevity-Reise
+            Sorgfältig ausgewählte Premium-Lebensmittel für deine Longevity-Reise
           </p>
         </motion.div>
 
@@ -136,20 +131,8 @@ export default function Shop() {
                     </div>
                   )}
                   
-                  {/* Quick Add to Cart Button */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-6">
-                    <Button 
-                      className="bg-white text-[#1b2a23] hover:bg-white/90"
-                      size="sm"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        addToCart(product);
-                      }}
-                    >
-                      <ShoppingCart className="w-4 h-4 mr-2" />
-                      In den Warenkorb
-                    </Button>
-                  </div>
+                  {/* Hover overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </Link>
                 
                 {/* Product Info */}
@@ -163,22 +146,26 @@ export default function Shop() {
                     {product.description}
                   </p>
                   
-                  {/* Price */}
+                  {/* Price + CTA */}
                   <div className="flex items-center justify-between">
-                    <div>
-                      <span className="text-2xl font-bold text-[#1b2a23]">
-                        {product.priceFormatted}
-                      </span>
+                    <span className="text-2xl font-bold text-[#1b2a23]">
+                      {product.priceFormatted}
+                    </span>
+                    <div className="flex gap-2">
+                      <Link to={`/product/${product.id}`}>
+                        <Button size="sm" variant="outline" className="text-[#1b2a23] hover:bg-[#1b2a23]/10">
+                          Details
+                        </Button>
+                      </Link>
+                      {product.affiliateUrl && product.affiliateUrl !== '#' && (
+                        <a href={product.affiliateUrl} target="_blank" rel="noopener noreferrer">
+                          <Button size="sm" className="bg-[#1b2a23]/80 hover:bg-[#1b2a23]/90 text-white">
+                            <ExternalLink className="w-3 h-3 mr-1" />
+                            Kaufen
+                          </Button>
+                        </a>
+                      )}
                     </div>
-                    <Link to={`/product/${product.id}`}>
-                      <Button 
-                        size="sm" 
-                        variant="outline"
-                        className="text-[#1b2a23] hover:bg-[#1b2a23]/10"
-                      >
-                        Details
-                      </Button>
-                    </Link>
                   </div>
                 </div>
               </GlassCard>

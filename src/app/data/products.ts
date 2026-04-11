@@ -1,138 +1,281 @@
+export interface ProductVariant {
+  name: string;
+  image: string;
+}
+
 export interface Product {
   id: number;
   name: string;
+  shortDescription: string;
   description: string;
   price: number;
   priceFormatted: string;
   image: string;
+  images?: string[];           // Bildergalerie
   badge?: string;
+  bestseller?: boolean;
+  rating?: number;
   category: string;
   details: string;
-  ingredients?: string[];
   benefits?: string[];
   usage?: string;
+  affiliateUrl: string;        // Link zum Hersteller
+  discountCode?: string;
+  discountInfo?: string;
+  variants?: ProductVariant[]; // z.B. Schoko / Vanille
+  variantNote?: string;        // Hinweis zur Variantenauswahl
 }
 
+const DISCOUNT_CODE = '528217';
+const DISCOUNT_INFO = '10 € Neukundenrabatt ab 100 € Bestellwert (Code: 528217)';
+
 export const products: Product[] = [
+  // ─── 1. 100 Tage Basiskur ────────────────────────────────────────────────
   {
     id: 1,
-    name: 'Longevity Essentials',
-    description: 'Premium Nahrungsergänzung für gesundes Altern',
-    price: 49.90,
-    priceFormatted: '49,90€',
-    image: 'https://images.unsplash.com/photo-1763668444855-401b58dceb20?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxoZXJiYWwlMjBzdXBwbGVtZW50JTIwYm90dGxlfGVufDF8fHx8MTc3MTc3NTUwOHww&ixlib=rb-4.1.0&q=80&w=1080',
-    badge: 'Bestseller',
-    category: 'Nahrungsergänzung',
-    details: 'Unsere Longevity Essentials sind eine sorgfältig abgestimmte Mischung aus hochwertigen Inhaltsstoffen, die deine Zellen unterstützen und den Alterungsprozess positiv beeinflussen. Entwickelt mit neuesten wissenschaftlichen Erkenntnissen aus der Longevity-Forschung.',
-    ingredients: ['Resveratrol', 'NMN (Nicotinamid-Mononukleotid)', 'Quercetin', 'Vitamin D3', 'Omega-3-Fettsäuren'],
-    benefits: [
-      'Unterstützt die zelluläre Gesundheit',
-      'Fördert gesundes Altern',
-      'Stärkt das Immunsystem',
-      'Verbessert die Energieproduktion',
-      'Reduziert oxidativen Stress'
+    name: '100 Tage Basiskur Cellagon aurum',
+    shortDescription: 'In nur 100 Tagen Nährstoffdefizite kinderleicht ausgleichen.',
+    description: 'Das komplette Set für deine Basisversorgung über 100 Tage.',
+    price: 201,
+    priceFormatted: '201,00 €',
+    image: '/cellagon/cellagon-aurum-100-tage-basiskur_1920x1920.png',
+    images: [
+      '/cellagon/cellagon-aurum_dsb-packshot-1_1920x1920.jpg',
+      '/cellagon/cellagon-aurum-origin-1_1920x1920.jpg',
+      '/cellagon/cellagon-aurum-stepbystep_anleitung-1_600x600.jpg',
     ],
-    usage: 'Täglich 2 Kapseln mit einer Mahlzeit einnehmen. Für beste Ergebnisse kombiniere die Einnahme mit einer ausgewogenen Ernährung und regelmäßiger Bewegung.'
+    badge: 'Empfohlen',
+    bestseller: true,
+    rating: 4.9,
+    category: 'Mikronährstoffkonzentrat',
+    details: 'Mit der 100-Tage-Basiskur mit Cellagon aurum kannst du von Tag eins an dazu beitragen, dass sich deine Zellen problemlos erneuern und ihre Aufgaben und Funktionen bestmöglich erledigen können. Statt einzelner Flaschen erhältst du das komplette Paket für 100 Tage – günstiger als Einzelkauf (201 € statt 211,60 €).',
+    benefits: [
+      'Unterstützt die zelluläre Erneuerung',
+      'Tägliche Basisversorgung mit Vitaminen & Mineralstoffen',
+      'Aus über 80 natürlichen Zutaten',
+      'Günstiger als Einzelkauf: 201 € statt 211,60 €',
+      '100 Tage konsequente Versorgung',
+    ],
+    usage: 'Täglich 20 ml Cellagon aurum pur oder in Wasser/Saft gemischt einnehmen. Am besten morgens auf nüchternen Magen.',
+    affiliateUrl: 'https://528217.cellagon.de/100-tage-basis-kur-cellagon-aurum',
+    discountCode: DISCOUNT_CODE,
+    discountInfo: DISCOUNT_INFO,
   },
+
+  // ─── 2. Cellagon aurum ───────────────────────────────────────────────────
   {
     id: 2,
-    name: 'Vitality Boost',
-    description: 'Natürliche Energie für jeden Tag',
-    price: 39.90,
-    priceFormatted: '39,90€',
-    image: 'https://images.unsplash.com/photo-1565206590057-55bb1c51d7d7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxvcmdhbmljJTIwd2VsbG5lc3MlMjBwcm9kdWN0fGVufDF8fHx8MTc3MTc3NTUwOHww&ixlib=rb-4.1.0&q=80&w=1080',
-    badge: 'Neu',
-    category: 'Energie & Vitalität',
-    details: 'Vitality Boost gibt dir die natürliche Energie, die du für einen aktiven und erfüllten Tag brauchst. Ohne künstliche Stimulanzien, dafür mit der Kraft adaptogener Pflanzen und essentieller Nährstoffe.',
-    ingredients: ['Ashwagandha', 'Rhodiola Rosea', 'Ginseng', 'B-Vitamin-Komplex', 'Magnesium'],
-    benefits: [
-      'Natürlicher Energieschub ohne Crash',
-      'Reduziert Stress und Erschöpfung',
-      'Verbessert mentale Klarheit',
-      'Unterstützt die Nebennierenfunktion',
-      'Fördert körperliche Ausdauer'
+    name: 'Cellagon aurum',
+    shortDescription: 'Flüssiges Mikronährstoffkonzentrat zur täglichen Basisversorgung.',
+    description: 'Mit Vitaminen aus natürlichen Quellen und Mineralstoffen aus über 80 Zutaten wie Obst, Gemüse und Kräutern.',
+    price: 52.90,
+    priceFormatted: '52,90 €',
+    image: '/cellagon/cellagon-aurum-flasche_1920x1920.png',
+    images: [
+      '/cellagon/cellagon-aurum.png',
+      '/cellagon/cellagon-aurum-glas.png',
+      '/cellagon/Cellagon_alle_Flaschen.png',
+      '/cellagon/cellagon-aurum-origin-1_1920x1920.jpg',
+      '/cellagon/cellagon-aurum-dosierhilfe_1920x1920.jpg',
+      '/cellagon/cellagon-aurum-qualitaetssiegel-1_1920x1920.jpg',
+      '/cellagon/cellagon-aurum-stepbystep_anleitung-1_600x600.jpg',
+      '/cellagon/cellagon-aurum-zutaten-1_600x600.jpg',
     ],
-    usage: 'Morgens 1-2 Kapseln auf nüchternen Magen oder zum Frühstück einnehmen. Kann bei Bedarf auch mittags wiederholt werden.'
+    variants: [
+      { name: 'Original', image: '/cellagon/cellagon-aurum-flasche_1920x1920.png' },
+      { name: 'Sommerbeere', image: '/cellagon/cellagon-aurum_dsb-packshot-1_1920x1920.jpg' },
+    ],
+    badge: 'Bestseller',
+    bestseller: true,
+    rating: 4.9,
+    category: 'Mikronährstoffkonzentrat',
+    details: 'Cellagon aurum ist ein flüssiges Mikronährstoffkonzentrat zur täglichen Basisversorgung: mit Vitaminen aus natürlichen Quellen und Mineralstoffen aus über 80 Zutaten wie Obst, Gemüse und Kräutern. Die flüssige Form ermöglicht eine optimale Aufnahme der Nährstoffe.',
+    benefits: [
+      'Über 80 natürliche Zutaten aus Obst, Gemüse und Kräutern',
+      'Vitamine aus natürlichen Quellen',
+      'Flüssige Form für optimale Nährstoffaufnahme',
+      'Tägliche Basisversorgung',
+      'Einfache Einnahme pur oder in Wasser gemischt',
+    ],
+    usage: 'Täglich 20 ml pur oder in Wasser/Saft gemischt einnehmen. Am besten morgens auf nüchternen Magen.',
+    affiliateUrl: 'https://www.cellagon.de/vitalstoffsystem/mikronaehrstoffe/aurum/?affiliate=def502006ceae626606024b7b8fdc88b63734cdcb79988b419db9c908caa27b13c19d9389e1b6be5ef3f03d251dec4599b991de5001e1a9162e1ebeb907aea684e5fe666b972444f151e5dee5d6c74cc79b738689cc6bc8774d8a0add41841cd9eac5dbba4df02284840da504d194c8ebb7801297fdaf3b94592c51030280745bfa530e5adf9baac37eed40032e5f10956240fcc3be6',
+    discountCode: DISCOUNT_CODE,
+    discountInfo: DISCOUNT_INFO,
   },
+
+  // ─── 3. Cellagon felice ──────────────────────────────────────────────────
   {
     id: 3,
-    name: 'Regeneration Plus',
-    description: 'Für erholsamen Schlaf und Regeneration',
-    price: 44.90,
-    priceFormatted: '44,90€',
-    image: 'https://images.unsplash.com/photo-1643836392610-3e69dca19ffe?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxuYXR1cmFsJTIwc2tpbmNhcmUlMjBwcm9kdWN0fGVufDF8fHx8MTc3MTc3NTUwOHww&ixlib=rb-4.1.0&q=80&w=1080',
-    badge: 'Beliebt',
-    category: 'Schlaf & Regeneration',
-    details: 'Regeneration Plus unterstützt deinen Körper dabei, sich nachts optimal zu erholen. Tiefer, erholsamer Schlaf ist der Schlüssel zu Longevity und Lebensqualität. Mit natürlichen Inhaltsstoffen für süße Träume und morgendliche Frische.',
-    ingredients: ['Melatonin', 'L-Theanin', 'Baldrian', 'Passionsblume', 'Magnesium-Glycinat'],
-    benefits: [
-      'Fördert schnelleres Einschlafen',
-      'Verbessert die Schlafqualität',
-      'Unterstützt die nächtliche Regeneration',
-      'Reduziert nächtliches Aufwachen',
-      'Sorgt für erholten Morgen'
+    name: 'Cellagon felice',
+    shortDescription: 'Für Haut, Haare, Nägel, Bindegewebe und Schleimhäute.',
+    description: 'Flüssiges Mikronährstoffkonzentrat zur Versorgung von Haut, Haaren, Nägeln, Bindegewebe und Schleimhäuten.',
+    price: 39.40,
+    priceFormatted: '39,40 €',
+    image: '/cellagon/cellagon-felice-flasche_1920x1920.png',
+    images: [
+      '/cellagon/cellagon-felice-packshot-1_600x600.jpg',
+      '/cellagon/cellagon-felice-freivon-1_600x600.jpg',
+      '/cellagon/Cellagon_alle_Flaschen.png',
     ],
-    usage: '1-2 Kapseln 30-60 Minuten vor dem Schlafengehen mit einem Glas Wasser einnehmen. Für beste Ergebnisse eine regelmäßige Schlafenszeit etablieren.'
+    rating: 4.8,
+    category: 'Mikronährstoffkonzentrat',
+    details: 'Cellagon felice ist ein flüssiges Mikronährstoffkonzentrat zur gezielten Versorgung von Haut, Haaren, Nägeln, Bindegewebe und Schleimhäuten. Mit ausgewählten Mikronährstoffen für deine äußere und innere Schönheit.',
+    benefits: [
+      'Unterstützt Haut, Haare und Nägel',
+      'Stärkt das Bindegewebe',
+      'Versorgt die Schleimhäute',
+      'Flüssige Form für optimale Aufnahme',
+      'Natürliche Inhaltsstoffe',
+    ],
+    usage: 'Täglich 20 ml pur oder in Wasser/Saft gemischt einnehmen.',
+    affiliateUrl: '#', // Link wird nachgereicht
+    discountCode: DISCOUNT_CODE,
+    discountInfo: DISCOUNT_INFO,
   },
+
+  // ─── 4. Cellagon vitale plus ─────────────────────────────────────────────
   {
     id: 4,
-    name: 'Mind & Focus',
-    description: 'Für mentale Klarheit und Konzentration',
-    price: 42.90,
-    priceFormatted: '42,90€',
-    image: 'https://images.unsplash.com/photo-1505751172876-fa1923c5c528?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxicmFpbiUyMGhlYWx0aCUyMHN1cHBsZW1lbnR8ZW58MXx8fHwxNzQwMTgzNTMyfDA&ixlib=rb-4.1.0&q=80&w=1080',
-    badge: 'Empfohlen',
-    category: 'Gehirngesundheit',
-    details: 'Mind & Focus ist deine mentale Geheimwaffe für produktive Tage. Die synergistische Formel aus Nootropika und Nährstoffen unterstützt Konzentration, Gedächtnis und kognitive Leistung.',
-    ingredients: ['Lion\'s Mane Pilz', 'Bacopa Monnieri', 'Ginkgo Biloba', 'Alpha-GPC', 'Phosphatidylserin'],
+    name: 'Cellagon vitale plus',
+    shortDescription: 'Für Gehirn- und Nervenzellen sowie die Augen.',
+    description: 'Flüssiges Mikronährstoffkonzentrat zur Versorgung der Gehirn- und Nervenzellen sowie der Augen.',
+    price: 41.40,
+    priceFormatted: '41,40 €',
+    image: '/cellagon/cellagon-vitale-plus-flasche_1920x1920.png',
+    rating: 4.8,
+    category: 'Mikronährstoffkonzentrat',
+    details: 'Cellagon vitale plus ist ein flüssiges Mikronährstoffkonzentrat zur gezielten Versorgung der Gehirn- und Nervenzellen sowie der Augen. Ideal für alle, die ihre kognitive Gesundheit und Sehkraft langfristig unterstützen möchten.',
     benefits: [
-      'Verbessert Fokus und Konzentration',
-      'Unterstützt Gedächtnis und Lernfähigkeit',
-      'Fördert neuronale Gesundheit',
-      'Reduziert mentale Müdigkeit',
-      'Erhöht geistige Klarheit'
+      'Unterstützt Gehirn- und Nervenzellen',
+      'Fördert die Augengesundheit',
+      'Flüssige Form für optimale Aufnahme',
+      'Gezielte Mikronährstoffversorgung',
+      'Für langfristige kognitive Gesundheit',
     ],
-    usage: 'Täglich 2 Kapseln am Morgen oder bei Bedarf vor geistig anspruchsvollen Aufgaben einnehmen.'
+    usage: 'Täglich 20 ml pur oder in Wasser/Saft gemischt einnehmen.',
+    affiliateUrl: 'https://www.cellagon.de/vitalstoffsystem/mikronaehrstoffe/vitale-plus', // Affiliate-Link wird ergänzt
+    discountCode: DISCOUNT_CODE,
+    discountInfo: DISCOUNT_INFO,
   },
+
+  // ─── 5. Cellagon T.GO ────────────────────────────────────────────────────
   {
     id: 5,
-    name: 'Joint Support',
-    description: 'Für bewegliche und gesunde Gelenke',
-    price: 38.90,
-    priceFormatted: '38,90€',
-    image: 'https://images.unsplash.com/photo-1556817411-92c94e6f1e1e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxqb2ludCUyMGhlYWx0aCUyMHN1cHBsZW1lbnR8ZW58MXx8fHwxNzQwMTgzNTMyfDA&ixlib=rb-4.1.0&q=80&w=1080',
-    category: 'Beweglichkeit',
-    details: 'Joint Support hält deine Gelenke beweglich und gesund. Mit Kollagen und natürlichen entzündungshemmenden Inhaltsstoffen für ein aktives Leben in jedem Alter.',
-    ingredients: ['Kollagen Typ II', 'Glucosamin', 'Chondroitin', 'MSM', 'Kurkuma-Extrakt'],
-    benefits: [
-      'Unterstützt Gelenkgesundheit',
-      'Fördert Knorpelregeneration',
-      'Reduziert Gelenkbeschwerden',
-      'Verbessert Beweglichkeit',
-      'Entzündungshemmende Wirkung'
+    name: 'Cellagon T.GO',
+    shortDescription: 'Speziell für regelmäßige Bewegung und sportliche Aktivität.',
+    description: 'Flüssiges Mikronährstoffkonzentrat mit Vitaminen aus natürlichen Quellen und Mineralstoffen aus Obst, Gemüse und Kräutern.',
+    price: 46.50,
+    priceFormatted: '46,50 €',
+    image: '/cellagon/cellagon-tgo-flasche_1920x1920.png',
+    images: [
+      '/cellagon/Cellagon_alle_Flaschen.png',
     ],
-    usage: 'Täglich 3 Kapseln mit einer Mahlzeit einnehmen. Für optimale Ergebnisse über mindestens 3 Monate einnehmen.'
+    rating: 4.8,
+    category: 'Mikronährstoffkonzentrat',
+    details: 'Cellagon T.GO ist ein flüssiges Mikronährstoffkonzentrat zur speziellen Ernährung bei regelmäßiger Bewegung und sportlicher Aktivität: mit Vitaminen aus natürlichen Quellen und Mineralstoffen aus Obst, Gemüse und Kräutern. Ideal als Begleiter für deinen aktiven Lebensstil.',
+    benefits: [
+      'Speziell für sportlich aktive Menschen',
+      'Vitamine aus natürlichen Quellen',
+      'Mineralstoffe aus Obst, Gemüse und Kräutern',
+      'Unterstützt Regeneration nach dem Sport',
+      'Flüssige Form für schnelle Aufnahme',
+    ],
+    usage: 'Täglich 20 ml pur oder in Wasser/Saft gemischt einnehmen, idealerweise vor oder nach dem Sport.',
+    affiliateUrl: 'https://www.cellagon.de/vitalstoffsystem/mikronaehrstoffe/t-go', // Affiliate-Link wird ergänzt
+    discountCode: DISCOUNT_CODE,
+    discountInfo: DISCOUNT_INFO,
   },
+
+  // ─── 6. CellaVie Bio-Leinöl ─────────────────────────────────────────────
   {
     id: 6,
-    name: 'Gut Health Pro',
-    description: 'Probiotika für eine gesunde Darmflora',
-    price: 45.90,
-    priceFormatted: '45,90€',
-    image: 'https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9iaW90aWMlMjBzdXBwbGVtZW50fGVufDF8fHx8MTc0MDE4MzUzMnww&ixlib=rb-4.1.0&q=80&w=1080',
-    badge: 'Top-Seller',
-    category: 'Darmgesundheit',
-    details: 'Gut Health Pro unterstützt deine Darmflora mit 20 Milliarden KBE pro Kapsel. Ein gesunder Darm ist die Grundlage für Immunsystem, Stimmung und Langlebigkeit.',
-    ingredients: ['Lactobacillus acidophilus', 'Bifidobacterium lactis', 'Lactobacillus rhamnosus', 'Präbiotische Ballaststoffe', 'Verdauungsenzyme'],
+    name: 'CellaVie Bio-Leinöl',
+    shortDescription: 'Reines Bio-Leinöl, reich an pflanzlichem Omega-3.',
+    description: 'Reines Bio-Leinöl, kaltgepresst und besonders reich an der pflanzlichen Omega-3-Fettsäure Alpha-Linolensäure.',
+    price: 12.90,
+    priceFormatted: '12,90 €',
+    image: '/cellagon/CellaVie pur.jpg',
+    rating: 4.7,
+    category: 'Omega-3-Öle',
+    details: 'CellaVie Bio-Leinöl ist reines Bio-Leinöl, kaltgepresst und besonders reich an der pflanzlichen Omega-3-Fettsäure Alpha-Linolensäure. Es unterstützt eine ausgewogene Ernährung bei bewusster Fettzufuhr. Schonend hergestellt unter Ausschluss von Licht und Sauerstoff. Neutral im Geschmack und vielseitig in der kalten Küche einsetzbar.',
     benefits: [
-      'Fördert gesunde Darmflora',
-      'Stärkt das Immunsystem',
-      'Verbessert Verdauung',
-      'Unterstützt Nährstoffaufnahme',
-      'Reduziert Blähungen'
+      'Reich an pflanzlichem Omega-3 (Alpha-Linolensäure)',
+      'Kaltgepresst und bio-zertifiziert',
+      'Schonende Herstellung ohne Licht und Sauerstoff',
+      'Neutral im Geschmack',
+      'Vielseitig in der kalten Küche einsetzbar',
     ],
-    usage: 'Täglich 1 Kapsel auf nüchternen Magen oder zu einer Mahlzeit einnehmen. Im Kühlschrank aufbewahren.'
-  }
+    usage: 'Täglich 1–2 EL pur oder in kalten Speisen (Salate, Joghurt, Müsli). Nicht zum Erhitzen geeignet. Nach dem Öffnen kühl und dunkel lagern.',
+    affiliateUrl: 'https://www.cellagon.de/vitalstoffsystem/omega-3-oele/cellavie-bio-leinoel-pur', // Affiliate-Link wird ergänzt
+    discountCode: DISCOUNT_CODE,
+    discountInfo: DISCOUNT_INFO,
+  },
+
+  // ─── 7. Omega3 Algenöl ───────────────────────────────────────────────────
+  {
+    id: 7,
+    name: 'Omega3 Algenöl',
+    shortDescription: 'Veganes Omega-3 mit DHA und EPA sowie Vitamin D3.',
+    description: 'Geschmacksneutrales veganes Omega-3 Algenöl. Pflanzliche Quelle für DHA und EPA im Verhältnis 2:1 mit Vitamin D3.',
+    price: 29.90,
+    priceFormatted: '29,90 €',
+    image: '/cellagon/Algenöle kurz.jpg',
+    images: [
+      '/cellagon/Algenöl pur.png',
+    ],
+    rating: 4.8,
+    category: 'Omega-3-Öle',
+    details: 'Geschmacksneutrales veganes Omega-3 Algenöl. Pflanzliche Quelle für DHA und EPA im Verhältnis 2:1 mit Vitamin D3. Ideal zum Mischen in kalte Speisen wie Salate oder Joghurt. Erhältlich in drei Geschmacksrichtungen.',
+    benefits: [
+      'Vegane Quelle für DHA und EPA',
+      'DHA zu EPA im optimalen Verhältnis 2:1',
+      'Mit Vitamin D3',
+      'Geschmacksneutral – ideal zum Mischen',
+      '100 % pflanzlich',
+    ],
+    usage: 'Täglich 5 ml (1 TL) pur oder in kalten Speisen (Salate, Joghurt). Nicht zum Erhitzen geeignet.',
+    affiliateUrl: 'https://www.cellagon.de/vitalstoffsystem/omega-3-oele/omega-3-algenoel', // Affiliate-Link wird ergänzt
+    discountCode: DISCOUNT_CODE,
+    discountInfo: DISCOUNT_INFO,
+    variants: [
+      { name: 'Pur', image: '/cellagon/Algenöl pur.png' },
+      { name: 'Orange', image: '/cellagon/Algenöle kurz.jpg' },
+      { name: 'Zitrone', image: '/cellagon/Algenöle kurz.jpg' },
+    ],
+    variantNote: 'Geschmack nach Wahl: Pur, Orange oder Zitrone. Bitte beim Kauf auf der Herstellerseite auswählen.',
+  },
+
+  // ─── 8. Cellamino Proteinpulver ──────────────────────────────────────────
+  {
+    id: 8,
+    name: 'Cellamino veganes Proteinpulver',
+    shortDescription: 'Vollständiges Aminosäureprofil aus pflanzlichen Quellen.',
+    description: 'Veganes Proteinpulver mit vollständigem Aminosäureprofil. Frei von Gluten, Soja, Laktose und Gentechnik.',
+    price: 26.90,
+    priceFormatted: '26,90 €',
+    image: '/cellagon/Cellamino Schoko.png',
+    images: [
+      '/cellagon/Cellamino Vanille.png',
+    ],
+    rating: 4.7,
+    category: 'Veganes Proteinpulver',
+    details: 'Cellamino ist ein veganes Proteinpulver mit vollständigem Aminosäureprofil aus Erbsen-, Reis-, Sonnenblumen- und Kürbiskernprotein. Es liefert alle essentiellen Aminosäuren, die der Körper täglich benötigt. Frei von Gluten, Soja, Laktose und Gentechnik – gut verträglich und ideal in eine ausgewogene pflanzliche Ernährung integrierbar.',
+    benefits: [
+      'Vollständiges Aminosäureprofil',
+      'Aus Erbsen-, Reis-, Sonnenblumen- und Kürbiskernprotein',
+      'Frei von Gluten, Soja, Laktose und Gentechnik',
+      'Vielseitig in Shakes, Müsli oder Smoothies einsetzbar',
+      'Unterstützt eine bewusste pflanzliche Ernährung',
+    ],
+    usage: 'Ca. 30 g (2 gehäufte EL) in 250–300 ml Wasser, Pflanzendrink oder Saft einrühren oder mixen.',
+    affiliateUrl: 'https://www.cellagon.de/produkte/vegane-proteinpulver/', // Affiliate-Link wird ergänzt
+    discountCode: DISCOUNT_CODE,
+    discountInfo: DISCOUNT_INFO,
+    variants: [
+      { name: 'Schoko', image: '/cellagon/Cellamino Schoko.png' },
+      { name: 'Vanille', image: '/cellagon/Cellamino Vanille.png' },
+    ],
+  },
 ];
 
 export function getProductById(id: number): Product | undefined {

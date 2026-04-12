@@ -392,7 +392,7 @@ export default function Community() {
 
                     {membership.id === 'membership-free' ? (
                       <div ref={freeBtnRef}>
-                        <Link to="/register" className="w-full">
+                        <Link to="/login?tab=register" className="w-full">
                           <Button
                             size="lg"
                             className={`w-full bg-[#1b2a23]/80 hover:bg-[#1b2a23]/90 text-white transition-transform ${pulseFreeBtn ? 'scale-105 ring-4 ring-[#8268AB]/60' : ''}`}

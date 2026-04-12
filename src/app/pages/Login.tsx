@@ -204,9 +204,9 @@ export default function Login() {
           )}
 
           <div className="mt-4 pt-4 border-t border-white/10">
-            <div className="flex items-start space-x-3 text-sm text-muted-foreground">
+            <div className="flex items-start space-x-3 text-sm">
               <Sparkles className="w-5 h-5 text-[#F9C4B5] flex-shrink-0 mt-0.5" />
-              <p>Als Mitglied erhältst du Zugang zu exklusiven Longevity-Inhalten und der HappyAger Community.</p>
+              <p className="text-[#1b2a23] font-medium">Als Mitglied erhältst du Zugang zu exklusiven Longevity-Inhalten und der HappyAger Community.</p>
             </div>
           </div>
         </GlassCard>
@@ -215,10 +215,10 @@ export default function Login() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
-          className="text-center mt-3 text-sm text-muted-foreground"
+          className="text-center mt-3 text-sm text-white"
         >
           Mit der Anmeldung akzeptierst du unsere{' '}
-          <Link to="/datenschutz" className="text-[#1b2a23] hover:underline">Datenschutzerklärung</Link>
+          <Link to="/datenschutz" className="text-[#8268AB] hover:underline font-medium">Datenschutzerklärung</Link>
         </motion.div>
       </motion.div>
     </div>

@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
-import { motion } from 'motion/react';
+import { useEffect, useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { Link } from 'react-router';
 import { GlassCard } from '../components/GlassCard';
 import { Button } from '../components/ui/button';
@@ -12,13 +12,63 @@ import {
   LogOut,
   Lock,
   ChevronRight,
+  ChevronDown,
   Play,
   FileText,
   Leaf,
   Dumbbell,
   MessageSquare,
   MessageCircle,
+  Check,
 } from 'lucide-react';
+
+const memberships = [
+  {
+    id: 'membership-free',
+    name: 'Free Mitgliedschaft',
+    price: 'Kostenlos',
+    description: 'Kostenlos und unverbindlich',
+    features: [
+      '4-teilige Webinarreihe Longevity',
+      'Monatlicher Newsletter',
+      'Austausch mit Gleichgesinnten',
+      'Gratis Longevity Inhalte',
+    ],
+    comingSoon: false,
+    highlighted: false,
+  },
+  {
+    id: 'membership-monthly',
+    name: 'Monatliche Mitgliedschaft',
+    price: '8,99 €',
+    priceNote: 'pro Monat',
+    description: 'Monatlich kündbar',
+    features: [
+      'Monatliche Live-Beratung mit Markus',
+      'Vollständige Webinarreihe',
+      'Exklusive Longevity-Inhalte',
+      'Online-Workshops',
+      'Community-Austausch',
+    ],
+    comingSoon: true,
+    highlighted: false,
+  },
+  {
+    id: 'membership-yearly',
+    name: 'Jährliche Mitgliedschaft',
+    price: '89 €',
+    priceNote: 'Nur 7,42 € / Monat',
+    description: 'Einmal zahlen, ein Jahr profitieren',
+    features: [
+      'Alles aus Monatlich',
+      '1:1 Call mit Markus',
+      'Priorität bei Live-Calls',
+      '2 Monate gratis',
+    ],
+    comingSoon: true,
+    highlighted: true,
+  },
+];
 
 const contentGroups = [
   {
@@ -90,6 +140,7 @@ const contentGroups = [
 
 export default function MemberDashboard() {
   const { user, logout } = useAuth();
+  const [showMemberships, setShowMemberships] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -223,28 +274,79 @@ export default function MemberDashboard() {
             ))}
           </div>
 
-          {/* Upgrade Teaser */}
+          {/* Upgrade Akkordeon */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.6 }}
             className="mt-8"
           >
-            <GlassCard className="rounded-2xl p-6 bg-gradient-to-r from-[#1b2a23]/5 to-[#8268AB]/5">
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <GlassCard className="rounded-2xl overflow-hidden bg-gradient-to-r from-[#1b2a23]/5 to-[#8268AB]/5">
+              <button
+                onClick={() => setShowMemberships(v => !v)}
+                className="w-full flex items-center justify-between p-6 text-left"
+              >
                 <div>
-                  <p className="font-bold text-[#1b2a23] mb-1">Mehr Inhalte freischalten</p>
+                  <p className="font-bold text-[#1b2a23]">Mehr Inhalte freischalten</p>
                   <p className="text-sm text-muted-foreground">
-                    Mit einer kostenpflichtigen Mitgliedschaft erhältst du Zugang zu allen Inhalten – bald verfügbar.
+                    Mitgliedschaftsübersicht ansehen
                   </p>
                 </div>
-                <Link to="/community" className="flex-shrink-0">
-                  <Button size="sm" className="bg-[#8268AB] hover:bg-[#8268AB]/90 text-white whitespace-nowrap">
-                    Mitgliedschaft ansehen
-                    <ChevronRight className="w-4 h-4 ml-1" />
-                  </Button>
-                </Link>
-              </div>
+                <ChevronDown
+                  className={`w-5 h-5 text-[#8268AB] transition-transform duration-300 flex-shrink-0 ${showMemberships ? 'rotate-180' : ''}`}
+                />
+              </button>
+
+              <AnimatePresence>
+                {showMemberships && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="overflow-hidden"
+                  >
+                    <div className="px-6 pb-6 grid sm:grid-cols-3 gap-4">
+                      {memberships.map((m) => (
+                        <div
+                          key={m.id}
+                          className={`rounded-xl p-4 flex flex-col ${
+                            m.highlighted
+                              ? 'bg-[#8268AB]/15 ring-2 ring-[#8268AB]'
+                              : 'bg-white/30'
+                          }`}
+                        >
+                          {m.highlighted && (
+                            <span className="text-xs font-semibold text-[#8268AB] mb-2">⭐ Beliebteste Wahl</span>
+                          )}
+                          <p className="font-bold text-[#1b2a23] text-sm mb-1">{m.name}</p>
+                          <p className="text-lg font-bold text-[#8268AB]">{m.price}</p>
+                          {m.priceNote && <p className="text-xs text-muted-foreground mb-2">{m.priceNote}</p>}
+                          <ul className="space-y-1 mt-2 flex-grow">
+                            {m.features.map((f, i) => (
+                              <li key={i} className="flex items-start gap-1.5 text-xs text-muted-foreground">
+                                <Check className="w-3 h-3 text-[#8268AB] flex-shrink-0 mt-0.5" />
+                                {f}
+                              </li>
+                            ))}
+                          </ul>
+                          {m.comingSoon ? (
+                            <span className="mt-3 text-center text-xs font-medium text-muted-foreground bg-white/40 rounded-lg py-1.5">
+                              Coming Soon
+                            </span>
+                          ) : (
+                            <Link to="/login?tab=register" className="mt-3">
+                              <Button size="sm" className="w-full bg-[#1b2a23]/80 hover:bg-[#1b2a23]/90 text-white text-xs">
+                                Kostenlos starten
+                              </Button>
+                            </Link>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </GlassCard>
           </motion.div>
 

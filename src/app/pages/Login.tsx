@@ -58,17 +58,18 @@ export default function Login() {
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 pt-20 relative overflow-hidden">
-      <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <motion.div
-          animate={{ scale: [1, 1.3, 1], opacity: [0.2, 0.4, 0.2], rotate: [0, 180, 360] }}
-          transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
-          className="absolute top-1/4 -right-40 w-[32rem] h-[32rem] rounded-full bg-gradient-to-br from-[#1b2a23]/20 to-transparent blur-3xl"
-        />
-        <motion.div
-          animate={{ scale: [1.2, 1, 1.2], opacity: [0.15, 0.3, 0.15], rotate: [360, 180, 0] }}
-          transition={{ duration: 25, repeat: Infinity, ease: 'linear' }}
-          className="absolute -bottom-40 -left-40 w-[28rem] h-[28rem] rounded-full bg-gradient-to-br from-[#8268AB]/20 to-transparent blur-3xl"
-        />
+      {/* Video Background */}
+      <div className="fixed inset-0 -z-10">
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="w-full h-full object-cover"
+        >
+          <source src="/login-bg.mp4" type="video/mp4" />
+        </video>
+        <div className="absolute inset-0 bg-black/40" />
       </div>
 
       <motion.div

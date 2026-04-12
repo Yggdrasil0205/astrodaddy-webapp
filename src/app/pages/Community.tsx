@@ -381,20 +381,30 @@ export default function Community() {
                       ))}
                     </ul>
 
-                    <Button
-                      size="lg"
-                      onClick={() => !isComingSoon && handleAddMembership(membership)}
-                      disabled={isComingSoon}
-                      className={`w-full ${
-                        membership.highlighted
-                          ? 'bg-[#8268AB] hover:bg-[#8268AB]/90 text-white'
-                          : 'bg-[#1b2a23]/80 hover:bg-[#1b2a23]/90 text-white'
-                      }`}
-                    >
-                      {membership.id === 'membership-free' && 'Kostenlos registrieren'}
-                      {membership.id === 'membership-monthly' && 'Monatlich starten'}
-                      {membership.id === 'membership-yearly' && 'Jetzt Jahresmitglied werden'}
-                    </Button>
+                    {membership.id === 'membership-free' ? (
+                      <Link to="/register" className="w-full">
+                        <Button
+                          size="lg"
+                          className="w-full bg-[#1b2a23]/80 hover:bg-[#1b2a23]/90 text-white"
+                        >
+                          Kostenlos registrieren
+                        </Button>
+                      </Link>
+                    ) : (
+                      <Button
+                        size="lg"
+                        onClick={() => !isComingSoon && handleAddMembership(membership)}
+                        disabled={isComingSoon}
+                        className={`w-full ${
+                          membership.highlighted
+                            ? 'bg-[#8268AB] hover:bg-[#8268AB]/90 text-white'
+                            : 'bg-[#1b2a23]/80 hover:bg-[#1b2a23]/90 text-white'
+                        }`}
+                      >
+                        {membership.id === 'membership-monthly' && 'Monatlich starten'}
+                        {membership.id === 'membership-yearly' && 'Jetzt Jahresmitglied werden'}
+                      </Button>
+                    )}
                   </GlassCard>
                 </motion.div>
                 );

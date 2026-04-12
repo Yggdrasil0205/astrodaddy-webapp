@@ -12,35 +12,79 @@ import {
   LogOut,
   Lock,
   ChevronRight,
-  Star,
+  Play,
+  FileText,
+  Leaf,
+  Dumbbell,
+  MessageSquare,
+  MessageCircle,
 } from 'lucide-react';
 
-const contentSections = [
+const contentGroups = [
   {
-    icon: Video,
-    title: '4-teilige Longevity-Webinarreihe',
-    description: 'Bonusjahre, Inflammaging, Kraft & Bewegung, Mentale Bestform',
-    available: true,
-    link: '/webinar',
-    linkLabel: 'Zum Webinar',
+    label: 'Wissen',
+    sections: [
+      {
+        icon: Video,
+        title: '4-teilige Longevity-Webinarreihe',
+        description: 'Bonusjahre, Inflammaging, Kraft & Bewegung, Mentale Bestform',
+        available: true,
+        link: '/webinar',
+        linkLabel: 'Zum Webinar',
+      },
+      {
+        icon: Play,
+        title: 'Longevity Videos',
+        description: 'Videoguides und Experteninterviews rund um gesundes Altern.',
+        available: false,
+      },
+      {
+        icon: FileText,
+        title: 'Artikel & PDFs',
+        description: 'Fachartikel, Zusammenfassungen und Downloadmaterialien.',
+        available: false,
+      },
+    ],
   },
   {
-    icon: BookOpen,
-    title: 'Gratis Longevity Inhalte',
-    description: 'Artikel, Tipps und Wissen rund um gesundes Altern – exklusiv für Mitglieder.',
-    available: false,
+    label: 'Themen',
+    sections: [
+      {
+        icon: Leaf,
+        title: 'Ernährung',
+        description: 'Longevity-Ernährung, Rezepte, Nährstoffwissen und praktische Tipps.',
+        available: false,
+      },
+      {
+        icon: Dumbbell,
+        title: 'Bewegung & Kraft',
+        description: 'Trainingspläne, Übungsvideos und Tipps für mehr Vitalität im Alltag.',
+        available: false,
+      },
+    ],
   },
   {
-    icon: Users,
-    title: 'Community & Live-Calls',
-    description: 'Monatliche Live-Beratung mit Markus und Austausch mit Gleichgesinnten.',
-    available: false,
-  },
-  {
-    icon: Star,
-    title: 'Exklusive Workshops',
-    description: 'Faszien-Fitness, Yin Yoga, Meditationen, Fit im Büro.',
-    available: false,
+    label: 'Community',
+    sections: [
+      {
+        icon: MessageSquare,
+        title: 'Community Forum',
+        description: 'Austausch mit Gleichgesinnten, Fragen stellen und voneinander lernen.',
+        available: false,
+      },
+      {
+        icon: MessageCircle,
+        title: 'WhatsApp Gruppe',
+        description: 'Direkt vernetzt mit der HappyAger Community und Markus.',
+        available: false,
+      },
+      {
+        icon: Users,
+        title: 'Live-Calls mit Markus',
+        description: 'Monatliche Live-Beratung in kleinen Gruppen – persönlich und direkt.',
+        available: false,
+      },
+    ],
   },
 ];
 
@@ -130,43 +174,53 @@ export default function MemberDashboard() {
             </GlassCard>
           </motion.div>
 
-          {/* Content Grid */}
-          <div className="grid sm:grid-cols-2 gap-5">
-            {contentSections.map((section, index) => {
-              const Icon = section.icon;
-              return (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.15 + index * 0.1 }}
-                >
-                  <GlassCard className={`rounded-2xl p-6 h-full flex flex-col ${!section.available ? 'opacity-60' : ''}`}>
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="w-11 h-11 rounded-xl bg-[#8268AB]/15 flex items-center justify-center">
-                        <Icon className="w-5 h-5 text-[#8268AB]" />
-                      </div>
-                      {!section.available && (
-                        <div className="flex items-center gap-1 px-2 py-1 rounded-full bg-[#1b2a23]/10">
-                          <Lock className="w-3 h-3 text-[#1b2a23]" />
-                          <span className="text-xs font-medium text-[#1b2a23]">Coming Soon</span>
-                        </div>
-                      )}
-                    </div>
-                    <h3 className="font-bold text-[#1b2a23] mb-2">{section.title}</h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed flex-grow">{section.description}</p>
-                    {section.available && section.link && (
-                      <Link to={section.link} className="mt-4">
-                        <Button size="sm" className="bg-[#1b2a23]/80 hover:bg-[#1b2a23]/90 text-white w-full">
-                          {section.linkLabel}
-                          <ChevronRight className="w-4 h-4 ml-1" />
-                        </Button>
-                      </Link>
-                    )}
-                  </GlassCard>
-                </motion.div>
-              );
-            })}
+          {/* Content Groups */}
+          <div className="space-y-8">
+            {contentGroups.map((group) => (
+              <div key={group.label}>
+                <h2 className="text-lg font-bold text-[#1b2a23] mb-4 flex items-center gap-2">
+                  <span className="w-1 h-5 rounded-full bg-[#8268AB] inline-block" />
+                  {group.label}
+                </h2>
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {group.sections.map((section, index) => {
+                    const Icon = section.icon;
+                    return (
+                      <motion.div
+                        key={index}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.4, delay: 0.1 + index * 0.07 }}
+                      >
+                        <GlassCard className={`rounded-2xl p-5 h-full flex flex-col ${!section.available ? 'opacity-60' : ''}`}>
+                          <div className="flex items-start justify-between mb-3">
+                            <div className="w-10 h-10 rounded-xl bg-[#8268AB]/15 flex items-center justify-center">
+                              <Icon className="w-5 h-5 text-[#8268AB]" />
+                            </div>
+                            {!section.available && (
+                              <div className="flex items-center gap-1 px-2 py-1 rounded-full bg-[#1b2a23]/10">
+                                <Lock className="w-3 h-3 text-[#1b2a23]" />
+                                <span className="text-xs font-medium text-[#1b2a23]">Coming Soon</span>
+                              </div>
+                            )}
+                          </div>
+                          <h3 className="font-bold text-[#1b2a23] text-sm mb-1">{section.title}</h3>
+                          <p className="text-xs text-muted-foreground leading-relaxed flex-grow">{section.description}</p>
+                          {section.available && section.link && (
+                            <Link to={section.link} className="mt-3">
+                              <Button size="sm" className="bg-[#1b2a23]/80 hover:bg-[#1b2a23]/90 text-white w-full text-xs">
+                                {section.linkLabel}
+                                <ChevronRight className="w-3 h-3 ml-1" />
+                              </Button>
+                            </Link>
+                          )}
+                        </GlassCard>
+                      </motion.div>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
           </div>
 
           {/* Upgrade Teaser */}

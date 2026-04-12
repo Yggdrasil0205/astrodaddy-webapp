@@ -260,7 +260,8 @@ export default function Community() {
                   className="bg-[#1b2a23]/80 hover:bg-[#1b2a23]/90 text-white px-8"
                   onClick={() => {
                     if (freeBtnRef.current) {
-                      const y = freeBtnRef.current.getBoundingClientRect().top + window.scrollY - 120;
+                      const btnHeight = freeBtnRef.current.offsetHeight;
+                      const y = freeBtnRef.current.getBoundingClientRect().top + window.scrollY - (window.innerHeight - btnHeight - 50);
                       window.scrollTo({ top: y, behavior: 'smooth' });
                       setTimeout(() => {
                         setPulseFreeBtn(true);

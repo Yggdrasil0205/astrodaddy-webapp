@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router';
 import { useCart } from '../context/CartContext';
 import { HappyAgerLogo } from '../components/HappyAgerLogo';
@@ -23,6 +23,8 @@ export default function Community() {
   const { addToCart } = useCart();
   const [showCartModal, setShowCartModal] = useState(false);
   const [addedProductName, setAddedProductName] = useState('');
+  const [pulseFreeBtn, setPulseFreeBtn] = useState(false);
+  const freeBtnRef = useRef<HTMLDivElement>(null);
 
   // Scroll to top when component mounts
   useEffect(() => {
@@ -257,7 +259,14 @@ export default function Community() {
                   size="lg" 
                   className="bg-[#1b2a23]/80 hover:bg-[#1b2a23]/90 text-white px-8"
                   onClick={() => {
-                    document.getElementById('pricing-section')?.scrollIntoView({ behavior: 'smooth' });
+                    if (freeBtnRef.current) {
+                      const y = freeBtnRef.current.getBoundingClientRect().top + window.scrollY - 120;
+                      window.scrollTo({ top: y, behavior: 'smooth' });
+                      setTimeout(() => {
+                        setPulseFreeBtn(true);
+                        setTimeout(() => setPulseFreeBtn(false), 1500);
+                      }, 600);
+                    }
                   }}
                 >
                   Mitglied werden
@@ -382,14 +391,16 @@ export default function Community() {
                     </ul>
 
                     {membership.id === 'membership-free' ? (
-                      <Link to="/register" className="w-full">
-                        <Button
-                          size="lg"
-                          className="w-full bg-[#1b2a23]/80 hover:bg-[#1b2a23]/90 text-white"
-                        >
-                          Kostenlos registrieren
-                        </Button>
-                      </Link>
+                      <div ref={freeBtnRef}>
+                        <Link to="/register" className="w-full">
+                          <Button
+                            size="lg"
+                            className={`w-full bg-[#1b2a23]/80 hover:bg-[#1b2a23]/90 text-white transition-transform ${pulseFreeBtn ? 'scale-105 ring-4 ring-[#8268AB]/60' : ''}`}
+                          >
+                            Kostenlos registrieren
+                          </Button>
+                        </Link>
+                      </div>
                     ) : (
                       <Button
                         size="lg"

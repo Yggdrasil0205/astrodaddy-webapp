@@ -358,7 +358,7 @@ export default function Home() {
               </div>
 
               <div className="text-center mt-10">
-                <Link to="/community">
+                <Link to="/login?tab=register">
                   <Button size="lg" className="bg-[#1b2a23]/80 hover:bg-[#1b2a23]/90 text-white">
                     Werde Teil der HappyAger Community
                   </Button>

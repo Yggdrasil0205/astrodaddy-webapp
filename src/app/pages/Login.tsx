@@ -76,20 +76,13 @@ export default function Login() {
         animate={{ opacity: 1, y: 0 }}
         className="w-full max-w-md relative z-10"
       >
-        <GlassCard className="rounded-3xl p-8 md:p-10">
-          <div className="text-center mb-8">
-            <img src="/logo.png" alt="HappyAger" className="h-20 w-auto mx-auto mb-4" />
-            <div className="inline-flex items-center px-3 py-1 rounded-full bg-gradient-to-r from-[#8268AB]/20 to-[#BFADD5]/20 backdrop-blur-sm mb-3">
-              <Sparkles className="w-4 h-4 mr-2 text-[#8268AB]" />
-              <span className="text-sm text-[#8268AB] font-medium">Mitgliederbereich</span>
-            </div>
-            <p className="text-muted-foreground">
-              {isLogin ? 'Willkommen zurück!' : 'Werde Teil der Community'}
-            </p>
+        <GlassCard className="rounded-3xl p-6 md:p-8">
+          <div className="text-center mb-5">
+            <img src="/logo.png" alt="HappyAger" className="h-14 w-auto mx-auto mb-3" />
           </div>
 
           {/* Tab Switcher */}
-          <div className="flex gap-2 mb-8 p-1 rounded-2xl bg-white/30 backdrop-blur-sm">
+          <div className="flex gap-2 mb-5 p-1 rounded-2xl bg-white/30 backdrop-blur-sm">
             <button
               onClick={() => { setIsLogin(true); setError(''); setRegisterSuccess(false); }}
               className={`flex-1 py-3 rounded-xl font-medium transition-all ${
@@ -132,7 +125,7 @@ export default function Login() {
               </button>
             </motion.div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-5">
+            <form onSubmit={handleSubmit} className="space-y-3">
               {!isLogin && (
                 <div>
                   <Label htmlFor="name">Name</Label>
@@ -142,7 +135,7 @@ export default function Login() {
                     placeholder="Dein Name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="mt-2 bg-white/50 backdrop-blur-sm border-white/30"
+                    className="mt-1 bg-white/50 backdrop-blur-sm border-white/30"
                     required={!isLogin}
                   />
                 </div>
@@ -156,7 +149,7 @@ export default function Login() {
                   placeholder="deine@email.de"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="mt-2 bg-white/50 backdrop-blur-sm border-white/30"
+                  className="mt-1 bg-white/50 backdrop-blur-sm border-white/30"
                   required
                 />
               </div>
@@ -169,7 +162,7 @@ export default function Login() {
                   placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="mt-2 bg-white/50 backdrop-blur-sm border-white/30"
+                  className="mt-1 bg-white/50 backdrop-blur-sm border-white/30"
                   required
                 />
               </div>
@@ -209,7 +202,7 @@ export default function Login() {
             </form>
           )}
 
-          <div className="mt-8 pt-6 border-t border-white/10">
+          <div className="mt-4 pt-4 border-t border-white/10">
             <div className="flex items-start space-x-3 text-sm text-muted-foreground">
               <Sparkles className="w-5 h-5 text-[#F9C4B5] flex-shrink-0 mt-0.5" />
               <p>Als Mitglied erhältst du Zugang zu exklusiven Longevity-Inhalten und der HappyAger Community.</p>
@@ -221,7 +214,7 @@ export default function Login() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
-          className="text-center mt-6 text-sm text-muted-foreground"
+          className="text-center mt-3 text-sm text-muted-foreground"
         >
           Mit der Anmeldung akzeptierst du unsere{' '}
           <Link to="/datenschutz" className="text-[#1b2a23] hover:underline">Datenschutzerklärung</Link>

@@ -178,10 +178,10 @@ export default function ProductDetail() {
               {/* Discount Code */}
               {product.discountInfo && (
                 <div className="flex items-start gap-3 px-5 py-4 rounded-xl bg-orange-500 border border-orange-400">
-                  <Tag className="w-5 h-5 text-white flex-shrink-0 mt-0.5" />
+                  <Tag className="w-6 h-6 text-white flex-shrink-0 mt-0.5" />
                   <div>
-                    <p className="text-sm font-bold text-white">Neukundenrabatt</p>
-                    <p className="text-sm text-white/90">{product.discountInfo}</p>
+                    <p className="text-base font-bold text-white">Neukundenrabatt Code: {product.discountCode}</p>
+                    <p className="text-base text-white/90">{product.discountInfo}</p>
                   </div>
                 </div>
               )}

@@ -3,8 +3,7 @@ import { Resend } from 'resend';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-// Webinar-Link hier eintragen, sobald bekannt:
-const WEBINAR_LINK = process.env.WEBINAR_LINK ?? 'https://happyager.com/webinar-live';
+
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') {
@@ -60,18 +59,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             <p style="margin:0 0 32px;font-size:16px;color:#4a4a4a;line-height:1.6;">
               In diesem Webinar zeigt dir Markus, wie du mit den 4 Säulen der Longevity
               länger gesund, aktiv und glücklich leben kannst – wissenschaftlich fundiert
-              und alltagstauglich.
+              und alltagstauglich.<br><br>
+              Du erhältst rechtzeitig vor dem Webinar alle weiteren Informationen per E-Mail.
             </p>
-
-            <!-- CTA Button -->
-            <table width="100%" cellpadding="0" cellspacing="0">
-              <tr><td align="center" style="padding:0 0 32px;">
-                <a href="${WEBINAR_LINK}"
-                   style="display:inline-block;background:linear-gradient(135deg,#8268AB,#1b2a23);color:#ffffff;text-decoration:none;padding:16px 40px;border-radius:50px;font-size:16px;font-weight:bold;letter-spacing:0.5px;">
-                  → Jetzt zum Webinar
-                </a>
-              </td></tr>
-            </table>
 
             <!-- Info Box -->
             <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f8f5f2;border-radius:16px;margin-bottom:32px;">
@@ -85,7 +75,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             </table>
 
             <p style="margin:0 0 8px;font-size:14px;color:#6b6b6b;line-height:1.6;">
-              Bitte speichere dir den Webinar-Link. Falls du Fragen hast, schreibe uns jederzeit an
+              Falls du Fragen hast, schreibe uns jederzeit an
               <a href="mailto:hallo@happy-ager.net" style="color:#8268AB;text-decoration:none;">hallo@happy-ager.net</a>.
             </p>
             <p style="margin:0;font-size:16px;color:#1b2a23;line-height:1.6;">

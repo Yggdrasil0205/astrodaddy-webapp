@@ -41,7 +41,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           <td style="background:linear-gradient(135deg,#1b2a23,#8268AB);padding:40px 40px 32px;text-align:center;">
             <p style="margin:0 0 8px;font-size:13px;color:#BFADD5;letter-spacing:2px;text-transform:uppercase;">HappyAger</p>
             <h1 style="margin:0;font-size:28px;color:#ffffff;font-weight:bold;line-height:1.3;">
-              Du bist dabei! 🎉
+              Deine Anmeldung ist eingegangen!
             </h1>
           </td>
         </tr>
@@ -53,33 +53,36 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
               Hallo ${name},
             </p>
             <p style="margin:0 0 16px;font-size:16px;color:#4a4a4a;line-height:1.6;">
-              vielen Dank für deine Anmeldung zum kostenlosen <strong>HappyAger Longevity-Webinar</strong>.
-              Wir freuen uns sehr, dich dabei zu haben!
+              vielen Dank für dein Interesse an unserer kostenlosen Online-Seminarreihe zum Thema <strong>Longevity</strong> – einem Thema, das uns alle betrifft.
             </p>
             <p style="margin:0 0 32px;font-size:16px;color:#4a4a4a;line-height:1.6;">
-              In diesem Webinar zeigt dir Markus, wie du mit den 4 Säulen der Longevity
-              länger gesund, aktiv und glücklich leben kannst – wissenschaftlich fundiert
-              und alltagstauglich.<br><br>
-              Du erhältst rechtzeitig vor dem Webinar alle weiteren Informationen per E-Mail.
+              Der demografische Wandel und der bereits spürbare Pflegenotstand machen es wichtiger denn je, möglichst lange selbstbestimmt und gesund zu bleiben. Genau darum geht es in unserer <strong>vierteiligen Webinarreihe</strong> – nicht nur um Langlebigkeit, sondern um Lebensqualität, Gesundheit und Vitalität bis ins hohe Alter.
             </p>
 
             <!-- Info Box -->
             <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f8f5f2;border-radius:16px;margin-bottom:32px;">
               <tr><td style="padding:24px;">
-                <p style="margin:0 0 12px;font-size:14px;font-weight:bold;color:#8268AB;text-transform:uppercase;letter-spacing:1px;">Was dich erwartet</p>
-                <p style="margin:0 0 8px;font-size:14px;color:#4a4a4a;line-height:1.6;">✦ &nbsp;Die 4 wichtigsten Longevity-Hebel, die du sofort umsetzen kannst</p>
-                <p style="margin:0 0 8px;font-size:14px;color:#4a4a4a;line-height:1.6;">✦ &nbsp;Warum Inflammaging dein größter Feind ist – und wie du ihn stoppst</p>
-                <p style="margin:0 0 8px;font-size:14px;color:#4a4a4a;line-height:1.6;">✦ &nbsp;Kraft & Bewegung: Der wichtigste Hebel in jedem Alter</p>
-                <p style="margin:0;font-size:14px;color:#4a4a4a;line-height:1.6;">✦ &nbsp;Live Q&A mit Markus Miersbe</p>
+                <p style="margin:0 0 12px;font-size:14px;font-weight:bold;color:#8268AB;text-transform:uppercase;letter-spacing:1px;">Die vier Themen der Reihe</p>
+                <p style="margin:0 0 8px;font-size:14px;color:#4a4a4a;line-height:1.6;">✦ &nbsp;<strong>Teil 1:</strong> Bonusjahre – das Altern ausbremsen</p>
+                <p style="margin:0 0 8px;font-size:14px;color:#4a4a4a;line-height:1.6;">✦ &nbsp;<strong>Teil 2:</strong> Inflammaging – stille Entzündungen stoppen</p>
+                <p style="margin:0 0 8px;font-size:14px;color:#4a4a4a;line-height:1.6;">✦ &nbsp;<strong>Teil 3:</strong> Sport & Bewegung – der stärkste Longevity-Hebel</p>
+                <p style="margin:0;font-size:14px;color:#4a4a4a;line-height:1.6;">✦ &nbsp;<strong>Teil 4:</strong> Mentale Fitness – das Gehirn bis ins hohe Alter fit halten</p>
               </td></tr>
             </table>
 
+            <p style="margin:0 0 16px;font-size:16px;color:#4a4a4a;line-height:1.6;">
+              Jedes Webinar dauert ca. <strong>30 Minuten</strong> mit anschließendem Q&A – live, kostenlos und von zu Hause aus.
+            </p>
+            <p style="margin:0 0 32px;font-size:16px;color:#4a4a4a;line-height:1.6;">
+              Du erhältst rechtzeitig vor jedem Termin den Einladungslink per E-Mail. Unser Team meldet sich in Kürze bei dir.
+            </p>
+
             <p style="margin:0 0 8px;font-size:14px;color:#6b6b6b;line-height:1.6;">
-              Falls du Fragen hast, schreibe uns jederzeit an
+              Bei Fragen erreichst du uns jederzeit unter
               <a href="mailto:hallo@happy-ager.net" style="color:#8268AB;text-decoration:none;">hallo@happy-ager.net</a>.
             </p>
             <p style="margin:0;font-size:16px;color:#1b2a23;line-height:1.6;">
-              Bis bald,<br><strong>Markus & das HappyAger-Team</strong>
+              Herzliche Grüße,<br><strong>Markus Miersbe & das HappyAger-Team</strong>
             </p>
           </td>
         </tr>
@@ -88,8 +91,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         <tr>
           <td style="background-color:#1b2a23;padding:24px 40px;text-align:center;">
             <p style="margin:0;font-size:12px;color:#BFADD5;line-height:1.6;">
-              HappyAger · <a href="https://happyager.com" style="color:#F9C4B5;text-decoration:none;">happyager.com</a><br>
-              Du erhältst diese E-Mail, weil du dich für unser kostenloses Webinar angemeldet hast.
+              HappyAger · <a href="https://happy-ager.net" style="color:#F9C4B5;text-decoration:none;">happy-ager.net</a><br>
+              Du erhältst diese E-Mail, weil du dich für unsere kostenlose Webinarreihe angemeldet hast.
             </p>
           </td>
         </tr>

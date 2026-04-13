@@ -25,7 +25,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     // 1. Bestätigungsmail an Teilnehmer
     await resend.emails.send({
-      from: 'Markus von HappyAger <noreply@happyager.com>',
+      from: 'Markus von HappyAger <noreply@happy-ager.net>',
       to: email,
       subject: '✅ Deine Webinar-Anmeldung ist bestätigt!',
       html: `
@@ -86,7 +86,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
             <p style="margin:0 0 8px;font-size:14px;color:#6b6b6b;line-height:1.6;">
               Bitte speichere dir den Webinar-Link. Falls du Fragen hast, schreibe uns jederzeit an
-              <a href="mailto:hallo@happyager.com" style="color:#8268AB;text-decoration:none;">hallo@happyager.com</a>.
+              <a href="mailto:hallo@happy-ager.net" style="color:#8268AB;text-decoration:none;">hallo@happy-ager.net</a>.
             </p>
             <p style="margin:0;font-size:16px;color:#1b2a23;line-height:1.6;">
               Bis bald,<br><strong>Markus & das HappyAger-Team</strong>
@@ -112,10 +112,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       `.trim(),
     });
 
-    // 2. Benachrichtigung an hallo@happyager.com
+    // 2. Benachrichtigung an hallo@happy-ager.net
     await resend.emails.send({
-      from: 'HappyAger Website <noreply@happyager.com>',
-      to: 'hallo@happyager.com',
+      from: 'HappyAger Website <noreply@happy-ager.net>',
+      to: 'hallo@happy-ager.net',
       subject: `📩 Neue Webinar-Anmeldung: ${name}`,
       html: `
 <!DOCTYPE html>

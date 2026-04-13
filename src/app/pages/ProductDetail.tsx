@@ -195,7 +195,7 @@ export default function ProductDetail() {
                       className="w-full bg-[#1b2a23]/80 hover:bg-[#1b2a23]/90 text-white font-semibold py-4"
                     >
                       <ExternalLink className="w-5 h-5 mr-2" />
-                      Beim Hersteller kaufen
+                      Hier kaufen
                       <ChevronRight className="w-5 h-5 ml-auto" />
                     </Button>
                   </a>

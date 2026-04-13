@@ -69,7 +69,7 @@ export function Navigation() {
                 }`}
               >
                 <ShoppingBag className="w-4 h-4 mr-2" />
-                <span className="hidden sm:inline">Shop</span>
+                <span className="hidden sm:inline">Empfehlungen</span>
               </Button>
             </Link>
             

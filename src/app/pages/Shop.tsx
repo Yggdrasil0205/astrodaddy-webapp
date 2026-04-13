@@ -58,7 +58,7 @@ export default function Shop() {
           </div>
           <h1 className="text-5xl md:text-6xl font-bold mb-4">
             <span className="bg-gradient-to-r from-[#1b2a23] via-[#8268AB] to-[#F9C4B5] bg-clip-text text-transparent">
-              HappyAger Shop
+              Der HappyAger empfiehlt
             </span>
           </h1>
           <p className="text-xl text-muted-foreground">
@@ -161,7 +161,7 @@ export default function Shop() {
                         <a href={product.affiliateUrl} target="_blank" rel="noopener noreferrer">
                           <Button size="sm" className="bg-[#1b2a23]/80 hover:bg-[#1b2a23]/90 text-white">
                             <ExternalLink className="w-3 h-3 mr-1" />
-                            Kaufen
+                            Hier kaufen
                           </Button>
                         </a>
                       )}

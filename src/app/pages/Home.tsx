@@ -566,7 +566,7 @@ export default function Home() {
                         {product.affiliateUrl && product.affiliateUrl !== '#' && (
                           <a href={product.affiliateUrl} target="_blank" rel="noopener noreferrer">
                             <Button size="sm" className="bg-[#1b2a23]/80 hover:bg-[#1b2a23]/90 text-white">
-                              Kaufen
+                              Hier kaufen
                             </Button>
                           </a>
                         )}

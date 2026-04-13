@@ -27,7 +27,7 @@ export interface Product {
 }
 
 const DISCOUNT_CODE = '528217';
-const DISCOUNT_INFO = '10 € Neukundenrabatt ab 100 € Bestellwert (Code: 528217)';
+const DISCOUNT_INFO = '10 € Neukundenrabatt ab 100 € Bestellwert';
 
 export const products: Product[] = [
   // ─── 1. 100 Tage Basiskur ────────────────────────────────────────────────

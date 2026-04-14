@@ -552,15 +552,12 @@ export default function Home() {
                     </div>
                     <h3 className="text-xl font-bold mb-2">{product.name}</h3>
                     <p className="text-muted-foreground text-sm mb-4 flex-grow">{product.shortDescription}</p>
-                    <div className="flex items-center justify-between">
-                      <span className="text-2xl font-bold text-[#1b2a23]">€{product.price}</span>
-                      <div className="flex gap-2">
-                        <Link to={`/product/${product.id}`}>
-                          <Button size="default" className="bg-[#1b2a23] hover:bg-[#1b2a23]/90 text-white px-6">
-                            Details
-                          </Button>
-                        </Link>
-                      </div>
+                    <div className="flex justify-end">
+                      <Link to={`/product/${product.id}`}>
+                        <Button size="default" className="bg-[#1b2a23] hover:bg-[#1b2a23]/90 text-white px-6">
+                          Details
+                        </Button>
+                      </Link>
                     </div>
                   </div>
                 </GlassCard>

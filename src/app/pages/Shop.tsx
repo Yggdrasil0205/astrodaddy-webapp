@@ -146,18 +146,13 @@ export default function Shop() {
                     {product.description}
                   </p>
                   
-                  {/* Price + CTA */}
-                  <div className="flex items-center justify-between">
-                    <span className="text-2xl font-bold text-[#1b2a23]">
-                      {product.priceFormatted}
-                    </span>
-                    <div className="flex gap-2">
-                      <Link to={`/product/${product.id}`}>
-                        <Button size="default" className="bg-[#1b2a23] hover:bg-[#1b2a23]/90 text-white px-6">
-                          Details
-                        </Button>
-                      </Link>
-                    </div>
+                  {/* CTA */}
+                  <div className="flex justify-end">
+                    <Link to={`/product/${product.id}`}>
+                      <Button size="default" className="bg-[#1b2a23] hover:bg-[#1b2a23]/90 text-white px-6">
+                        Details
+                      </Button>
+                    </Link>
                   </div>
                 </div>
               </GlassCard>

@@ -4,7 +4,7 @@ import { GlassCard } from '../components/GlassCard';
 import { ImageWithFallback } from '../components/figma/ImageWithFallback';
 import { Button } from '../components/ui/button';
 import { Badge } from '../components/ui/badge';
-import { Filter, Search, Star, ExternalLink } from 'lucide-react';
+import { Filter, Search, Star } from 'lucide-react';
 import { Link } from 'react-router';
 import { products } from '../data/products';
 
@@ -153,18 +153,10 @@ export default function Shop() {
                     </span>
                     <div className="flex gap-2">
                       <Link to={`/product/${product.id}`}>
-                        <Button size="sm" variant="outline" className="text-[#1b2a23] hover:bg-[#1b2a23]/10">
+                        <Button size="default" className="bg-[#1b2a23] hover:bg-[#1b2a23]/90 text-white px-6">
                           Details
                         </Button>
                       </Link>
-                      {product.affiliateUrl && product.affiliateUrl !== '#' && (
-                        <a href={product.affiliateUrl} target="_blank" rel="noopener noreferrer">
-                          <Button size="sm" className="bg-[#1b2a23]/80 hover:bg-[#1b2a23]/90 text-white">
-                            <ExternalLink className="w-3 h-3 mr-1" />
-                            Hier kaufen
-                          </Button>
-                        </a>
-                      )}
                     </div>
                   </div>
                 </div>

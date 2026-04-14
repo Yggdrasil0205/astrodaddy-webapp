@@ -155,13 +155,10 @@ export default function Home() {
               
               <div className="flex flex-wrap gap-4">
                 <Link to="/community">
-                  <Button size="lg" className="bg-[#1b2a23]/80 hover:bg-[#1b2a23]/90 text-white px-8">
+                  <Button size="lg" className="bg-[#1b2a23]/80 hover:bg-[#1b2a23]/90 text-white px-12 py-4 text-lg">
                     Zur Community
                   </Button>
                 </Link>
-                <Button size="lg" variant="outline" className="text-[#1b2a23] hover:bg-[#1b2a23]/10">
-                  Mehr erfahren
-                </Button>
               </div>
             </motion.div>
             
@@ -559,17 +556,10 @@ export default function Home() {
                       <span className="text-2xl font-bold text-[#1b2a23]">€{product.price}</span>
                       <div className="flex gap-2">
                         <Link to={`/product/${product.id}`}>
-                          <Button size="sm" variant="outline">
+                          <Button size="default" className="bg-[#1b2a23] hover:bg-[#1b2a23]/90 text-white px-6">
                             Details
                           </Button>
                         </Link>
-                        {product.affiliateUrl && product.affiliateUrl !== '#' && (
-                          <a href={product.affiliateUrl} target="_blank" rel="noopener noreferrer">
-                            <Button size="sm" className="bg-[#1b2a23]/80 hover:bg-[#1b2a23]/90 text-white">
-                              Hier kaufen
-                            </Button>
-                          </a>
-                        )}
                       </div>
                     </div>
                   </div>

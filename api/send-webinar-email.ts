@@ -26,7 +26,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     await resend.emails.send({
       from: 'Markus von HappyAger <noreply@happy-ager.net>',
       to: email,
-      subject: '✅ Deine Webinar-Anmeldung ist bestätigt!',
+      subject: 'Deine Webinar-Anmeldung ist bestätigt',
       html: `
 <!DOCTYPE html>
 <html lang="de">
@@ -109,7 +109,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     await resend.emails.send({
       from: 'HappyAger Website <noreply@happy-ager.net>',
       to: 'hallo@happy-ager.net',
-      subject: `📩 Neue Webinar-Anmeldung: ${name}`,
+      subject: `Neue Webinar-Anmeldung: ${name}`,
       html: `
 <!DOCTYPE html>
 <html lang="de">

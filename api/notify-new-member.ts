@@ -18,7 +18,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     await resend.emails.send({
       from: 'HappyAger Website <noreply@happy-ager.net>',
       to: 'hallo@happy-ager.net',
-      subject: `🎉 Neue Community-Anmeldung: ${name || email}`,
+      subject: `Neue Community-Anmeldung: ${name || email}`,
       html: `
 <!DOCTYPE html>
 <html lang="de">

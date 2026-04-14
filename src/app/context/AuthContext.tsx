@@ -52,6 +52,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       options: { data: { full_name: name } },
     });
     if (error) throw error;
+    // Notify team about new registration (fire and forget)
+    fetch('/api/notify-new-member', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email }),
+    }).catch(() => {});
   };
 
   const logout = async () => {

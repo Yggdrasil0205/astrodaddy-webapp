@@ -514,7 +514,7 @@ export default function Home() {
               <span className="text-sm text-[#8268AB] font-medium">Unsere Empfehlung</span>
             </div>
             <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              Unsere <span className="bg-gradient-to-r from-[#1b2a23] via-[#8268AB] to-[#F9C4B5] bg-clip-text text-transparent">Top Lebensmittel</span>
+              Top <span className="bg-gradient-to-r from-[#1b2a23] via-[#8268AB] to-[#F9C4B5] bg-clip-text text-transparent">Longevity Lebensmittel</span>
             </h2>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
               Sorgfältig ausgewählte Premium-Lebensmittel für deine Longevity-Reise

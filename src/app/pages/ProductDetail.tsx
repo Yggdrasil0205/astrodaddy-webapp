@@ -13,8 +13,10 @@ export default function ProductDetail() {
 
   const product = getProductById(Number(id));
 
-  const [activeImage, setActiveImage] = useState('');
-  const [activeVariant, setActiveVariant] = useState<string | null>(null);
+  const [activeImage, setActiveImage] = useState(product?.image ?? '');
+  const [activeVariant, setActiveVariant] = useState<string | null>(
+    product?.variants?.length ? product.variants[0].name : null
+  );
   const [showExitModal, setShowExitModal] = useState(false);
   const [copied, setCopied] = useState(false);
 

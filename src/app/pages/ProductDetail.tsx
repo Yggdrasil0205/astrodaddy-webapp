@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router';
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import { GlassCard } from '../components/GlassCard';
 import { Button } from '../components/ui/button';
 import { ImageWithFallback } from '../components/figma/ImageWithFallback';
-import { ArrowLeft, Check, ExternalLink, Tag, ChevronRight } from 'lucide-react';
+import { ArrowLeft, Check, ExternalLink, Tag, ChevronRight, Copy, CheckCheck, X } from 'lucide-react';
 import { getProductById } from '../data/products';
 
 export default function ProductDetail() {
@@ -15,6 +15,14 @@ export default function ProductDetail() {
 
   const [activeImage, setActiveImage] = useState('');
   const [activeVariant, setActiveVariant] = useState<string | null>(null);
+  const [showExitModal, setShowExitModal] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  const handleCopyCode = () => {
+    navigator.clipboard.writeText(product?.discountCode ?? '');
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -189,16 +197,15 @@ export default function ProductDetail() {
               {/* CTA */}
               <div className="space-y-3">
                 {hasValidAffiliateUrl ? (
-                  <a href={product.affiliateUrl} target="_blank" rel="noopener noreferrer">
-                    <Button
-                      size="lg"
-                      className="w-full bg-[#1b2a23]/80 hover:bg-[#1b2a23]/90 text-white font-semibold py-4"
-                    >
-                      <ExternalLink className="w-5 h-5 mr-2" />
-                      Hier kaufen
-                      <ChevronRight className="w-5 h-5 ml-auto" />
-                    </Button>
-                  </a>
+                  <Button
+                    size="lg"
+                    onClick={() => setShowExitModal(true)}
+                    className="w-full bg-[#1b2a23]/80 hover:bg-[#1b2a23]/90 text-white font-semibold py-4"
+                  >
+                    <ExternalLink className="w-5 h-5 mr-2" />
+                    Hier kaufen
+                    <ChevronRight className="w-5 h-5 ml-auto" />
+                  </Button>
                 ) : (
                   <Button size="lg" disabled className="w-full text-muted-foreground">
                     Link folgt in Kürze
@@ -241,6 +248,89 @@ export default function ProductDetail() {
           </div>
         </div>
       </div>
+
+      {/* Exit Interstitial Modal */}
+      <AnimatePresence>
+        {showExitModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center px-4"
+            onClick={() => setShowExitModal(false)}
+          >
+            <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ duration: 0.2 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative w-full max-w-md"
+            >
+              <GlassCard className="rounded-3xl p-8 text-center">
+                <button
+                  onClick={() => setShowExitModal(false)}
+                  className="absolute top-4 right-4 p-1 rounded-full hover:bg-black/10 transition-colors"
+                >
+                  <X className="w-5 h-5 text-muted-foreground" />
+                </button>
+
+                <div className="w-14 h-14 rounded-2xl bg-[#1b2a23]/10 flex items-center justify-center mx-auto mb-4">
+                  <ExternalLink className="w-7 h-7 text-[#1b2a23]" />
+                </div>
+
+                <h3 className="text-xl font-bold text-[#1b2a23] mb-2">
+                  Du verlässt HappyAger
+                </h3>
+                <p className="text-muted-foreground text-sm mb-6 leading-relaxed">
+                  Wir leiten dich jetzt zu <strong>cellagon.de</strong> weiter.<br />
+                  Vergiss nicht, deinen Rabattcode einzugeben!
+                </p>
+
+                {/* Code Box */}
+                {product.discountCode && (
+                  <div className="flex items-center gap-3 bg-orange-500 rounded-xl px-5 py-4 mb-6">
+                    <div className="flex-1 text-left">
+                      <p className="text-xs text-white/80 font-medium">Dein Rabattcode</p>
+                      <p className="text-2xl font-bold text-white tracking-widest">{product.discountCode}</p>
+                      <p className="text-xs text-white/80 mt-0.5">10 € ab 100 € Bestellwert</p>
+                    </div>
+                    <button
+                      onClick={handleCopyCode}
+                      className="flex-shrink-0 flex flex-col items-center gap-1 bg-white/20 hover:bg-white/30 transition-colors rounded-xl px-3 py-2"
+                    >
+                      {copied
+                        ? <CheckCheck className="w-5 h-5 text-white" />
+                        : <Copy className="w-5 h-5 text-white" />
+                      }
+                      <span className="text-xs text-white font-medium">{copied ? 'Kopiert!' : 'Kopieren'}</span>
+                    </button>
+                  </div>
+                )}
+
+                <a href={product.affiliateUrl} target="_blank" rel="noopener noreferrer">
+                  <Button
+                    size="lg"
+                    className="w-full bg-[#1b2a23] hover:bg-[#1b2a23]/90 text-white"
+                    onClick={() => setShowExitModal(false)}
+                  >
+                    Weiter zu cellagon.de
+                    <ChevronRight className="w-5 h-5 ml-2" />
+                  </Button>
+                </a>
+
+                <button
+                  onClick={() => setShowExitModal(false)}
+                  className="mt-4 text-sm text-muted-foreground hover:text-[#1b2a23] transition-colors"
+                >
+                  Zurück zur Seite
+                </button>
+              </GlassCard>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

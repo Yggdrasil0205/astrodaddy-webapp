@@ -285,7 +285,7 @@ export default function ProductDetail() {
                 <h3 className="text-xl font-bold text-[#1b2a23] mb-2">
                   Du verlässt HappyAger
                 </h3>
-                <p className="text-muted-foreground text-sm mb-6 leading-relaxed">
+                <p className="text-[#1b2a23] text-sm mb-6 leading-relaxed">
                   Wir leiten dich jetzt zu <strong>cellagon.de</strong> weiter.<br />
                   Vergiss nicht, deinen Rabattcode einzugeben!
                 </p>

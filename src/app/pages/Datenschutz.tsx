@@ -15,18 +15,18 @@ export default function Datenschutz() {
         >
           <Link
             to="/"
-            className="inline-flex items-center gap-2 text-[#5C3D8F] hover:text-[#8B6EC5] transition-colors mb-8"
+            className="inline-flex items-center gap-2 text-[#7B5FD4] hover:text-[#3D2A8A] transition-colors mb-8"
           >
             <ArrowLeft className="w-4 h-4" />
             Zurück zur Startseite
           </Link>
 
           <GlassCard className="rounded-3xl p-8 md:p-12">
-            <h1 className="text-4xl md:text-5xl font-bold mb-8 text-[#1a0d2e]" style={{ fontFamily: 'henriette, serif' }}>
+            <h1 className="text-4xl md:text-5xl font-bold mb-8 text-[#1B1040]" style={{ fontFamily: 'henriette, serif' }}>
               Datenschutzerklärung
             </h1>
 
-            <div className="space-y-8 text-[#1a0d2e]/90">
+            <div className="space-y-8 text-[#1B1040]/90">
               {/* Einleitung */}
               <section>
                 <p className="mb-4">
@@ -40,7 +40,7 @@ export default function Datenschutz() {
 
               {/* 1. Verantwortliche Stelle */}
               <section>
-                <h2 className="text-2xl font-bold mb-4 text-[#1a0d2e]" style={{ fontFamily: 'henriette, serif' }}>
+                <h2 className="text-2xl font-bold mb-4 text-[#1B1040]" style={{ fontFamily: 'henriette, serif' }}>
                   1. Verantwortliche Stelle
                 </h2>
                 <p className="mb-2">
@@ -60,10 +60,10 @@ export default function Datenschutz() {
 
               {/* 2. Allgemeine Hinweise */}
               <section>
-                <h2 className="text-2xl font-bold mb-4 text-[#1a0d2e]" style={{ fontFamily: 'henriette, serif' }}>
+                <h2 className="text-2xl font-bold mb-4 text-[#1B1040]" style={{ fontFamily: 'henriette, serif' }}>
                   2. Allgemeine Hinweise zur Datenverarbeitung
                 </h2>
-                <h3 className="text-xl font-bold mb-2 text-[#1a0d2e]">2.1 Umfang der Verarbeitung personenbezogener Daten</h3>
+                <h3 className="text-xl font-bold mb-2 text-[#1B1040]">2.1 Umfang der Verarbeitung personenbezogener Daten</h3>
                 <p className="mb-4">
                   Wir verarbeiten personenbezogene Daten unserer Nutzer grundsätzlich nur, soweit dies zur Bereitstellung
                   einer funktionsfähigen Website sowie unserer Inhalte und Leistungen erforderlich ist. Die Verarbeitung
@@ -72,7 +72,7 @@ export default function Datenschutz() {
                   möglich ist und die Verarbeitung der Daten durch gesetzliche Vorschriften gestattet ist.
                 </p>
 
-                <h3 className="text-xl font-bold mb-2 text-[#1a0d2e]">2.2 Rechtsgrundlage</h3>
+                <h3 className="text-xl font-bold mb-2 text-[#1B1040]">2.2 Rechtsgrundlage</h3>
                 <p className="mb-4">
                   Soweit wir für Verarbeitungsvorgänge personenbezogener Daten eine Einwilligung der betroffenen Person
                   einholen, dient Art. 6 Abs. 1 lit. a EU-Datenschutzgrundverordnung (DSGVO) als Rechtsgrundlage.
@@ -92,7 +92,7 @@ export default function Datenschutz() {
                   erstgenannte Interesse nicht, so dient Art. 6 Abs. 1 lit. f DSGVO als Rechtsgrundlage für die Verarbeitung.
                 </p>
 
-                <h3 className="text-xl font-bold mb-2 text-[#1a0d2e]">2.3 Datenlöschung und Speicherdauer</h3>
+                <h3 className="text-xl font-bold mb-2 text-[#1B1040]">2.3 Datenlöschung und Speicherdauer</h3>
                 <p>
                   Die personenbezogenen Daten der betroffenen Person werden gelöscht oder gesperrt, sobald der Zweck der
                   Speicherung entfällt. Eine Speicherung kann darüber hinaus erfolgen, wenn dies durch den europäischen
@@ -106,10 +106,10 @@ export default function Datenschutz() {
 
               {/* 3. Bereitstellung der Website */}
               <section>
-                <h2 className="text-2xl font-bold mb-4 text-[#1a0d2e]" style={{ fontFamily: 'henriette, serif' }}>
+                <h2 className="text-2xl font-bold mb-4 text-[#1B1040]" style={{ fontFamily: 'henriette, serif' }}>
                   3. Bereitstellung der Website und Erstellung von Logfiles
                 </h2>
-                <h3 className="text-xl font-bold mb-2 text-[#1a0d2e]">3.1 Beschreibung und Umfang der Datenverarbeitung</h3>
+                <h3 className="text-xl font-bold mb-2 text-[#1B1040]">3.1 Beschreibung und Umfang der Datenverarbeitung</h3>
                 <p className="mb-4">
                   Bei jedem Aufruf unserer Website erfasst unser System automatisiert Daten und Informationen vom
                   Computersystem des aufrufenden Rechners. Folgende Daten werden hierbei erhoben:
@@ -128,12 +128,12 @@ export default function Datenschutz() {
                   zusammen mit anderen personenbezogenen Daten des Nutzers findet nicht statt.
                 </p>
 
-                <h3 className="text-xl font-bold mb-2 text-[#1a0d2e]">3.2 Rechtsgrundlage</h3>
+                <h3 className="text-xl font-bold mb-2 text-[#1B1040]">3.2 Rechtsgrundlage</h3>
                 <p className="mb-4">
                   Rechtsgrundlage für die vorübergehende Speicherung der Daten und der Logfiles ist Art. 6 Abs. 1 lit. f DSGVO.
                 </p>
 
-                <h3 className="text-xl font-bold mb-2 text-[#1a0d2e]">3.3 Zweck der Datenverarbeitung</h3>
+                <h3 className="text-xl font-bold mb-2 text-[#1B1040]">3.3 Zweck der Datenverarbeitung</h3>
                 <p className="mb-4">
                   Die vorübergehende Speicherung der IP-Adresse durch das System ist notwendig, um eine Auslieferung der
                   Website an den Rechner des Nutzers zu ermöglichen. Hierfür muss die IP-Adresse des Nutzers für die Dauer
@@ -142,7 +142,7 @@ export default function Datenschutz() {
                   der Sicherheit unserer informationstechnischen Systeme.
                 </p>
 
-                <h3 className="text-xl font-bold mb-2 text-[#1a0d2e]">3.4 Dauer der Speicherung</h3>
+                <h3 className="text-xl font-bold mb-2 text-[#1B1040]">3.4 Dauer der Speicherung</h3>
                 <p>
                   Die Daten werden gelöscht, sobald sie für die Erreichung des Zweckes ihrer Erhebung nicht mehr erforderlich
                   sind. Im Falle der Erfassung der Daten zur Bereitstellung der Website ist dies der Fall, wenn die jeweilige
@@ -154,10 +154,10 @@ export default function Datenschutz() {
 
               {/* 4. Cookies */}
               <section>
-                <h2 className="text-2xl font-bold mb-4 text-[#1a0d2e]" style={{ fontFamily: 'henriette, serif' }}>
+                <h2 className="text-2xl font-bold mb-4 text-[#1B1040]" style={{ fontFamily: 'henriette, serif' }}>
                   4. Verwendung von Cookies
                 </h2>
-                <h3 className="text-xl font-bold mb-2 text-[#1a0d2e]">4.1 Beschreibung und Umfang</h3>
+                <h3 className="text-xl font-bold mb-2 text-[#1B1040]">4.1 Beschreibung und Umfang</h3>
                 <p className="mb-4">
                   Unsere Website verwendet Cookies. Bei Cookies handelt es sich um Textdateien, die im Internetbrowser
                   bzw. vom Internetbrowser auf dem Computersystem des Nutzers gespeichert werden. Ruft ein Nutzer eine
@@ -166,36 +166,36 @@ export default function Datenschutz() {
                   erneuten Aufrufen der Website ermöglicht.
                 </p>
 
-                <h3 className="text-xl font-bold mb-2 text-[#1a0d2e]">4.2 Cookie-Kategorien</h3>
+                <h3 className="text-xl font-bold mb-2 text-[#1B1040]">4.2 Cookie-Kategorien</h3>
                 <p className="mb-4">Wir setzen folgende Cookie-Kategorien ein:</p>
 
-                <h4 className="font-bold mb-2 text-[#1a0d2e]">Notwendige Cookies</h4>
+                <h4 className="font-bold mb-2 text-[#1B1040]">Notwendige Cookies</h4>
                 <p className="mb-4">
                   Diese Cookies sind für den Betrieb der Website zwingend erforderlich. Sie ermöglichen grundlegende
                   Funktionen wie Seitennavigation, Warenkorb und Zugriff auf geschützte Bereiche. Die Website kann ohne
                   diese Cookies nicht ordnungsgemäß funktionieren.
                 </p>
 
-                <h4 className="font-bold mb-2 text-[#1a0d2e]">Funktionale Cookies</h4>
+                <h4 className="font-bold mb-2 text-[#1B1040]">Funktionale Cookies</h4>
                 <p className="mb-4">
                   Diese Cookies ermöglichen erweiterte Funktionalitäten und eine Personalisierung. Sie können von uns
                   oder von Drittanbietern gesetzt werden, deren Dienste wir auf unseren Seiten verwenden.
                 </p>
 
-                <h4 className="font-bold mb-2 text-[#1a0d2e]">Analyse-Cookies</h4>
+                <h4 className="font-bold mb-2 text-[#1B1040]">Analyse-Cookies</h4>
                 <p className="mb-4">
                   Diese Cookies helfen uns zu verstehen, wie Besucher mit unserer Website interagieren, indem Informationen
                   anonym gesammelt und gemeldet werden. Mit diesen Informationen können wir die Website optimieren.
                 </p>
 
-                <h4 className="font-bold mb-2 text-[#1a0d2e]">Marketing-Cookies</h4>
+                <h4 className="font-bold mb-2 text-[#1B1040]">Marketing-Cookies</h4>
                 <p className="mb-4">
                   Diese Cookies werden verwendet, um Besuchern auf Webseiten zu folgen. Die Absicht ist, Anzeigen zu zeigen,
                   die relevant und ansprechend für den einzelnen Benutzer sind und daher wertvoller für Publisher und
                   werbetreibende Drittparteien sind.
                 </p>
 
-                <h3 className="text-xl font-bold mb-2 text-[#1a0d2e]">4.3 Rechtsgrundlage</h3>
+                <h3 className="text-xl font-bold mb-2 text-[#1B1040]">4.3 Rechtsgrundlage</h3>
                 <p className="mb-4">
                   Die Rechtsgrundlage für die Verarbeitung personenbezogener Daten unter Verwendung notwendiger Cookies
                   ist Art. 6 Abs. 1 lit. f DSGVO. Die Rechtsgrundlage für die Verarbeitung personenbezogener Daten unter
@@ -203,7 +203,7 @@ export default function Datenschutz() {
                   Art. 6 Abs. 1 lit. a DSGVO.
                 </p>
 
-                <h3 className="text-xl font-bold mb-2 text-[#1a0d2e]">4.4 Widerspruchs- und Beseitigungsmöglichkeit</h3>
+                <h3 className="text-xl font-bold mb-2 text-[#1B1040]">4.4 Widerspruchs- und Beseitigungsmöglichkeit</h3>
                 <p>
                   Sie können Ihre Cookie-Einstellungen jederzeit über den Button im Footer unserer Website ändern.
                   Die meisten Browser sind so eingestellt, dass sie Cookies automatisch akzeptieren. Sie können das
@@ -214,10 +214,10 @@ export default function Datenschutz() {
 
               {/* 5. Kontaktformular und E-Mail */}
               <section>
-                <h2 className="text-2xl font-bold mb-4 text-[#1a0d2e]" style={{ fontFamily: 'henriette, serif' }}>
+                <h2 className="text-2xl font-bold mb-4 text-[#1B1040]" style={{ fontFamily: 'henriette, serif' }}>
                   5. Kontaktformular und E-Mail-Kontakt
                 </h2>
-                <h3 className="text-xl font-bold mb-2 text-[#1a0d2e]">5.1 Beschreibung und Umfang</h3>
+                <h3 className="text-xl font-bold mb-2 text-[#1B1040]">5.1 Beschreibung und Umfang</h3>
                 <p className="mb-4">
                   Auf unserer Website ist ein Kontaktformular vorhanden, welches für die elektronische Kontaktaufnahme
                   genutzt werden kann. Nimmt ein Nutzer diese Möglichkeit wahr, so werden die in der Eingabemaske
@@ -234,7 +234,7 @@ export default function Datenschutz() {
                   werden die mit der E-Mail übermittelten personenbezogenen Daten des Nutzers gespeichert.
                 </p>
 
-                <h3 className="text-xl font-bold mb-2 text-[#1a0d2e]">5.2 Rechtsgrundlage</h3>
+                <h3 className="text-xl font-bold mb-2 text-[#1B1040]">5.2 Rechtsgrundlage</h3>
                 <p className="mb-4">
                   Rechtsgrundlage für die Verarbeitung der Daten ist bei Vorliegen einer Einwilligung des Nutzers
                   Art. 6 Abs. 1 lit. a DSGVO. Rechtsgrundlage für die Verarbeitung der Daten, die im Zuge einer
@@ -243,14 +243,14 @@ export default function Datenschutz() {
                   Art. 6 Abs. 1 lit. b DSGVO.
                 </p>
 
-                <h3 className="text-xl font-bold mb-2 text-[#1a0d2e]">5.3 Zweck der Datenverarbeitung</h3>
+                <h3 className="text-xl font-bold mb-2 text-[#1B1040]">5.3 Zweck der Datenverarbeitung</h3>
                 <p className="mb-4">
                   Die Verarbeitung der personenbezogenen Daten aus der Eingabemaske dient uns allein zur Bearbeitung
                   der Kontaktaufnahme. Im Falle einer Kontaktaufnahme per E-Mail liegt hieran auch das erforderliche
                   berechtigte Interesse an der Verarbeitung der Daten.
                 </p>
 
-                <h3 className="text-xl font-bold mb-2 text-[#1a0d2e]">5.4 Dauer der Speicherung</h3>
+                <h3 className="text-xl font-bold mb-2 text-[#1B1040]">5.4 Dauer der Speicherung</h3>
                 <p>
                   Die Daten werden gelöscht, sobald sie für die Erreichung des Zweckes ihrer Erhebung nicht mehr
                   erforderlich sind. Für die personenbezogenen Daten aus der Eingabemaske des Kontaktformulars und
@@ -262,10 +262,10 @@ export default function Datenschutz() {
 
               {/* 6. Shop und Bestellabwicklung */}
               <section>
-                <h2 className="text-2xl font-bold mb-4 text-[#1a0d2e]" style={{ fontFamily: 'henriette, serif' }}>
+                <h2 className="text-2xl font-bold mb-4 text-[#1B1040]" style={{ fontFamily: 'henriette, serif' }}>
                   6. Shop und Bestellabwicklung
                 </h2>
-                <h3 className="text-xl font-bold mb-2 text-[#1a0d2e]">6.1 Verarbeitung von Bestelldaten</h3>
+                <h3 className="text-xl font-bold mb-2 text-[#1B1040]">6.1 Verarbeitung von Bestelldaten</h3>
                 <p className="mb-4">
                   Zur Abwicklung von Bestellungen in unserem Online-Shop erheben und verarbeiten wir folgende Daten:
                 </p>
@@ -278,13 +278,13 @@ export default function Datenschutz() {
                   <li>Lieferadresse (falls abweichend)</li>
                 </ul>
 
-                <h3 className="text-xl font-bold mb-2 text-[#1a0d2e]">6.2 Rechtsgrundlage</h3>
+                <h3 className="text-xl font-bold mb-2 text-[#1B1040]">6.2 Rechtsgrundlage</h3>
                 <p className="mb-4">
                   Die Verarbeitung erfolgt auf Grundlage von Art. 6 Abs. 1 lit. b DSGVO zur Vertragserfüllung bzw.
                   zur Durchführung vorvertraglicher Maßnahmen.
                 </p>
 
-                <h3 className="text-xl font-bold mb-2 text-[#1a0d2e]">6.3 Zahlungsdienstleister</h3>
+                <h3 className="text-xl font-bold mb-2 text-[#1B1040]">6.3 Zahlungsdienstleister</h3>
                 <p className="mb-4">
                   Wir setzen zur Zahlungsabwicklung folgende Dienstleister ein:
                 </p>
@@ -292,22 +292,22 @@ export default function Datenschutz() {
                   <li>
                     <strong>PayPal</strong><br />
                     PayPal (Europe) S.à r.l. et Cie, S.C.A., 22-24 Boulevard Royal, L-2449 Luxembourg<br />
-                    Datenschutzerklärung: <a href="https://www.paypal.com/de/webapps/mpp/ua/privacy-full" target="_blank" rel="noopener noreferrer" className="text-[#5C3D8F] hover:underline">paypal.com/privacy</a>
+                    Datenschutzerklärung: <a href="https://www.paypal.com/de/webapps/mpp/ua/privacy-full" target="_blank" rel="noopener noreferrer" className="text-[#7B5FD4] hover:underline">paypal.com/privacy</a>
                   </li>
                   <li>
                     <strong>Klarna</strong><br />
                     Klarna Bank AB (publ), Sveavägen 46, 111 34 Stockholm, Schweden<br />
-                    Datenschutzerklärung: <a href="https://www.klarna.com/de/datenschutz/" target="_blank" rel="noopener noreferrer" className="text-[#5C3D8F] hover:underline">klarna.com/datenschutz</a>
+                    Datenschutzerklärung: <a href="https://www.klarna.com/de/datenschutz/" target="_blank" rel="noopener noreferrer" className="text-[#7B5FD4] hover:underline">klarna.com/datenschutz</a>
                   </li>
                   <li>
                     <strong>Sofortüberweisung</strong><br />
                     Klarna Bank AB (publ), Sveavägen 46, 111 34 Stockholm, Schweden<br />
-                    Datenschutzerklärung: <a href="https://www.klarna.com/sofort/datenschutz/" target="_blank" rel="noopener noreferrer" className="text-[#5C3D8F] hover:underline">klarna.com/sofort/datenschutz</a>
+                    Datenschutzerklärung: <a href="https://www.klarna.com/sofort/datenschutz/" target="_blank" rel="noopener noreferrer" className="text-[#7B5FD4] hover:underline">klarna.com/sofort/datenschutz</a>
                   </li>
                   <li>
                     <strong>Apple Pay</strong><br />
                     Apple Distribution International Ltd., Hollyhill Industrial Estate, Hollyhill, Cork, Irland<br />
-                    Datenschutzerklärung: <a href="https://www.apple.com/legal/privacy/de-ww/" target="_blank" rel="noopener noreferrer" className="text-[#5C3D8F] hover:underline">apple.com/privacy</a>
+                    Datenschutzerklärung: <a href="https://www.apple.com/legal/privacy/de-ww/" target="_blank" rel="noopener noreferrer" className="text-[#7B5FD4] hover:underline">apple.com/privacy</a>
                   </li>
                   <li>
                     <strong>Vorkasse / Überweisung</strong><br />
@@ -319,7 +319,7 @@ export default function Datenschutz() {
                   </li>
                 </ul>
 
-                <h3 className="text-xl font-bold mb-2 text-[#1a0d2e]">6.4 Speicherdauer</h3>
+                <h3 className="text-xl font-bold mb-2 text-[#1B1040]">6.4 Speicherdauer</h3>
                 <p>
                   Die Daten werden für die Dauer der Vertragsabwicklung und darüber hinaus gemäß gesetzlicher
                   Aufbewahrungsfristen (in der Regel 10 Jahre nach HGB und AO) gespeichert.
@@ -328,10 +328,10 @@ export default function Datenschutz() {
 
               {/* 7. Newsletter */}
               <section>
-                <h2 className="text-2xl font-bold mb-4 text-[#1a0d2e]" style={{ fontFamily: 'henriette, serif' }}>
+                <h2 className="text-2xl font-bold mb-4 text-[#1B1040]" style={{ fontFamily: 'henriette, serif' }}>
                   7. Newsletter
                 </h2>
-                <h3 className="text-xl font-bold mb-2 text-[#1a0d2e]">7.1 Beschreibung und Umfang</h3>
+                <h3 className="text-xl font-bold mb-2 text-[#1B1040]">7.1 Beschreibung und Umfang</h3>
                 <p className="mb-4">
                   Auf unserer Website besteht die Möglichkeit, einen Newsletter zu abonnieren. Dabei werden bei der
                   Anmeldung die folgenden Daten an uns übermittelt:
@@ -347,14 +347,14 @@ export default function Datenschutz() {
                   eine E-Mail, in der Sie um Bestätigung bitten, dass Sie den Versand des Newsletters wünschen.
                 </p>
 
-                <h3 className="text-xl font-bold mb-2 text-[#1a0d2e]">7.2 Newsletter-Dienstleister</h3>
+                <h3 className="text-xl font-bold mb-2 text-[#1B1040]">7.2 Newsletter-Dienstleister</h3>
                 <p className="mb-4">
                   Der Versand der Newsletter erfolgt mittels:<br />
                   <strong>Klick-Tipp</strong><br />
                   Klick-Tipp Limited<br />
                   Königsallee 14<br />
                   40212 Düsseldorf, Deutschland<br />
-                  Datenschutzerklärung: <a href="https://www.klick-tipp.com/datenschutzerklaerung" target="_blank" rel="noopener noreferrer" className="text-[#5C3D8F] hover:underline">klick-tipp.com/datenschutzerklaerung</a>
+                  Datenschutzerklärung: <a href="https://www.klick-tipp.com/datenschutzerklaerung" target="_blank" rel="noopener noreferrer" className="text-[#7B5FD4] hover:underline">klick-tipp.com/datenschutzerklaerung</a>
                 </p>
                 <p className="mb-4">
                   Klick-Tipp ist ein Dienst, mit dem der Newsletterversand organisiert und analysiert werden kann.
@@ -362,13 +362,13 @@ export default function Datenschutz() {
                   Klick-Tipp in Deutschland gespeichert.
                 </p>
 
-                <h3 className="text-xl font-bold mb-2 text-[#1a0d2e]">7.3 Rechtsgrundlage</h3>
+                <h3 className="text-xl font-bold mb-2 text-[#1B1040]">7.3 Rechtsgrundlage</h3>
                 <p className="mb-4">
                   Rechtsgrundlage für die Verarbeitung der Daten nach Anmeldung zum Newsletter durch den Nutzer ist
                   bei Vorliegen einer Einwilligung des Nutzers Art. 6 Abs. 1 lit. a DSGVO.
                 </p>
 
-                <h3 className="text-xl font-bold mb-2 text-[#1a0d2e]">7.4 Widerruf</h3>
+                <h3 className="text-xl font-bold mb-2 text-[#1B1040]">7.4 Widerruf</h3>
                 <p>
                   Sie können den Newsletter jederzeit abbestellen. Einen Abmeldelink finden Sie in jedem Newsletter.
                   Alternativ können Sie Ihren Abmeldewunsch auch per E-Mail an hallo@happy-ager.net senden.
@@ -377,10 +377,10 @@ export default function Datenschutz() {
 
               {/* 8. Webanalyse Tools */}
               <section>
-                <h2 className="text-2xl font-bold mb-4 text-[#1a0d2e]" style={{ fontFamily: 'henriette, serif' }}>
+                <h2 className="text-2xl font-bold mb-4 text-[#1B1040]" style={{ fontFamily: 'henriette, serif' }}>
                   8. Webanalyse-Tools
                 </h2>
-                <h3 className="text-xl font-bold mb-2 text-[#1a0d2e]">8.1 Google Analytics</h3>
+                <h3 className="text-xl font-bold mb-2 text-[#1B1040]">8.1 Google Analytics</h3>
                 <p className="mb-4">
                   Diese Website benutzt Google Analytics, einen Webanalysedienst der Google Ireland Limited
                   ("Google"), Gordon House, Barrow Street, Dublin 4, Irland.
@@ -404,15 +404,15 @@ export default function Datenschutz() {
                   Nutzung der Website bezogenen Daten (inkl. Ihrer IP-Adresse) an Google sowie die Verarbeitung
                   dieser Daten durch Google verhindern, indem Sie das unter dem folgenden Link verfügbare
                   Browser-Plugin herunterladen und installieren:
-                  <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer" className="text-[#5C3D8F] hover:underline ml-1">
+                  <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer" className="text-[#7B5FD4] hover:underline ml-1">
                     tools.google.com/dlpage/gaoptout
                   </a>
                 </p>
                 <p className="mb-4">
-                  Datenschutzerklärung: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" className="text-[#5C3D8F] hover:underline">policies.google.com/privacy</a>
+                  Datenschutzerklärung: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" className="text-[#7B5FD4] hover:underline">policies.google.com/privacy</a>
                 </p>
 
-                <h3 className="text-xl font-bold mb-2 text-[#1a0d2e]">8.2 Hotjar</h3>
+                <h3 className="text-xl font-bold mb-2 text-[#1B1040]">8.2 Hotjar</h3>
                 <p className="mb-4">
                   Diese Website nutzt Hotjar, einen Webanalysedienst der Hotjar Ltd. („Hotjar"),
                   Level 2, St Julians Business Centre, 3, Elia Zammit Street, St Julians STJ 1000, Malta, Europa.
@@ -432,16 +432,16 @@ export default function Datenschutz() {
                   Die Rechtsgrundlage für den Einsatz von Hotjar ist Art. 6 Abs. 1 lit. a DSGVO (Einwilligung).
                 </p>
                 <p className="mb-4">
-                  Datenschutzerklärung: <a href="https://www.hotjar.com/legal/policies/privacy/" target="_blank" rel="noopener noreferrer" className="text-[#5C3D8F] hover:underline">hotjar.com/privacy</a>
+                  Datenschutzerklärung: <a href="https://www.hotjar.com/legal/policies/privacy/" target="_blank" rel="noopener noreferrer" className="text-[#7B5FD4] hover:underline">hotjar.com/privacy</a>
                 </p>
               </section>
 
               {/* 9. Social Media */}
               <section>
-                <h2 className="text-2xl font-bold mb-4 text-[#1a0d2e]" style={{ fontFamily: 'henriette, serif' }}>
+                <h2 className="text-2xl font-bold mb-4 text-[#1B1040]" style={{ fontFamily: 'henriette, serif' }}>
                   9. Social Media Plugins und Präsenzen
                 </h2>
-                <h3 className="text-xl font-bold mb-2 text-[#1a0d2e]">9.1 Social Media Präsenzen</h3>
+                <h3 className="text-xl font-bold mb-2 text-[#1B1040]">9.1 Social Media Präsenzen</h3>
                 <p className="mb-4">
                   Wir unterhalten Onlinepräsenzen innerhalb sozialer Netzwerke, um mit den dort aktiven Kunden,
                   Interessenten und Nutzern zu kommunizieren und sie dort über unsere Leistungen zu informieren.
@@ -459,25 +459,25 @@ export default function Datenschutz() {
                   Durchsetzung der Rechte der Nutzer erschwert werden könnte.
                 </p>
 
-                <h3 className="text-xl font-bold mb-2 text-[#1a0d2e]">9.2 Facebook</h3>
+                <h3 className="text-xl font-bold mb-2 text-[#1B1040]">9.2 Facebook</h3>
                 <p className="mb-4">
                   Anbieter: Meta Platforms Ireland Limited, 4 Grand Canal Square, Dublin 2, Irland<br />
-                  Datenschutzerklärung: <a href="https://www.facebook.com/privacy/explanation" target="_blank" rel="noopener noreferrer" className="text-[#5C3D8F] hover:underline">facebook.com/privacy</a>
+                  Datenschutzerklärung: <a href="https://www.facebook.com/privacy/explanation" target="_blank" rel="noopener noreferrer" className="text-[#7B5FD4] hover:underline">facebook.com/privacy</a>
                 </p>
 
-                <h3 className="text-xl font-bold mb-2 text-[#1a0d2e]">9.3 Instagram</h3>
+                <h3 className="text-xl font-bold mb-2 text-[#1B1040]">9.3 Instagram</h3>
                 <p className="mb-4">
                   Anbieter: Meta Platforms Ireland Limited, 4 Grand Canal Square, Dublin 2, Irland<br />
-                  Datenschutzerklärung: <a href="https://help.instagram.com/519522125107875" target="_blank" rel="noopener noreferrer" className="text-[#5C3D8F] hover:underline">instagram.com/privacy</a>
+                  Datenschutzerklärung: <a href="https://help.instagram.com/519522125107875" target="_blank" rel="noopener noreferrer" className="text-[#7B5FD4] hover:underline">instagram.com/privacy</a>
                 </p>
               </section>
 
               {/* 10. Marketing Tools */}
               <section>
-                <h2 className="text-2xl font-bold mb-4 text-[#1a0d2e]" style={{ fontFamily: 'henriette, serif' }}>
+                <h2 className="text-2xl font-bold mb-4 text-[#1B1040]" style={{ fontFamily: 'henriette, serif' }}>
                   10. Marketing-Tools
                 </h2>
-                <h3 className="text-xl font-bold mb-2 text-[#1a0d2e]">10.1 Facebook Pixel / Meta Pixel</h3>
+                <h3 className="text-xl font-bold mb-2 text-[#1B1040]">10.1 Facebook Pixel / Meta Pixel</h3>
                 <p className="mb-4">
                   Wir nutzen auf unserer Website das Facebook Pixel (Meta Pixel) von Meta Platforms Ireland Limited,
                   4 Grand Canal Square, Dublin 2, Irland.
@@ -492,10 +492,10 @@ export default function Datenschutz() {
                   Die Rechtsgrundlage für den Einsatz des Facebook Pixels ist Art. 6 Abs. 1 lit. a DSGVO (Einwilligung).
                 </p>
                 <p className="mb-4">
-                  Datenschutzerklärung: <a href="https://www.facebook.com/privacy/explanation" target="_blank" rel="noopener noreferrer" className="text-[#5C3D8F] hover:underline">facebook.com/privacy</a>
+                  Datenschutzerklärung: <a href="https://www.facebook.com/privacy/explanation" target="_blank" rel="noopener noreferrer" className="text-[#7B5FD4] hover:underline">facebook.com/privacy</a>
                 </p>
 
-                <h3 className="text-xl font-bold mb-2 text-[#1a0d2e]">10.2 Google Ads und Conversion-Tracking</h3>
+                <h3 className="text-xl font-bold mb-2 text-[#1B1040]">10.2 Google Ads und Conversion-Tracking</h3>
                 <p className="mb-4">
                   Wir nutzen das Online-Werbeprogramm "Google Ads" und im Rahmen von Google Ads das Conversion-Tracking.
                   Das Google Conversion Tracking ist ein Analysedienst der Google Ireland Limited, Gordon House,
@@ -510,10 +510,10 @@ export default function Datenschutz() {
                   Die Rechtsgrundlage für den Einsatz von Google Ads ist Art. 6 Abs. 1 lit. a DSGVO (Einwilligung).
                 </p>
                 <p className="mb-4">
-                  Datenschutzerklärung: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" className="text-[#5C3D8F] hover:underline">policies.google.com/privacy</a>
+                  Datenschutzerklärung: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" className="text-[#7B5FD4] hover:underline">policies.google.com/privacy</a>
                 </p>
 
-                <h3 className="text-xl font-bold mb-2 text-[#1a0d2e]">10.3 LinkedIn Insight Tag</h3>
+                <h3 className="text-xl font-bold mb-2 text-[#1B1040]">10.3 LinkedIn Insight Tag</h3>
                 <p className="mb-4">
                   Wir verwenden auf unserer Website das Insight-Tag von LinkedIn. Anbieter ist die LinkedIn Ireland
                   Unlimited Company, Wilton Plaza, Wilton Place, Dublin 2, Irland.
@@ -527,10 +527,10 @@ export default function Datenschutz() {
                   Die Rechtsgrundlage für den Einsatz des LinkedIn Insight Tags ist Art. 6 Abs. 1 lit. a DSGVO (Einwilligung).
                 </p>
                 <p className="mb-4">
-                  Datenschutzerklärung: <a href="https://www.linkedin.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-[#5C3D8F] hover:underline">linkedin.com/privacy</a>
+                  Datenschutzerklärung: <a href="https://www.linkedin.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-[#7B5FD4] hover:underline">linkedin.com/privacy</a>
                 </p>
 
-                <h3 className="text-xl font-bold mb-2 text-[#1a0d2e]">10.4 TikTok Pixel</h3>
+                <h3 className="text-xl font-bold mb-2 text-[#1B1040]">10.4 TikTok Pixel</h3>
                 <p className="mb-4">
                   Wir nutzen auf unserer Website das TikTok Pixel von TikTok Technology Limited, 10 Earlsfort Terrace,
                   Dublin, D02 T380, Irland.
@@ -544,13 +544,13 @@ export default function Datenschutz() {
                   Die Rechtsgrundlage für den Einsatz des TikTok Pixels ist Art. 6 Abs. 1 lit. a DSGVO (Einwilligung).
                 </p>
                 <p>
-                  Datenschutzerklärung: <a href="https://www.tiktok.com/legal/privacy-policy-eea" target="_blank" rel="noopener noreferrer" className="text-[#5C3D8F] hover:underline">tiktok.com/privacy</a>
+                  Datenschutzerklärung: <a href="https://www.tiktok.com/legal/privacy-policy-eea" target="_blank" rel="noopener noreferrer" className="text-[#7B5FD4] hover:underline">tiktok.com/privacy</a>
                 </p>
               </section>
 
               {/* 11. Rechte der betroffenen Person */}
               <section>
-                <h2 className="text-2xl font-bold mb-4 text-[#1a0d2e]" style={{ fontFamily: 'henriette, serif' }}>
+                <h2 className="text-2xl font-bold mb-4 text-[#1B1040]" style={{ fontFamily: 'henriette, serif' }}>
                   11. Rechte der betroffenen Person
                 </h2>
                 <p className="mb-4">
@@ -558,7 +558,7 @@ export default function Datenschutz() {
                   Ihnen folgende Rechte gegenüber dem Verantwortlichen zu:
                 </p>
 
-                <h3 className="text-xl font-bold mb-2 text-[#1a0d2e]">11.1 Auskunftsrecht (Art. 15 DSGVO)</h3>
+                <h3 className="text-xl font-bold mb-2 text-[#1B1040]">11.1 Auskunftsrecht (Art. 15 DSGVO)</h3>
                 <p className="mb-4">
                   Sie haben das Recht, von uns eine Bestätigung darüber zu verlangen, ob Sie betreffende personenbezogene
                   Daten verarbeitet werden. Liegt eine solche Verarbeitung vor, können Sie von uns über folgende
@@ -567,48 +567,48 @@ export default function Datenschutz() {
                   und weitere Informationen gemäß Art. 15 DSGVO.
                 </p>
 
-                <h3 className="text-xl font-bold mb-2 text-[#1a0d2e]">11.2 Recht auf Berichtigung (Art. 16 DSGVO)</h3>
+                <h3 className="text-xl font-bold mb-2 text-[#1B1040]">11.2 Recht auf Berichtigung (Art. 16 DSGVO)</h3>
                 <p className="mb-4">
                   Sie haben das Recht, von uns unverzüglich die Berichtigung Sie betreffender unrichtiger personenbezogener
                   Daten zu verlangen. Unter Berücksichtigung der Zwecke der Verarbeitung haben Sie das Recht, die
                   Vervollständigung unvollständiger personenbezogener Daten zu verlangen.
                 </p>
 
-                <h3 className="text-xl font-bold mb-2 text-[#1a0d2e]">11.3 Recht auf Löschung (Art. 17 DSGVO)</h3>
+                <h3 className="text-xl font-bold mb-2 text-[#1B1040]">11.3 Recht auf Löschung (Art. 17 DSGVO)</h3>
                 <p className="mb-4">
                   Sie haben das Recht, von uns zu verlangen, dass Sie betreffende personenbezogene Daten unverzüglich
                   gelöscht werden, sofern einer der gesetzlich vorgesehenen Gründe zutrifft und soweit die Verarbeitung
                   nicht erforderlich ist.
                 </p>
 
-                <h3 className="text-xl font-bold mb-2 text-[#1a0d2e]">11.4 Recht auf Einschränkung der Verarbeitung (Art. 18 DSGVO)</h3>
+                <h3 className="text-xl font-bold mb-2 text-[#1B1040]">11.4 Recht auf Einschränkung der Verarbeitung (Art. 18 DSGVO)</h3>
                 <p className="mb-4">
                   Sie haben das Recht, von uns die Einschränkung der Verarbeitung zu verlangen, wenn eine der
                   gesetzlichen Voraussetzungen gegeben ist.
                 </p>
 
-                <h3 className="text-xl font-bold mb-2 text-[#1a0d2e]">11.5 Recht auf Datenübertragbarkeit (Art. 20 DSGVO)</h3>
+                <h3 className="text-xl font-bold mb-2 text-[#1B1040]">11.5 Recht auf Datenübertragbarkeit (Art. 20 DSGVO)</h3>
                 <p className="mb-4">
                   Sie haben das Recht, die Sie betreffenden personenbezogenen Daten, die Sie uns bereitgestellt haben,
                   in einem strukturierten, gängigen und maschinenlesbaren Format zu erhalten. Sie haben außerdem das
                   Recht, diese Daten einem anderen Verantwortlichen ohne Behinderung durch uns zu übermitteln.
                 </p>
 
-                <h3 className="text-xl font-bold mb-2 text-[#1a0d2e]">11.6 Widerspruchsrecht (Art. 21 DSGVO)</h3>
+                <h3 className="text-xl font-bold mb-2 text-[#1B1040]">11.6 Widerspruchsrecht (Art. 21 DSGVO)</h3>
                 <p className="mb-4">
                   Sie haben das Recht, aus Gründen, die sich aus Ihrer besonderen Situation ergeben, jederzeit gegen
                   die Verarbeitung Sie betreffender personenbezogener Daten, die aufgrund von Art. 6 Abs. 1 lit. e oder
                   f DSGVO erfolgt, Widerspruch einzulegen. Dies gilt auch für ein auf diese Bestimmungen gestütztes Profiling.
                 </p>
 
-                <h3 className="text-xl font-bold mb-2 text-[#1a0d2e]">11.7 Recht auf Widerruf der Einwilligung (Art. 7 Abs. 3 DSGVO)</h3>
+                <h3 className="text-xl font-bold mb-2 text-[#1B1040]">11.7 Recht auf Widerruf der Einwilligung (Art. 7 Abs. 3 DSGVO)</h3>
                 <p className="mb-4">
                   Sie haben das Recht, Ihre datenschutzrechtliche Einwilligungserklärung jederzeit zu widerrufen. Durch
                   den Widerruf der Einwilligung wird die Rechtmäßigkeit der aufgrund der Einwilligung bis zum Widerruf
                   erfolgten Verarbeitung nicht berührt.
                 </p>
 
-                <h3 className="text-xl font-bold mb-2 text-[#1a0d2e]">11.8 Beschwerderecht bei einer Aufsichtsbehörde (Art. 77 DSGVO)</h3>
+                <h3 className="text-xl font-bold mb-2 text-[#1B1040]">11.8 Beschwerderecht bei einer Aufsichtsbehörde (Art. 77 DSGVO)</h3>
                 <p className="mb-4">
                   Unbeschadet eines anderweitigen verwaltungsrechtlichen oder gerichtlichen Rechtsbehelfs steht Ihnen
                   das Recht auf Beschwerde bei einer Aufsichtsbehörde, insbesondere in dem Mitgliedstaat Ihres
@@ -622,13 +622,13 @@ export default function Datenschutz() {
                   91522 Ansbach, Deutschland<br />
                   Telefon: +49 (0) 981 180093-0<br />
                   E-Mail: poststelle@lda.bayern.de<br />
-                  Website: <a href="https://www.lda.bayern.de" target="_blank" rel="noopener noreferrer" className="text-[#5C3D8F] hover:underline">www.lda.bayern.de</a>
+                  Website: <a href="https://www.lda.bayern.de" target="_blank" rel="noopener noreferrer" className="text-[#7B5FD4] hover:underline">www.lda.bayern.de</a>
                 </p>
               </section>
 
               {/* 12. Aktualität */}
               <section>
-                <h2 className="text-2xl font-bold mb-4 text-[#1a0d2e]" style={{ fontFamily: 'henriette, serif' }}>
+                <h2 className="text-2xl font-bold mb-4 text-[#1B1040]" style={{ fontFamily: 'henriette, serif' }}>
                   12. Aktualität und Änderung dieser Datenschutzerklärung
                 </h2>
                 <p>

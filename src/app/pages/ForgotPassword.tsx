@@ -37,12 +37,12 @@ export default function ForgotPassword() {
         <motion.div
           animate={{ scale: [1, 1.3, 1], opacity: [0.2, 0.4, 0.2], rotate: [0, 180, 360] }}
           transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
-          className="absolute top-1/4 -right-40 w-[32rem] h-[32rem] rounded-full bg-gradient-to-br from-[#1a0d2e]/20 to-transparent blur-3xl"
+          className="absolute top-1/4 -right-40 w-[32rem] h-[32rem] rounded-full bg-gradient-to-br from-[#1B1040]/20 to-transparent blur-3xl"
         />
         <motion.div
           animate={{ scale: [1.2, 1, 1.2], opacity: [0.15, 0.3, 0.15], rotate: [360, 180, 0] }}
           transition={{ duration: 25, repeat: Infinity, ease: 'linear' }}
-          className="absolute -bottom-40 -left-40 w-[28rem] h-[28rem] rounded-full bg-gradient-to-br from-[#5C3D8F]/20 to-transparent blur-3xl"
+          className="absolute -bottom-40 -left-40 w-[28rem] h-[28rem] rounded-full bg-gradient-to-br from-[#7B5FD4]/20 to-transparent blur-3xl"
         />
       </div>
 
@@ -56,9 +56,9 @@ export default function ForgotPassword() {
             <Link to="/login">
               <img src="/logo.png" alt="AstroDaddy" className="h-20 w-auto mx-auto mb-4" />
             </Link>
-            <div className="inline-flex items-center px-3 py-1 rounded-full bg-gradient-to-r from-[#5C3D8F]/20 to-[#8B6EC5]/20 backdrop-blur-sm mb-3">
-              <Sparkles className="w-4 h-4 mr-2 text-[#5C3D8F]" />
-              <span className="text-sm text-[#5C3D8F] font-medium">Passwort zurücksetzen</span>
+            <div className="inline-flex items-center px-3 py-1 rounded-full bg-gradient-to-r from-[#7B5FD4]/20 to-[#3D2A8A]/20 backdrop-blur-sm mb-3">
+              <Sparkles className="w-4 h-4 mr-2 text-[#7B5FD4]" />
+              <span className="text-sm text-[#7B5FD4] font-medium">Passwort zurücksetzen</span>
             </div>
 
             {!isSubmitted ? (
@@ -74,7 +74,7 @@ export default function ForgotPassword() {
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ type: 'spring', duration: 0.5 }}
-                  className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-[#1a0d2e] to-[#5C3D8F] flex items-center justify-center"
+                  className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-[#1B1040] to-[#7B5FD4] flex items-center justify-center"
                 >
                   <CheckCircle className="w-8 h-8 text-white" />
                 </motion.div>
@@ -113,7 +113,7 @@ export default function ForgotPassword() {
                 type="submit"
                 size="lg"
                 disabled={isLoading}
-                className="w-full bg-[#1a0d2e] hover:bg-[#1a0d2e]/90 text-white"
+                className="w-full bg-[#1B1040] hover:bg-[#1B1040]/90 text-white"
               >
                 {isLoading ? (
                   <span className="flex items-center gap-2">
@@ -129,7 +129,7 @@ export default function ForgotPassword() {
               </Button>
 
               <div className="text-center">
-                <Link to="/login" className="inline-flex items-center text-sm text-[#5C3D8F] hover:underline">
+                <Link to="/login" className="inline-flex items-center text-sm text-[#7B5FD4] hover:underline">
                   <ArrowLeft className="w-4 h-4 mr-1" />
                   Zurück zum Login
                 </Link>
@@ -146,7 +146,7 @@ export default function ForgotPassword() {
                 Erneut senden
               </Button>
               <div className="text-center">
-                <Link to="/login" className="inline-flex items-center text-sm text-[#5C3D8F] hover:underline">
+                <Link to="/login" className="inline-flex items-center text-sm text-[#7B5FD4] hover:underline">
                   <ArrowLeft className="w-4 h-4 mr-1" />
                   Zurück zum Login
                 </Link>
@@ -159,7 +159,7 @@ export default function ForgotPassword() {
               <Sparkles className="w-5 h-5 text-[#F9C4B5] flex-shrink-0 mt-0.5" />
               <p>
                 Brauchst du Hilfe? Schreib uns:{' '}
-                <a href="mailto:hallo@happyager.com" className="text-[#1a0d2e] hover:underline">
+                <a href="mailto:hallo@happyager.com" className="text-[#1B1040] hover:underline">
                   hallo@happyager.com
                 </a>
               </p>

@@ -15,7 +15,7 @@ export default function AngebotDetail() {
       <div className="min-h-screen flex items-center justify-center pt-24">
         <GlassCard className="rounded-2xl p-12 text-center">
           <h2 className="text-2xl font-bold mb-4">Angebot nicht gefunden</h2>
-          <Link to="/angebote"><Button className="bg-[#5C3D8F] text-white">Zurück zu Angeboten</Button></Link>
+          <Link to="/angebote"><Button className="bg-[#7B5FD4] text-white">Zurück zu Angeboten</Button></Link>
         </GlassCard>
       </div>
     );
@@ -25,7 +25,7 @@ export default function AngebotDetail() {
     <div className="min-h-screen pt-24 pb-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-5xl mx-auto">
         <Link to="/angebote">
-          <Button variant="ghost" className="mb-6 text-[#5C3D8F] hover:bg-[#5C3D8F]/10">
+          <Button variant="ghost" className="mb-6 text-[#7B5FD4] hover:bg-[#7B5FD4]/10">
             <ArrowLeft className="w-4 h-4 mr-2" /> Zurück
           </Button>
         </Link>
@@ -40,13 +40,13 @@ export default function AngebotDetail() {
               {product.badge && (
                 <span className="inline-block px-3 py-1 rounded-full bg-[#C9A84C]/20 text-[#C9A84C] text-xs font-semibold mb-4">{product.badge}</span>
               )}
-              <span className="inline-block px-3 py-1 rounded-full bg-[#5C3D8F]/10 text-[#5C3D8F] text-xs font-semibold mb-4 ml-2">{product.category}</span>
+              <span className="inline-block px-3 py-1 rounded-full bg-[#7B5FD4]/10 text-[#7B5FD4] text-xs font-semibold mb-4 ml-2">{product.category}</span>
               <h1 className="text-3xl font-bold mb-3">{product.name}</h1>
               <p className="text-muted-foreground mb-6">{product.description}</p>
-              <div className="text-4xl font-bold text-[#5C3D8F] mb-6">{product.priceFormatted}</div>
+              <div className="text-4xl font-bold text-[#7B5FD4] mb-6">{product.priceFormatted}</div>
 
               <a href={product.affiliateUrl} target="_blank" rel="noopener noreferrer">
-                <Button size="lg" className="w-full bg-[#5C3D8F] hover:bg-[#5C3D8F]/90 text-white rounded-2xl mb-4">
+                <Button size="lg" className="w-full bg-[#7B5FD4] hover:bg-[#7B5FD4]/90 text-white rounded-2xl mb-4">
                   Jetzt buchen <ExternalLink className="w-4 h-4 ml-2" />
                 </Button>
               </a>
@@ -69,7 +69,7 @@ export default function AngebotDetail() {
                 <ul className="space-y-3">
                   {product.benefits.map(b => (
                     <li key={b} className="flex items-start gap-3">
-                      <CheckCircle className="w-5 h-5 text-[#5C3D8F] mt-0.5 shrink-0" />
+                      <CheckCircle className="w-5 h-5 text-[#7B5FD4] mt-0.5 shrink-0" />
                       <span>{b}</span>
                     </li>
                   ))}

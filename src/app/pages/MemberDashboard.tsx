@@ -31,13 +31,13 @@ export default function MemberDashboard() {
           <GlassCard className="rounded-2xl p-8">
             <div className="flex items-center justify-between flex-wrap gap-4">
               <div className="flex items-center gap-4">
-                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#5C3D8F] to-[#C9A84C] flex items-center justify-center text-white text-2xl font-bold">
+                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#7B5FD4] to-[#C9A84C] flex items-center justify-center text-white text-2xl font-bold">
                   {name.charAt(0).toUpperCase()}
                 </div>
                 <div>
                   <h1 className="text-2xl font-bold">Willkommen, {name}!</h1>
                   <p className="text-muted-foreground text-sm">{user?.email}</p>
-                  <span className="inline-block mt-1 px-3 py-0.5 rounded-full bg-[#5C3D8F]/10 text-[#5C3D8F] text-xs font-medium">Free Mitglied</span>
+                  <span className="inline-block mt-1 px-3 py-0.5 rounded-full bg-[#7B5FD4]/10 text-[#7B5FD4] text-xs font-medium">Free Mitglied</span>
                 </div>
               </div>
               <Button variant="ghost" onClick={logout} className="text-muted-foreground hover:text-foreground">
@@ -49,9 +49,9 @@ export default function MemberDashboard() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
           {[
-            { icon: BookOpen, title: '3', label: 'Kurse verfügbar', color: 'text-[#5C3D8F]' },
+            { icon: BookOpen, title: '3', label: 'Kurse verfügbar', color: 'text-[#7B5FD4]' },
             { icon: Star, title: 'Free', label: 'Mitgliedschaft', color: 'text-[#C9A84C]' },
-            { icon: Users, title: 'Community', label: 'Zugang aktiv', color: 'text-[#8B6EC5]' },
+            { icon: Users, title: 'Community', label: 'Zugang aktiv', color: 'text-[#3D2A8A]' },
           ].map(card => (
             <GlassCard key={card.label} className="rounded-2xl p-6 text-center">
               <card.icon className={`w-8 h-8 mx-auto mb-3 ${card.color}`} />
@@ -64,14 +64,14 @@ export default function MemberDashboard() {
         {/* Free Content */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="mb-8">
           <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
-            <Moon className="w-5 h-5 text-[#5C3D8F]" /> Deine kostenlosen Inhalte
+            <Moon className="w-5 h-5 text-[#7B5FD4]" /> Deine kostenlosen Inhalte
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {freeContent.map(c => (
               <GlassCard key={c.title} className="rounded-2xl p-6 hover:shadow-lg transition-shadow cursor-pointer">
                 <h3 className="font-semibold mb-2 text-sm">{c.title}</h3>
                 <p className="text-muted-foreground text-xs mb-4">{c.desc}</p>
-                <Button size="sm" className="w-full bg-[#5C3D8F] hover:bg-[#5C3D8F]/90 text-white rounded-xl text-xs">
+                <Button size="sm" className="w-full bg-[#7B5FD4] hover:bg-[#7B5FD4]/90 text-white rounded-xl text-xs">
                   Starten
                 </Button>
               </GlassCard>
@@ -101,7 +101,7 @@ export default function MemberDashboard() {
               <Sparkles className="w-8 h-8 text-[#C9A84C] mx-auto mb-3" />
               <p className="text-sm mb-4">Upgrade auf Mitglied und schalte alle Inhalte frei</p>
               <Link to="/community">
-                <Button className="bg-[#5C3D8F] hover:bg-[#5C3D8F]/90 text-white rounded-xl">
+                <Button className="bg-[#7B5FD4] hover:bg-[#7B5FD4]/90 text-white rounded-xl">
                   Jetzt upgraden
                 </Button>
               </Link>

@@ -23,7 +23,7 @@ export default function Angebote() {
       <div className="fixed inset-0 pointer-events-none overflow-hidden -z-10">
         <motion.div animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.4, 0.2], rotate: [0, 90, 180] }}
           transition={{ duration: 25, repeat: Infinity, ease: 'linear' }}
-          className="absolute top-20 right-20 w-96 h-96 rounded-full bg-gradient-to-br from-[#5C3D8F]/20 to-transparent blur-3xl" />
+          className="absolute top-20 right-20 w-96 h-96 rounded-full bg-gradient-to-br from-[#7B5FD4]/20 to-transparent blur-3xl" />
         <motion.div animate={{ scale: [1.2, 1, 1.2], opacity: [0.15, 0.3, 0.15] }}
           transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
           className="absolute bottom-20 left-20 w-[32rem] h-[32rem] rounded-full bg-gradient-to-br from-[#C9A84C]/15 to-transparent blur-3xl" />
@@ -31,12 +31,12 @@ export default function Angebote() {
 
       <div className="max-w-7xl mx-auto relative">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
-          <div className="inline-flex items-center px-3 py-1 rounded-full bg-gradient-to-r from-[#5C3D8F]/20 to-[#C9A84C]/20 backdrop-blur-sm mb-4">
+          <div className="inline-flex items-center px-3 py-1 rounded-full bg-gradient-to-r from-[#7B5FD4]/20 to-[#C9A84C]/20 backdrop-blur-sm mb-4">
             <Star className="w-4 h-4 mr-2 text-[#C9A84C]" />
-            <span className="text-sm text-[#5C3D8F] font-medium">Angebote von Robert Wagner</span>
+            <span className="text-sm text-[#7B5FD4] font-medium">Angebote von Robert Wagner</span>
           </div>
           <h1 className="text-5xl md:text-6xl font-bold mb-4">
-            <span className="bg-gradient-to-r from-[#1a0d2e] via-[#5C3D8F] to-[#C9A84C] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#1B1040] via-[#7B5FD4] to-[#C9A84C] bg-clip-text text-transparent">
               Unsere Angebote
             </span>
           </h1>
@@ -52,7 +52,7 @@ export default function Angebote() {
                 <button key={cat.id} onClick={() => setSelectedCategory(cat.id)}
                   className={`px-4 py-2 rounded-xl font-medium transition-all text-sm ${
                     selectedCategory === cat.id
-                      ? 'bg-[#5C3D8F] text-white shadow-lg'
+                      ? 'bg-[#7B5FD4] text-white shadow-lg'
                       : 'bg-white/50 text-foreground hover:bg-white/80'
                   }`}>
                   {cat.name}
@@ -73,14 +73,14 @@ export default function Angebote() {
                     {p.badge && (
                       <span className="inline-block px-3 py-1 rounded-full bg-[#C9A84C]/20 text-[#C9A84C] text-xs font-semibold">{p.badge}</span>
                     )}
-                    <span className="ml-auto text-xs px-2 py-1 rounded-full bg-[#5C3D8F]/10 text-[#5C3D8F]">{p.category}</span>
+                    <span className="ml-auto text-xs px-2 py-1 rounded-full bg-[#7B5FD4]/10 text-[#7B5FD4]">{p.category}</span>
                   </div>
                   <h3 className="text-lg font-semibold mb-2 mt-2">{p.name}</h3>
                   <p className="text-muted-foreground text-sm mb-4 flex-1">{p.shortDescription}</p>
                   <div className="flex items-center justify-between mt-auto">
-                    <span className="text-2xl font-bold text-[#5C3D8F]">{p.priceFormatted}</span>
+                    <span className="text-2xl font-bold text-[#7B5FD4]">{p.priceFormatted}</span>
                     <Link to={`/angebote/${p.id}`}>
-                      <Button size="sm" className="bg-[#5C3D8F] hover:bg-[#5C3D8F]/90 text-white rounded-xl">
+                      <Button size="sm" className="bg-[#7B5FD4] hover:bg-[#7B5FD4]/90 text-white rounded-xl">
                         Details <ArrowRight className="w-4 h-4 ml-1" />
                       </Button>
                     </Link>

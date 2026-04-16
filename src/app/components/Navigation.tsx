@@ -22,8 +22,8 @@ export function Navigation() {
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group">
-            <Moon className="w-8 h-8 text-[#5C3D8F]" />
-            <span className="text-xl font-bold bg-gradient-to-r from-[#5C3D8F] to-[#C9A84C] bg-clip-text text-transparent">
+            <Moon className="w-8 h-8 text-[#7B5FD4]" />
+            <span className="text-xl font-bold bg-gradient-to-r from-[#7B5FD4] to-[#C9A84C] bg-clip-text text-transparent">
               AstroDaddy
             </span>
           </Link>
@@ -32,7 +32,7 @@ export function Navigation() {
           <div className="flex items-center space-x-1">
             <Link to="/">
               <Button variant={isActive('/') ? 'default' : 'ghost'} size="sm"
-                className={isActive('/') ? 'bg-[#5C3D8F] text-white hover:bg-[#5C3D8F]/90' : 'text-foreground hover:bg-white/50'}>
+                className={isActive('/') ? 'bg-[#7B5FD4] text-white hover:bg-[#7B5FD4]/90' : 'text-foreground hover:bg-white/50'}>
                 <Home className="w-4 h-4 mr-2" />
                 <span className="hidden sm:inline">Start</span>
               </Button>
@@ -40,7 +40,7 @@ export function Navigation() {
 
             <Link to="/angebote">
               <Button variant={isActive('/angebote') ? 'default' : 'ghost'} size="sm"
-                className={isActive('/angebote') ? 'bg-[#5C3D8F] text-white hover:bg-[#5C3D8F]/90' : 'text-foreground hover:bg-white/50'}>
+                className={isActive('/angebote') ? 'bg-[#7B5FD4] text-white hover:bg-[#7B5FD4]/90' : 'text-foreground hover:bg-white/50'}>
                 <Star className="w-4 h-4 mr-2" />
                 <span className="hidden sm:inline">Angebote</span>
               </Button>
@@ -48,7 +48,7 @@ export function Navigation() {
 
             <Link to="/ausbildung">
               <Button variant={isActive('/ausbildung') ? 'default' : 'ghost'} size="sm"
-                className={isActive('/ausbildung') ? 'bg-[#5C3D8F] text-white hover:bg-[#5C3D8F]/90' : 'text-foreground hover:bg-white/50'}>
+                className={isActive('/ausbildung') ? 'bg-[#7B5FD4] text-white hover:bg-[#7B5FD4]/90' : 'text-foreground hover:bg-white/50'}>
                 <BookOpen className="w-4 h-4 mr-2" />
                 <span className="hidden sm:inline">Ausbildung</span>
               </Button>
@@ -56,7 +56,7 @@ export function Navigation() {
 
             <Link to="/community">
               <Button variant={isActive('/community') ? 'default' : 'ghost'} size="sm"
-                className={isActive('/community') ? 'bg-[#5C3D8F] text-white hover:bg-[#5C3D8F]/90' : 'text-foreground hover:bg-white/50'}>
+                className={isActive('/community') ? 'bg-[#7B5FD4] text-white hover:bg-[#7B5FD4]/90' : 'text-foreground hover:bg-white/50'}>
                 <Users className="w-4 h-4 mr-2" />
                 <span className="hidden sm:inline">Community</span>
               </Button>
@@ -66,7 +66,7 @@ export function Navigation() {
               <div className="flex items-center space-x-2 ml-4">
                 <Link to="/mitglieder">
                   <div className="hidden md:flex items-center px-3 py-2 rounded-full bg-white/40 backdrop-blur-sm cursor-pointer hover:bg-white/60 transition-colors">
-                    <User className="w-4 h-4 mr-2 text-[#5C3D8F]" />
+                    <User className="w-4 h-4 mr-2 text-[#7B5FD4]" />
                     <span className="text-sm">{user?.user_metadata?.full_name ?? user?.email?.split('@')[0] ?? 'Mitglied'}</span>
                   </div>
                 </Link>
@@ -78,7 +78,7 @@ export function Navigation() {
             ) : (
               <Link to="/login">
                 <Button variant={isActive('/login') ? 'default' : 'ghost'} size="sm"
-                  className={`ml-4 ${isActive('/login') ? 'bg-[#5C3D8F] text-white hover:bg-[#5C3D8F]/90' : 'text-foreground hover:bg-white/50'}`}>
+                  className={`ml-4 ${isActive('/login') ? 'bg-[#7B5FD4] text-white hover:bg-[#7B5FD4]/90' : 'text-foreground hover:bg-white/50'}`}>
                   <LogIn className="w-4 h-4 mr-2" />
                   <span className="hidden sm:inline">Login</span>
                 </Button>

@@ -57,11 +57,11 @@ export default function Login() {
   return (
     <div className="min-h-screen flex items-center justify-center px-4 pt-20 relative overflow-hidden">
       {/* Background */}
-      <div className="fixed inset-0 -z-10 bg-gradient-to-br from-[#1a0d2e] via-[#2D1B4E] to-[#f5f0e8]" />
+      <div className="fixed inset-0 -z-10 bg-gradient-to-br from-[#1B1040] via-[#3D2A8A] to-[#F0E6C8]" />
       <div className="fixed inset-0 -z-10">
         <motion.div animate={{ scale: [1, 1.3, 1], opacity: [0.2, 0.4, 0.2], rotate: [0, 360] }}
           transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
-          className="absolute top-10 right-10 w-96 h-96 rounded-full bg-gradient-to-br from-[#5C3D8F]/30 to-transparent blur-3xl" />
+          className="absolute top-10 right-10 w-96 h-96 rounded-full bg-gradient-to-br from-[#7B5FD4]/30 to-transparent blur-3xl" />
         <motion.div animate={{ scale: [1.2, 1, 1.2], opacity: [0.1, 0.3, 0.1] }}
           transition={{ duration: 20, repeat: Infinity }}
           className="absolute bottom-10 left-10 w-80 h-80 rounded-full bg-gradient-to-br from-[#C9A84C]/20 to-transparent blur-3xl" />
@@ -71,8 +71,8 @@ export default function Login() {
         <GlassCard className="rounded-3xl p-8 bg-white/80 backdrop-blur-xl">
           <div className="text-center mb-6">
             <div className="flex items-center justify-center gap-2 mb-2">
-              <Moon className="w-8 h-8 text-[#5C3D8F]" />
-              <span className="text-2xl font-bold bg-gradient-to-r from-[#5C3D8F] to-[#C9A84C] bg-clip-text text-transparent">AstroDaddy</span>
+              <Moon className="w-8 h-8 text-[#7B5FD4]" />
+              <span className="text-2xl font-bold bg-gradient-to-r from-[#7B5FD4] to-[#C9A84C] bg-clip-text text-transparent">AstroDaddy</span>
             </div>
             <p className="text-sm text-muted-foreground">Entdecke Dein Universum</p>
           </div>
@@ -80,11 +80,11 @@ export default function Login() {
           {/* Tab Switcher */}
           <div className="flex gap-2 mb-6 p-1 rounded-2xl bg-white/50 backdrop-blur-sm">
             <button onClick={() => { setIsLogin(true); setError(''); setRegisterSuccess(false); }}
-              className={`flex-1 py-3 rounded-xl font-medium transition-all text-sm ${isLogin ? 'bg-[#5C3D8F] text-white shadow-lg' : 'text-muted-foreground hover:text-foreground'}`}>
+              className={`flex-1 py-3 rounded-xl font-medium transition-all text-sm ${isLogin ? 'bg-[#7B5FD4] text-white shadow-lg' : 'text-muted-foreground hover:text-foreground'}`}>
               <LogIn className="w-4 h-4 inline-block mr-2" />Login
             </button>
             <button onClick={() => { setIsLogin(false); setError(''); setRegisterSuccess(false); }}
-              className={`flex-1 py-3 rounded-xl font-medium transition-all text-sm ${!isLogin ? 'bg-[#5C3D8F] text-white shadow-lg' : 'text-muted-foreground hover:text-foreground'}`}>
+              className={`flex-1 py-3 rounded-xl font-medium transition-all text-sm ${!isLogin ? 'bg-[#7B5FD4] text-white shadow-lg' : 'text-muted-foreground hover:text-foreground'}`}>
               <UserPlus className="w-4 h-4 inline-block mr-2" />Registrieren
             </button>
           </div>
@@ -111,7 +111,7 @@ export default function Login() {
                 <div className="flex justify-between items-center">
                   <Label htmlFor="password">Passwort</Label>
                   {isLogin && (
-                    <Link to="/forgot-password" className="text-xs text-[#5C3D8F] hover:underline">Vergessen?</Link>
+                    <Link to="/forgot-password" className="text-xs text-[#7B5FD4] hover:underline">Vergessen?</Link>
                   )}
                 </div>
                 <Input id="password" type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="••••••••" required className="mt-1" />
@@ -121,12 +121,12 @@ export default function Login() {
                 <div className="p-3 rounded-xl bg-red-50 border border-red-200 text-red-600 text-sm">{error}</div>
               )}
 
-              <Button type="submit" disabled={isLoading} className="w-full bg-[#5C3D8F] hover:bg-[#5C3D8F]/90 text-white rounded-2xl py-3">
+              <Button type="submit" disabled={isLoading} className="w-full bg-[#7B5FD4] hover:bg-[#7B5FD4]/90 text-white rounded-2xl py-3">
                 {isLoading ? 'Bitte warten...' : isLogin ? 'Anmelden' : 'Registrieren'}
               </Button>
 
               {isLogin && (
-                <div className="mt-4 p-3 rounded-xl bg-[#5C3D8F]/5 border border-[#5C3D8F]/10 text-xs text-muted-foreground text-center">
+                <div className="mt-4 p-3 rounded-xl bg-[#7B5FD4]/5 border border-[#7B5FD4]/10 text-xs text-muted-foreground text-center">
                   <strong>Testbenutzer:</strong> test@astrodaddy.de / test1234
                 </div>
               )}

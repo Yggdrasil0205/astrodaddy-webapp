@@ -59,17 +59,17 @@ export default function Community() {
       <div className="fixed inset-0 pointer-events-none overflow-hidden -z-10">
         <motion.div animate={{ scale: [1, 1.3, 1], opacity: [0.1, 0.2, 0.1] }}
           transition={{ duration: 25, repeat: Infinity }}
-          className="absolute top-20 right-10 w-96 h-96 rounded-full bg-gradient-to-br from-[#5C3D8F]/20 to-transparent blur-3xl" />
+          className="absolute top-20 right-10 w-96 h-96 rounded-full bg-gradient-to-br from-[#7B5FD4]/20 to-transparent blur-3xl" />
       </div>
 
       <div className="max-w-6xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-16">
-          <div className="inline-flex items-center px-4 py-2 rounded-full bg-[#5C3D8F]/10 mb-6">
-            <Users className="w-4 h-4 mr-2 text-[#5C3D8F]" />
-            <span className="text-sm text-[#5C3D8F] font-medium">Werde Teil der Gemeinschaft</span>
+          <div className="inline-flex items-center px-4 py-2 rounded-full bg-[#7B5FD4]/10 mb-6">
+            <Users className="w-4 h-4 mr-2 text-[#7B5FD4]" />
+            <span className="text-sm text-[#7B5FD4] font-medium">Werde Teil der Gemeinschaft</span>
           </div>
           <h1 className="text-5xl md:text-6xl font-bold mb-6">
-            <span className="bg-gradient-to-r from-[#1a0d2e] via-[#5C3D8F] to-[#C9A84C] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#1B1040] via-[#7B5FD4] to-[#C9A84C] bg-clip-text text-transparent">
               Community & Mitgliedschaft
             </span>
           </h1>
@@ -81,29 +81,29 @@ export default function Community() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
           {plans.map((plan, i) => (
             <motion.div key={plan.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}>
-              <GlassCard className={`rounded-2xl p-8 h-full flex flex-col relative ${plan.highlighted ? 'ring-2 ring-[#5C3D8F] shadow-xl' : ''}`}>
+              <GlassCard className={`rounded-2xl p-8 h-full flex flex-col relative ${plan.highlighted ? 'ring-2 ring-[#7B5FD4] shadow-xl' : ''}`}>
                 {plan.badge && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                    <span className={`px-4 py-1 rounded-full text-sm font-semibold ${plan.highlighted ? 'bg-[#5C3D8F] text-white' : 'bg-[#C9A84C] text-white'}`}>
+                    <span className={`px-4 py-1 rounded-full text-sm font-semibold ${plan.highlighted ? 'bg-[#7B5FD4] text-white' : 'bg-[#C9A84C] text-white'}`}>
                       {plan.badge}
                     </span>
                   </div>
                 )}
                 <div className="mb-6 pt-2">
                   <h3 className="text-xl font-bold mb-2">{plan.name}</h3>
-                  <div className="text-3xl font-bold text-[#5C3D8F]">{plan.price}</div>
+                  <div className="text-3xl font-bold text-[#7B5FD4]">{plan.price}</div>
                   <div className="text-sm text-muted-foreground">{plan.priceNote}</div>
                 </div>
                 <ul className="space-y-3 mb-8 flex-1">
                   {plan.features.map(f => (
                     <li key={f} className="flex items-start gap-3 text-sm">
-                      <CheckCircle className="w-4 h-4 text-[#5C3D8F] mt-0.5 shrink-0" />
+                      <CheckCircle className="w-4 h-4 text-[#7B5FD4] mt-0.5 shrink-0" />
                       <span>{f}</span>
                     </li>
                   ))}
                 </ul>
                 <Link to="/login?tab=register">
-                  <Button className={`w-full rounded-xl ${plan.highlighted ? 'bg-[#5C3D8F] hover:bg-[#5C3D8F]/90 text-white' : 'bg-white/80 text-[#5C3D8F] border border-[#5C3D8F]/30 hover:bg-[#5C3D8F]/10'}`}>
+                  <Button className={`w-full rounded-xl ${plan.highlighted ? 'bg-[#7B5FD4] hover:bg-[#7B5FD4]/90 text-white' : 'bg-white/80 text-[#7B5FD4] border border-[#7B5FD4]/30 hover:bg-[#7B5FD4]/10'}`}>
                     {plan.price === 'Kostenlos' ? 'Kostenlos starten' : 'Jetzt beitreten'}
                   </Button>
                 </Link>

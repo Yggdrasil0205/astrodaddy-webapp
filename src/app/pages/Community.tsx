@@ -2,108 +2,64 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { GlassCard } from '../components/GlassCard';
 import { Button } from '../components/ui/button';
-import { Users, CheckCircle, Star, Sparkles } from 'lucide-react';
+import { Users, CheckCircle, Star } from 'lucide-react';
 import { Link } from 'react-router';
 
 export default function Community() {
   const plans = [
     {
-      id: 'free',
-      name: 'Free',
-      price: 'Kostenlos',
-      priceNote: 'für immer',
-      features: [
-        'Zugang zur Community',
-        'Monatlicher Newsletter',
-        'Gratis Astrologie-Basics',
-        'Austausch mit Gleichgesinnten',
-      ],
-      highlighted: false,
-      badge: null,
+      id: 'free', name: 'Free', price: 'Kostenlos', priceNote: 'für immer', highlighted: false, badge: null,
+      features: ['Zugang zur Community', 'Monatlicher Newsletter', 'Gratis Astrologie-Basics', 'Austausch mit Gleichgesinnten'],
     },
     {
-      id: 'monthly',
-      name: 'Mitglied',
-      price: '19 €',
-      priceNote: 'pro Monat',
-      features: [
-        'Alles aus Free',
-        'Monatliche Live-Session mit Robert',
-        'Exklusive Lern-Inhalte',
-        'Fragen direkt an Robert stellen',
-        'Zugang zu Kurs-Archiv',
-        'Rabatt auf Beratungen',
-      ],
-      highlighted: true,
-      badge: 'Beliebt',
+      id: 'monthly', name: 'Mitglied', price: '19 €', priceNote: 'pro Monat', highlighted: true, badge: 'Beliebt',
+      features: ['Alles aus Free', 'Monatliche Live-Session mit Robert', 'Exklusive Lern-Inhalte', 'Fragen direkt an Robert', 'Kurs-Archiv', 'Rabatt auf Beratungen'],
     },
     {
-      id: 'yearly',
-      name: 'Jahres-Mitglied',
-      price: '149 €',
-      priceNote: 'pro Jahr · 2 Monate gratis',
-      features: [
-        'Alles aus Mitglied',
-        '1:1 Einzel-Call mit Robert',
-        'Priorität bei Live-Sessions',
-        'Workbooks & Materialien',
-        'Frühzugang zu neuen Kursen',
-      ],
-      highlighted: false,
-      badge: 'Bestes Angebot',
+      id: 'yearly', name: 'Jahres-Mitglied', price: '149 €', priceNote: 'pro Jahr · 2 Monate gratis', highlighted: false, badge: 'Bestes Angebot',
+      features: ['Alles aus Mitglied', '1:1 Einzel-Call mit Robert', 'Priorität bei Live-Sessions', 'Workbooks & Materialien', 'Frühzugang zu Kursen'],
     },
   ];
 
   return (
-    <div className="min-h-screen pt-24 pb-20 px-4 sm:px-6 lg:px-8">
-      <div className="fixed inset-0 pointer-events-none overflow-hidden -z-10">
-        <motion.div animate={{ scale: [1, 1.3, 1], opacity: [0.1, 0.2, 0.1] }}
-          transition={{ duration: 25, repeat: Infinity }}
-          className="absolute top-20 right-10 w-96 h-96 rounded-full bg-gradient-to-br from-[#7B5FD4]/20 to-transparent blur-3xl" />
-      </div>
-
+    <div className="min-h-screen bg-[#1B1040] pt-24 pb-20 px-6">
       <div className="max-w-6xl mx-auto">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-16">
-          <div className="inline-flex items-center px-4 py-2 rounded-full bg-[#7B5FD4]/10 mb-6">
-            <Users className="w-4 h-4 mr-2 text-[#7B5FD4]" />
-            <span className="text-sm text-[#7B5FD4] font-medium">Werde Teil der Gemeinschaft</span>
+
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-14">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#7B5FD4]/30 text-[#7B5FD4] text-xs tracking-widest uppercase mb-6"
+            style={{ fontFamily: 'Cinzel, serif' }}>
+            <Users className="w-3 h-3" /> Community
           </div>
-          <h1 className="text-5xl md:text-6xl font-bold mb-6">
-            <span className="bg-gradient-to-r from-[#1B1040] via-[#7B5FD4] to-[#C9A84C] bg-clip-text text-transparent">
-              Community & Mitgliedschaft
-            </span>
-          </h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Lerne, wachse und verbinde dich mit Gleichgesinnten auf dem astrologischen Weg.
-          </p>
+          <h1 className="text-5xl text-[#F0E6C8] mb-3" style={{ fontFamily: 'Cinzel, serif' }}>Mitgliedschaft</h1>
+          <p className="text-[#F0E6C8]/50 max-w-xl">Lerne, wachse und verbinde dich mit Gleichgesinnten auf dem astrologischen Weg.</p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-16">
           {plans.map((plan, i) => (
             <motion.div key={plan.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}>
-              <GlassCard className={`rounded-2xl p-8 h-full flex flex-col relative ${plan.highlighted ? 'ring-2 ring-[#7B5FD4] shadow-xl' : ''}`}>
+              <GlassCard className={`rounded-xl p-7 h-full flex flex-col relative border-white/8 ${plan.highlighted ? 'border-[#7B5FD4]/50' : ''}`}>
                 {plan.badge && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                    <span className={`px-4 py-1 rounded-full text-sm font-semibold ${plan.highlighted ? 'bg-[#7B5FD4] text-white' : 'bg-[#C9A84C] text-white'}`}>
+                  <div className="absolute -top-3 left-6">
+                    <span className={`px-3 py-1 rounded text-xs font-medium ${plan.highlighted ? 'bg-[#7B5FD4] text-[#F0E6C8]' : 'bg-[#C9A84C] text-[#1B1040]'}`}>
                       {plan.badge}
                     </span>
                   </div>
                 )}
-                <div className="mb-6 pt-2">
-                  <h3 className="text-xl font-bold mb-2">{plan.name}</h3>
-                  <div className="text-3xl font-bold text-[#7B5FD4]">{plan.price}</div>
-                  <div className="text-sm text-muted-foreground">{plan.priceNote}</div>
+                <div className="pt-2 mb-6">
+                  <h3 className="text-[#F0E6C8] font-semibold mb-1">{plan.name}</h3>
+                  <div className="text-3xl font-bold text-[#C9A84C]">{plan.price}</div>
+                  <div className="text-xs text-[#F0E6C8]/40 mt-0.5">{plan.priceNote}</div>
                 </div>
-                <ul className="space-y-3 mb-8 flex-1">
+                <ul className="space-y-2.5 mb-7 flex-1">
                   {plan.features.map(f => (
-                    <li key={f} className="flex items-start gap-3 text-sm">
+                    <li key={f} className="flex items-start gap-2.5 text-sm">
                       <CheckCircle className="w-4 h-4 text-[#7B5FD4] mt-0.5 shrink-0" />
-                      <span>{f}</span>
+                      <span className="text-[#F0E6C8]/70">{f}</span>
                     </li>
                   ))}
                 </ul>
                 <Link to="/login?tab=register">
-                  <Button className={`w-full rounded-xl ${plan.highlighted ? 'bg-[#7B5FD4] hover:bg-[#7B5FD4]/90 text-white' : 'bg-white/80 text-[#7B5FD4] border border-[#7B5FD4]/30 hover:bg-[#7B5FD4]/10'}`}>
+                  <Button variant={plan.highlighted ? 'gold' : 'outline'} className="w-full border-white/15 text-[#F0E6C8]/60 hover:text-[#F0E6C8]">
                     {plan.price === 'Kostenlos' ? 'Kostenlos starten' : 'Jetzt beitreten'}
                   </Button>
                 </Link>
@@ -112,13 +68,9 @@ export default function Community() {
           ))}
         </div>
 
-        {/* What's inside */}
-        <GlassCard className="rounded-2xl p-8">
-          <div className="text-center mb-8">
-            <Sparkles className="w-10 h-10 text-[#C9A84C] mx-auto mb-4" />
-            <h2 className="text-2xl font-bold">Was dich in der Community erwartet</h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <GlassCard className="rounded-xl p-7 border-white/8">
+          <h2 className="text-xl text-[#F0E6C8] mb-5">Was dich in der Community erwartet</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {[
               'Regelmäßige Live-Sessions mit Robert Wagner',
               'Tiefgehende Astrologie-Lernmodule',
@@ -127,9 +79,9 @@ export default function Community() {
               'Exklusive Workbooks & Lernmaterialien',
               'Rabatte auf persönliche Beratungen',
             ].map(item => (
-              <div key={item} className="flex items-center gap-3">
-                <Star className="w-4 h-4 fill-[#C9A84C] text-[#C9A84C] shrink-0" />
-                <span className="text-sm">{item}</span>
+              <div key={item} className="flex items-center gap-3 text-sm">
+                <Star className="w-3.5 h-3.5 fill-[#C9A84C] text-[#C9A84C] shrink-0" />
+                <span className="text-[#F0E6C8]/60">{item}</span>
               </div>
             ))}
           </div>

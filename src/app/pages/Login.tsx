@@ -6,7 +6,8 @@ import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
 import { useAuth } from '../context/AuthContext';
-import { LogIn, UserPlus, Moon, Star } from 'lucide-react';
+import { StarField } from '../components/StarField';
+import { LogIn, UserPlus, Moon } from 'lucide-react';
 
 export default function Login() {
   const [isLogin, setIsLogin] = useState(true);
@@ -29,105 +30,78 @@ export default function Login() {
     e.preventDefault();
     setError('');
     setIsLoading(true);
-
     try {
-      if (isLogin) {
-        await login(email, password);
-        navigate('/mitglieder');
-      } else {
-        await register(email, password, name);
-        setRegisterSuccess(true);
-      }
+      if (isLogin) { await login(email, password); navigate('/mitglieder'); }
+      else { await register(email, password, name); setRegisterSuccess(true); }
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : 'Ein Fehler ist aufgetreten.';
-      if (msg.includes('Invalid login credentials')) {
-        setError('E-Mail oder Passwort ist falsch.');
-      } else if (msg.includes('User already registered')) {
-        setError('Diese E-Mail-Adresse ist bereits registriert.');
-      } else if (msg.includes('Password should be at least')) {
-        setError('Das Passwort muss mindestens 6 Zeichen lang sein.');
-      } else {
-        setError(msg);
-      }
-    } finally {
-      setIsLoading(false);
-    }
+      if (msg.includes('Invalid login credentials')) setError('E-Mail oder Passwort ist falsch.');
+      else if (msg.includes('User already registered')) setError('Diese E-Mail ist bereits registriert.');
+      else if (msg.includes('Password should be at least')) setError('Passwort muss mind. 6 Zeichen haben.');
+      else setError(msg);
+    } finally { setIsLoading(false); }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 pt-20 relative overflow-hidden">
-      {/* Background */}
-      <div className="fixed inset-0 -z-10 bg-gradient-to-br from-[#1B1040] via-[#3D2A8A] to-[#F0E6C8]" />
-      <div className="fixed inset-0 -z-10">
-        <motion.div animate={{ scale: [1, 1.3, 1], opacity: [0.2, 0.4, 0.2], rotate: [0, 360] }}
-          transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
-          className="absolute top-10 right-10 w-96 h-96 rounded-full bg-gradient-to-br from-[#7B5FD4]/30 to-transparent blur-3xl" />
-        <motion.div animate={{ scale: [1.2, 1, 1.2], opacity: [0.1, 0.3, 0.1] }}
-          transition={{ duration: 20, repeat: Infinity }}
-          className="absolute bottom-10 left-10 w-80 h-80 rounded-full bg-gradient-to-br from-[#C9A84C]/20 to-transparent blur-3xl" />
-      </div>
+    <div className="min-h-screen bg-[#1B1040] flex items-center justify-center px-6 pt-20 relative overflow-hidden">
+      <StarField className="z-0 opacity-60" />
 
-      <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} className="w-full max-w-md relative z-10">
-        <GlassCard className="rounded-3xl p-8 bg-white/80 backdrop-blur-xl">
-          <div className="text-center mb-6">
-            <div className="flex items-center justify-center gap-2 mb-2">
-              <Moon className="w-8 h-8 text-[#7B5FD4]" />
-              <span className="text-2xl font-bold bg-gradient-to-r from-[#7B5FD4] to-[#C9A84C] bg-clip-text text-transparent">AstroDaddy</span>
-            </div>
-            <p className="text-sm text-muted-foreground">Entdecke Dein Universum</p>
+      <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} className="w-full max-w-md relative z-10">
+        <GlassCard className="rounded-xl p-8 border-white/10">
+
+          <div className="text-center mb-7">
+            <Moon className="w-7 h-7 text-[#C9A84C] mx-auto mb-3" />
+            <div className="text-xl text-[#F0E6C8] tracking-widest" style={{ fontFamily: 'Cinzel, serif' }}>ASTRODADDY</div>
+            <p className="text-xs text-[#F0E6C8]/35 mt-1">Entdecke Dein Universum</p>
           </div>
 
-          {/* Tab Switcher */}
-          <div className="flex gap-2 mb-6 p-1 rounded-2xl bg-white/50 backdrop-blur-sm">
-            <button onClick={() => { setIsLogin(true); setError(''); setRegisterSuccess(false); }}
-              className={`flex-1 py-3 rounded-xl font-medium transition-all text-sm ${isLogin ? 'bg-[#7B5FD4] text-white shadow-lg' : 'text-muted-foreground hover:text-foreground'}`}>
-              <LogIn className="w-4 h-4 inline-block mr-2" />Login
-            </button>
-            <button onClick={() => { setIsLogin(false); setError(''); setRegisterSuccess(false); }}
-              className={`flex-1 py-3 rounded-xl font-medium transition-all text-sm ${!isLogin ? 'bg-[#7B5FD4] text-white shadow-lg' : 'text-muted-foreground hover:text-foreground'}`}>
-              <UserPlus className="w-4 h-4 inline-block mr-2" />Registrieren
-            </button>
+          <div className="flex gap-1 mb-6 p-1 rounded-lg bg-white/5 border border-white/8">
+            {[{ v: true, label: 'Login', icon: LogIn }, { v: false, label: 'Registrieren', icon: UserPlus }].map(tab => (
+              <button key={String(tab.v)} onClick={() => { setIsLogin(tab.v); setError(''); setRegisterSuccess(false); }}
+                className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-md text-sm transition-all ${
+                  isLogin === tab.v ? 'bg-[#3D2A8A] text-[#F0E6C8]' : 'text-[#F0E6C8]/40 hover:text-[#F0E6C8]/70'
+                }`}>
+                <tab.icon className="w-3.5 h-3.5" />{tab.label}
+              </button>
+            ))}
           </div>
 
           {registerSuccess ? (
             <div className="text-center py-6">
-              <Star className="w-12 h-12 text-[#C9A84C] mx-auto mb-4" />
-              <h3 className="text-lg font-semibold mb-2">Willkommen! 🌟</h3>
-              <p className="text-muted-foreground text-sm">Bitte bestätige deine E-Mail-Adresse und melde dich dann an.</p>
+              <p className="text-[#F0E6C8]/60 text-sm">Bitte bestätige deine E-Mail und melde dich dann an.</p>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
               {!isLogin && (
                 <div>
-                  <Label htmlFor="name">Name</Label>
-                  <Input id="name" value={name} onChange={e => setName(e.target.value)} placeholder="Dein Name" required className="mt-1" />
+                  <Label className="text-[#F0E6C8]/60 text-xs mb-1.5">Name</Label>
+                  <Input value={name} onChange={e => setName(e.target.value)} placeholder="Dein Name" required
+                    className="bg-white/5 border-white/10 text-[#F0E6C8] placeholder:text-[#F0E6C8]/25 focus:border-[#7B5FD4]/50" />
                 </div>
               )}
               <div>
-                <Label htmlFor="email">E-Mail</Label>
-                <Input id="email" type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="deine@email.de" required className="mt-1" />
+                <Label className="text-[#F0E6C8]/60 text-xs mb-1.5">E-Mail</Label>
+                <Input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="deine@email.de" required
+                  className="bg-white/5 border-white/10 text-[#F0E6C8] placeholder:text-[#F0E6C8]/25 focus:border-[#7B5FD4]/50" />
               </div>
               <div>
-                <div className="flex justify-between items-center">
-                  <Label htmlFor="password">Passwort</Label>
-                  {isLogin && (
-                    <Link to="/forgot-password" className="text-xs text-[#7B5FD4] hover:underline">Vergessen?</Link>
-                  )}
+                <div className="flex justify-between mb-1.5">
+                  <Label className="text-[#F0E6C8]/60 text-xs">Passwort</Label>
+                  {isLogin && <Link to="/forgot-password" className="text-xs text-[#7B5FD4]/70 hover:text-[#7B5FD4]">Vergessen?</Link>}
                 </div>
-                <Input id="password" type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="••••••••" required className="mt-1" />
+                <Input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="••••••••" required
+                  className="bg-white/5 border-white/10 text-[#F0E6C8] placeholder:text-[#F0E6C8]/25 focus:border-[#7B5FD4]/50" />
               </div>
 
-              {error && (
-                <div className="p-3 rounded-xl bg-red-50 border border-red-200 text-red-600 text-sm">{error}</div>
-              )}
+              {error && <div className="p-3 rounded-lg bg-red-900/30 border border-red-500/20 text-red-300 text-xs">{error}</div>}
 
-              <Button type="submit" disabled={isLoading} className="w-full bg-[#7B5FD4] hover:bg-[#7B5FD4]/90 text-white rounded-2xl py-3">
-                {isLoading ? 'Bitte warten...' : isLogin ? 'Anmelden' : 'Registrieren'}
+              <Button type="submit" variant="gold" disabled={isLoading} className="w-full mt-2">
+                {isLoading ? 'Bitte warten…' : isLogin ? 'Anmelden' : 'Registrieren'}
               </Button>
 
               {isLogin && (
-                <div className="mt-4 p-3 rounded-xl bg-[#7B5FD4]/5 border border-[#7B5FD4]/10 text-xs text-muted-foreground text-center">
-                  <strong>Testbenutzer:</strong> test@astrodaddy.de / test1234
+                <div className="pt-2 text-center text-xs text-[#F0E6C8]/25">
+                  Testlogin: test@astrodaddy.de · test1234
                 </div>
               )}
             </form>

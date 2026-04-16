@@ -11,103 +11,94 @@ export default function MemberDashboard() {
   const name = user?.user_metadata?.full_name ?? user?.email?.split('@')[0] ?? 'Mitglied';
 
   const freeContent = [
-    { title: 'Astrologie-Grundlagen – Teil 1', desc: 'Was sind Planetenzeichen? Eine Einführung.', available: true },
-    { title: 'Dein Aszendent – was er bedeutet', desc: 'Die Maske, die wir der Welt zeigen.', available: true },
-    { title: 'Die 12 Häuser im Überblick', desc: 'Welche Lebensbereiche regieren die Häuser?', available: true },
+    { title: 'Astrologie-Grundlagen – Teil 1', desc: 'Was sind Planetenzeichen?' },
+    { title: 'Dein Aszendent', desc: 'Die Maske, die wir der Welt zeigen.' },
+    { title: 'Die 12 Häuser im Überblick', desc: 'Welche Lebensbereiche regieren sie?' },
   ];
 
   const premiumContent = [
-    { title: 'Placidus-Häusersystem im Detail', desc: 'Das Herzstück der westlichen Astrologie.', available: false },
-    { title: 'Aspekte & Aspektmuster', desc: 'Wie Planeten miteinander kommunizieren.', available: false },
-    { title: 'Live-Session: Horoskop-Deutung', desc: 'Monats-Call mit Robert Wagner.', available: false },
-    { title: 'Transiten verstehen', desc: 'Aktuelle kosmische Einflüsse nutzen.', available: false },
+    { title: 'Placidus-Häusersystem', desc: 'Das Herzstück der westlichen Astrologie.' },
+    { title: 'Aspekte & Aspektmuster', desc: 'Wie Planeten miteinander kommunizieren.' },
+    { title: 'Live-Session: Horoskop-Deutung', desc: 'Monatlicher Call mit Robert.' },
+    { title: 'Transiten verstehen', desc: 'Aktuelle kosmische Einflüsse nutzen.' },
   ];
 
   return (
-    <div className="min-h-screen pt-24 pb-20 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-6xl mx-auto">
-        {/* Header */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-10">
-          <GlassCard className="rounded-2xl p-8">
+    <div className="min-h-screen bg-[#1B1040] pt-24 pb-20 px-6">
+      <div className="max-w-5xl mx-auto">
+
+        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
+          <GlassCard className="rounded-xl p-6 border-white/8">
             <div className="flex items-center justify-between flex-wrap gap-4">
               <div className="flex items-center gap-4">
-                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#7B5FD4] to-[#C9A84C] flex items-center justify-center text-white text-2xl font-bold">
+                <div className="w-12 h-12 rounded-full bg-[#3D2A8A] border border-[#7B5FD4]/30 flex items-center justify-center text-[#F0E6C8] font-bold text-lg">
                   {name.charAt(0).toUpperCase()}
                 </div>
                 <div>
-                  <h1 className="text-2xl font-bold">Willkommen, {name}!</h1>
-                  <p className="text-muted-foreground text-sm">{user?.email}</p>
-                  <span className="inline-block mt-1 px-3 py-0.5 rounded-full bg-[#7B5FD4]/10 text-[#7B5FD4] text-xs font-medium">Free Mitglied</span>
+                  <div className="text-[#F0E6C8] font-semibold">Willkommen, {name}</div>
+                  <div className="text-[#F0E6C8]/40 text-xs">{user?.email}</div>
+                  <span className="inline-block mt-1 px-2 py-0.5 rounded text-xs border border-[#7B5FD4]/30 text-[#7B5FD4]/80">Free Mitglied</span>
                 </div>
               </div>
-              <Button variant="ghost" onClick={logout} className="text-muted-foreground hover:text-foreground">
-                <LogOut className="w-4 h-4 mr-2" /> Logout
-              </Button>
+              <button onClick={logout} className="flex items-center gap-2 text-xs text-[#F0E6C8]/35 hover:text-[#F0E6C8]/70 transition-colors">
+                <LogOut className="w-3.5 h-3.5" /> Logout
+              </button>
             </div>
           </GlassCard>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
+        <div className="grid grid-cols-3 gap-4 mb-8">
           {[
-            { icon: BookOpen, title: '3', label: 'Kurse verfügbar', color: 'text-[#7B5FD4]' },
-            { icon: Star, title: 'Free', label: 'Mitgliedschaft', color: 'text-[#C9A84C]' },
-            { icon: Users, title: 'Community', label: 'Zugang aktiv', color: 'text-[#3D2A8A]' },
-          ].map(card => (
-            <GlassCard key={card.label} className="rounded-2xl p-6 text-center">
-              <card.icon className={`w-8 h-8 mx-auto mb-3 ${card.color}`} />
-              <div className="text-2xl font-bold">{card.title}</div>
-              <div className="text-sm text-muted-foreground">{card.label}</div>
+            { icon: BookOpen, val: '3', label: 'Kurse verfügbar' },
+            { icon: Star, val: 'Free', label: 'Mitgliedschaft' },
+            { icon: Users, val: 'Aktiv', label: 'Community' },
+          ].map(c => (
+            <GlassCard key={c.label} className="rounded-xl p-5 text-center border-white/8">
+              <c.icon className="w-5 h-5 text-[#C9A84C] mx-auto mb-2" />
+              <div className="text-[#F0E6C8] font-bold text-sm">{c.val}</div>
+              <div className="text-[#F0E6C8]/35 text-xs">{c.label}</div>
             </GlassCard>
           ))}
         </div>
 
-        {/* Free Content */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="mb-8">
-          <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
-            <Moon className="w-5 h-5 text-[#7B5FD4]" /> Deine kostenlosen Inhalte
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {freeContent.map(c => (
-              <GlassCard key={c.title} className="rounded-2xl p-6 hover:shadow-lg transition-shadow cursor-pointer">
-                <h3 className="font-semibold mb-2 text-sm">{c.title}</h3>
-                <p className="text-muted-foreground text-xs mb-4">{c.desc}</p>
-                <Button size="sm" className="w-full bg-[#7B5FD4] hover:bg-[#7B5FD4]/90 text-white rounded-xl text-xs">
-                  Starten
-                </Button>
-              </GlassCard>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* Premium Content (locked) */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="mb-8">
-          <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
-            <Lock className="w-5 h-5 text-[#C9A84C]" /> Premium-Inhalte
-            <span className="text-sm font-normal text-muted-foreground">(Mitgliedschaft erforderlich)</span>
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {premiumContent.map(c => (
-              <GlassCard key={c.title} className="rounded-2xl p-6 opacity-75">
-                <div className="flex items-start justify-between mb-2">
-                  <h3 className="font-semibold text-sm">{c.title}</h3>
-                  <Lock className="w-4 h-4 text-[#C9A84C] shrink-0 ml-2" />
-                </div>
-                <p className="text-muted-foreground text-xs">{c.desc}</p>
-              </GlassCard>
-            ))}
-          </div>
-          <div className="mt-6 text-center">
-            <GlassCard className="rounded-2xl p-6 inline-block">
-              <Sparkles className="w-8 h-8 text-[#C9A84C] mx-auto mb-3" />
-              <p className="text-sm mb-4">Upgrade auf Mitglied und schalte alle Inhalte frei</p>
-              <Link to="/community">
-                <Button className="bg-[#7B5FD4] hover:bg-[#7B5FD4]/90 text-white rounded-xl">
-                  Jetzt upgraden
-                </Button>
-              </Link>
+        <h2 className="text-base text-[#F0E6C8] mb-4 flex items-center gap-2">
+          <Moon className="w-4 h-4 text-[#C9A84C]" /> Kostenlose Inhalte
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+          {freeContent.map(c => (
+            <GlassCard key={c.title} className="rounded-xl p-5 border-white/8 hover:border-[#7B5FD4]/25 transition-colors">
+              <div className="text-[#F0E6C8] text-sm font-medium mb-1">{c.title}</div>
+              <p className="text-[#F0E6C8]/40 text-xs mb-4">{c.desc}</p>
+              <Button variant="secondary" size="sm" className="w-full">Starten</Button>
             </GlassCard>
-          </div>
-        </motion.div>
+          ))}
+        </div>
+
+        <h2 className="text-base text-[#F0E6C8] mb-4 flex items-center gap-2">
+          <Lock className="w-4 h-4 text-[#C9A84C]" /> Premium
+          <span className="text-xs text-[#F0E6C8]/30 font-normal">(Mitgliedschaft erforderlich)</span>
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+          {premiumContent.map(c => (
+            <GlassCard key={c.title} className="rounded-xl p-5 border-white/5 opacity-60">
+              <div className="flex justify-between items-start">
+                <div className="text-[#F0E6C8] text-sm font-medium">{c.title}</div>
+                <Lock className="w-3.5 h-3.5 text-[#C9A84C]/50 shrink-0 ml-2" />
+              </div>
+              <p className="text-[#F0E6C8]/35 text-xs mt-1">{c.desc}</p>
+            </GlassCard>
+          ))}
+        </div>
+
+        <div className="text-center">
+          <GlassCard className="rounded-xl p-7 border-white/8 inline-block">
+            <Sparkles className="w-6 h-6 text-[#C9A84C] mx-auto mb-3" />
+            <p className="text-[#F0E6C8]/50 text-sm mb-4">Upgrade und schalte alle Inhalte frei</p>
+            <Link to="/community">
+              <Button variant="gold">Jetzt upgraden</Button>
+            </Link>
+          </GlassCard>
+        </div>
       </div>
     </div>
   );

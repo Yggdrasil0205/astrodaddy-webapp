@@ -1,85 +1,77 @@
-import { Button } from './ui/button';
 import React from 'react';
 import { Link } from 'react-router';
 import { useAuth } from '../context/AuthContext';
 import { Home, Star, Users, LogOut, LogIn, User, BookOpen, Moon } from 'lucide-react';
+import { Button } from './ui/button';
 
 export function Navigation() {
   const { isAuthenticated, user, logout } = useAuth();
-  const [isScrolled, setIsScrolled] = React.useState(false);
+  const [scrolled, setScrolled] = React.useState(false);
 
   React.useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 0);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const fn = () => setScrolled(window.scrollY > 10);
+    window.addEventListener('scroll', fn);
+    return () => window.removeEventListener('scroll', fn);
   }, []);
 
-  const isActive = (path: string) => location.pathname === path;
+  const active = (p: string) => location.pathname === p;
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-white/30 border-b border-white/20 ${isScrolled ? 'bg-white/50' : ''}`}>
+    <nav className={`fixed top-0 left-0 right-0 z-50 border-b transition-all duration-300 ${
+      scrolled
+        ? 'bg-[#1B1040]/95 border-white/10 backdrop-blur-xl'
+        : 'bg-[#1B1040]/60 border-white/5 backdrop-blur-md'
+    }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
+        <div className="flex justify-between items-center h-18 py-3">
+
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 group">
-            <Moon className="w-8 h-8 text-[#7B5FD4]" />
-            <span className="text-xl font-bold bg-gradient-to-r from-[#7B5FD4] to-[#C9A84C] bg-clip-text text-transparent">
-              AstroDaddy
+          <Link to="/" className="flex items-center gap-2.5 group">
+            <Moon className="w-6 h-6 text-[#C9A84C]" />
+            <span className="text-lg font-semibold tracking-widest text-[#F0E6C8]"
+              style={{ fontFamily: 'Cinzel, serif' }}>
+              ASTRODADDY
             </span>
           </Link>
 
-          {/* Navigation Links */}
-          <div className="flex items-center space-x-1">
-            <Link to="/">
-              <Button variant={isActive('/') ? 'default' : 'ghost'} size="sm"
-                className={isActive('/') ? 'bg-[#7B5FD4] text-white hover:bg-[#7B5FD4]/90' : 'text-foreground hover:bg-white/50'}>
-                <Home className="w-4 h-4 mr-2" />
-                <span className="hidden sm:inline">Start</span>
-              </Button>
-            </Link>
+          {/* Links */}
+          <div className="flex items-center gap-1">
+            {[
+              { to: '/',           label: 'Start',      icon: Home },
+              { to: '/angebote',   label: 'Angebote',   icon: Star },
+              { to: '/ausbildung', label: 'Ausbildung', icon: BookOpen },
+              { to: '/community',  label: 'Community',  icon: Users },
+            ].map(({ to, label, icon: Icon }) => (
+              <Link key={to} to={to}>
+                <button className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+                  active(to)
+                    ? 'text-[#C9A84C] bg-white/8'
+                    : 'text-[#F0E6C8]/70 hover:text-[#F0E6C8] hover:bg-white/5'
+                }`}>
+                  <Icon className="w-3.5 h-3.5" />
+                  <span className="hidden sm:inline">{label}</span>
+                </button>
+              </Link>
+            ))}
 
-            <Link to="/angebote">
-              <Button variant={isActive('/angebote') ? 'default' : 'ghost'} size="sm"
-                className={isActive('/angebote') ? 'bg-[#7B5FD4] text-white hover:bg-[#7B5FD4]/90' : 'text-foreground hover:bg-white/50'}>
-                <Star className="w-4 h-4 mr-2" />
-                <span className="hidden sm:inline">Angebote</span>
-              </Button>
-            </Link>
-
-            <Link to="/ausbildung">
-              <Button variant={isActive('/ausbildung') ? 'default' : 'ghost'} size="sm"
-                className={isActive('/ausbildung') ? 'bg-[#7B5FD4] text-white hover:bg-[#7B5FD4]/90' : 'text-foreground hover:bg-white/50'}>
-                <BookOpen className="w-4 h-4 mr-2" />
-                <span className="hidden sm:inline">Ausbildung</span>
-              </Button>
-            </Link>
-
-            <Link to="/community">
-              <Button variant={isActive('/community') ? 'default' : 'ghost'} size="sm"
-                className={isActive('/community') ? 'bg-[#7B5FD4] text-white hover:bg-[#7B5FD4]/90' : 'text-foreground hover:bg-white/50'}>
-                <Users className="w-4 h-4 mr-2" />
-                <span className="hidden sm:inline">Community</span>
-              </Button>
-            </Link>
+            <div className="w-px h-5 bg-white/15 mx-2" />
 
             {isAuthenticated ? (
-              <div className="flex items-center space-x-2 ml-4">
+              <>
                 <Link to="/mitglieder">
-                  <div className="hidden md:flex items-center px-3 py-2 rounded-full bg-white/40 backdrop-blur-sm cursor-pointer hover:bg-white/60 transition-colors">
-                    <User className="w-4 h-4 mr-2 text-[#7B5FD4]" />
-                    <span className="text-sm">{user?.user_metadata?.full_name ?? user?.email?.split('@')[0] ?? 'Mitglied'}</span>
-                  </div>
+                  <button className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-[#F0E6C8]/70 hover:text-[#F0E6C8] hover:bg-white/5 transition-all">
+                    <User className="w-3.5 h-3.5" />
+                    <span className="hidden md:inline">{user?.user_metadata?.full_name ?? user?.email?.split('@')[0]}</span>
+                  </button>
                 </Link>
-                <Button variant="ghost" size="sm" onClick={logout} className="text-foreground hover:bg-white/50">
-                  <LogOut className="w-4 h-4 mr-2" />
-                  <span className="hidden sm:inline">Logout</span>
-                </Button>
-              </div>
+                <button onClick={logout} className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm text-[#F0E6C8]/50 hover:text-[#F0E6C8] hover:bg-white/5 transition-all">
+                  <LogOut className="w-3.5 h-3.5" />
+                </button>
+              </>
             ) : (
               <Link to="/login">
-                <Button variant={isActive('/login') ? 'default' : 'ghost'} size="sm"
-                  className={`ml-4 ${isActive('/login') ? 'bg-[#7B5FD4] text-white hover:bg-[#7B5FD4]/90' : 'text-foreground hover:bg-white/50'}`}>
-                  <LogIn className="w-4 h-4 mr-2" />
+                <Button variant="gold" size="sm" className="ml-1 rounded-lg px-4">
+                  <LogIn className="w-3.5 h-3.5" />
                   <span className="hidden sm:inline">Login</span>
                 </Button>
               </Link>

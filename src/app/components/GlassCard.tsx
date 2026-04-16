@@ -10,10 +10,10 @@ export function GlassCard({ children, className = '', hover = false }: GlassCard
   return (
     <div
       className={`
-        backdrop-blur-xl bg-white/40 border border-white/20 
-        shadow-[0_8px_32px_0_rgba(45,89,83,0.15)]
+        bg-white/5 border border-white/10
+        shadow-[0_4px_24px_0_rgba(0,0,0,0.4)]
         transition-all duration-300
-        ${hover ? 'hover:bg-white/50 hover:shadow-[0_12px_40px_0_rgba(45,89,83,0.2)] hover:scale-[1.02]' : ''}
+        ${hover ? 'hover:bg-white/8 hover:border-white/15 hover:shadow-[0_8px_32px_0_rgba(0,0,0,0.5)]' : ''}
         ${className}
       `}
     >

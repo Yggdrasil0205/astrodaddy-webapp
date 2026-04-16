@@ -2,129 +2,101 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { GlassCard } from '../components/GlassCard';
 import { Button } from '../components/ui/button';
-import { Star, Play, CheckCircle, Moon } from 'lucide-react';
+import { Star, CheckCircle, Moon } from 'lucide-react';
 import { Link } from 'react-router';
 
 export default function Ausbildung() {
   const module = [
-    { nr: '01', title: 'Grundlagen der Astrologie', desc: 'Planeten, Tierkreiszeichen, Häuser und ihre Bedeutungen. Das Fundament für jede Deutung.' },
-    { nr: '02', title: 'Das Placidus-Häusersystem', desc: 'Das Herzstück der klassischen westlichen Astrologie – detailliert erklärt und angewendet.' },
-    { nr: '03', title: 'Aspekte & Aspektmuster', desc: 'Konjunktionen, Quadrate, Trigone & Co. – wie Planeten miteinander kommunizieren.' },
-    { nr: '04', title: 'Geburtshoroskop deuten', desc: 'Schritt für Schritt zur vollständigen und kohärenten Horoskop-Deutung.' },
-    { nr: '05', title: 'Transiten & Progressionen', desc: 'Aktuelle kosmische Einflüsse verstehen und für dich nutzen.' },
-    { nr: '06', title: 'Professionelle Praxis', desc: 'Beratungsgespräche führen, eigene Nische finden, Klienten gewinnen.' },
+    { nr: '01', title: 'Grundlagen der Astrologie', desc: 'Planeten, Tierkreiszeichen, Häuser und ihre Bedeutungen.' },
+    { nr: '02', title: 'Das Placidus-Häusersystem', desc: 'Das Herzstück der klassischen westlichen Astrologie.' },
+    { nr: '03', title: 'Aspekte & Aspektmuster', desc: 'Wie Planeten miteinander kommunizieren.' },
+    { nr: '04', title: 'Geburtshoroskop deuten', desc: 'Schritt für Schritt zur vollständigen Deutung.' },
+    { nr: '05', title: 'Transiten & Progressionen', desc: 'Aktuelle kosmische Einflüsse verstehen und nutzen.' },
+    { nr: '06', title: 'Professionelle Praxis', desc: 'Beratungsgespräche führen, Klienten gewinnen.' },
   ];
 
   return (
-    <div className="min-h-screen pt-24 pb-20 px-4 sm:px-6 lg:px-8">
-      <div className="fixed inset-0 pointer-events-none overflow-hidden -z-10">
-        <motion.div animate={{ scale: [1, 1.3, 1], opacity: [0.1, 0.25, 0.1], rotate: [0, 180, 360] }}
-          transition={{ duration: 35, repeat: Infinity, ease: 'linear' }}
-          className="absolute top-0 right-0 w-[700px] h-[700px] rounded-full bg-gradient-to-br from-[#7B5FD4]/15 to-transparent blur-3xl" />
-      </div>
+    <div className="min-h-screen bg-[#1B1040] pt-24 pb-20 px-6">
+      <div className="max-w-5xl mx-auto">
 
-      <div className="max-w-6xl mx-auto">
-        {/* Hero */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-16">
-          <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-[#7B5FD4]/20 to-[#C9A84C]/20 mb-6">
-            <Moon className="w-4 h-4 mr-2 text-[#7B5FD4]" />
-            <span className="text-sm text-[#7B5FD4] font-medium">6-monatige Ausbildung · Placidus-System</span>
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-14">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#C9A84C]/30 text-[#C9A84C] text-xs tracking-widest uppercase mb-6"
+            style={{ fontFamily: 'Cinzel, serif' }}>
+            <Moon className="w-3 h-3" /> 6-monatige Ausbildung
           </div>
-          <h1 className="text-5xl md:text-6xl font-bold mb-6">
-            <span className="bg-gradient-to-r from-[#1B1040] via-[#7B5FD4] to-[#C9A84C] bg-clip-text text-transparent">
-              Astrologie-Ausbildung
-            </span>
-          </h1>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
-            In 6 Monaten zum fundierten Astrologen. Robert Wagner begleitet dich Schritt für Schritt durch alle Grundlagen und Techniken – vom absoluten Anfänger bis zur professionellen Deutung.
+          <h1 className="text-5xl text-[#F0E6C8] mb-4" style={{ fontFamily: 'Cinzel, serif' }}>Astrologie-Ausbildung</h1>
+          <p className="text-[#F0E6C8]/50 max-w-2xl leading-relaxed mb-8">
+            In 6 Monaten zum fundierten Astrologen. Robert Wagner begleitet dich durch alle Grundlagen und Techniken des Placidus-Systems.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex gap-3">
             <Link to="/angebote/1">
-              <Button size="lg" className="bg-[#7B5FD4] hover:bg-[#7B5FD4]/90 text-white px-8 rounded-2xl">
-                Jetzt anmelden – 3.600 €
-              </Button>
+              <Button variant="gold" size="lg" className="px-8">Jetzt anmelden – 3.600 €</Button>
             </Link>
             <Link to="/login?tab=register">
-              <Button size="lg" variant="outline" className="border-[#C9A84C] text-[#C9A84C] hover:bg-[#C9A84C]/10 px-8 rounded-2xl">
-                Kostenlos testen
-              </Button>
+              <Button variant="outline" size="lg" className="border-white/15 text-[#F0E6C8]/60 hover:text-[#F0E6C8]">Kostenlos testen</Button>
             </Link>
           </div>
         </motion.div>
 
-        {/* Highlights */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16">
+        {/* Stats */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-14">
           {[
-            { val: '6 Monate', label: 'Ausbildungsdauer' },
-            { val: 'Live-Sessions', label: 'mit Robert Wagner' },
+            { val: '6 Monate', label: 'Dauer' },
+            { val: 'Live-Sessions', label: 'mit Robert' },
             { val: 'Zertifikat', label: 'nach Abschluss' },
-            { val: '100%', label: 'Zufriedenheitsrate' },
+            { val: '100%', label: 'Zufriedenheit' },
           ].map(h => (
-            <GlassCard key={h.label} className="rounded-2xl p-6 text-center">
-              <div className="text-2xl font-bold text-[#7B5FD4] mb-1">{h.val}</div>
-              <div className="text-sm text-muted-foreground">{h.label}</div>
+            <GlassCard key={h.label} className="rounded-xl p-5 text-center border-white/8">
+              <div className="text-lg font-bold text-[#C9A84C] mb-1">{h.val}</div>
+              <div className="text-xs text-[#F0E6C8]/40">{h.label}</div>
             </GlassCard>
           ))}
         </div>
 
         {/* Module */}
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-16">
-          <h2 className="text-3xl font-bold text-center mb-10">
-            <span className="bg-gradient-to-r from-[#7B5FD4] to-[#C9A84C] bg-clip-text text-transparent">Kurs-Module</span>
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {module.map((m, i) => (
-              <motion.div key={m.nr} initial={{ opacity: 0, x: i % 2 === 0 ? -20 : 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }}>
-                <GlassCard className="rounded-2xl p-6 flex gap-4">
-                  <div className="text-3xl font-bold text-[#7B5FD4]/20 shrink-0 w-12">{m.nr}</div>
-                  <div>
-                    <h3 className="font-semibold mb-1">{m.title}</h3>
-                    <p className="text-muted-foreground text-sm">{m.desc}</p>
-                  </div>
-                </GlassCard>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
+        <h2 className="text-2xl text-[#F0E6C8] mb-6">Kurs-Module</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-14">
+          {module.map((m, i) => (
+            <motion.div key={m.nr} initial={{ opacity: 0, x: i % 2 === 0 ? -16 : 16 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }}>
+              <GlassCard className="rounded-xl p-5 flex gap-4 border-white/8">
+                <div className="text-2xl font-bold text-[#3D2A8A] shrink-0 w-10 leading-none pt-0.5">{m.nr}</div>
+                <div>
+                  <h3 className="text-[#F0E6C8] font-medium mb-1 text-sm">{m.title}</h3>
+                  <p className="text-[#F0E6C8]/45 text-xs leading-relaxed">{m.desc}</p>
+                </div>
+              </GlassCard>
+            </motion.div>
+          ))}
+        </div>
 
         {/* Included */}
-        <GlassCard className="rounded-2xl p-8 mb-16">
-          <h2 className="text-2xl font-bold mb-6">Was ist enthalten?</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <GlassCard className="rounded-xl p-7 mb-10 border-white/8">
+          <h2 className="text-xl text-[#F0E6C8] mb-5">Was ist enthalten?</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {[
               'Komplette Horoskop-Deutung von Grund auf',
               'Placidus-Häusersystem im Detail',
-              'Planeten, Zeichen & Aspekte verstehen',
+              'Planeten, Zeichen & Aspekte',
               'Live-Sessions mit Robert Wagner',
               'Zertifikat nach Abschluss',
               '6 Monate Begleitung & Support',
               'Zugang zur Community',
               'Lernmaterialien & Workbooks',
             ].map(item => (
-              <div key={item} className="flex items-center gap-3">
-                <CheckCircle className="w-5 h-5 text-[#7B5FD4] shrink-0" />
-                <span>{item}</span>
+              <div key={item} className="flex items-center gap-2.5 text-sm">
+                <CheckCircle className="w-4 h-4 text-[#7B5FD4] shrink-0" />
+                <span className="text-[#F0E6C8]/65">{item}</span>
               </div>
             ))}
           </div>
         </GlassCard>
 
-        {/* CTA */}
         <div className="text-center">
-          <GlassCard className="rounded-3xl p-10">
-            <Star className="w-10 h-10 text-[#C9A84C] mx-auto mb-4" />
-            <h2 className="text-3xl font-bold mb-3">
-              <span className="bg-gradient-to-r from-[#7B5FD4] to-[#C9A84C] bg-clip-text text-transparent">
-                Starte deine Reise
-              </span>
-            </h2>
-            <p className="text-muted-foreground mb-6">Finde den Weg zu Dir selbst. Die Sterne warten auf Dich.</p>
-            <Link to="/angebote/1">
-              <Button size="lg" className="bg-[#7B5FD4] hover:bg-[#7B5FD4]/90 text-white px-10 rounded-2xl">
-                Jetzt zur Ausbildung – 3.600 €
-              </Button>
-            </Link>
-          </GlassCard>
+          <Star className="w-8 h-8 text-[#C9A84C] mx-auto mb-4" />
+          <p className="text-[#F0E6C8]/50 mb-5">Finde den Weg zu Dir selbst. Die Sterne warten auf Dich.</p>
+          <Link to="/angebote/1">
+            <Button variant="gold" size="lg" className="px-10">Jetzt zur Ausbildung – 3.600 €</Button>
+          </Link>
         </div>
       </div>
     </div>

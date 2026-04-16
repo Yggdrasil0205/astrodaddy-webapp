@@ -2,88 +2,87 @@
 
 :root {
   --font-size: 16px;
-  --background: #f8f5f2;
-  --foreground: #1b2a23;
+  --background: #f5f0e8;
+  --foreground: #1a0d2e;
   --card: #ffffff;
-  --card-foreground: #1b2a23;
+  --card-foreground: #1a0d2e;
   --popover: #ffffff;
-  --popover-foreground: #1b2a23;
-  --primary: #8268AB;
+  --popover-foreground: #1a0d2e;
+  --primary: #5C3D8F;
   --primary-foreground: #ffffff;
-  --secondary: #BFADD5;
-  --secondary-foreground: #1b2a23;
-  --accent: #F9C4B5;
-  --accent-foreground: #1b2a23;
-  --muted: #e8e3dd;
-  --muted-foreground: #6b6b6b;
+  --secondary: #8B6EC5;
+  --secondary-foreground: #1a0d2e;
+  --accent: #C9A84C;
+  --accent-foreground: #1a0d2e;
+  --muted: #e8e0d5;
+  --muted-foreground: #6b5f7a;
   --destructive: #d4183d;
   --destructive-foreground: #ffffff;
-  --border: rgba(130, 104, 171, 0.1);
+  --border: rgba(92, 61, 143, 0.15);
   --input: transparent;
   --input-background: rgba(255, 255, 255, 0.5);
   --switch-background: #cbced4;
   --font-weight-medium: 500;
   --font-weight-normal: 400;
-  --ring: #8268AB;
-  --chart-1: #8268AB;
-  --chart-2: #F9C4B5;
-  --chart-3: #BFADD5;
-  --chart-4: #a8d5ba;
-  --chart-5: #e5c8b5;
+  --ring: #5C3D8F;
+  --chart-1: #5C3D8F;
+  --chart-2: #C9A84C;
+  --chart-3: #8B6EC5;
+  --chart-4: #2D1B4E;
+  --chart-5: #e8d8c5;
   --radius: 1.25rem;
   --sidebar: #ffffff;
-  --sidebar-foreground: #1b2a23;
-  --sidebar-primary: #8268AB;
+  --sidebar-foreground: #1a0d2e;
+  --sidebar-primary: #5C3D8F;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #f8f5f2;
-  --sidebar-accent-foreground: #1b2a23;
-  --sidebar-border: rgba(130, 104, 171, 0.1);
-  --sidebar-ring: #8268AB;
-  
-  /* HappyAger custom colors - Logo Farben */
-  --color-peach: #F9C4B5;
-  --color-violet: #8268AB;
-  --color-lavender: #BFADD5;
-  --color-nature: #1b2a23;
-  --color-calm: #BFADD5;
-  --color-vitality: #F9C4B5;
+  --sidebar-accent: #f5f0e8;
+  --sidebar-accent-foreground: #1a0d2e;
+  --sidebar-border: rgba(92, 61, 143, 0.15);
+  --sidebar-ring: #5C3D8F;
+
+  --color-gold: #C9A84C;
+  --color-violet: #5C3D8F;
+  --color-lavender: #8B6EC5;
+  --color-midnight: #1a0d2e;
+  --color-cosmos: #2D1B4E;
+  --color-star: #C9A84C;
 }
 
 .dark {
-  --background: #0f1419;
-  --foreground: #f8f5f2;
-  --card: #1a2028;
-  --card-foreground: #f8f5f2;
-  --popover: #1a2028;
-  --popover-foreground: #f8f5f2;
-  --primary: #a094b7;
+  --background: #0d0a1a;
+  --foreground: #f5f0e8;
+  --card: #1a0d2e;
+  --card-foreground: #f5f0e8;
+  --popover: #1a0d2e;
+  --popover-foreground: #f5f0e8;
+  --primary: #8B6EC5;
   --primary-foreground: #ffffff;
-  --secondary: #d4c0df;
+  --secondary: #A08AD4;
   --secondary-foreground: #1a1a1a;
-  --accent: #fbd4c7;
+  --accent: #D4AF37;
   --accent-foreground: #1a1a1a;
-  --muted: #2a3038;
+  --muted: #2a1d3e;
   --muted-foreground: #9ca3af;
   --destructive: oklch(0.396 0.141 25.723);
   --destructive-foreground: oklch(0.637 0.237 25.331);
-  --border: rgba(160, 148, 183, 0.2);
+  --border: rgba(139, 110, 197, 0.2);
   --input: rgba(255, 255, 255, 0.05);
-  --ring: #a094b7;
+  --ring: #8B6EC5;
   --font-weight-medium: 500;
   --font-weight-normal: 400;
-  --chart-1: #a094b7;
-  --chart-2: #fbd4c7;
-  --chart-3: #d4c0df;
-  --chart-4: #b8e5c9;
+  --chart-1: #8B6EC5;
+  --chart-2: #D4AF37;
+  --chart-3: #A08AD4;
+  --chart-4: #4a2d7a;
   --chart-5: #f0d8c5;
-  --sidebar: #1a2028;
-  --sidebar-foreground: #f8f5f2;
-  --sidebar-primary: #a094b7;
+  --sidebar: #1a0d2e;
+  --sidebar-foreground: #f5f0e8;
+  --sidebar-primary: #8B6EC5;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #2a3038;
-  --sidebar-accent-foreground: #f8f5f2;
-  --sidebar-border: rgba(160, 148, 183, 0.2);
-  --sidebar-ring: #a094b7;
+  --sidebar-accent: #2a1d3e;
+  --sidebar-accent-foreground: #f5f0e8;
+  --sidebar-border: rgba(139, 110, 197, 0.2);
+  --sidebar-ring: #8B6EC5;
 }
 
 @theme inline {
@@ -125,74 +124,27 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-  --color-nature: var(--color-nature);
-  --color-calm: var(--color-calm);
-  --color-vitality: var(--color-vitality);
-  --color-peach: var(--color-peach);
+  --color-gold: var(--color-gold);
   --color-violet: var(--color-violet);
   --color-lavender: var(--color-lavender);
+  --color-midnight: var(--color-midnight);
+  --color-cosmos: var(--color-cosmos);
+  --color-star: var(--color-star);
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
-
   body {
     @apply bg-background text-foreground;
   }
-
-  /**
-  * Default typography styles for HTML elements (h1-h4, p, label, button, input).
-  * These are in @layer base, so Tailwind utility classes (like text-sm, text-lg) automatically override them.
-  */
-
-  html {
-    font-size: var(--font-size);
-  }
-
-  h1 {
-    font-size: var(--text-2xl);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
-    font-family: "henriette", serif;
-  }
-
-  h2 {
-    font-size: var(--text-xl);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
-    font-family: "henriette", serif;
-  }
-
-  h3 {
-    font-size: var(--text-lg);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
-    font-family: "henriette", serif;
-  }
-
-  h4 {
-    font-size: var(--text-base);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
-  }
-
-  label {
-    font-size: var(--text-base);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
-  }
-
-  button {
-    font-size: var(--text-base);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
-  }
-
-  input {
-    font-size: var(--text-base);
-    font-weight: var(--font-weight-normal);
-    line-height: 1.5;
-  }
+  html { font-size: var(--font-size); }
+  h1 { font-size: var(--text-2xl); font-weight: var(--font-weight-medium); line-height: 1.5; font-family: "henriette", serif; }
+  h2 { font-size: var(--text-xl); font-weight: var(--font-weight-medium); line-height: 1.5; font-family: "henriette", serif; }
+  h3 { font-size: var(--text-lg); font-weight: var(--font-weight-medium); line-height: 1.5; font-family: "henriette", serif; }
+  h4 { font-size: var(--text-base); font-weight: var(--font-weight-medium); line-height: 1.5; }
+  label { font-size: var(--text-base); font-weight: var(--font-weight-medium); line-height: 1.5; }
+  button { font-size: var(--text-base); font-weight: var(--font-weight-medium); line-height: 1.5; }
+  input { font-size: var(--text-base); font-weight: var(--font-weight-normal); line-height: 1.5; }
 }

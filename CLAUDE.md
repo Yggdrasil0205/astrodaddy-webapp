@@ -1,50 +1,42 @@
-# CLAUDE.md
-
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+# CLAUDE.md – AstroDaddy Webapp
 
 ## Commands
-
 ```bash
 pnpm install       # Install dependencies
 pnpm dev           # Start dev server at http://localhost:5173
 pnpm build         # Production build → /dist
 pnpm vite preview  # Preview production build locally
-pnpm add <pkg>     # Add a dependency
 ```
 
-There is no lint or test script configured.
+## Stack
+React 18 + TypeScript + Vite + Tailwind CSS v4 + React Router v7
 
 ## Architecture
+Same structure as HappyAger template. Entry: `src/main.tsx` → `App.tsx` → `RouterProvider` → `Root.tsx` (`AuthProvider` → `CookieProvider` → `Navigation` + `Outlet` + `CookieBanner`).
 
-**Stack:** React 18 + TypeScript + Vite + Tailwind CSS v4 + React Router v7
+## Routes
+- `/` → Home
+- `/angebote` → Angebote (Shop)
+- `/angebote/:id` → AngebotDetail (ProductDetail)
+- `/ausbildung` → Ausbildung (Webinar)
+- `/community` → Community
+- `/login` → Login
+- `/mitglieder` → MemberDashboard (protected)
+- `/forgot-password`, `/impressum`, `/datenschutz`
 
-**Entry point flow:** `src/main.tsx` → `App.tsx` (wraps everything in `PasswordProtection`) → `RouterProvider` → `Root.tsx` (stacks `AuthProvider` → `CartProvider` → `CookieProvider` → `Navigation` + `Outlet` + `CookieBanner`) → page components.
+## Test User
+Login without Supabase: **test@astrodaddy.de / test1234**
+This works via hardcoded fallback in AuthContext.tsx.
 
-**Routing** is defined in `src/app/routes.ts` using `createBrowserRouter`. All pages live under the single `/` layout route handled by `Root.tsx`. Pages: Home, Shop, Community, ProductDetail (`/product/:id`), Checkout, Login, ForgotPassword, Impressum, Datenschutz.
+## Theme colors (src/styles/theme.css)
+- `--color-violet` / `--primary`: `#5C3D8F`
+- `--color-gold` / `--accent`: `#C9A84C`
+- `--color-lavender` / `--secondary`: `#8B6EC5`
+- `--color-midnight`: `#1a0d2e`
 
-**State management** is entirely React Context — no external state library:
-- `CartContext` — cart items, add/remove/update/clear, totalItems, totalPrice
-- `AuthContext` — login/logout, isAuthenticated
-- `CookieContext` — cookie consent state
+## Auth
+AuthContext uses Supabase + hardcoded test user fallback.
+Supabase env vars: `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`
 
-**Product data** is static, defined in `src/app/data/products.ts`. Each product has: `id`, `name`, `description`, `price`, `priceFormatted`, `image`, `badge?`, `category?`, `details?`, `ingredients?`, `benefits?`.
-
-**UI components** in `src/app/components/ui/` are shadcn/ui-style wrappers over Radix UI primitives. The custom `button.tsx` uses a glass-effect style. Do not treat these as off-limits — they can be edited.
-
-**Theming** is done entirely through CSS custom properties in `src/styles/theme.css`. Brand colors:
-- `--color-violet` / `--primary`: `#8268AB`
-- `--color-peach` / `--accent`: `#F9C4B5`
-- `--color-lavender` / `--secondary`: `#BFADD5`
-- `--color-nature`: `#1b2a23` (dark green)
-
-**Path alias:** `@` resolves to `./src` (configured in `vite.config.ts`).
-
-**Figma origin:** The project was exported from Figma. A custom Vite plugin (`figmaAssetPlugin`) in `vite.config.ts` resolves `figma:asset/` imports to empty strings so the build doesn't break. Actual images use Unsplash URLs or `/public` paths.
-
-**Animations** use the `motion` package (Framer Motion fork). The `AnimatedDNA` component is a decorative DNA helix used on the Home page.
-
-## Adding a new page
-
-1. Create `src/app/pages/MyPage.tsx`
-2. Add a route in `src/app/routes.ts`
-3. Add a nav link in `src/app/components/Navigation.tsx` if needed
+## Content source
+Based on astrodaddy.de – Robert Wagner, Astrologe & spiritueller Lebensberater (@astrodaddy.official)

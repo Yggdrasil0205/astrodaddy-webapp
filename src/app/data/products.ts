@@ -1,8 +1,3 @@
-export interface ProductVariant {
-  name: string;
-  image: string;
-}
-
 export interface Product {
   id: number;
   name: string;
@@ -11,266 +6,133 @@ export interface Product {
   price: number;
   priceFormatted: string;
   image: string;
-  images?: string[];
-  imageFit?: 'cover' | 'contain';
   badge?: string;
   bestseller?: boolean;
   category: string;
   details: string;
   benefits?: string[];
-  usage?: string;
   affiliateUrl: string;
-  discountCode?: string;
-  discountInfo?: string;
-  variants?: ProductVariant[];
-  variantNote?: string;
 }
-
-const DISCOUNT_CODE = '528217';
-const DISCOUNT_INFO = '10 € Neukundenrabatt ab 100 € Bestellwert';
 
 export const products: Product[] = [
-  // ─── 1. 100 Tage Basiskur ────────────────────────────────────────────────
   {
     id: 1,
-    name: '100 Tage Basiskur Cellagon aurum',
-    shortDescription: 'In nur 100 Tagen Nährstoffdefizite kinderleicht ausgleichen.',
-    description: 'Das komplette Set für deine Basisversorgung über 100 Tage.',
-    price: 201,
-    priceFormatted: '201,00 €',
-    image: '/cellagon/cellagon-aurum-100-tage-basiskur_1920x1920.png',
-    images: [
-      '/cellagon/cellagon-aurum_dsb-packshot-1_1920x1920.jpg',
-      '/cellagon/cellagon-aurum-origin-1_1920x1920.jpg',
-      '/cellagon/cellagon-aurum-stepbystep_anleitung-1_600x600.jpg',
-    ],
-    badge: 'Empfohlen',
+    name: 'Astrologie-Ausbildung (6 Monate)',
+    shortDescription: 'Die komplette Ausbildung zum Astrologen – Placidus-System, Horoskop-Deutung & mehr.',
+    description: 'In 6 Monaten zur fundierten Astrologie-Kenntnissen. Robert Wagner führt dich Schritt für Schritt durch alle Grundlagen und Techniken des Placidus-Systems.',
+    price: 3600,
+    priceFormatted: '3.600,00 €',
+    image: 'https://images.unsplash.com/photo-1532968961962-8a0cb3a2d4f5?w=800&q=80',
+    badge: 'Beliebt',
     bestseller: true,
-    category: 'Mikronährstoffkonzentrat',
-    details: 'Mit der 100-Tage-Basiskur mit Cellagon aurum kannst du von Tag eins an dazu beitragen, dass sich deine Zellen problemlos erneuern und ihre Aufgaben und Funktionen bestmöglich erledigen können. Statt einzelner Flaschen erhältst du das komplette Paket für 100 Tage – günstiger als Einzelkauf (201 € statt 211,60 €).',
+    category: 'Ausbildung',
+    details: 'Die 6-monatige Astrologie-Ausbildung von AstroDaddy vermittelt dir alles, was du brauchst, um Horoskope professionell zu deuten. Du lernst das Placidus-System, Planeten, Häuser, Aspekte und deren Deutung im Kontext des Lebens.',
     benefits: [
-      'Unterstützt die zelluläre Erneuerung',
-      'Tägliche Basisversorgung mit Vitaminen & Mineralstoffen',
-      'Aus über 80 natürlichen Zutaten',
-      'Günstiger als Einzelkauf: 201 € statt 211,60 €',
-      '100 Tage konsequente Versorgung',
+      'Komplette Horoskop-Deutung von Grund auf',
+      'Placidus-Häusersystem im Detail',
+      'Planeten, Zeichen & Aspekte verstehen',
+      'Live-Sessions mit Robert Wagner',
+      'Zertifikat nach Abschluss',
+      '6 Monate Begleitung & Support',
     ],
-    usage: 'Täglich 20 ml Cellagon aurum pur oder in Wasser/Saft gemischt einnehmen. Am besten morgens auf nüchternen Magen.',
-    affiliateUrl: 'https://528217.cellagon.de/100-tage-basis-kur-cellagon-aurum',
-    discountCode: DISCOUNT_CODE,
-    discountInfo: DISCOUNT_INFO,
+    affiliateUrl: 'https://www.astrodaddy.de/astrologie-ausbildung',
   },
-
-  // ─── 2. Cellagon aurum ───────────────────────────────────────────────────
   {
     id: 2,
-    name: 'Cellagon aurum',
-    shortDescription: 'Flüssiges Mikronährstoffkonzentrat zur täglichen Basisversorgung.',
-    description: 'Mit Vitaminen aus natürlichen Quellen und Mineralstoffen aus über 80 Zutaten wie Obst, Gemüse und Kräutern.',
-    price: 52.90,
-    priceFormatted: '52,90 €',
-    image: '/cellagon/cellagon-aurum-flasche_1920x1920.png',
-    images: [
-      '/cellagon/cellagon-aurum.png',
-      '/cellagon/cellagon-aurum-glas.png',
-      '/cellagon/cellagon-alle-flaschen.png',
-      '/cellagon/cellagon-aurum-origin-1_1920x1920.jpg',
-      '/cellagon/cellagon-aurum-dosierhilfe_1920x1920.jpg',
-      '/cellagon/cellagon-aurum-qualitaetssiegel-1_1920x1920.jpg',
-      '/cellagon/cellagon-aurum-stepbystep_anleitung-1_600x600.jpg',
-      '/cellagon/cellagon-aurum-zutaten-1_600x600.jpg',
-    ],
-    variants: [
-      { name: 'Original', image: '/cellagon/cellagon-aurum-flasche_1920x1920.png' },
-      { name: 'Sommerbeere', image: '/cellagon/cellagon-aurum_dsb-packshot-1_1920x1920.jpg' },
-    ],
-    badge: 'Bestseller',
+    name: 'Geburtshoroskop-Deutung (45 Min)',
+    shortDescription: 'Persönliche Horoskop-Beratung mit Robert Wagner – tauche tief in dein Potenzial ein.',
+    description: 'In einer 45-minütigen Session deutet Robert dein Geburtshoroskop und zeigt dir, welche Potenziale, Muster und Lebensthemen in den Sternen für dich stehen.',
+    price: 199,
+    priceFormatted: '199,00 €',
+    image: 'https://images.unsplash.com/photo-1516339901601-2e1b62dc0c45?w=800&q=80',
+    badge: 'Empfohlen',
     bestseller: true,
-    category: 'Mikronährstoffkonzentrat',
-    details: 'Cellagon aurum ist ein flüssiges Mikronährstoffkonzentrat zur täglichen Basisversorgung: mit Vitaminen aus natürlichen Quellen und Mineralstoffen aus über 80 Zutaten wie Obst, Gemüse und Kräutern. Die flüssige Form ermöglicht eine optimale Aufnahme der Nährstoffe.',
+    category: 'Beratung',
+    details: 'Eine tiefgehende 45-minütige Einzelberatung. Robert Wagner analysiert dein Geburtshoroskop nach dem Placidus-System und gibt dir konkrete Einblicke in deine Persönlichkeit, Stärken, Herausforderungen und Lebensthemen.',
     benefits: [
-      'Über 80 natürliche Zutaten aus Obst, Gemüse und Kräutern',
-      'Vitamine aus natürlichen Quellen',
-      'Flüssige Form für optimale Nährstoffaufnahme',
-      'Tägliche Basisversorgung',
-      'Einfache Einnahme pur oder in Wasser gemischt',
+      '45 Minuten persönliche Beratung',
+      'Komplette Horoskop-Analyse',
+      'Stärken & Herausforderungen',
+      'Aktuelle Transiten & Entwicklungen',
+      'Aufzeichnung inklusive',
     ],
-    usage: 'Täglich 20 ml pur oder in Wasser/Saft gemischt einnehmen. Am besten morgens auf nüchternen Magen.',
-    affiliateUrl: 'https://www.cellagon.de/vitalstoffsystem/mikronaehrstoffe/aurum/?affiliate=def502006ceae626606024b7b8fdc88b63734cdcb79988b419db9c908caa27b13c19d9389e1b6be5ef3f03d251dec4599b991de5001e1a9162e1ebeb907aea684e5fe666b972444f151e5dee5d6c74cc79b738689cc6bc8774d8a0add41841cd9eac5dbba4df02284840da504d194c8ebb7801297fdaf3b94592c51030280745bfa530e5adf9baac37eed40032e5f10956240fcc3be6',
-    discountCode: DISCOUNT_CODE,
-    discountInfo: DISCOUNT_INFO,
+    affiliateUrl: 'https://www.astrodaddy.de',
   },
-
-  // ─── 3. Cellagon felice ──────────────────────────────────────────────────
   {
     id: 3,
-    name: 'Cellagon felice',
-    shortDescription: 'Für Haut, Haare, Nägel, Bindegewebe und Schleimhäute.',
-    description: 'Flüssiges Mikronährstoffkonzentrat zur Versorgung von Haut, Haaren, Nägeln, Bindegewebe und Schleimhäuten.',
-    price: 39.40,
-    priceFormatted: '39,40 €',
-    image: '/cellagon/cellagon-felice-flasche_1920x1920.png',
-    images: [
-      '/cellagon/cellagon-felice-packshot-1_600x600.jpg',
-      '/cellagon/cellagon-felice-freivon-1_600x600.jpg',
-      '/cellagon/cellagon-alle-flaschen.png',
-    ],
-    category: 'Mikronährstoffkonzentrat',
-    details: 'Cellagon felice ist ein flüssiges Mikronährstoffkonzentrat zur gezielten Versorgung von Haut, Haaren, Nägeln, Bindegewebe und Schleimhäuten. Mit ausgewählten Mikronährstoffen für deine äußere und innere Schönheit.',
+    name: 'Tarot-Legung (45 Min)',
+    shortDescription: 'Klarheit für deine wichtigsten Lebensfragen durch geführte Tarot-Deutung.',
+    description: 'Robert legt für dich die Karten und deutet, was Tarot für deine aktuelle Lebenssituation, Beziehungen oder Entscheidungen zeigt.',
+    price: 199,
+    priceFormatted: '199,00 €',
+    image: 'https://images.unsplash.com/photo-1601049541708-182b022a8a25?w=800&q=80',
+    category: 'Tarot',
+    details: 'Tarot als Spiegel der Seele: In 45 Minuten legt Robert die Karten für deine Fragen zu Liebe, Beruf, Lebensweg oder aktuellen Entscheidungen. Tiefgehend, ehrlich und einfühlsam.',
     benefits: [
-      'Unterstützt Haut, Haare und Nägel',
-      'Stärkt das Bindegewebe',
-      'Versorgt die Schleimhäute',
-      'Flüssige Form für optimale Aufnahme',
-      'Natürliche Inhaltsstoffe',
+      '45 Minuten Tarot-Legung',
+      'Für alle Lebensbereiche geeignet',
+      'Ehrliche & einfühlsame Deutung',
+      'Handlungsempfehlungen',
+      'Aufzeichnung auf Wunsch',
     ],
-    usage: 'Täglich 20 ml pur oder in Wasser/Saft gemischt einnehmen.',
-    affiliateUrl: '#',
-    discountCode: DISCOUNT_CODE,
-    discountInfo: DISCOUNT_INFO,
+    affiliateUrl: 'https://www.astrodaddy.de',
   },
-
-  // ─── 4. Cellagon vitale plus ─────────────────────────────────────────────
   {
     id: 4,
-    name: 'Cellagon vitale plus',
-    shortDescription: 'Für Gehirn- und Nervenzellen sowie die Augen.',
-    description: 'Flüssiges Mikronährstoffkonzentrat zur Versorgung der Gehirn- und Nervenzellen sowie der Augen.',
-    price: 41.40,
-    priceFormatted: '41,40 €',
-    image: '/cellagon/cellagon-vitale-plus-flasche_1920x1920.png',
-    category: 'Mikronährstoffkonzentrat',
-    details: 'Cellagon vitale plus ist ein flüssiges Mikronährstoffkonzentrat zur gezielten Versorgung der Gehirn- und Nervenzellen sowie der Augen. Ideal für alle, die ihre kognitive Gesundheit und Sehkraft langfristig unterstützen möchten.',
+    name: 'Kurzberatung (10 Min)',
+    shortDescription: 'Schnelle Antwort auf eine konkrete Frage – ideal für einen ersten Einblick.',
+    description: 'Du hast eine brennende Frage? In 10 Minuten gibt Robert dir eine klare, fokussierte Antwort aus astrologischer Perspektive.',
+    price: 55,
+    priceFormatted: '55,00 €',
+    image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80',
+    category: 'Beratung',
+    details: '10 Minuten, eine Frage, klare Antwort. Perfekt für alle, die einen ersten Einblick in die Astrologie oder Antwort auf eine spezifische Lebensfrage suchen.',
     benefits: [
-      'Unterstützt Gehirn- und Nervenzellen',
-      'Fördert die Augengesundheit',
-      'Flüssige Form für optimale Aufnahme',
-      'Gezielte Mikronährstoffversorgung',
-      'Für langfristige kognitive Gesundheit',
+      '10 Minuten fokussierte Beratung',
+      'Eine konkrete Frage',
+      'Schnelle Terminvergabe',
+      'Ideal als Einstieg',
     ],
-    usage: 'Täglich 20 ml pur oder in Wasser/Saft gemischt einnehmen.',
-    affiliateUrl: 'https://www.cellagon.de/vitalstoffsystem/mikronaehrstoffe/vitale-plus',
-    discountCode: DISCOUNT_CODE,
-    discountInfo: DISCOUNT_INFO,
+    affiliateUrl: 'https://www.astrodaddy.de',
   },
-
-  // ─── 5. Cellagon T.GO ────────────────────────────────────────────────────
   {
     id: 5,
-    name: 'Cellagon T.GO',
-    shortDescription: 'Speziell für regelmäßige Bewegung und sportliche Aktivität.',
-    description: 'Flüssiges Mikronährstoffkonzentrat mit Vitaminen aus natürlichen Quellen und Mineralstoffen aus Obst, Gemüse und Kräutern.',
-    price: 46.50,
-    priceFormatted: '46,50 €',
-    image: '/cellagon/cellagon-tgo-flasche_1920x1920.png',
-    images: [
-      '/cellagon/cellagon-alle-flaschen.png',
-    ],
-    category: 'Mikronährstoffkonzentrat',
-    details: 'Cellagon T.GO ist ein flüssiges Mikronährstoffkonzentrat zur speziellen Ernährung bei regelmäßiger Bewegung und sportlicher Aktivität: mit Vitaminen aus natürlichen Quellen und Mineralstoffen aus Obst, Gemüse und Kräutern.',
+    name: 'Monetarisierungskurs',
+    shortDescription: 'Mach deine Astrologie-Leidenschaft zur Berufung und zum Business.',
+    description: 'Du liebst Astrologie und möchtest damit Geld verdienen? Robert zeigt dir, wie du dein Wissen professionell vermarktest und dein eigenes Astrologie-Business aufbaust.',
+    price: 1300,
+    priceFormatted: '1.300,00 €',
+    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80',
+    category: 'Ausbildung',
+    details: 'Der Monetarisierungskurs zeigt dir, wie du aus deiner Leidenschaft für Astrologie ein nachhaltiges Business aufbaust. Marketing, Angebote, Preisfindung, Social Media – alles was du brauchst.',
     benefits: [
-      'Speziell für sportlich aktive Menschen',
-      'Vitamine aus natürlichen Quellen',
-      'Mineralstoffe aus Obst, Gemüse und Kräutern',
-      'Unterstützt Regeneration nach dem Sport',
-      'Flüssige Form für schnelle Aufnahme',
+      'Business-Aufbau für Astrologen',
+      'Social Media & Marketing',
+      'Angebots- & Preisstrategien',
+      'Kundenkommunikation',
+      'Persönliches Mentoring',
     ],
-    usage: 'Täglich 20 ml pur oder in Wasser/Saft gemischt einnehmen, idealerweise vor oder nach dem Sport.',
-    affiliateUrl: 'https://www.cellagon.de/vitalstoffsystem/mikronaehrstoffe/t-go',
-    discountCode: DISCOUNT_CODE,
-    discountInfo: DISCOUNT_INFO,
+    affiliateUrl: 'https://www.astrodaddy.de',
   },
-
-  // ─── 6. CellaVie Bio-Leinöl ─────────────────────────────────────────────
   {
     id: 6,
-    name: 'CellaVie Bio-Leinöl',
-    shortDescription: 'Reines Bio-Leinöl, reich an pflanzlichem Omega-3.',
-    description: 'Reines Bio-Leinöl, kaltgepresst und besonders reich an der pflanzlichen Omega-3-Fettsäure Alpha-Linolensäure.',
-    price: 12.90,
-    priceFormatted: '12,90 €',
-    image: '/cellagon/cellavie-pur.jpg',
-    imageFit: 'contain',
-    category: 'Omega-3-Öle',
-    details: 'CellaVie Bio-Leinöl ist reines Bio-Leinöl, kaltgepresst und besonders reich an der pflanzlichen Omega-3-Fettsäure Alpha-Linolensäure. Schonend hergestellt unter Ausschluss von Licht und Sauerstoff. Neutral im Geschmack und vielseitig in der kalten Küche einsetzbar.',
+    name: 'Premium-Beratung (90 Min)',
+    shortDescription: 'Die tiefste Reise ins Horoskop – ideal für Lebenswendepunkte.',
+    description: '90 Minuten intensive Horoskop-Deutung für Menschen in Lebenswendepunkten oder mit tiefgehendem Interesse an Selbsterkenntnis.',
+    price: 349,
+    priceFormatted: '349,00 €',
+    image: 'https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=800&q=80',
+    badge: 'Premium',
+    category: 'Beratung',
+    details: '90 Minuten, in denen Robert tief in dein Geburtshoroskop, aktuelle Transiten und wenn gewünscht auch Solar-Return und Progressionen eingeht. Für Menschen, die wirklich verstehen wollen, warum ihr Leben so ist wie es ist.',
     benefits: [
-      'Reich an pflanzlichem Omega-3 (Alpha-Linolensäure)',
-      'Kaltgepresst und bio-zertifiziert',
-      'Schonende Herstellung ohne Licht und Sauerstoff',
-      'Neutral im Geschmack',
-      'Vielseitig in der kalten Küche einsetzbar',
+      '90 Minuten intensive Analyse',
+      'Geburtshoroskop + Transiten',
+      'Solar-Return optional',
+      'Progressionen auf Wunsch',
+      'Vollständige Aufzeichnung',
+      'Nachbetreuung per E-Mail',
     ],
-    usage: 'Täglich 1–2 EL pur oder in kalten Speisen (Salate, Joghurt, Müsli). Nicht zum Erhitzen geeignet.',
-    affiliateUrl: 'https://www.cellagon.de/vitalstoffsystem/omega-3-oele/cellavie-bio-leinoel-pur',
-    discountCode: DISCOUNT_CODE,
-    discountInfo: DISCOUNT_INFO,
-  },
-
-  // ─── 7. Omega3 Algenöl ───────────────────────────────────────────────────
-  {
-    id: 7,
-    name: 'Omega3 Algenöl',
-    shortDescription: 'Veganes Omega-3 mit DHA und EPA sowie Vitamin D3.',
-    description: 'Geschmacksneutrales veganes Omega-3 Algenöl. Pflanzliche Quelle für DHA und EPA im Verhältnis 2:1 mit Vitamin D3.',
-    price: 29.90,
-    priceFormatted: '29,90 €',
-    image: '/cellagon/algenoel-kurz.jpg',
-    images: [
-      '/cellagon/algenoel-pur.png',
-    ],
-    category: 'Omega-3-Öle',
-    details: 'Geschmacksneutrales veganes Omega-3 Algenöl. Pflanzliche Quelle für DHA und EPA im Verhältnis 2:1 mit Vitamin D3. Ideal zum Mischen in kalte Speisen wie Salate oder Joghurt. Erhältlich in drei Geschmacksrichtungen.',
-    benefits: [
-      'Vegane Quelle für DHA und EPA',
-      'DHA zu EPA im optimalen Verhältnis 2:1',
-      'Mit Vitamin D3',
-      'Geschmacksneutral – ideal zum Mischen',
-      '100 % pflanzlich',
-    ],
-    usage: 'Täglich 5 ml (1 TL) pur oder in kalten Speisen (Salate, Joghurt). Nicht zum Erhitzen geeignet.',
-    affiliateUrl: 'https://www.cellagon.de/vitalstoffsystem/omega-3-oele/omega-3-algenoel',
-    discountCode: DISCOUNT_CODE,
-    discountInfo: DISCOUNT_INFO,
-    variants: [
-      { name: 'Pur', image: '/cellagon/algenoel-pur.png' },
-      { name: 'Orange', image: '/cellagon/algenoel-kurz.jpg' },
-      { name: 'Zitrone', image: '/cellagon/algenoel-kurz.jpg' },
-    ],
-    variantNote: 'Geschmack nach Wahl: Pur, Orange oder Zitrone. Bitte beim Kauf auf der Herstellerseite auswählen.',
-  },
-
-  // ─── 8. Cellamino Proteinpulver ──────────────────────────────────────────
-  {
-    id: 8,
-    name: 'Cellamino veganes Proteinpulver',
-    shortDescription: 'Vollständiges Aminosäureprofil aus pflanzlichen Quellen.',
-    description: 'Veganes Proteinpulver mit vollständigem Aminosäureprofil. Frei von Gluten, Soja, Laktose und Gentechnik.',
-    price: 26.90,
-    priceFormatted: '26,90 €',
-    image: '/cellagon/cellamino-schoko.png',
-    images: [
-      '/cellagon/cellamino-vanille.png',
-    ],
-    category: 'Veganes Proteinpulver',
-    details: 'Cellamino ist ein veganes Proteinpulver mit vollständigem Aminosäureprofil aus Erbsen-, Reis-, Sonnenblumen- und Kürbiskernprotein. Es liefert alle essentiellen Aminosäuren, die der Körper täglich benötigt. Frei von Gluten, Soja, Laktose und Gentechnik.',
-    benefits: [
-      'Vollständiges Aminosäureprofil',
-      'Aus Erbsen-, Reis-, Sonnenblumen- und Kürbiskernprotein',
-      'Frei von Gluten, Soja, Laktose und Gentechnik',
-      'Vielseitig in Shakes, Müsli oder Smoothies einsetzbar',
-      'Unterstützt eine bewusste pflanzliche Ernährung',
-    ],
-    usage: 'Ca. 30 g (2 gehäufte EL) in 250–300 ml Wasser, Pflanzendrink oder Saft einrühren oder mixen.',
-    affiliateUrl: 'https://www.cellagon.de/produkte/vegane-proteinpulver/',
-    discountCode: DISCOUNT_CODE,
-    discountInfo: DISCOUNT_INFO,
-    variants: [
-      { name: 'Schoko', image: '/cellagon/cellamino-schoko.png' },
-      { name: 'Vanille', image: '/cellagon/cellamino-vanille.png' },
-    ],
+    affiliateUrl: 'https://www.astrodaddy.de',
   },
 ];
-
-export function getProductById(id: number): Product | undefined {
-  return products.find(product => product.id === id);
-}

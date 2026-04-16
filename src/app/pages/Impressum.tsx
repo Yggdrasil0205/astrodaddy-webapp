@@ -15,26 +15,26 @@ export default function Impressum() {
         >
           <Link
             to="/"
-            className="inline-flex items-center gap-2 text-[#8268AB] hover:text-[#BFADD5] transition-colors mb-8"
+            className="inline-flex items-center gap-2 text-[#5C3D8F] hover:text-[#8B6EC5] transition-colors mb-8"
           >
             <ArrowLeft className="w-4 h-4" />
             Zurück zur Startseite
           </Link>
 
           <GlassCard className="rounded-3xl p-8 md:p-12">
-            <h1 className="text-4xl md:text-5xl font-bold mb-8 text-[#1b2a23]" style={{ fontFamily: 'henriette, serif' }}>
+            <h1 className="text-4xl md:text-5xl font-bold mb-8 text-[#1a0d2e]" style={{ fontFamily: 'henriette, serif' }}>
               Impressum
             </h1>
 
-            <div className="space-y-8 text-[#1b2a23]/90">
+            <div className="space-y-8 text-[#1a0d2e]/90">
               {/* Angaben gemäß § 5 TMG */}
               <section>
-                <h2 className="text-2xl font-bold mb-4 text-[#1b2a23]" style={{ fontFamily: 'henriette, serif' }}>
+                <h2 className="text-2xl font-bold mb-4 text-[#1a0d2e]" style={{ fontFamily: 'henriette, serif' }}>
                   Angaben gemäß § 5 TMG
                 </h2>
                 <p className="mb-2">
                   <strong>Miersbe Wellness GbR</strong><br />
-                  Markus Miersbe
+                  Robert Wagner
                 </p>
                 <p className="mb-2">
                   Fenitzerplatz 4<br />
@@ -45,7 +45,7 @@ export default function Impressum() {
 
               {/* Kontakt */}
               <section>
-                <h2 className="text-2xl font-bold mb-4 text-[#1b2a23]" style={{ fontFamily: 'henriette, serif' }}>
+                <h2 className="text-2xl font-bold mb-4 text-[#1a0d2e]" style={{ fontFamily: 'henriette, serif' }}>
                   Kontakt
                 </h2>
                 <p>
@@ -56,7 +56,7 @@ export default function Impressum() {
 
               {/* Umsatzsteuer-ID */}
               <section>
-                <h2 className="text-2xl font-bold mb-4 text-[#1b2a23]" style={{ fontFamily: 'henriette, serif' }}>
+                <h2 className="text-2xl font-bold mb-4 text-[#1a0d2e]" style={{ fontFamily: 'henriette, serif' }}>
                   Umsatzsteuer-ID
                 </h2>
                 <p>
@@ -67,7 +67,7 @@ export default function Impressum() {
 
               {/* Social Media */}
               <section>
-                <h2 className="text-2xl font-bold mb-4 text-[#1b2a23]" style={{ fontFamily: 'henriette, serif' }}>
+                <h2 className="text-2xl font-bold mb-4 text-[#1a0d2e]" style={{ fontFamily: 'henriette, serif' }}>
                   Social Media
                 </h2>
                 <p>
@@ -78,12 +78,12 @@ export default function Impressum() {
 
               {/* EU-Streitschlichtung */}
               <section>
-                <h2 className="text-2xl font-bold mb-4 text-[#1b2a23]" style={{ fontFamily: 'henriette, serif' }}>
+                <h2 className="text-2xl font-bold mb-4 text-[#1a0d2e]" style={{ fontFamily: 'henriette, serif' }}>
                   EU-Streitschlichtung
                 </h2>
                 <p>
                   Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit:
-                  <a href="https://ec.europa.eu/consumers/odr/" target="_blank" rel="noopener noreferrer" className="text-[#8268AB] hover:underline ml-1">
+                  <a href="https://ec.europa.eu/consumers/odr/" target="_blank" rel="noopener noreferrer" className="text-[#5C3D8F] hover:underline ml-1">
                     https://ec.europa.eu/consumers/odr/
                   </a>.<br />
                   Unsere E-Mail-Adresse finden Sie oben im Impressum.
@@ -92,7 +92,7 @@ export default function Impressum() {
 
               {/* Verbraucherstreitbeilegung */}
               <section>
-                <h2 className="text-2xl font-bold mb-4 text-[#1b2a23]" style={{ fontFamily: 'henriette, serif' }}>
+                <h2 className="text-2xl font-bold mb-4 text-[#1a0d2e]" style={{ fontFamily: 'henriette, serif' }}>
                   Verbraucherstreitbeilegung / Universalschlichtungsstelle
                 </h2>
                 <p>

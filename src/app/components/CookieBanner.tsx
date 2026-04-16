@@ -73,14 +73,14 @@ export function CookieBanner() {
           {/* Header */}
           <div className="flex items-start justify-between mb-6">
             <div className="flex items-start gap-4">
-              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#8268AB] to-[#BFADD5] flex items-center justify-center flex-shrink-0">
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#5C3D8F] to-[#8B6EC5] flex items-center justify-center flex-shrink-0">
                 <Cookie className="w-8 h-8 text-white" />
               </div>
               <div>
-                <h2 className="text-3xl font-bold mb-2 text-[#1b2a23]" style={{ fontFamily: 'henriette, serif' }}>
+                <h2 className="text-3xl font-bold mb-2 text-[#1a0d2e]" style={{ fontFamily: 'henriette, serif' }}>
                   Cookie-Einstellungen
                 </h2>
-                <p className="text-[#1b2a23]">
+                <p className="text-[#1a0d2e]">
                   Wir respektieren deine Privatsphäre und möchten transparent sein
                 </p>
               </div>
@@ -89,7 +89,7 @@ export function CookieBanner() {
 
           {/* Main Content */}
           <div className="mb-6">
-            <p className="text-[#1b2a23] leading-relaxed mb-4">
+            <p className="text-[#1a0d2e] leading-relaxed mb-4">
               Diese Website verwendet Cookies, um dir die bestmögliche Erfahrung zu bieten. 
               Einige Cookies sind notwendig für den Betrieb der Website, während andere uns helfen, 
               die Website zu verbessern und dir personalisierte Inhalte anzuzeigen.
@@ -100,7 +100,7 @@ export function CookieBanner() {
               <div className="flex flex-wrap gap-3 mb-4">
                 <Button
                   onClick={acceptAll}
-                  className="bg-[#1b2a23]/80 hover:bg-[#1b2a23]/90 text-white backdrop-blur-xl"
+                  className="bg-[#1a0d2e]/80 hover:bg-[#1a0d2e]/90 text-white backdrop-blur-xl"
                 >
                   Alle akzeptieren
                 </Button>
@@ -146,15 +146,15 @@ export function CookieBanner() {
                             <div 
                               className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${
                                 isEnabled 
-                                  ? 'bg-[#BFADD5]' 
+                                  ? 'bg-[#8B6EC5]' 
                                   : 'bg-gray-400'
                               }`}
                             >
-                              <Icon className={`w-6 h-6 ${isEnabled ? 'text-[#8268AB]' : 'text-gray-700'}`} />
+                              <Icon className={`w-6 h-6 ${isEnabled ? 'text-[#5C3D8F]' : 'text-gray-700'}`} />
                             </div>
                             <div className="flex-1">
                               <div className="flex items-center gap-2 mb-1">
-                                <h3 className="font-bold text-[#1b2a23] text-base">
+                                <h3 className="font-bold text-[#1a0d2e] text-base">
                                   {category.title}
                                 </h3>
                                 {category.required && (
@@ -163,10 +163,10 @@ export function CookieBanner() {
                                   </span>
                                 )}
                               </div>
-                              <p className="text-sm text-[#1b2a23] mb-2">
+                              <p className="text-sm text-[#1a0d2e] mb-2">
                                 {category.description}
                               </p>
-                              <p className="text-xs text-[#1b2a23] italic">
+                              <p className="text-xs text-[#1a0d2e] italic">
                                 Beispiele: {category.examples}
                               </p>
                             </div>
@@ -176,9 +176,9 @@ export function CookieBanner() {
                           <button
                             onClick={() => handleToggle(category.key)}
                             disabled={category.required}
-                            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-[#8268AB] focus:ring-offset-2 flex-shrink-0 ${
+                            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-[#5C3D8F] focus:ring-offset-2 flex-shrink-0 ${
                               isEnabled
-                                ? 'bg-[#8268AB]'
+                                ? 'bg-[#5C3D8F]'
                                 : 'bg-gray-400'
                             } ${category.required ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
                           >
@@ -197,7 +197,7 @@ export function CookieBanner() {
                   <div className="flex flex-wrap gap-3 pt-4">
                     <Button
                       onClick={() => acceptSelected(preferences)}
-                      className="bg-[#1b2a23]/80 hover:bg-[#1b2a23]/90 text-white backdrop-blur-xl"
+                      className="bg-[#1a0d2e]/80 hover:bg-[#1a0d2e]/90 text-white backdrop-blur-xl"
                     >
                       Auswahl bestätigen
                     </Button>
@@ -224,13 +224,13 @@ export function CookieBanner() {
 
           {/* Footer Links */}
           <div className="pt-4 border-t border-white/10">
-            <p className="text-xs text-[#1b2a23]">
+            <p className="text-xs text-[#1a0d2e]">
               Weitere Informationen findest du in unserer{' '}
-              <a href="/datenschutz" className="text-[#8268AB] hover:underline font-semibold">
+              <a href="/datenschutz" className="text-[#5C3D8F] hover:underline font-semibold">
                 Datenschutzerklärung
               </a>
               {' '}und den{' '}
-              <a href="/impressum" className="text-[#8268AB] hover:underline font-semibold">
+              <a href="/impressum" className="text-[#5C3D8F] hover:underline font-semibold">
                 Impressum
               </a>
               . Du kannst deine Einstellungen jederzeit ändern.

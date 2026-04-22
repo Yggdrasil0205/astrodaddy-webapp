@@ -45,6 +45,136 @@ function FaqItem({ q, a }: { q: string; a: string }) {
   );
 }
 
+// ── Floating zodiac symbols (multi-layer parallax drift) ──────────────
+const ZODIAK_LAYERS = [
+  { s: '♈', sz: 60, op: 0.045, x: '7%',  y: '18%', d: 30, dy: 50, dx: 22 },
+  { s: '♌', sz: 38, op: 0.06,  x: '74%', y: '12%', d: 22, dy: 35, dx: 16 },
+  { s: '♏', sz: 80, op: 0.03,  x: '54%', y: '58%', d: 38, dy: 60, dx: 28 },
+  { s: '♒', sz: 30, op: 0.07,  x: '18%', y: '72%', d: 19, dy: 28, dx: 13 },
+  { s: '♓', sz: 52, op: 0.05,  x: '86%', y: '50%', d: 27, dy: 42, dx: 20 },
+  { s: '♉', sz: 24, op: 0.08,  x: '38%', y: '82%', d: 21, dy: 22, dx: 11 },
+  { s: '♊', sz: 44, op: 0.04,  x: '92%', y: '78%', d: 34, dy: 38, dx: 17 },
+  { s: '♋', sz: 32, op: 0.055, x: '48%', y: '8%',  d: 24, dy: 30, dx: 14 },
+];
+
+function ZodiakDrift() {
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none select-none" aria-hidden>
+      {ZODIAK_LAYERS.map((l, i) => (
+        <motion.div key={i} className="absolute text-[#C9A84C]"
+          style={{ left: l.x, top: l.y, opacity: l.op, fontSize: l.sz, fontFamily: 'serif', lineHeight: 1 }}
+          animate={{ y: [0, -l.dy, 0], x: [0, l.dx, 0] }}
+          transition={{ duration: l.d, repeat: Infinity, ease: 'easeInOut', delay: i * 2.5 }}
+        >{l.s}</motion.div>
+      ))}
+    </div>
+  );
+}
+
+// ── Animated ambient orbs ─────────────────────────────────────────────
+const ORB_CONFIG = [
+  { color: '#7B5FD4', w: 420, h: 420, x: '8%',  y: '25%', d: 22, op: 0.13, blur: 130 },
+  { color: '#C9A84C', w: 260, h: 260, x: '78%', y: '15%', d: 30, op: 0.07, blur: 95  },
+  { color: '#3D2A8A', w: 360, h: 360, x: '58%', y: '62%', d: 27, op: 0.16, blur: 115 },
+  { color: '#C9A84C', w: 190, h: 190, x: '22%', y: '72%', d: 35, op: 0.06, blur: 85  },
+];
+
+function FloatingOrbs() {
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden>
+      {ORB_CONFIG.map((o, i) => (
+        <motion.div key={i} className="absolute rounded-full"
+          style={{ width: o.w, height: o.h, left: o.x, top: o.y, background: o.color, opacity: o.op, filter: `blur(${o.blur}px)` }}
+          animate={{ x: [0, 28, -18, 0], y: [0, -42, 20, 0], scale: [1, 1.14, 0.94, 1] }}
+          transition={{ duration: o.d, repeat: Infinity, ease: 'easeInOut', delay: i * 4.5 }}
+        />
+      ))}
+    </div>
+  );
+}
+
+// ── 3D mouse-tilt card wrapper ────────────────────────────────────────
+function TiltCard({ children, className = '' }: { children: React.ReactNode; className?: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const onMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const el = ref.current; if (!el) return;
+    const r = el.getBoundingClientRect();
+    const rx = ((e.clientY - r.top  - r.height / 2) / (r.height / 2)) * -7;
+    const ry = ((e.clientX - r.left - r.width  / 2) / (r.width  / 2)) *  7;
+    el.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) scale(1.025)`;
+  };
+  const onLeave = () => { if (ref.current) ref.current.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg) scale(1)'; };
+  return <div ref={ref} className={`transition-transform duration-200 ease-out ${className}`} onMouseMove={onMove} onMouseLeave={onLeave}>{children}</div>;
+}
+
+// ── SVG wave divider ──────────────────────────────────────────────────
+function WaveDivider({ fromColor, toColor, flip = false }: { fromColor: string; toColor: string; flip?: boolean }) {
+  return (
+    <div className="relative h-12 overflow-hidden" style={{ background: fromColor, transform: flip ? 'scaleY(-1)' : undefined }}>
+      <svg viewBox="0 0 1440 48" className="absolute bottom-0 w-full" preserveAspectRatio="none" style={{ display: 'block' }}>
+        <path d="M0,24 C240,48 480,0 720,24 C960,48 1200,0 1440,24 L1440,48 L0,48 Z" fill={toColor} />
+      </svg>
+    </div>
+  );
+}
+
+// ── Service card image with mouse parallax ────────────────────────────
+function ParallaxImg({ src, alt }: { src: string; alt: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const onMove = (e: React.MouseEvent) => {
+    const el = ref.current; if (!el) return;
+    const r = el.getBoundingClientRect();
+    const x = ((e.clientX - r.left) / r.width  - 0.5) * 14;
+    const y = ((e.clientY - r.top)  / r.height - 0.5) * 14;
+    const img = el.querySelector('img') as HTMLImageElement | null;
+    if (img) img.style.transform = `scale(1.12) translate(${x}px, ${y}px)`;
+  };
+  const onLeave = () => {
+    const img = ref.current?.querySelector('img') as HTMLImageElement | null;
+    if (img) img.style.transform = 'scale(1) translate(0,0)';
+  };
+  return (
+    <div ref={ref} className="overflow-hidden h-44" onMouseMove={onMove} onMouseLeave={onLeave}>
+      <img src={src} alt={alt} className="w-full h-full object-cover opacity-70 group-hover:opacity-90" style={{ transition: 'transform 0.35s ease, opacity 0.5s ease' }} />
+    </div>
+  );
+}
+
+// ── Testimonial auto-carousel ─────────────────────────────────────────
+function TestimonialCarousel({ items }: { items: { name: string; text: string; stars: number }[] }) {
+  const [active, setActive] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setActive(a => (a + 1) % items.length), 4500);
+    return () => clearInterval(id);
+  }, [items.length]);
+  return (
+    <div>
+      <div className="relative overflow-hidden">
+        <motion.div className="flex" animate={{ x: `-${active * 100}%` }} transition={{ type: 'spring', stiffness: 280, damping: 32 }}>
+          {items.map(t => (
+            <div key={t.name} className="min-w-full px-2 sm:px-8">
+              <GlassCard className="rounded-xl p-8 border-white/8 max-w-2xl mx-auto">
+                <Quote className="w-6 h-6 text-[#C9A84C]/35 mb-5" />
+                <p className="text-[#F0E6C8]/68 text-base leading-relaxed mb-6 italic">"{t.text}"</p>
+                <div className="flex items-center justify-between">
+                  <span className="text-[#F0E6C8] font-medium">{t.name}</span>
+                  <div className="flex gap-0.5">{Array.from({ length: t.stars }).map((_, i) => <Star key={i} className="w-3.5 h-3.5 fill-[#C9A84C] text-[#C9A84C]" />)}</div>
+                </div>
+              </GlassCard>
+            </div>
+          ))}
+        </motion.div>
+      </div>
+      <div className="flex justify-center gap-2 mt-6">
+        {items.map((_, i) => (
+          <button key={i} onClick={() => setActive(i)}
+            className={`h-1.5 rounded-full transition-all duration-300 ${i === active ? 'bg-[#C9A84C] w-7' : 'bg-white/20 w-1.5'}`} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function UeberRobertSection() {
   const parallaxRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
@@ -54,7 +184,10 @@ function UeberRobertSection() {
       if (!parallaxRef.current || !sectionRef.current) return;
       const rect = sectionRef.current.getBoundingClientRect();
       const center = rect.top + rect.height / 2 - window.innerHeight / 2;
-      parallaxRef.current.style.transform = `translateY(${center * 0.25}px)`;
+      // clamp offset so image never clips out of its scaled bounds
+      const maxOffset = sectionRef.current.offsetHeight * 0.17;
+      const offset = Math.max(-maxOffset, Math.min(maxOffset, center * 0.12));
+      parallaxRef.current.style.transform = `translateY(${offset}px)`;
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
@@ -64,15 +197,17 @@ function UeberRobertSection() {
   return (
     <section ref={sectionRef} className="relative overflow-hidden">
       {/* Parallax space background */}
-      <div className="absolute inset-0 scale-[1.2]" ref={parallaxRef} style={{ willChange: 'transform' }}>
+      <div className="absolute inset-[-20%_0]" ref={parallaxRef} style={{ willChange: 'transform' }}>
         <img
           src="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=1920&q=80"
           alt=""
           className="w-full h-full object-cover"
         />
       </div>
-      {/* Gradient overlay: links dichter für Lesbarkeit, rechts transparenter fürs Foto */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#3D2A8A]/92 via-[#3D2A8A]/70 to-[#1B1040]/30" />
+      {/* Base dark overlay */}
+      <div className="absolute inset-0 bg-[#1B1040]/50" />
+      {/* Left-side overlay for text readability */}
+      <div className="absolute inset-0 bg-gradient-to-r from-[#3D2A8A]/90 via-[#3D2A8A]/60 to-transparent" />
 
       <div className="relative grid grid-cols-1 lg:grid-cols-2 min-h-[560px]">
         {/* Left: Text */}
@@ -107,8 +242,10 @@ function UeberRobertSection() {
           <img
             src="/robert.png"
             alt="Robert Wagner"
-            className="absolute inset-0 w-full h-full object-cover object-bottom"
+            className="absolute inset-0 w-full h-full object-cover object-top"
           />
+          {/* Light-Leak: goldener Lichteinfall von oben-rechts */}
+          <div className="absolute inset-0 bg-gradient-to-bl from-[#C9A84C]/18 via-transparent to-transparent pointer-events-none" />
           {/* Links sanft ausblenden */}
           <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-[#3D2A8A]/80 to-transparent pointer-events-none" />
           {/* Rating-Badge */}
@@ -163,20 +300,32 @@ export default function Home() {
       {/* ── HERO ─ Kosmos ──────────────────────────────────────── */}
       <section className="relative min-h-screen flex items-center overflow-hidden bg-[#1B1040]">
         <StarField />
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/2 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-[#3D2A8A]/18 blur-[140px]" />
-          <div className="absolute top-1/2 right-1/4 translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] rounded-full bg-[#C9A84C]/6 blur-[100px]" />
-        </div>
+        <FloatingOrbs />
+        <ZodiakDrift />
         <div className="relative z-10 w-full max-w-7xl mx-auto px-6 pt-24 pb-16">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
 
             {/* Left: Headline */}
             <motion.div initial={{ opacity: 0, x: -32 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.9 }}>
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#C9A84C]/30 text-[#C9A84C] text-xs tracking-widest uppercase mb-8" style={{ fontFamily: 'Cinzel, serif' }}>
+              <motion.div
+                initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
+                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#C9A84C]/30 text-[#C9A84C] text-xs tracking-widest uppercase mb-8" style={{ fontFamily: 'Cinzel, serif' }}>
                 <Star className="w-3 h-3 fill-current" /> Astrologie · Tarot · Ausbildung
+              </motion.div>
+              <div className="overflow-hidden mb-3">
+                <motion.h1
+                  initial={{ clipPath: 'inset(0 100% 0 0)' }} animate={{ clipPath: 'inset(0 0% 0 0)' }}
+                  transition={{ duration: 0.9, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                  className="text-[clamp(2.4rem,4.5vw,5rem)] leading-[1.1] text-[#F0E6C8]" style={{ fontFamily: 'Cinzel, serif' }}>Finde den Weg
+                </motion.h1>
               </div>
-              <h1 className="text-[clamp(2.4rem,4.5vw,5rem)] leading-[1.1] text-[#F0E6C8] mb-3" style={{ fontFamily: 'Cinzel, serif' }}>Finde den Weg</h1>
-              <h1 className="text-[clamp(2.4rem,4.5vw,5rem)] leading-[1.1] text-[#C9A84C] mb-8" style={{ fontFamily: 'Cinzel, serif' }}>zu Dir selbst</h1>
+              <div className="overflow-hidden mb-8">
+                <motion.h1
+                  initial={{ clipPath: 'inset(0 100% 0 0)' }} animate={{ clipPath: 'inset(0 0% 0 0)' }}
+                  transition={{ duration: 0.9, delay: 0.42, ease: [0.16, 1, 0.3, 1] }}
+                  className="text-[clamp(2.4rem,4.5vw,5rem)] leading-[1.1] text-[#C9A84C]" style={{ fontFamily: 'Cinzel, serif' }}>zu Dir selbst
+                </motion.h1>
+              </div>
               <p className="text-lg text-[#F0E6C8]/55 max-w-lg mb-10">
                 Entdecke was die Planeten mit Dir zu tun haben. Mit Robert Wagner – Astrologe & spiritueller Lebensberater.
               </p>
@@ -259,8 +408,12 @@ export default function Home() {
         </div>
       </section>
 
+      <WaveDivider fromColor="#1B1040" toColor="#3D2A8A" />
+
       {/* ── ÜBER ROBERT ─ Nebel ────────────────────────────────── */}
       <UeberRobertSection />
+
+      <WaveDivider fromColor="#3D2A8A" toColor="#1B1040" />
 
       {/* ── LEISTUNGEN ─ Kosmos ────────────────────────────────── */}
       <section className="py-24 px-6 bg-[#1B1040]">
@@ -274,9 +427,7 @@ export default function Home() {
               <motion.div key={s.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}>
                 <Link to={s.link}>
                   <GlassCard hover className="rounded-xl overflow-hidden border-white/8 cursor-pointer group">
-                    <div className="overflow-hidden h-44">
-                      <img src={s.img} alt={s.title} className="w-full h-full object-cover opacity-70 group-hover:opacity-90 group-hover:scale-105 transition-all duration-500" />
-                    </div>
+                    <ParallaxImg src={s.img} alt={s.title} />
                     <div className="p-5">
                       <h3 className="text-[#F0E6C8] font-semibold text-sm mb-2">{s.title}</h3>
                       <p className="text-[#F0E6C8]/45 text-xs leading-relaxed">{s.desc}</p>
@@ -289,6 +440,8 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <WaveDivider fromColor="#1B1040" toColor="#3D2A8A" />
 
       {/* ── AUSBILDUNG ─ Nebel ─────────────────────────────────── */}
       <section className="py-24 px-6 bg-[#3D2A8A]">
@@ -327,6 +480,8 @@ export default function Home() {
         </div>
       </section>
 
+      <WaveDivider fromColor="#3D2A8A" toColor="#1B1040" />
+
       {/* ── POTENZIAL ─ Kosmos ─────────────────────────────────── */}
       <section className="py-24 px-6 bg-[#1B1040]">
         <div className="max-w-6xl mx-auto">
@@ -349,6 +504,8 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <WaveDivider fromColor="#1B1040" toColor="#C9A84C" />
 
       {/* ── SOCIAL MEDIA ─ Gold ────────────────────────────────── */}
       <section className="py-24 px-6 bg-[#C9A84C]">
@@ -379,9 +536,11 @@ export default function Home() {
         </div>
       </section>
 
+      <WaveDivider fromColor="#C9A84C" toColor="#1B1040" />
+
       {/* ── TESTIMONIALS ─ Kosmos ──────────────────────────────── */}
       <section className="py-24 px-6 bg-[#1B1040]">
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-4xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-14">
             <div className="flex items-center justify-center gap-1.5 mb-3">
               {Array.from({ length: 5 }).map((_, i) => <Star key={i} className="w-5 h-5 fill-[#C9A84C] text-[#C9A84C]" />)}
@@ -389,35 +548,11 @@ export default function Home() {
             <h2 className="text-4xl text-[#F0E6C8] mb-2">5 von 5 Sternen auf Google</h2>
             <p className="text-[#F0E6C8]/40 text-sm">100% Zufriedenheitsrate</p>
           </motion.div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-5">
-            {testimonials.slice(0, 3).map((t, i) => (
-              <motion.div key={t.name} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}>
-                <GlassCard className="rounded-xl p-6 h-full border-white/8">
-                  <Quote className="w-5 h-5 text-[#C9A84C]/35 mb-4" />
-                  <p className="text-[#F0E6C8]/65 text-sm leading-relaxed mb-5 italic">"{t.text}"</p>
-                  <div className="flex items-center justify-between">
-                    <span className="text-[#F0E6C8] text-sm font-medium">{t.name}</span>
-                    <div className="flex gap-0.5">{Array.from({ length: t.stars }).map((_, i) => <Star key={i} className="w-3 h-3 fill-[#C9A84C] text-[#C9A84C]" />)}</div>
-                  </div>
-                </GlassCard>
-              </motion.div>
-            ))}
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            {testimonials.slice(3).map((t, i) => (
-              <motion.div key={t.name} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}>
-                <GlassCard className="rounded-xl p-5 border-white/8">
-                  <p className="text-[#F0E6C8]/55 text-sm italic mb-3">"{t.text}"</p>
-                  <div className="flex items-center justify-between">
-                    <span className="text-[#F0E6C8]/70 text-sm">{t.name}</span>
-                    <div className="flex gap-0.5">{Array.from({ length: t.stars }).map((_, i) => <Star key={i} className="w-3 h-3 fill-[#C9A84C] text-[#C9A84C]" />)}</div>
-                  </div>
-                </GlassCard>
-              </motion.div>
-            ))}
-          </div>
+          <TestimonialCarousel items={testimonials} />
         </div>
       </section>
+
+      <WaveDivider fromColor="#1B1040" toColor="#3D2A8A" />
 
       {/* ── PREISE ─ Nebel ─────────────────────────────────────── */}
       <section className="py-24 px-6 bg-[#3D2A8A]">
@@ -429,6 +564,7 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {pricing.map((p, i) => (
               <motion.div key={p.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
+                <TiltCard>
                 <div className={`rounded-xl p-7 h-full flex flex-col relative border ${p.highlight ? 'bg-[#C9A84C] border-[#C9A84C]' : 'bg-white/8 border-white/15'}`}>
                   {p.highlight && <div className="absolute -top-3 left-5"><span className="px-3 py-1 rounded bg-[#1B1040] text-[#C9A84C] text-xs font-semibold">Empfohlen</span></div>}
                   <div className={`pt-2 mb-1 text-xs tracking-widest uppercase ${p.highlight ? 'text-[#1B1040]/60' : 'text-[#F0E6C8]/40'}`} style={{ fontFamily: 'Cinzel, serif' }}>{p.duration}</div>
@@ -448,11 +584,14 @@ export default function Home() {
                     </button>
                   </a>
                 </div>
+                </TiltCard>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
+
+      <WaveDivider fromColor="#3D2A8A" toColor="#1B1040" />
 
       {/* ── FAQ ─ Kosmos ───────────────────────────────────────── */}
       <section className="py-24 px-6 bg-[#1B1040]">

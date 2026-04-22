@@ -54,7 +54,7 @@ export default function ForgotPassword() {
         <GlassCard className="rounded-3xl p-8 md:p-10">
           <div className="text-center mb-8">
             <Link to="/login">
-              <img src="/logo.png" alt="AstroDaddy" className="h-20 w-auto mx-auto mb-4" />
+              <img src="/logo.png" alt="Robert Wagner Astrologie" className="h-20 w-auto mx-auto mb-4" />
             </Link>
             <div className="inline-flex items-center px-3 py-1 rounded-full bg-gradient-to-r from-[#7B5FD4]/20 to-[#3D2A8A]/20 backdrop-blur-sm mb-3">
               <Sparkles className="w-4 h-4 mr-2 text-[#7B5FD4]" />

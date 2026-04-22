@@ -60,19 +60,19 @@ export function StarField({ className = '' }: { className?: string }) {
 
       // Cursor glow
       if (hasMousePos) {
-        const grad = ctx.createRadialGradient(mx, my, 0, mx, my, 110);
-        grad.addColorStop(0, 'rgba(201,168,76,0.18)');
-        grad.addColorStop(0.45, 'rgba(123,95,212,0.08)');
+        const grad = ctx.createRadialGradient(mx, my, 0, mx, my, 90);
+        grad.addColorStop(0, 'rgba(201,168,76,0.10)');
+        grad.addColorStop(0.5, 'rgba(123,95,212,0.04)');
         grad.addColorStop(1, 'rgba(0,0,0,0)');
         ctx.beginPath();
-        ctx.arc(mx, my, 110, 0, Math.PI * 2);
+        ctx.arc(mx, my, 90, 0, Math.PI * 2);
         ctx.fillStyle = grad;
         ctx.fill();
 
-        // bright dot at cursor center
+        // subtle dot at cursor center
         ctx.beginPath();
-        ctx.arc(mx, my, 2.5, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(201,168,76,0.75)';
+        ctx.arc(mx, my, 1.8, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(201,168,76,0.50)';
         ctx.fill();
       }
 
@@ -85,12 +85,12 @@ export function StarField({ className = '' }: { className?: string }) {
       // Lines: cursor → nearby stars (gold)
       for (const s of nearStars) {
         const d = Math.hypot(s.x - mx, s.y - my);
-        const a = (1 - d / CONNECT_RADIUS) * 0.85;
+        const a = (1 - d / CONNECT_RADIUS) * 0.65;
         ctx.beginPath();
         ctx.moveTo(mx, my);
         ctx.lineTo(s.x, s.y);
         ctx.strokeStyle = `rgba(201,168,76,${a})`;
-        ctx.lineWidth = 1.2;
+        ctx.lineWidth = 0.9;
         ctx.stroke();
       }
 
@@ -99,12 +99,12 @@ export function StarField({ className = '' }: { className?: string }) {
         for (let j = i + 1; j < nearStars.length; j++) {
           const d = Math.hypot(nearStars[i].x - nearStars[j].x, nearStars[i].y - nearStars[j].y);
           if (d < STAR_CONNECT) {
-            const a = (1 - d / STAR_CONNECT) * 0.40;
+            const a = (1 - d / STAR_CONNECT) * 0.28;
             ctx.beginPath();
             ctx.moveTo(nearStars[i].x, nearStars[i].y);
             ctx.lineTo(nearStars[j].x, nearStars[j].y);
             ctx.strokeStyle = `rgba(240,230,200,${a})`;
-            ctx.lineWidth = 0.7;
+            ctx.lineWidth = 0.5;
             ctx.stroke();
           }
         }
@@ -117,8 +117,8 @@ export function StarField({ className = '' }: { className?: string }) {
         const isNear = d < CONNECT_RADIUS;
         const proximity = isNear ? (1 - d / CONNECT_RADIUS) : 0;
 
-        const opacity = s.baseOpacity * twinkle + proximity * 1.0;
-        const radius = s.size * (1 + proximity * 1.8);
+        const opacity = s.baseOpacity * twinkle + proximity * 0.65;
+        const radius = s.size * (1 + proximity * 1.2);
         const color = isNear
           ? `rgba(201,168,76,${Math.min(1, opacity)})`
           : `rgba(240,230,200,${Math.min(1, opacity)})`;
@@ -127,17 +127,6 @@ export function StarField({ className = '' }: { className?: string }) {
         ctx.arc(s.x, s.y, radius, 0, Math.PI * 2);
         ctx.fillStyle = color;
         ctx.fill();
-
-        // glow halo for stars very close to cursor
-        if (proximity > 0.6) {
-          const haloGrad = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, radius * 4);
-          haloGrad.addColorStop(0, `rgba(201,168,76,${proximity * 0.4})`);
-          haloGrad.addColorStop(1, 'rgba(201,168,76,0)');
-          ctx.beginPath();
-          ctx.arc(s.x, s.y, radius * 4, 0, Math.PI * 2);
-          ctx.fillStyle = haloGrad;
-          ctx.fill();
-        }
       }
 
       rafRef.current = requestAnimationFrame(draw);

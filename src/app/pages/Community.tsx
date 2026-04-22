@@ -106,7 +106,7 @@ export default function Community() {
         <div className="max-w-3xl mx-auto text-center">
           <Users className="w-8 h-8 text-[#1B1040] mx-auto mb-4 opacity-60" />
           <h2 className="text-2xl font-bold text-[#1B1040] mb-3" style={{ fontFamily: 'Cinzel, serif' }}>
-            Werde Teil der AstroDaddy-Community
+            Werde Teil der Robert Wagner Community
           </h2>
           <p className="text-[#1B1040]/70 mb-7">Kostenlos starten – jederzeit upgraden.</p>
           <Link to="/login?tab=register">

@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import { useAuth } from '../context/AuthContext';
 import { Home, Star, Users, LogOut, LogIn, User, BookOpen, Moon } from 'lucide-react';
 import { Button } from './ui/button';
+import { CartDropdown } from './CartDropdown';
 
 export function Navigation() {
   const { isAuthenticated, user, logout } = useAuth();
@@ -30,7 +31,7 @@ export function Navigation() {
             <Moon className="w-6 h-6 text-[#C9A84C]" />
             <span className="text-lg font-semibold tracking-widest text-[#F0E6C8]"
               style={{ fontFamily: 'Cinzel, serif' }}>
-              ASTRODADDY
+              ROBERT WAGNER
             </span>
           </Link>
 
@@ -55,6 +56,10 @@ export function Navigation() {
             ))}
 
             <div className="w-px h-5 bg-white/15 mx-2" />
+
+            <CartDropdown />
+
+            <div className="w-px h-5 bg-white/15 mx-1" />
 
             {isAuthenticated ? (
               <>

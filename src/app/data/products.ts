@@ -26,7 +26,7 @@ export const products: Product[] = [
     badge: 'Beliebt',
     bestseller: true,
     category: 'Ausbildung',
-    details: 'Die 6-monatige Astrologie-Ausbildung von AstroDaddy vermittelt dir alles, was du brauchst, um Horoskope professionell zu deuten. Du lernst das Placidus-System, Planeten, Häuser, Aspekte und deren Deutung im Kontext des Lebens.',
+    details: 'Die 6-monatige Astrologie-Ausbildung von Robert Wagner vermittelt dir alles, was du brauchst, um Horoskope professionell zu deuten. Du lernst das Placidus-System, Planeten, Häuser, Aspekte und deren Deutung im Kontext des Lebens.',
     benefits: [
       'Komplette Horoskop-Deutung von Grund auf',
       'Placidus-Häusersystem im Detail',

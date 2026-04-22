@@ -126,7 +126,7 @@ export default function Home() {
                       <span className="text-[#C9A84C]/45 text-sm select-none">♈</span>
                       <span className="text-[#C9A84C]/45 text-sm select-none">♌</span>
                       <span className="text-[#C9A84C]/65 text-[10px] tracking-[0.22em] uppercase mx-3 select-none" style={{ fontFamily: 'Cinzel, serif' }}>
-                        Robert Wagner · Astrodaddy
+                        Robert Wagner Astrologie
                       </span>
                       <span className="text-[#C9A84C]/45 text-sm select-none">♏</span>
                       <span className="text-[#C9A84C]/45 text-sm select-none">♒</span>
@@ -134,7 +134,7 @@ export default function Home() {
 
                     {/* Video */}
                     <div className="aspect-video">
-                      <iframe src="https://www.youtube.com/embed/eVFkc8QfG3o?rel=0&modestbranding=1" title="AstroDaddy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen className="w-full h-full" />
+                      <iframe src="https://www.youtube.com/embed/eVFkc8QfG3o?rel=0&modestbranding=1" title="Robert Wagner Astrologie" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen className="w-full h-full" />
                     </div>
 
                     {/* Bottom bar */}

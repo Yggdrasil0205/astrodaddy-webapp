@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router';
 import { motion, AnimatePresence } from 'motion/react';
 import { GlassCard } from '../components/GlassCard';
@@ -42,6 +42,87 @@ function FaqItem({ q, a }: { q: string; a: string }) {
         )}
       </AnimatePresence>
     </div>
+  );
+}
+
+function UeberRobertSection() {
+  const parallaxRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const onScroll = () => {
+      if (!parallaxRef.current || !sectionRef.current) return;
+      const rect = sectionRef.current.getBoundingClientRect();
+      const center = rect.top + rect.height / 2 - window.innerHeight / 2;
+      parallaxRef.current.style.transform = `translateY(${center * 0.25}px)`;
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  return (
+    <section ref={sectionRef} className="relative overflow-hidden">
+      {/* Parallax space background */}
+      <div className="absolute inset-0 scale-[1.2]" ref={parallaxRef} style={{ willChange: 'transform' }}>
+        <img
+          src="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=1920&q=80"
+          alt=""
+          className="w-full h-full object-cover"
+        />
+      </div>
+      {/* Gradient overlay: links dichter für Lesbarkeit, rechts transparenter fürs Foto */}
+      <div className="absolute inset-0 bg-gradient-to-r from-[#3D2A8A]/92 via-[#3D2A8A]/70 to-[#1B1040]/30" />
+
+      <div className="relative grid grid-cols-1 lg:grid-cols-2 min-h-[560px]">
+        {/* Left: Text */}
+        <motion.div
+          initial={{ opacity: 0, x: -24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
+          className="py-24 px-8 lg:px-16 flex flex-col justify-center"
+        >
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#C9A84C]/40 text-[#C9A84C] text-xs tracking-widest uppercase mb-6" style={{ fontFamily: 'Cinzel, serif' }}>Über Robert</div>
+          <h2 className="text-4xl text-[#F0E6C8] mb-5">Astrologe & spiritueller Lebensberater</h2>
+          <p className="text-[#F0E6C8]/70 leading-relaxed mb-5">
+            Ich bin Robert Wagner – bekannt als <span className="text-[#C9A84C]">@astrodaddy.official</span> auf TikTok, Instagram und YouTube. Seit Jahren helfe ich Menschen dabei, sich selbst durch die Sprache der Sterne besser zu verstehen.
+          </p>
+          <p className="text-[#F0E6C8]/70 leading-relaxed mb-8">
+            Astrologie ist für mich kein Orakel – sie ist ein Werkzeug zur Selbsterkenntnis. Dein Horoskop zeigt, wer du wirklich bist. <span className="text-[#F0E6C8]">Es gibt viel zu entschlüsseln.</span>
+          </p>
+          <div className="flex flex-wrap gap-3">
+            {[{ icon: TikTokIcon, label: 'TikTok' }, { icon: Instagram, label: 'Instagram' }, { icon: Youtube, label: 'YouTube' }].map(s => (
+              <a key={s.label} href="https://www.instagram.com/astrodaddy.official" target="_blank" rel="noopener noreferrer">
+                <div className="flex items-center gap-2 px-4 py-2 rounded-lg border border-white/20 text-[#F0E6C8]/60 hover:text-[#F0E6C8] hover:border-white/40 transition-all text-sm">
+                  <s.icon /> {s.label}
+                </div>
+              </a>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Right: Foto bündig */}
+        <motion.div
+          initial={{ opacity: 0, x: 24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
+          className="relative h-[500px] lg:h-auto"
+        >
+          <img
+            src="/robert.png"
+            alt="Robert Wagner"
+            className="absolute inset-0 w-full h-full object-cover object-bottom"
+          />
+          {/* Links sanft ausblenden */}
+          <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-[#3D2A8A]/80 to-transparent pointer-events-none" />
+          {/* Rating-Badge */}
+          <div className="absolute bottom-6 left-6 right-6">
+            <div className="bg-[#1B1040]/75 backdrop-blur-sm rounded-lg px-4 py-3 border border-white/10">
+              <div className="flex items-center gap-3">
+                <div className="flex gap-0.5">{Array.from({ length: 5 }).map((_, i) => <Star key={i} className="w-3.5 h-3.5 fill-[#C9A84C] text-[#C9A84C]" />)}</div>
+                <span className="text-[#F0E6C8]/70 text-xs">5/5 Sterne · 100% Zufriedenheitsrate</span>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    </section>
   );
 }
 
@@ -179,40 +260,7 @@ export default function Home() {
       </section>
 
       {/* ── ÜBER ROBERT ─ Nebel ────────────────────────────────── */}
-      <section className="py-24 px-6 bg-[#3D2A8A]">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
-          <motion.div initial={{ opacity: 0, x: -24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#C9A84C]/40 text-[#C9A84C] text-xs tracking-widest uppercase mb-6" style={{ fontFamily: 'Cinzel, serif' }}>Über Robert</div>
-            <h2 className="text-4xl text-[#F0E6C8] mb-5">Astrologe & spiritueller Lebensberater</h2>
-            <p className="text-[#F0E6C8]/70 leading-relaxed mb-5">
-              Ich bin Robert Wagner – bekannt als <span className="text-[#C9A84C]">@astrodaddy.official</span> auf TikTok, Instagram und YouTube. Seit Jahren helfe ich Menschen dabei, sich selbst durch die Sprache der Sterne besser zu verstehen.
-            </p>
-            <p className="text-[#F0E6C8]/70 leading-relaxed mb-8">
-              Astrologie ist für mich kein Orakel – sie ist ein Werkzeug zur Selbsterkenntnis. Dein Horoskop zeigt, wer du wirklich bist. <span className="text-[#F0E6C8]">Es gibt viel zu entschlüsseln.</span>
-            </p>
-            <div className="flex flex-wrap gap-3">
-              {[{ icon: TikTokIcon, label: 'TikTok' }, { icon: Instagram, label: 'Instagram' }, { icon: Youtube, label: 'YouTube' }].map(s => (
-                <a key={s.label} href="https://www.instagram.com/astrodaddy.official" target="_blank" rel="noopener noreferrer">
-                  <div className="flex items-center gap-2 px-4 py-2 rounded-lg border border-white/20 text-[#F0E6C8]/60 hover:text-[#F0E6C8] hover:border-white/40 transition-all text-sm">
-                    <s.icon /> {s.label}
-                  </div>
-                </a>
-              ))}
-            </div>
-          </motion.div>
-          <motion.div initial={{ opacity: 0, x: 24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="relative">
-            <img src="/robert.png" alt="Robert Wagner" className="rounded-xl w-full object-cover object-bottom h-[460px] border border-white/15" />
-            <div className="absolute bottom-4 left-4 right-4">
-              <div className="bg-[#1B1040]/80 backdrop-blur-sm rounded-lg px-4 py-3 border border-white/10">
-                <div className="flex items-center gap-3">
-                  <div className="flex gap-0.5">{Array.from({ length: 5 }).map((_, i) => <Star key={i} className="w-3.5 h-3.5 fill-[#C9A84C] text-[#C9A84C]" />)}</div>
-                  <span className="text-[#F0E6C8]/70 text-xs">5/5 Sterne · 100% Zufriedenheitsrate</span>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
+      <UeberRobertSection />
 
       {/* ── LEISTUNGEN ─ Kosmos ────────────────────────────────── */}
       <section className="py-24 px-6 bg-[#1B1040]">

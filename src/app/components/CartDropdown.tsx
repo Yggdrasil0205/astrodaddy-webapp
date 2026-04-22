@@ -33,14 +33,14 @@ export function CartDropdown() {
       {/* Cart Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="relative p-2 rounded-xl backdrop-blur-md bg-white/20 border border-white/30 hover:bg-white/30 transition-all duration-300 hover:scale-105"
+        className="relative p-1.5 rounded-lg backdrop-blur-md bg-white/20 border border-white/30 hover:bg-white/30 transition-all duration-300 hover:scale-105"
       >
-        <ShoppingCart className="w-5 h-5 text-foreground" />
+        <ShoppingCart className="w-3.5 h-3.5 text-foreground" />
         {totalItems > 0 && (
           <motion.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
-            className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-[#1b2a23] flex items-center justify-center text-xs font-bold text-white border-2 border-white"
+            className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-[#1b2a23] flex items-center justify-center text-[10px] font-bold text-white border border-white"
           >
             {totalItems}
           </motion.div>

@@ -196,24 +196,28 @@ function UeberRobertSection() {
 
   return (
     <section ref={sectionRef} className="relative overflow-hidden">
-      {/* Parallax space background */}
-      <div className="absolute inset-[-20%_0]" ref={parallaxRef} style={{ willChange: 'transform' }}>
+      {/* Parallax space background — inline style for correct top/bottom overshoot */}
+      <div ref={parallaxRef} style={{ position: 'absolute', top: '-22%', bottom: '-22%', left: 0, right: 0, willChange: 'transform' }}>
         <img
           src="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=1920&q=80"
           alt=""
-          className="w-full h-full object-cover"
+          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
         />
       </div>
-      {/* Base dark overlay */}
-      <div className="absolute inset-0 bg-[#1B1040]/50" />
-      {/* Left-side overlay for text readability */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#3D2A8A]/90 via-[#3D2A8A]/60 to-transparent" />
 
-      <div className="relative grid grid-cols-1 lg:grid-cols-2 min-h-[560px]">
+      {/* Unified overlay — neutral dark, no purple box */}
+      <div className="absolute inset-0 bg-gradient-to-r from-[#09061a]/90 via-[#09061a]/55 to-[#09061a]/20" />
+
+      {/* Top fade — blends into hero section above */}
+      <div className="absolute top-0 left-0 right-0 h-36 pointer-events-none" style={{ background: 'linear-gradient(to bottom, #1B1040 0%, transparent 100%)' }} />
+      {/* Bottom fade — blends into leistungen section below */}
+      <div className="absolute bottom-0 left-0 right-0 h-36 pointer-events-none" style={{ background: 'linear-gradient(to top, #1B1040 0%, transparent 100%)' }} />
+
+      <div className="relative grid grid-cols-1 lg:grid-cols-2 min-h-[580px]">
         {/* Left: Text */}
         <motion.div
           initial={{ opacity: 0, x: -24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
-          className="py-24 px-8 lg:px-16 flex flex-col justify-center"
+          className="py-28 px-8 lg:px-16 flex flex-col justify-center"
         >
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#C9A84C]/40 text-[#C9A84C] text-xs tracking-widest uppercase mb-6" style={{ fontFamily: 'Cinzel, serif' }}>Über Robert</div>
           <h2 className="text-4xl text-[#F0E6C8] mb-5">Astrologe & spiritueller Lebensberater</h2>
@@ -239,17 +243,13 @@ function UeberRobertSection() {
           initial={{ opacity: 0, x: 24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
           className="relative h-[500px] lg:h-auto"
         >
-          <img
-            src="/robert.png"
-            alt="Robert Wagner"
-            className="absolute inset-0 w-full h-full object-cover object-top"
-          />
-          {/* Light-Leak: goldener Lichteinfall von oben-rechts */}
-          <div className="absolute inset-0 bg-gradient-to-bl from-[#C9A84C]/18 via-transparent to-transparent pointer-events-none" />
-          {/* Links sanft ausblenden */}
-          <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-[#3D2A8A]/80 to-transparent pointer-events-none" />
+          <img src="/robert.png" alt="Robert Wagner" className="absolute inset-0 w-full h-full object-cover object-top" />
+          {/* Light-Leak */}
+          <div className="absolute inset-0 bg-gradient-to-bl from-[#C9A84C]/15 via-transparent to-transparent pointer-events-none" />
+          {/* Links nahtlos in Overlay ausblenden */}
+          <div className="absolute inset-y-0 left-0 w-40 pointer-events-none" style={{ background: 'linear-gradient(to right, rgba(9,6,26,0.85), transparent)' }} />
           {/* Rating-Badge */}
-          <div className="absolute bottom-6 left-6 right-6">
+          <div className="absolute bottom-10 left-6 right-6">
             <div className="bg-[#1B1040]/75 backdrop-blur-sm rounded-lg px-4 py-3 border border-white/10">
               <div className="flex items-center gap-3">
                 <div className="flex gap-0.5">{Array.from({ length: 5 }).map((_, i) => <Star key={i} className="w-3.5 h-3.5 fill-[#C9A84C] text-[#C9A84C]" />)}</div>
@@ -285,7 +285,7 @@ export default function Home() {
     { title: 'Astrologische Beratung', desc: 'Persönliche Horoskop-Deutung – von 10 Min bis 90 Min Deep Dive.', img: 'https://images.unsplash.com/photo-1532968961962-8a0cb3a2d4f5?w=600&q=80', link: '/angebote' },
     { title: 'Praktische Workbooks',   desc: 'Lerne Astrologie in deinem Tempo mit durchdachten Lern-Materialien.', img: 'https://images.unsplash.com/photo-1516339901601-2e1b62dc0c45?w=600&q=80', link: '/angebote' },
     { title: 'Astrologie-Ausbildung',  desc: '6 Monate zum professionellen Astrologen – inkl. Zertifikat & Klarna.', img: 'https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=600&q=80', link: '/ausbildung' },
-    { title: 'Tarot-Legungen',         desc: 'Klarheit für Liebe, Beruf & Entscheidungen durch einfühlsame Tarot-Deutung.', img: 'https://images.unsplash.com/photo-1601049541708-182b022a8a25?w=600&q=80', link: '/angebote' },
+    { title: 'Tarot-Legungen',         desc: 'Klarheit für Liebe, Beruf & Entscheidungen durch einfühlsame Tarot-Deutung.', img: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?w=600&q=80', link: '/angebote' },
   ];
 
   const pricing = [
@@ -408,12 +408,8 @@ export default function Home() {
         </div>
       </section>
 
-      <WaveDivider fromColor="#1B1040" toColor="#3D2A8A" />
-
-      {/* ── ÜBER ROBERT ─ Nebel ────────────────────────────────── */}
+      {/* ── ÜBER ROBERT ────────────────────────────────────────── */}
       <UeberRobertSection />
-
-      <WaveDivider fromColor="#3D2A8A" toColor="#1B1040" />
 
       {/* ── LEISTUNGEN ─ Kosmos ────────────────────────────────── */}
       <section className="py-24 px-6 bg-[#1B1040]">
@@ -422,15 +418,15 @@ export default function Home() {
             <h2 className="text-4xl text-[#F0E6C8] mb-3">Leistungen</h2>
             <p className="text-[#F0E6C8]/45">Alles was du brauchst, um dein volles Potenzial zu entfalten.</p>
           </motion.div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 items-stretch">
             {services.map((s, i) => (
-              <motion.div key={s.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}>
-                <Link to={s.link}>
-                  <GlassCard hover className="rounded-xl overflow-hidden border-white/8 cursor-pointer group">
+              <motion.div key={s.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }} className="h-full">
+                <Link to={s.link} className="block h-full">
+                  <GlassCard hover className="rounded-xl overflow-hidden border-white/8 cursor-pointer group h-full flex flex-col">
                     <ParallaxImg src={s.img} alt={s.title} />
-                    <div className="p-5">
+                    <div className="p-5 flex flex-col flex-1">
                       <h3 className="text-[#F0E6C8] font-semibold text-sm mb-2">{s.title}</h3>
-                      <p className="text-[#F0E6C8]/45 text-xs leading-relaxed">{s.desc}</p>
+                      <p className="text-[#F0E6C8]/45 text-xs leading-relaxed flex-1">{s.desc}</p>
                       <div className="flex items-center gap-1.5 mt-4 text-[#C9A84C] text-xs font-medium">Mehr erfahren <ArrowRight className="w-3 h-3" /></div>
                     </div>
                   </GlassCard>
@@ -483,8 +479,23 @@ export default function Home() {
       <WaveDivider fromColor="#3D2A8A" toColor="#1B1040" />
 
       {/* ── POTENZIAL ─ Kosmos ─────────────────────────────────── */}
-      <section className="py-24 px-6 bg-[#1B1040]">
-        <div className="max-w-6xl mx-auto">
+      <section className="relative py-24 px-6 overflow-hidden bg-[#1B1040]">
+        {/* Ken Burns ambient space background */}
+        <motion.div
+          className="absolute inset-0 pointer-events-none"
+          animate={{ scale: [1, 1.08, 1], x: [0, -18, 0], y: [0, -10, 0] }}
+          transition={{ duration: 40, repeat: Infinity, ease: 'easeInOut' }}
+        >
+          <img
+            src="https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=1920&q=80"
+            alt=""
+            className="w-full h-full object-cover opacity-20"
+            style={{ display: 'block' }}
+          />
+        </motion.div>
+        {/* Vignette overlay */}
+        <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-[#1B1040]/80 via-transparent to-[#1B1040]/80" />
+        <div className="max-w-6xl mx-auto relative z-10">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-14">
             <h2 className="text-4xl text-[#F0E6C8] mb-3">Dein Potenzial entschlüsseln</h2>
             <p className="text-[#F0E6C8]/45 max-w-xl mx-auto">Gemeinsam decken wir auf, was die Sterne über dich wissen – und was du noch nicht weißt.</p>

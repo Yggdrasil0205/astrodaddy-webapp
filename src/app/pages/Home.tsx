@@ -80,33 +80,101 @@ export default function Home() {
     <div className="min-h-screen bg-[#1B1040]">
 
       {/* ── HERO ─ Kosmos ──────────────────────────────────────── */}
-      <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-[#1B1040]">
+      <section className="relative min-h-screen flex items-center overflow-hidden bg-[#1B1040]">
         <StarField />
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div className="w-[700px] h-[700px] rounded-full bg-[#3D2A8A]/15 blur-[140px]" />
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-1/2 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-[#3D2A8A]/18 blur-[140px]" />
+          <div className="absolute top-1/2 right-1/4 translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] rounded-full bg-[#C9A84C]/6 blur-[100px]" />
         </div>
-        <div className="relative z-10 max-w-5xl mx-auto px-6 text-center pt-24 pb-16">
-          <motion.div initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9 }}>
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#C9A84C]/30 text-[#C9A84C] text-xs tracking-widest uppercase mb-8" style={{ fontFamily: 'Cinzel, serif' }}>
-              <Star className="w-3 h-3 fill-current" /> Astrologie · Tarot · Ausbildung
-            </div>
-            <h1 className="text-[clamp(2.8rem,8vw,6.5rem)] leading-[1.1] text-[#F0E6C8] mb-3" style={{ fontFamily: 'Cinzel, serif' }}>Finde den Weg</h1>
-            <h1 className="text-[clamp(2.8rem,8vw,6.5rem)] leading-[1.1] text-[#C9A84C] mb-8" style={{ fontFamily: 'Cinzel, serif' }}>zu Dir selbst</h1>
-            <p className="text-lg text-[#F0E6C8]/55 max-w-xl mx-auto mb-10">
-              Entdecke was die Planeten mit Dir zu tun haben. Mit Robert Wagner – Astrologe & spiritueller Lebensberater.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center mb-14">
-              <Link to="/angebote"><Button variant="gold" size="lg" className="px-9">Beratung buchen <ArrowRight className="w-4 h-4" /></Button></Link>
-              <Link to="/ausbildung"><Button variant="outline" size="lg" className="px-9 border-white/15 text-[#F0E6C8]/60 hover:text-[#F0E6C8] hover:border-white/30">Zur Ausbildung</Button></Link>
-            </div>
-            <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
-              <div className="relative mx-auto max-w-3xl rounded-xl overflow-hidden border border-white/10 shadow-[0_0_60px_rgba(123,95,212,0.15)]">
-                <div className="aspect-video">
-                  <iframe src="https://www.youtube.com/embed/eVFkc8QfG3o?rel=0&modestbranding=1" title="AstroDaddy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen className="w-full h-full" />
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-6 pt-24 pb-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
+
+            {/* Left: Headline */}
+            <motion.div initial={{ opacity: 0, x: -32 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.9 }}>
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#C9A84C]/30 text-[#C9A84C] text-xs tracking-widest uppercase mb-8" style={{ fontFamily: 'Cinzel, serif' }}>
+                <Star className="w-3 h-3 fill-current" /> Astrologie · Tarot · Ausbildung
+              </div>
+              <h1 className="text-[clamp(2.4rem,4.5vw,5rem)] leading-[1.1] text-[#F0E6C8] mb-3" style={{ fontFamily: 'Cinzel, serif' }}>Finde den Weg</h1>
+              <h1 className="text-[clamp(2.4rem,4.5vw,5rem)] leading-[1.1] text-[#C9A84C] mb-8" style={{ fontFamily: 'Cinzel, serif' }}>zu Dir selbst</h1>
+              <p className="text-lg text-[#F0E6C8]/55 max-w-lg mb-10">
+                Entdecke was die Planeten mit Dir zu tun haben. Mit Robert Wagner – Astrologe & spiritueller Lebensberater.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Link to="/angebote"><Button variant="gold" size="lg" className="px-9">Beratung buchen <ArrowRight className="w-4 h-4" /></Button></Link>
+                <Link to="/ausbildung"><Button variant="outline" size="lg" className="px-9 border-white/15 text-[#F0E6C8]/60 hover:text-[#F0E6C8] hover:border-white/30">Zur Ausbildung</Button></Link>
+              </div>
+            </motion.div>
+
+            {/* Right: Video in Astro-Frame */}
+            <motion.div initial={{ opacity: 0, x: 32 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.35, duration: 0.9 }}>
+              <div className="relative">
+                {/* Ambient glows */}
+                <div className="absolute -inset-8 rounded-3xl bg-[#7B5FD4]/12 blur-2xl pointer-events-none" />
+                <div className="absolute -inset-3 rounded-2xl bg-[#C9A84C]/6 blur-lg pointer-events-none" />
+
+                {/* Outer decorative ring */}
+                <div className="absolute -inset-4 rounded-2xl border border-[#C9A84C]/12 pointer-events-none" />
+                <div className="absolute -inset-2 rounded-xl border border-[#7B5FD4]/18 pointer-events-none" />
+
+                {/* Gradient-border frame */}
+                <div className="relative rounded-xl overflow-hidden shadow-[0_0_50px_rgba(123,95,212,0.35)]"
+                     style={{ padding: '1.5px', background: 'linear-gradient(135deg, #C9A84C 0%, #7B5FD4 45%, #C9A84C 100%)' }}>
+                  <div className="rounded-xl overflow-hidden bg-[#1B1040]">
+
+                    {/* Top bar */}
+                    <div className="flex items-center justify-center gap-2 px-4 py-2.5 bg-gradient-to-r from-[#1B1040] via-[#3D2A8A]/50 to-[#1B1040] border-b border-[#C9A84C]/18">
+                      <span className="text-[#C9A84C]/45 text-sm select-none">♈</span>
+                      <span className="text-[#C9A84C]/45 text-sm select-none">♌</span>
+                      <span className="text-[#C9A84C]/65 text-[10px] tracking-[0.22em] uppercase mx-3 select-none" style={{ fontFamily: 'Cinzel, serif' }}>
+                        Robert Wagner · Astrodaddy
+                      </span>
+                      <span className="text-[#C9A84C]/45 text-sm select-none">♏</span>
+                      <span className="text-[#C9A84C]/45 text-sm select-none">♒</span>
+                    </div>
+
+                    {/* Video */}
+                    <div className="aspect-video">
+                      <iframe src="https://www.youtube.com/embed/eVFkc8QfG3o?rel=0&modestbranding=1" title="AstroDaddy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen className="w-full h-full" />
+                    </div>
+
+                    {/* Bottom bar */}
+                    <div className="flex items-center justify-center gap-2 px-4 py-2.5 bg-[#1B1040]/95 border-t border-[#C9A84C]/18">
+                      <div className="flex gap-0.5">
+                        {Array.from({ length: 5 }).map((_, i) => <Star key={i} className="w-2.5 h-2.5 fill-[#C9A84C] text-[#C9A84C]" />)}
+                      </div>
+                      <span className="text-[#F0E6C8]/45 text-xs mx-1.5">5/5 Sterne · 100% Zufriedenheitsrate</span>
+                      <Sparkles className="w-3 h-3 text-[#C9A84C]/55" />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Corner ornaments */}
+                {([
+                  'absolute -top-1 -left-1',
+                  'absolute -top-1 -right-1 rotate-90',
+                  'absolute -bottom-1 -right-1 rotate-180',
+                  'absolute -bottom-1 -left-1 -rotate-90',
+                ] as const).map((cls, i) => (
+                  <div key={i} className={`${cls} w-7 h-7 pointer-events-none`}>
+                    <svg viewBox="0 0 28 28" fill="none">
+                      <circle cx="3" cy="3" r="2.2" fill="#C9A84C" opacity="0.85" />
+                      <line x1="5.2" y1="3" x2="26" y2="3" stroke="#C9A84C" strokeWidth="0.8" opacity="0.45" />
+                      <line x1="3" y1="5.2" x2="3" y2="26" stroke="#C9A84C" strokeWidth="0.8" opacity="0.45" />
+                    </svg>
+                  </div>
+                ))}
+
+                {/* Floating zodiac symbols top/bottom */}
+                <div className="absolute -top-6 left-1/2 -translate-x-1/2 text-[#C9A84C]/22 text-xs tracking-[0.45em] select-none pointer-events-none" style={{ fontFamily: 'serif' }}>
+                  ♈ ♉ ♊ ♋ ♌ ♍
+                </div>
+                <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[#7B5FD4]/22 text-xs tracking-[0.45em] select-none pointer-events-none" style={{ fontFamily: 'serif' }}>
+                  ♎ ♏ ♐ ♑ ♒ ♓
                 </div>
               </div>
             </motion.div>
-          </motion.div>
+
+          </div>
         </div>
       </section>
 
@@ -133,7 +201,7 @@ export default function Home() {
             </div>
           </motion.div>
           <motion.div initial={{ opacity: 0, x: 24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="relative">
-            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80" alt="Robert Wagner" className="rounded-xl w-full object-cover h-[460px] border border-white/15" />
+            <img src="/robert.png" alt="Robert Wagner" className="rounded-xl w-full object-cover object-bottom h-[460px] border border-white/15" />
             <div className="absolute bottom-4 left-4 right-4">
               <div className="bg-[#1B1040]/80 backdrop-blur-sm rounded-lg px-4 py-3 border border-white/10">
                 <div className="flex items-center gap-3">

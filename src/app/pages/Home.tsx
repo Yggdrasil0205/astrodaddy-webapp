@@ -476,10 +476,44 @@ export default function Home() {
 
       {/* ── POTENZIAL ─ Kosmos ─────────────────────────────────── */}
       <section className="relative py-24 px-6 overflow-hidden bg-[#1B1040]">
-        {/* Subtle nebula ambient glows — no hard image edges */}
+        {/* Animated nebula — looks like ambient space video, no hard image edges */}
         <div className="absolute inset-0 pointer-events-none" aria-hidden>
-          <div className="absolute top-1/4 left-1/3 w-[600px] h-[400px] rounded-full bg-[#3D2A8A]/25" style={{ filter: 'blur(130px)' }} />
-          <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[300px] rounded-full bg-[#7B5FD4]/18" style={{ filter: 'blur(110px)' }} />
+          {/* Primary nebula: slow color shift across the section */}
+          <motion.div
+            className="absolute inset-0"
+            animate={{ background: [
+              'radial-gradient(ellipse 110% 70% at 25% 55%, rgba(61,42,138,0.55) 0%, transparent 60%)',
+              'radial-gradient(ellipse 130% 90% at 45% 35%, rgba(77,42,154,0.50) 0%, transparent 58%)',
+              'radial-gradient(ellipse 100% 75% at 15% 65%, rgba(93,50,170,0.52) 0%, transparent 62%)',
+              'radial-gradient(ellipse 110% 70% at 25% 55%, rgba(61,42,138,0.55) 0%, transparent 60%)',
+            ]}}
+            transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut' }}
+          />
+          {/* Secondary nebula: offset timing, drifts right */}
+          <motion.div
+            className="absolute inset-0"
+            animate={{ background: [
+              'radial-gradient(ellipse 80% 60% at 72% 58%, rgba(123,95,212,0.30) 0%, transparent 52%)',
+              'radial-gradient(ellipse 95% 75% at 82% 38%, rgba(107,47,196,0.28) 0%, transparent 50%)',
+              'radial-gradient(ellipse 85% 65% at 65% 68%, rgba(139,79,228,0.32) 0%, transparent 54%)',
+              'radial-gradient(ellipse 80% 60% at 72% 58%, rgba(123,95,212,0.30) 0%, transparent 52%)',
+            ]}}
+            transition={{ duration: 26, repeat: Infinity, ease: 'easeInOut', delay: 7 }}
+          />
+          {/* Gold accent glow — slowly pulses */}
+          <motion.div
+            className="absolute rounded-full"
+            style={{ width: 480, height: 480, left: '58%', top: '10%', background: '#C9A84C', filter: 'blur(140px)' }}
+            animate={{ opacity: [0.06, 0.13, 0.05, 0.06], scale: [1, 1.25, 0.85, 1] }}
+            transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut', delay: 3 }}
+          />
+          {/* Deep blue drift — bottom left */}
+          <motion.div
+            className="absolute rounded-full"
+            style={{ width: 520, height: 380, left: '-5%', top: '45%', background: '#1a0a4a', filter: 'blur(100px)' }}
+            animate={{ opacity: [0.7, 0.5, 0.8, 0.7], x: [0, 30, -10, 0], y: [0, -20, 15, 0] }}
+            transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+          />
         </div>
         <div className="max-w-6xl mx-auto relative z-10">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-14">

@@ -204,7 +204,7 @@ export default function Ausbildung() {
                   <div className="w-11 h-11 rounded-full bg-[#C9A84C]/15 border border-[#C9A84C]/25 flex items-center justify-center mx-auto mb-5">
                     <c.icon className="w-5 h-5 text-[#C9A84C]" />
                   </div>
-                  <h3 className="text-[#F0E6C8] font-semibold mb-3">{c.title}</h3>
+                  <h3 className="text-[#F0E6C8] font-semibold text-lg mb-3">{c.title}</h3>
                   <p className="text-[#F0E6C8]/50 text-sm leading-relaxed">{c.desc}</p>
                 </GlassCard>
               </motion.div>
@@ -230,7 +230,7 @@ export default function Ausbildung() {
                   <div className="w-10 h-10 rounded-lg bg-[#3D2A8A]/50 border border-[#7B5FD4]/20 flex items-center justify-center mb-5">
                     <f.icon className="w-5 h-5 text-[#C9A84C]" />
                   </div>
-                  <h3 className="text-[#F0E6C8] font-semibold text-sm mb-2">{f.title}</h3>
+                  <h3 className="text-[#F0E6C8] font-semibold text-lg mb-2">{f.title}</h3>
                   <p className="text-[#F0E6C8]/45 text-xs leading-relaxed flex-1">{f.desc}</p>
                 </GlassCard>
               </motion.div>
@@ -260,7 +260,7 @@ export default function Ausbildung() {
                 <GlassCard className="rounded-xl p-5 flex gap-4 border-white/10">
                   <div className="text-2xl font-bold text-[#C9A84C]/40 shrink-0 w-10 leading-none pt-0.5" style={{ fontFamily: 'Cinzel, serif' }}>{m.nr}</div>
                   <div>
-                    <h3 className="text-[#F0E6C8] font-medium mb-1 text-sm">{m.title}</h3>
+                    <h3 className="text-[#F0E6C8] font-semibold mb-1 text-lg">{m.title}</h3>
                     <p className="text-[#F0E6C8]/50 text-xs leading-relaxed">{m.desc}</p>
                   </div>
                 </GlassCard>

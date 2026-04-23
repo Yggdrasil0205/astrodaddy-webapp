@@ -196,19 +196,19 @@ function UeberRobertSection() {
 
   return (
     <section ref={sectionRef} className="relative overflow-hidden">
-      {/* Robert photo full-bleed parallax — spans entire section, no column split */}
+      {/* Space parallax background */}
       <div ref={parallaxRef} style={{ position: 'absolute', top: '-22%', bottom: '-22%', left: 0, right: 0, willChange: 'transform' }}>
         <img
-          src="/robert.png"
+          src="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=1920&q=80"
           alt=""
-          style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'right top', display: 'block' }}
+          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
         />
       </div>
 
-      {/* Gradient: heavy dark on left for text, fades to transparent on right so Robert is visible */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#09061a]/95 via-[#09061a]/65 to-[#09061a]/5" />
+      {/* Unified dark overlay — uniform enough so no hard split between columns */}
+      <div className="absolute inset-0 bg-gradient-to-r from-[#09061a]/88 via-[#09061a]/50 to-[#09061a]/25" />
 
-      {/* Wave overlays at z-index 30 — above the photo so it's clipped by wave shape */}
+      {/* Wave overlays at z-index 30 — above content so Robert's photo is clipped by wave shape */}
       <div className="absolute top-0 left-0 right-0 pointer-events-none" style={{ height: 64, zIndex: 30 }}>
         <svg viewBox="0 0 1440 64" preserveAspectRatio="none" style={{ display: 'block', width: '100%', height: '100%' }}>
           <path d="M0,32 C240,64 480,0 720,32 C960,64 1200,0 1440,32 L1440,0 L0,0 Z" fill="#1B1040" />
@@ -220,11 +220,11 @@ function UeberRobertSection() {
         </svg>
       </div>
 
-      {/* Content: text only on left, Robert visible through right side of photo */}
-      <div className="relative min-h-[580px] flex items-center" style={{ zIndex: 20 }}>
+      <div className="relative grid grid-cols-1 lg:grid-cols-2 min-h-[580px]" style={{ zIndex: 20 }}>
+        {/* Left: Text */}
         <motion.div
           initial={{ opacity: 0, x: -24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
-          className="py-28 px-8 lg:px-16 max-w-2xl flex flex-col justify-center"
+          className="py-28 px-8 lg:px-16 flex flex-col justify-center"
         >
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#C9A84C]/40 text-[#C9A84C] text-xs tracking-widest uppercase mb-6" style={{ fontFamily: 'Cinzel, serif' }}>Über Robert</div>
           <h2 className="text-4xl text-[#F0E6C8] mb-5">Astrologe & spiritueller Lebensberater</h2>
@@ -243,6 +243,16 @@ function UeberRobertSection() {
               </a>
             ))}
           </div>
+        </motion.div>
+
+        {/* Right: Robert photo — no left-edge fade (that caused the dark inner shadow) */}
+        <motion.div
+          initial={{ opacity: 0, x: 24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
+          className="relative h-[500px] lg:h-auto"
+        >
+          <img src="/robert.png" alt="Robert Wagner" className="absolute inset-0 w-full h-full object-cover object-top" />
+          {/* Subtle gold light-leak only */}
+          <div className="absolute inset-0 bg-gradient-to-bl from-[#C9A84C]/12 via-transparent to-transparent pointer-events-none" />
         </motion.div>
       </div>
     </section>

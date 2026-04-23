@@ -5,7 +5,7 @@ import { Button } from '../components/ui/button';
 import { StarField } from '../components/StarField';
 import {
   Star, CheckCircle, ArrowRight, Moon, Sparkles,
-  Users, BookOpen, Zap, MessageCircle, RotateCcw, Brain,
+  Users, BookOpen, Zap, MessageCircle, RotateCcw, Brain, Heart,
 } from 'lucide-react';
 
 // ── shared helpers ────────────────────────────────────────────
@@ -326,6 +326,27 @@ export default function Ausbildung() {
         </div>
       </section>
 
+      {/* ── SENSITIVER HINWEIS ───────────────────────────────── */}
+      <section className="py-16 px-6 bg-[#1B1040]">
+        <div className="max-w-3xl mx-auto">
+          <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+            <GlassCard className="rounded-xl p-8 border-[#7B5FD4]/20">
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-lg bg-[#7B5FD4]/15 border border-[#7B5FD4]/25 flex items-center justify-center shrink-0 mt-0.5">
+                  <Heart className="w-5 h-5 text-[#7B5FD4]" />
+                </div>
+                <div>
+                  <h3 className="text-[#F0E6C8] font-semibold mb-3">Ein wichtiger Hinweis</h3>
+                  <p className="text-[#F0E6C8]/60 text-sm leading-relaxed">
+                    Die Inhalte der Astroversity Academy sind für persönliche Reflexion und Selbsterkenntnis gedacht. Sie können dabei helfen, eigene Muster, Emotionen und Potenziale besser zu verstehen – ersetzen jedoch keine professionelle therapeutische oder psychologische Begleitung. Bei schwerwiegenden psychischen Belastungen oder Traumata wende dich bitte an eine Fachkraft. Du trägst die Verantwortung für dein eigenes Wohlbefinden.
+                  </p>
+                </div>
+              </div>
+            </GlassCard>
+          </motion.div>
+        </div>
+      </section>
+
       <WaveDivider fromColor="#1B1040" toColor="#C9A84C" />
 
       {/* ── CTA ──────────────────────────────────────────────── */}
@@ -348,6 +369,17 @@ export default function Ausbildung() {
       </section>
 
       <WaveDivider fromColor="#C9A84C" toColor="#1B1040" />
+
+      {/* ── RECHTLICHES ──────────────────────────────────────── */}
+      <section className="py-12 px-6 bg-[#1B1040]">
+        <div className="max-w-3xl mx-auto">
+          <div className="border-t border-white/8 pt-10">
+            <p className="text-[#F0E6C8]/22 text-xs leading-relaxed text-center">
+              Die Astroversity Academy ist kein staatlich anerkannter Bildungsabschluss und verleiht kein offiziell anerkanntes Zertifikat. Die vermittelten Inhalte dienen ausschließlich der persönlichen Weiterentwicklung und Selbstreflexion. Es findet keine formale Lernerfolgskontrolle im Sinne des Fernunterrichtsschutzgesetzes statt. Alle Inhalte werden als digitales Weiterbildungsformat ohne Prüfungsordnung angeboten.
+            </p>
+          </div>
+        </div>
+      </section>
 
     </div>
   );

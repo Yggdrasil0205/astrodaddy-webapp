@@ -196,36 +196,35 @@ function UeberRobertSection() {
 
   return (
     <section ref={sectionRef} className="relative overflow-hidden">
-      {/* Parallax space background — inline style for correct top/bottom overshoot */}
+      {/* Robert photo full-bleed parallax — spans entire section, no column split */}
       <div ref={parallaxRef} style={{ position: 'absolute', top: '-22%', bottom: '-22%', left: 0, right: 0, willChange: 'transform' }}>
         <img
-          src="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=1920&q=80"
+          src="/robert.png"
           alt=""
-          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+          style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'right top', display: 'block' }}
         />
       </div>
 
-      {/* Unified overlay — neutral dark, no purple box */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#09061a]/90 via-[#09061a]/55 to-[#09061a]/20" />
+      {/* Gradient: heavy dark on left for text, fades to transparent on right so Robert is visible */}
+      <div className="absolute inset-0 bg-gradient-to-r from-[#09061a]/95 via-[#09061a]/65 to-[#09061a]/5" />
 
-      {/* Top wave — same shape as WaveDivider, fills area above wave with hero bg */}
-      <div className="absolute top-0 left-0 right-0 pointer-events-none" style={{ height: 64, zIndex: 10 }}>
+      {/* Wave overlays at z-index 30 — above the photo so it's clipped by wave shape */}
+      <div className="absolute top-0 left-0 right-0 pointer-events-none" style={{ height: 64, zIndex: 30 }}>
         <svg viewBox="0 0 1440 64" preserveAspectRatio="none" style={{ display: 'block', width: '100%', height: '100%' }}>
           <path d="M0,32 C240,64 480,0 720,32 C960,64 1200,0 1440,32 L1440,0 L0,0 Z" fill="#1B1040" />
         </svg>
       </div>
-      {/* Bottom wave — fills area below wave with leistungen bg */}
-      <div className="absolute bottom-0 left-0 right-0 pointer-events-none" style={{ height: 64, zIndex: 10 }}>
+      <div className="absolute bottom-0 left-0 right-0 pointer-events-none" style={{ height: 64, zIndex: 30 }}>
         <svg viewBox="0 0 1440 64" preserveAspectRatio="none" style={{ display: 'block', width: '100%', height: '100%' }}>
           <path d="M0,32 C240,64 480,0 720,32 C960,64 1200,0 1440,32 L1440,64 L0,64 Z" fill="#1B1040" />
         </svg>
       </div>
 
-      <div className="relative grid grid-cols-1 lg:grid-cols-2 min-h-[580px]" style={{ zIndex: 20 }}>
-        {/* Left: Text */}
+      {/* Content: text only on left, Robert visible through right side of photo */}
+      <div className="relative min-h-[580px] flex items-center" style={{ zIndex: 20 }}>
         <motion.div
           initial={{ opacity: 0, x: -24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
-          className="py-28 px-8 lg:px-16 flex flex-col justify-center"
+          className="py-28 px-8 lg:px-16 max-w-2xl flex flex-col justify-center"
         >
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#C9A84C]/40 text-[#C9A84C] text-xs tracking-widest uppercase mb-6" style={{ fontFamily: 'Cinzel, serif' }}>Über Robert</div>
           <h2 className="text-4xl text-[#F0E6C8] mb-5">Astrologe & spiritueller Lebensberater</h2>
@@ -243,27 +242,6 @@ function UeberRobertSection() {
                 </div>
               </a>
             ))}
-          </div>
-        </motion.div>
-
-        {/* Right: Foto bündig */}
-        <motion.div
-          initial={{ opacity: 0, x: 24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
-          className="relative h-[500px] lg:h-auto"
-        >
-          <img src="/robert.png" alt="Robert Wagner" className="absolute inset-0 w-full h-full object-cover object-top" />
-          {/* Light-Leak */}
-          <div className="absolute inset-0 bg-gradient-to-bl from-[#C9A84C]/15 via-transparent to-transparent pointer-events-none" />
-          {/* Links nahtlos in Overlay ausblenden */}
-          <div className="absolute inset-y-0 left-0 w-40 pointer-events-none" style={{ background: 'linear-gradient(to right, rgba(9,6,26,0.85), transparent)' }} />
-          {/* Rating-Badge */}
-          <div className="absolute bottom-10 left-6 right-6">
-            <div className="bg-[#1B1040]/75 backdrop-blur-sm rounded-lg px-4 py-3 border border-white/10">
-              <div className="flex items-center gap-3">
-                <div className="flex gap-0.5">{Array.from({ length: 5 }).map((_, i) => <Star key={i} className="w-3.5 h-3.5 fill-[#C9A84C] text-[#C9A84C]" />)}</div>
-                <span className="text-[#F0E6C8]/70 text-xs">5/5 Sterne · 100% Zufriedenheitsrate</span>
-              </div>
-            </div>
           </div>
         </motion.div>
       </div>
@@ -433,7 +411,7 @@ export default function Home() {
                   <GlassCard hover className="rounded-xl overflow-hidden border-white/8 cursor-pointer group h-full flex flex-col">
                     <ParallaxImg src={s.img} alt={s.title} />
                     <div className="p-5 flex flex-col flex-1">
-                      <h3 className="text-[#F0E6C8] font-semibold text-sm mb-2">{s.title}</h3>
+                      <h3 className="text-[#F0E6C8] font-semibold text-lg mb-2">{s.title}</h3>
                       <p className="text-[#F0E6C8]/45 text-xs leading-relaxed flex-1">{s.desc}</p>
                       <div className="flex items-center gap-1.5 mt-4 text-[#C9A84C] text-xs font-medium">Mehr erfahren <ArrowRight className="w-3 h-3" /></div>
                     </div>
@@ -505,7 +483,7 @@ export default function Home() {
                   <div className="w-10 h-10 rounded-lg bg-[#3D2A8A]/50 border border-[#7B5FD4]/20 flex items-center justify-center mb-5">
                     <p.icon className="w-5 h-5 text-[#C9A84C]" />
                   </div>
-                  <h3 className="text-[#F0E6C8] font-semibold text-sm mb-2">{p.title}</h3>
+                  <h3 className="text-[#F0E6C8] font-semibold text-lg mb-2">{p.title}</h3>
                   <p className="text-[#F0E6C8]/45 text-xs leading-relaxed">{p.desc}</p>
                 </GlassCard>
               </motion.div>
@@ -577,7 +555,7 @@ export default function Home() {
                 <div className={`rounded-xl p-7 h-full flex flex-col relative border ${p.highlight ? 'bg-[#C9A84C] border-[#C9A84C]' : 'bg-white/8 border-white/15'}`}>
                   {p.highlight && <div className="absolute -top-3 left-5"><span className="px-3 py-1 rounded bg-[#1B1040] text-[#C9A84C] text-xs font-semibold">Empfohlen</span></div>}
                   <div className={`pt-2 mb-1 text-xs tracking-widest uppercase ${p.highlight ? 'text-[#1B1040]/60' : 'text-[#F0E6C8]/40'}`} style={{ fontFamily: 'Cinzel, serif' }}>{p.duration}</div>
-                  <h3 className={`text-lg font-semibold mb-2 ${p.highlight ? 'text-[#1B1040]' : 'text-[#F0E6C8]'}`}>{p.title}</h3>
+                  <h3 className={`text-xl font-semibold mb-2 ${p.highlight ? 'text-[#1B1040]' : 'text-[#F0E6C8]'}`}>{p.title}</h3>
                   <div className={`text-3xl font-bold mb-6 ${p.highlight ? 'text-[#1B1040]' : 'text-[#C9A84C]'}`}>{p.price}</div>
                   <ul className="space-y-2.5 mb-7 flex-1">
                     {p.features.map(f => (

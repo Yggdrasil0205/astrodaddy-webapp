@@ -208,19 +208,14 @@ function UeberRobertSection() {
       {/* Unified dark overlay — uniform enough so no hard split between columns */}
       <div className="absolute inset-0 bg-gradient-to-r from-[#09061a]/88 via-[#09061a]/50 to-[#09061a]/25" />
 
-      {/* Wave overlays at z-index 30 — above content so Robert's photo is clipped by wave shape */}
-      <div className="absolute top-0 left-0 right-0 pointer-events-none" style={{ height: 64, zIndex: 30 }}>
-        <svg viewBox="0 0 1440 64" preserveAspectRatio="none" style={{ display: 'block', width: '100%', height: '100%' }}>
-          <path d="M0,32 C240,64 480,0 720,32 C960,64 1200,0 1440,32 L1440,0 L0,0 Z" fill="#1B1040" />
-        </svg>
-      </div>
+      {/* Bottom wave only — top edge is straight (flush with hero) */}
       <div className="absolute bottom-0 left-0 right-0 pointer-events-none" style={{ height: 64, zIndex: 30 }}>
         <svg viewBox="0 0 1440 64" preserveAspectRatio="none" style={{ display: 'block', width: '100%', height: '100%' }}>
           <path d="M0,32 C240,64 480,0 720,32 C960,64 1200,0 1440,32 L1440,64 L0,64 Z" fill="#1B1040" />
         </svg>
       </div>
 
-      <div className="relative grid grid-cols-1 lg:grid-cols-2 min-h-[580px]" style={{ zIndex: 20 }}>
+      <div className="relative grid grid-cols-1 lg:grid-cols-2 min-h-[700px]" style={{ zIndex: 20 }}>
         {/* Left: Text */}
         <motion.div
           initial={{ opacity: 0, x: -24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}

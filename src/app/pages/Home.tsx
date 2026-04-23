@@ -208,12 +208,20 @@ function UeberRobertSection() {
       {/* Unified overlay — neutral dark, no purple box */}
       <div className="absolute inset-0 bg-gradient-to-r from-[#09061a]/90 via-[#09061a]/55 to-[#09061a]/20" />
 
-      {/* Top fade — blends into hero section above */}
-      <div className="absolute top-0 left-0 right-0 h-36 pointer-events-none" style={{ background: 'linear-gradient(to bottom, #1B1040 0%, transparent 100%)' }} />
-      {/* Bottom fade — blends into leistungen section below */}
-      <div className="absolute bottom-0 left-0 right-0 h-36 pointer-events-none" style={{ background: 'linear-gradient(to top, #1B1040 0%, transparent 100%)' }} />
+      {/* Top wave — same shape as WaveDivider, fills area above wave with hero bg */}
+      <div className="absolute top-0 left-0 right-0 pointer-events-none" style={{ height: 64, zIndex: 10 }}>
+        <svg viewBox="0 0 1440 64" preserveAspectRatio="none" style={{ display: 'block', width: '100%', height: '100%' }}>
+          <path d="M0,32 C240,64 480,0 720,32 C960,64 1200,0 1440,32 L1440,0 L0,0 Z" fill="#1B1040" />
+        </svg>
+      </div>
+      {/* Bottom wave — fills area below wave with leistungen bg */}
+      <div className="absolute bottom-0 left-0 right-0 pointer-events-none" style={{ height: 64, zIndex: 10 }}>
+        <svg viewBox="0 0 1440 64" preserveAspectRatio="none" style={{ display: 'block', width: '100%', height: '100%' }}>
+          <path d="M0,32 C240,64 480,0 720,32 C960,64 1200,0 1440,32 L1440,64 L0,64 Z" fill="#1B1040" />
+        </svg>
+      </div>
 
-      <div className="relative grid grid-cols-1 lg:grid-cols-2 min-h-[580px]">
+      <div className="relative grid grid-cols-1 lg:grid-cols-2 min-h-[580px]" style={{ zIndex: 20 }}>
         {/* Left: Text */}
         <motion.div
           initial={{ opacity: 0, x: -24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
@@ -480,21 +488,11 @@ export default function Home() {
 
       {/* ── POTENZIAL ─ Kosmos ─────────────────────────────────── */}
       <section className="relative py-24 px-6 overflow-hidden bg-[#1B1040]">
-        {/* Ken Burns ambient space background */}
-        <motion.div
-          className="absolute inset-0 pointer-events-none"
-          animate={{ scale: [1, 1.08, 1], x: [0, -18, 0], y: [0, -10, 0] }}
-          transition={{ duration: 40, repeat: Infinity, ease: 'easeInOut' }}
-        >
-          <img
-            src="https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=1920&q=80"
-            alt=""
-            className="w-full h-full object-cover opacity-20"
-            style={{ display: 'block' }}
-          />
-        </motion.div>
-        {/* Vignette overlay */}
-        <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-[#1B1040]/80 via-transparent to-[#1B1040]/80" />
+        {/* Subtle nebula ambient glows — no hard image edges */}
+        <div className="absolute inset-0 pointer-events-none" aria-hidden>
+          <div className="absolute top-1/4 left-1/3 w-[600px] h-[400px] rounded-full bg-[#3D2A8A]/25" style={{ filter: 'blur(130px)' }} />
+          <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[300px] rounded-full bg-[#7B5FD4]/18" style={{ filter: 'blur(110px)' }} />
+        </div>
         <div className="max-w-6xl mx-auto relative z-10">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-14">
             <h2 className="text-4xl text-[#F0E6C8] mb-3">Dein Potenzial entschlüsseln</h2>

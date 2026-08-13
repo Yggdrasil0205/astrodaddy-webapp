@@ -108,7 +108,7 @@ export default function MemberDashboard() {
       <section className="bg-[#C9A84C] py-14 px-6">
         <div className="max-w-3xl mx-auto text-center">
           <Sparkles className="w-8 h-8 text-[#1B1040] mx-auto mb-4 opacity-70" />
-          <h2 className="text-2xl font-bold text-[#1B1040] mb-3" style={{ fontFamily: 'Cinzel, serif' }}>
+          <h2 className="text-2xl font-bold text-[#1B1040] mb-3" style={{ fontFamily: '"rl-limo-1", "rl-limo-2", sans-serif', fontWeight: 400 }}>
             Schalte alle Inhalte frei
           </h2>
           <p className="text-[#1B1040]/70 mb-7">Upgrade auf Mitglied und erhalte Zugang zu Live-Sessions, exklusiven Kursen & mehr.</p>

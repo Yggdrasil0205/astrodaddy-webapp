@@ -57,13 +57,13 @@ export function CartDropdown() {
             transition={{ duration: 0.2 }}
             className="absolute right-0 top-full mt-2 w-96 z-50"
           >
-            <GlassCard className="rounded-2xl p-4 shadow-2xl max-h-[80vh] flex flex-col">
+            <div className="rounded-2xl p-4 shadow-2xl max-h-[80vh] flex flex-col bg-[#120d2e] border border-white/10">
               {/* Header */}
-              <div className="flex items-center justify-between mb-4 pb-3 border-b border-white/20">
-                <h3 className="text-lg font-bold">Warenkorb</h3>
+              <div className="flex items-center justify-between mb-4 pb-3 border-b border-white/10">
+                <h3 className="text-lg font-bold text-[#F0E6C8]">Warenkorb</h3>
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="p-1 hover:bg-white/20 rounded-lg transition-colors"
+                  className="p-1 hover:bg-white/10 rounded-lg transition-colors text-[#F0E6C8]/60 hover:text-[#F0E6C8]"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -72,8 +72,8 @@ export function CartDropdown() {
               {/* Cart Items */}
               {items.length === 0 ? (
                 <div className="flex-1 flex flex-col items-center justify-center py-8">
-                  <ShoppingCart className="w-16 h-16 text-muted-foreground/30 mb-4" />
-                  <p className="text-muted-foreground">Dein Warenkorb ist leer</p>
+                  <ShoppingCart className="w-16 h-16 text-[#F0E6C8]/20 mb-4" />
+                  <p className="text-[#F0E6C8]/50">Dein Warenkorb ist leer</p>
                 </div>
               ) : (
                 <>
@@ -85,7 +85,7 @@ export function CartDropdown() {
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: 20 }}
-                        className="flex gap-3 p-3 rounded-xl bg-white/30 backdrop-blur-sm"
+                        className="flex gap-3 p-3 rounded-xl bg-white/5 border border-white/8"
                       >
                         {/* Product Image */}
                         <div className="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
@@ -98,8 +98,8 @@ export function CartDropdown() {
 
                         {/* Product Info */}
                         <div className="flex-1 min-w-0">
-                          <h4 className="font-medium text-sm mb-1 truncate">{item.name}</h4>
-                          <p className="text-sm font-bold text-[#1b2a23] mb-2">
+                          <h4 className="font-medium text-sm mb-1 truncate text-[#F0E6C8]">{item.name}</h4>
+                          <p className="text-sm font-bold text-[#C9A84C] mb-2">
                             {item.priceFormatted}
                           </p>
 
@@ -107,16 +107,16 @@ export function CartDropdown() {
                           <div className="flex items-center gap-2">
                             <button
                               onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                              className="w-6 h-6 rounded-lg bg-white/40 hover:bg-white/60 flex items-center justify-center transition-colors"
+                              className="w-6 h-6 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors text-[#F0E6C8]"
                             >
                               <Minus className="w-3 h-3" />
                             </button>
-                            <span className="text-sm font-medium w-8 text-center">
+                            <span className="text-sm font-medium w-8 text-center text-[#F0E6C8]">
                               {item.quantity}
                             </span>
                             <button
                               onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                              className="w-6 h-6 rounded-lg bg-white/40 hover:bg-white/60 flex items-center justify-center transition-colors"
+                              className="w-6 h-6 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors text-[#F0E6C8]"
                             >
                               <Plus className="w-3 h-3" />
                             </button>
@@ -126,31 +126,31 @@ export function CartDropdown() {
                         {/* Remove Button */}
                         <button
                           onClick={() => removeFromCart(item.id)}
-                          className="p-2 hover:bg-white/20 rounded-lg transition-colors self-start"
+                          className="p-2 hover:bg-white/10 rounded-lg transition-colors self-start"
                         >
-                          <Trash2 className="w-4 h-4 text-red-500" />
+                          <Trash2 className="w-4 h-4 text-red-400" />
                         </button>
                       </motion.div>
                     ))}
                   </div>
 
                   {/* Total & Checkout */}
-                  <div className="pt-4 border-t border-white/20 space-y-3">
+                  <div className="pt-4 border-t border-white/10 space-y-3">
                     <div className="flex items-center justify-between">
-                      <span className="font-medium">Gesamt:</span>
-                      <span className="text-xl font-bold text-[#1b2a23]">
+                      <span className="font-medium text-[#F0E6C8]/70">Gesamt:</span>
+                      <span className="text-xl font-bold text-[#C9A84C]">
                         {totalPrice.toFixed(2).replace('.', ',')}€
                       </span>
                     </div>
                     <Link to="/checkout" onClick={() => setIsOpen(false)}>
-                      <Button className="w-full bg-[#1b2a23]/80 hover:bg-[#1b2a23]/90 text-white">
+                      <Button className="w-full bg-[#C9A84C] hover:bg-[#C9A84C]/90 text-[#1B1040] font-semibold">
                         Zur Kasse
                       </Button>
                     </Link>
                   </div>
                 </>
               )}
-            </GlassCard>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import { useAuth } from '../context/AuthContext';
-import { Home, Star, Users, LogOut, LogIn, User, BookOpen, Moon } from 'lucide-react';
+import { Home, ShoppingBag, LogOut, LogIn, User, BookOpen, Moon, ScrollText, Link2 } from 'lucide-react';
 import { Button } from './ui/button';
 import { CartDropdown } from './CartDropdown';
 
@@ -30,7 +30,7 @@ export function Navigation() {
           <Link to="/" className="flex items-center gap-2.5 group">
             <Moon className="w-6 h-6 text-[#C9A84C]" />
             <span className="text-lg font-semibold tracking-widest text-[#F0E6C8]"
-              style={{ fontFamily: 'Cinzel, serif' }}>
+              style={{ fontFamily: '"rl-limo-1", "rl-limo-2", sans-serif', fontWeight: 400 }}>
               ROBERT WAGNER
             </span>
           </Link>
@@ -38,10 +38,11 @@ export function Navigation() {
           {/* Links */}
           <div className="flex items-center gap-1">
             {[
-              { to: '/',           label: 'Start',      icon: Home },
-              { to: '/angebote',   label: 'Angebote',   icon: Star },
-              { to: '/ausbildung', label: 'Ausbildung', icon: BookOpen },
-              { to: '/community',  label: 'Community',  icon: Users },
+              { to: '/',                    label: 'Start',                 icon: Home },
+              { to: '/links',               label: 'Links',                 icon: Link2 },
+              { to: '/angebote',            label: 'Shop',                  icon: ShoppingBag },
+              { to: '/readings-workbooks',  label: 'Readings & Workbooks',  icon: ScrollText },
+              { to: '/astroversity',        label: 'Astroversity Academy',  icon: BookOpen },
             ].map(({ to, label, icon: Icon }) => (
               <Link key={to} to={to}>
                 <button className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all ${

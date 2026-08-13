@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Link } from 'react-router';
-import { motion, AnimatePresence } from 'motion/react';
+import { Link, useNavigate } from 'react-router';
+import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
+import { useCart } from '../context/CartContext';
 import { GlassCard } from '../components/GlassCard';
 import { Button } from '../components/ui/button';
 import { StarField } from '../components/StarField';
@@ -10,6 +11,60 @@ import {
   Instagram, Youtube, ChevronDown, BookOpen,
   Key, Brain, Zap, RotateCcw
 } from 'lucide-react';
+import { NewsletterSignup } from '../components/NewsletterSignup';
+
+// ── Animated counter hook ─────────────────────────────────────────────
+function useCountUp(target: number, duration = 1800) {
+  const [value, setValue] = useState(0);
+  const ref = useRef<HTMLDivElement>(null);
+  const started = useRef(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && !started.current) {
+        started.current = true;
+        const start = performance.now();
+        const tick = (now: number) => {
+          const p = Math.min((now - start) / duration, 1);
+          // ease-out cubic
+          const eased = 1 - Math.pow(1 - p, 3);
+          setValue(Math.round(target * eased));
+          if (p < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      }
+    }, { threshold: 0.4 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [target, duration]);
+  return { value, ref };
+}
+
+function formatCount(n: number): string {
+  if (n >= 1_000_000) return (n / 1_000_000).toFixed(1).replace('.', ',') + ' Mio.';
+  if (n >= 1_000)     return (n / 1_000).toFixed(n >= 10_000 ? 0 : 1).replace('.', ',') + ' Tsd.';
+  return n.toString();
+}
+
+function CounterBadge({ target, duration }: { target: number; label: string; duration?: number }) {
+  const { value, ref } = useCountUp(target, duration);
+  return (
+    <div ref={ref} className="text-center">
+      <div className="text-3xl font-bold text-[#1B1040]" style={{ fontFamily: '"rl-limo-1", "rl-limo-2", sans-serif', fontWeight: 400 }}>
+        {formatCount(value)}
+      </div>
+    </div>
+  );
+}
+
+// ── Social post embed cards ───────────────────────────────────────────
+// Update these URLs whenever there's a new post to feature
+const FEATURED_POSTS = {
+  youtube:   'eVFkc8QfG3o',
+  tiktok:    '7629336121683496225',
+  instagram: 'DXjQGj-gRxI',
+};
 
 const TikTokIcon = () => (
   <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
@@ -21,7 +76,7 @@ const faqData = [
   { q: 'Wie läuft eine astrologische Beratung ab?', a: 'Nach der Buchung erhältst du einen Terminlink. Robert analysiert vorab dein Geburtshoroskop und geht im Call tief auf deine Persönlichkeit, aktuellen Themen und Lebensaufgaben ein.' },
   { q: 'Welche Daten brauche ich für ein Horoskop?', a: 'Geburtsdatum, Geburtszeit (so genau wie möglich) und Geburtsort. Je genauer die Zeit, desto präziser das Horoskop.' },
   { q: 'Was wenn ich meine Geburtszeit nicht kenne?', a: 'Kein Problem. Robert arbeitet auch ohne exakte Geburtszeit und nutzt dann ein Solar-Chart oder Rektifikationstechniken.' },
-  { q: 'Gibt es Ratenzahlung für die Ausbildung?', a: 'Ja! Für die 6-monatige Astrologie-Ausbildung ist Ratenzahlung über Klarna möglich.' },
+  { q: 'Was ist die Astroversity Academy?', a: 'Die Astroversity Academy ist Roberts Online-Mitgliedschaftsplattform: monatlich neue Astrologie-Inhalte, Live-Sessions, Kurse und eine Community. Alles auf einer Plattform – für Einsteiger und Fortgeschrittene.' },
 ];
 
 function FaqItem({ q, a }: { q: string; a: string }) {
@@ -140,37 +195,31 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
   );
 }
 
-// ── Testimonial auto-carousel ─────────────────────────────────────────
-function TestimonialCarousel({ items }: { items: { name: string; text: string; stars: number }[] }) {
-  const [active, setActive] = useState(0);
-  useEffect(() => {
-    const id = setInterval(() => setActive(a => (a + 1) % items.length), 4500);
-    return () => clearInterval(id);
-  }, [items.length]);
+// ── Testimonial infinite marquee ──────────────────────────────────────
+function TestimonialMarquee({ items }: { items: { name: string; text: string; stars: number }[] }) {
   return (
-    <div>
-      <div className="relative overflow-hidden">
-        <motion.div className="flex" animate={{ x: `-${active * 100}%` }} transition={{ type: 'spring', stiffness: 280, damping: 32 }}>
-          {items.map(t => (
-            <div key={t.name} className="min-w-full px-2 sm:px-8">
-              <GlassCard className="rounded-xl p-8 border-white/8 max-w-2xl mx-auto">
-                <Quote className="w-6 h-6 text-[#C9A84C]/35 mb-5" />
-                <p className="text-[#F0E6C8]/68 text-base leading-relaxed mb-6 italic">"{t.text}"</p>
-                <div className="flex items-center justify-between">
-                  <span className="text-[#F0E6C8] font-medium">{t.name}</span>
-                  <div className="flex gap-0.5">{Array.from({ length: t.stars }).map((_, i) => <Star key={i} className="w-3.5 h-3.5 fill-[#C9A84C] text-[#C9A84C]" />)}</div>
-                </div>
-              </GlassCard>
-            </div>
-          ))}
-        </motion.div>
-      </div>
-      <div className="flex justify-center gap-2 mt-6">
-        {items.map((_, i) => (
-          <button key={i} onClick={() => setActive(i)}
-            className={`h-1.5 rounded-full transition-all duration-300 ${i === active ? 'bg-[#C9A84C] w-7' : 'bg-white/20 w-1.5'}`} />
+    <div
+      className="overflow-hidden"
+      style={{ maskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)' }}
+    >
+      <motion.div
+        className="flex gap-5"
+        animate={{ x: [0, -(items.length * 400)] }}
+        transition={{ duration: 45, repeat: Infinity, ease: 'linear' }}
+      >
+        {[...items, ...items].map((t, i) => (
+          <div key={i} className="flex-shrink-0 w-[380px]">
+            <GlassCard className="rounded-xl p-8 border-white/8 h-full">
+              <Quote className="w-6 h-6 text-[#C9A84C]/35 mb-5" />
+              <p className="text-[#F0E6C8]/68 text-base leading-relaxed mb-6 italic">"{t.text}"</p>
+              <div className="flex items-center justify-between">
+                <span className="text-[#F0E6C8] font-medium">{t.name}</span>
+                <div className="flex gap-0.5">{Array.from({ length: t.stars }).map((_, j) => <Star key={j} className="w-3.5 h-3.5 fill-[#C9A84C] text-[#C9A84C]" />)}</div>
+              </div>
+            </GlassCard>
+          </div>
         ))}
-      </div>
+      </motion.div>
     </div>
   );
 }
@@ -221,7 +270,7 @@ function UeberRobertSection() {
           initial={{ opacity: 0, x: -24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
           className="py-28 px-8 lg:px-16 flex flex-col justify-center"
         >
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#C9A84C]/40 text-[#C9A84C] text-xs tracking-widest uppercase mb-6" style={{ fontFamily: 'Cinzel, serif' }}>Über Robert</div>
+          <div className="self-start inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#C9A84C]/40 text-[#C9A84C] text-xs tracking-widest uppercase mb-6" style={{ fontFamily: '"rl-limo-1", "rl-limo-2", sans-serif', fontWeight: 400 }}>Über Robert</div>
           <h2 className="text-4xl text-[#F0E6C8] mb-5">Astrologe & spiritueller Lebensberater</h2>
           <p className="text-[#F0E6C8]/70 leading-relaxed mb-5">
             Ich bin Robert Wagner – bekannt als <span className="text-[#C9A84C]">@astrodaddy.official</span> auf TikTok, Instagram und YouTube. Seit Jahren helfe ich Menschen dabei, sich selbst durch die Sprache der Sterne besser zu verstehen.
@@ -254,15 +303,123 @@ function UeberRobertSection() {
   );
 }
 
+// ── Leistungen sticky-scroll section ─────────────────────────────────
+function LeistungenSection({ services }: { services: { title: string; desc: string; img: string; link: string }[] }) {
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start start', 'end end'],
+  });
+  // cards start below viewport, scroll to show all 4
+  const cardsY = useTransform(scrollYProgress, [0, 1], ['60px', '-1500px']);
+
+  return (
+    <section ref={sectionRef} style={{ height: '400vh' }} className="relative">
+      {/* Sticky viewport */}
+      <div className="sticky top-0 h-screen overflow-hidden bg-[#1B1040] flex">
+
+        {/* LEFT: Planets-12 with typography centered on the image */}
+        <div className="relative flex-1 flex items-center justify-center overflow-hidden pl-4">
+          {/* Image + overlaid text — shifted 200px to the left */}
+          <div className="relative w-[90%] max-w-[680px]" style={{ marginLeft: '-200px' }}>
+            <motion.img
+              src="/astro-radix.png"
+              alt=""
+              initial={{ x: -300, opacity: 0 }}
+              whileInView={{ x: 0, opacity: 1 }}
+              viewport={{ once: true, amount: 0.05 }}
+              transition={{ duration: 1.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+              className="select-none pointer-events-none w-full"
+              style={{
+                filter: 'sepia(0.45) saturate(1.4) brightness(1.15) drop-shadow(0 16px 60px rgba(0,0,0,0.8))',
+                mixBlendMode: 'screen',
+                borderRadius: '50%',
+                maskImage: 'radial-gradient(ellipse 72% 72% at 50% 50%, black 38%, transparent 72%)',
+                WebkitMaskImage: 'radial-gradient(ellipse 72% 72% at 50% 50%, black 38%, transparent 72%)',
+              }}
+            />
+            {/* Typography centered on the image */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true, amount: 0.05 }}
+              transition={{ duration: 0.9, delay: 0.7 }}
+              className="absolute inset-0 flex flex-col items-center justify-center text-center px-6"
+            >
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#C9A84C]/30 text-[#C9A84C]/80 text-xs tracking-widest uppercase mb-3" style={{ fontFamily: '"rl-limo-1", "rl-limo-2", sans-serif', fontWeight: 400 }}>
+                Angebote
+              </div>
+              <h2 className="text-4xl lg:text-5xl text-[#F0E6C8] font-bold mb-3 leading-tight" style={{ fontFamily: '"rl-limo-1", "rl-limo-2", sans-serif', fontWeight: 400, textShadow: '0 4px 32px rgba(0,0,0,0.9)' }}>
+                Leistungen
+              </h2>
+              <p className="text-[#F0E6C8] text-base leading-relaxed max-w-[240px]" style={{ textShadow: '0 2px 16px rgba(0,0,0,0.9)' }}>
+                Alles was du brauchst, um dein volles Potenzial zu entfalten.
+              </p>
+            </motion.div>
+          </div>
+        </div>
+
+        {/* Dark gradient between columns */}
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-[#1B1040]/50 pointer-events-none" style={{ zIndex: 2 }} />
+
+        {/* RIGHT: scroll-linked portrait cards — fixed width, outer margin from right edge */}
+        <div className="relative w-[360px] flex-shrink-0 mr-28 lg:mr-36 overflow-hidden" style={{ zIndex: 3 }}>
+          {/* Top/bottom fades */}
+          <div className="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-[#1B1040] to-transparent z-10 pointer-events-none" />
+          <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#1B1040] to-transparent z-10 pointer-events-none" />
+          <motion.div className="flex flex-col gap-5 pl-2 pr-2" style={{ y: cardsY }}>
+            {services.map((s, i) => (
+              <Link key={i} to={s.link} className="block flex-shrink-0">
+                <GlassCard hover className="rounded-xl overflow-hidden border-white/8 cursor-pointer group">
+                  {/* Square image on top */}
+                  <div className="aspect-square overflow-hidden">
+                    <img src={s.img} alt={s.title} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500" />
+                  </div>
+                  {/* Content below */}
+                  <div className="p-5">
+                    <h3 className="text-[#F0E6C8] font-semibold text-lg mb-2">{s.title}</h3>
+                    <p className="text-[#F0E6C8]/45 text-xs leading-relaxed mb-4">{s.desc}</p>
+                    <Button variant="gold" size="sm" className="w-full">
+                      Mehr erfahren <ArrowRight className="w-3.5 h-3.5 ml-1.5" />
+                    </Button>
+                  </div>
+                </GlassCard>
+              </Link>
+            ))}
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// Sparkle positions kept inside card bounds so hover events fire reliably
+const SPARKLE_POS = [
+  { x: '5%',  y: '8%',  delay: 0,    sz: 16 },
+  { x: '88%', y: '6%',  delay: 0.18, sz: 11 },
+  { x: '90%', y: '80%', delay: 0.34, sz: 14 },
+  { x: '4%',  y: '78%', delay: 0.10, sz: 12 },
+  { x: '46%', y: '4%',  delay: 0.25, sz: 10 },
+  { x: '52%', y: '90%', delay: 0.42, sz: 15 },
+  { x: '22%', y: '6%',  delay: 0.08, sz: 11 },
+  { x: '74%', y: '88%', delay: 0.30, sz: 13 },
+];
+
 export default function Home() {
+  const navigate = useNavigate();
+  const { addToCart } = useCart();
+  const bookProduct = (productId: number) => {
+    const product = products.find(p => p.id === productId);
+    if (product) { addToCart(product); navigate('/checkout'); }
+  };
   const featured = products.filter(p => p.bestseller).slice(0, 3);
 
   const testimonials = [
-    { name: 'Sandra M.', text: 'Roberts Deutung hat mir die Augen geöffnet. Ich verstehe jetzt, warum ich immer wieder in dieselben Muster gefallen bin – und wie ich herauskomme.', stars: 5 },
-    { name: 'Kai T.', text: 'Die Ausbildung ist tiefgründig und klar erklärt. Robert ist ein außergewöhnlicher Lehrer – kompetent und einfühlsam.', stars: 5 },
-    { name: 'Lisa K.', text: 'Finde den Weg zu Dir selbst – das habe ich tatsächlich erlebt. Die 45-Minuten-Session hat mein Selbstbild verändert.', stars: 5 },
-    { name: 'Marc H.', text: 'So präzise, so klar. Robert trifft Dinge auf den Punkt, die ich nie ausgesprochen hätte. Absolute Empfehlung!', stars: 5 },
-    { name: 'Julia S.', text: 'Der angenehmste Call, den ich je hatte. Keine Schubladen – sondern echtes Verstehen. Ich bin so dankbar.', stars: 5 },
+    { name: 'Karin Preuss',       text: 'Robert ist extrem gut und trifft den Nagel auf den Kopf vor allem OHNE Vorinformation. Absolut beeindruckend.', stars: 5 },
+    { name: 'Sylvia Kobilinski',  text: 'Mir wurde anhand meines Geburtshoroskopes bestätigt, was ich tatsächlich erlebt habe, und auch was ich selbst schon erahnt habe.', stars: 5 },
+    { name: 'Himynameisnadine !', text: 'Robert hat alles sehr verständlich und sehr fachlich erklärt. Er hat eine super angenehme Art die Dinge zu erklären.', stars: 5 },
+    { name: 'Lory Glory',         text: 'Bei Robert hatte ich eine astrologische Beratung in Bezug von mein Lebensaufgabe es wurde sehr toll und einfach erklärt.', stars: 5 },
+    { name: 'Janine Schoppa',     text: 'Robert ist erstmal super sympathisch und erklärt grandios. Es wird wirklich alles super genau erklärt und man versteht es sofort.', stars: 5 },
   ];
 
   const potentials = [
@@ -274,15 +431,39 @@ export default function Home() {
 
   const services = [
     { title: 'Astrologische Beratung', desc: 'Persönliche Horoskop-Deutung – von 10 Min bis 90 Min Deep Dive.', img: 'https://images.unsplash.com/photo-1532968961962-8a0cb3a2d4f5?w=600&q=80', link: '/angebote' },
-    { title: 'Praktische Workbooks',   desc: 'Lerne Astrologie in deinem Tempo mit durchdachten Lern-Materialien.', img: 'https://images.unsplash.com/photo-1516339901601-2e1b62dc0c45?w=600&q=80', link: '/angebote' },
-    { title: 'Astrologie-Ausbildung',  desc: '6 Monate zum professionellen Astrologen – inkl. Zertifikat & Klarna.', img: 'https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=600&q=80', link: '/ausbildung' },
-    { title: 'Tarot-Legungen',         desc: 'Klarheit für Liebe, Beruf & Entscheidungen durch einfühlsame Tarot-Deutung.', img: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?w=600&q=80', link: '/angebote' },
+    { title: 'Praktische Workbooks',   desc: 'Lerne Astrologie in deinem Tempo mit durchdachten Lern-Materialien.', img: '/workbooks.png', link: '/angebote' },
+    { title: 'Astroversity Academy',   desc: 'Kurse, Live-Sessions & Community – dein Weg in die Astrologie.', img: '/astroversity-leistungen.png', link: '/astroversity' },
+    { title: 'Tarot-Legungen',         desc: 'Klarheit für Liebe, Beruf & Entscheidungen durch einfühlsame Tarot-Deutung.', img: '/tarot.png', link: '/angebote' },
   ];
 
   const pricing = [
-    { title: 'Basis-Beratung', duration: '10 Minuten', price: '55 €',  highlight: false, features: ['Eine konkrete Frage', 'Astrologische Antwort', 'Sofortige Terminvergabe', 'Ideal als Einstieg'] },
-    { title: 'Transformation',  duration: '45 Minuten', price: '199 €', highlight: true,  features: ['Komplette Horoskop-Analyse', 'Stärken & Herausforderungen', 'Aktuelle Transiten', 'Aufzeichnung inklusive'] },
-    { title: 'Deep Work',       duration: '90 Minuten', price: '349 €', highlight: false, features: ['Geburtshoroskop + Transiten', 'Solar-Return optional', 'Progressionen auf Wunsch', 'Nachbetreuung per E-Mail'] },
+    { title: 'Basis-Beratung', duration: '10 Minuten', price: '59,99 €', productId: 7, highlight: false, features: [
+      'Detaillierte Horoskopdeutung',
+      'Bequeme Video-Beratung',
+      'Einsichten zu Lebensaufgaben',
+      'Direkte Kommunikation über WhatsApp',
+      'Individuelle Analyse in kurzer Zeit',
+      'Vorab-Zusendung deines Geburtshoroskops',
+    ]},
+    { title: 'Transformation',  duration: '45 Minuten', price: '99,99 €', productId: 5, highlight: true,  features: [
+      'Entdecke Stärken und Herausforderungen',
+      'Beantwortung individueller Fragen',
+      'Gemeinsame Reise der Selbsterkenntnis',
+      'Einblick in persönliche Lebensbereiche',
+      'Praktische Tipps für den Alltag',
+      'Klärung aktueller Themen',
+      'Aufzeichnung zur späteren Einsicht',
+    ]},
+    { title: 'Deep Work',       duration: '90 Minuten', price: '169,99 €', productId: 6, highlight: false, features: [
+      'Aufdeckung innerer Blockaden',
+      'Unterstützung beim Lösen von Ängsten',
+      'Erkenne deine Stärken und Berufung',
+      'Individuelle Anleitung und Feedback',
+      'Analyse deiner Vergangenheit',
+      'Praktische Übungen zur Vertiefung',
+      'Persönliche Entwicklung im Fokus',
+      'Aufzeichnung zur späteren Einsicht',
+    ]},
   ];
 
   return (
@@ -300,21 +481,21 @@ export default function Home() {
             <motion.div initial={{ opacity: 0, x: -32 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.9 }}>
               <motion.div
                 initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
-                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#C9A84C]/30 text-[#C9A84C] text-xs tracking-widest uppercase mb-8" style={{ fontFamily: 'Cinzel, serif' }}>
-                <Star className="w-3 h-3 fill-current" /> Astrologie · Tarot · Ausbildung
+                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#C9A84C]/30 text-[#C9A84C] text-xs tracking-widest uppercase mb-8" style={{ fontFamily: '"rl-limo-1", "rl-limo-2", sans-serif', fontWeight: 400 }}>
+                <Star className="w-3 h-3 fill-current" /> Astrologie · Tarot · Academy
               </motion.div>
               <div className="overflow-hidden mb-3">
                 <motion.h1
                   initial={{ clipPath: 'inset(0 100% 0 0)' }} animate={{ clipPath: 'inset(0 0% 0 0)' }}
                   transition={{ duration: 0.9, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                  className="text-[clamp(2.4rem,4.5vw,5rem)] leading-[1.1] text-[#F0E6C8]" style={{ fontFamily: 'Cinzel, serif' }}>Finde den Weg
+                  className="text-[clamp(2.4rem,4.5vw,5rem)] leading-[1.1] text-[#F0E6C8]" style={{ fontFamily: '"rl-limo-1", "rl-limo-2", sans-serif', fontWeight: 400 }}>Finde den Weg
                 </motion.h1>
               </div>
               <div className="overflow-hidden mb-8">
                 <motion.h1
                   initial={{ clipPath: 'inset(0 100% 0 0)' }} animate={{ clipPath: 'inset(0 0% 0 0)' }}
                   transition={{ duration: 0.9, delay: 0.42, ease: [0.16, 1, 0.3, 1] }}
-                  className="text-[clamp(2.4rem,4.5vw,5rem)] leading-[1.1] text-[#C9A84C]" style={{ fontFamily: 'Cinzel, serif' }}>zu Dir selbst
+                  className="text-[clamp(2.4rem,4.5vw,5rem)] leading-[1.1] text-[#C9A84C]" style={{ fontFamily: '"rl-limo-1", "rl-limo-2", sans-serif', fontWeight: 400 }}>zu Dir selbst
                 </motion.h1>
               </div>
               <p className="text-lg text-[#F0E6C8]/55 max-w-lg mb-10">
@@ -322,7 +503,7 @@ export default function Home() {
               </p>
               <div className="flex flex-col sm:flex-row gap-3">
                 <Link to="/angebote"><Button variant="gold" size="lg" className="px-9">Beratung buchen <ArrowRight className="w-4 h-4" /></Button></Link>
-                <Link to="/ausbildung"><Button variant="outline" size="lg" className="px-9 border-white/15 text-[#F0E6C8]/60 hover:text-[#F0E6C8] hover:border-white/30">Zur Ausbildung</Button></Link>
+                <Link to="/astroversity"><Button variant="outline" size="lg" className="px-9 border-white/15 text-[#F0E6C8]/60 hover:text-[#F0E6C8] hover:border-white/30">Zur Academy</Button></Link>
               </div>
             </motion.div>
 
@@ -346,7 +527,7 @@ export default function Home() {
                     <div className="flex items-center justify-center gap-2 px-4 py-2.5 bg-gradient-to-r from-[#1B1040] via-[#3D2A8A]/50 to-[#1B1040] border-b border-[#C9A84C]/18">
                       <span className="text-[#C9A84C]/45 text-sm select-none">♈</span>
                       <span className="text-[#C9A84C]/45 text-sm select-none">♌</span>
-                      <span className="text-[#C9A84C]/65 text-[10px] tracking-[0.22em] uppercase mx-3 select-none" style={{ fontFamily: 'Cinzel, serif' }}>
+                      <span className="text-[#C9A84C]/65 text-[10px] tracking-[0.22em] uppercase mx-3 select-none" style={{ fontFamily: '"rl-limo-1", "rl-limo-2", sans-serif', fontWeight: 400 }}>
                         Robert Wagner Astrologie
                       </span>
                       <span className="text-[#C9A84C]/45 text-sm select-none">♏</span>
@@ -402,66 +583,43 @@ export default function Home() {
       {/* ── ÜBER ROBERT ────────────────────────────────────────── */}
       <UeberRobertSection />
 
-      {/* ── LEISTUNGEN ─ Kosmos ────────────────────────────────── */}
-      <section className="py-24 px-6 bg-[#1B1040]">
-        <div className="max-w-6xl mx-auto">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-14">
-            <h2 className="text-4xl text-[#F0E6C8] mb-3">Leistungen</h2>
-            <p className="text-[#F0E6C8]/45">Alles was du brauchst, um dein volles Potenzial zu entfalten.</p>
-          </motion.div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 items-stretch">
-            {services.map((s, i) => (
-              <motion.div key={s.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }} className="h-full">
-                <Link to={s.link} className="block h-full">
-                  <GlassCard hover className="rounded-xl overflow-hidden border-white/8 cursor-pointer group h-full flex flex-col">
-                    <ParallaxImg src={s.img} alt={s.title} />
-                    <div className="p-5 flex flex-col flex-1">
-                      <h3 className="text-[#F0E6C8] font-semibold text-lg mb-2">{s.title}</h3>
-                      <p className="text-[#F0E6C8]/45 text-xs leading-relaxed flex-1">{s.desc}</p>
-                      <div className="flex items-center gap-1.5 mt-4 text-[#C9A84C] text-xs font-medium">Mehr erfahren <ArrowRight className="w-3 h-3" /></div>
-                    </div>
-                  </GlassCard>
-                </Link>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* ── LEISTUNGEN ─ Sticky scroll ─────────────────────────── */}
+      <LeistungenSection services={services} />
 
       <WaveDivider fromColor="#1B1040" toColor="#3D2A8A" />
 
-      {/* ── AUSBILDUNG ─ Nebel ─────────────────────────────────── */}
+      {/* ── ASTROVERSITY ACADEMY ─ Nebel ───────────────────────── */}
       <section className="py-24 px-6 bg-[#3D2A8A]">
         <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
           <motion.div initial={{ opacity: 0, x: -24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
             <div className="relative rounded-xl overflow-hidden border border-white/15 h-[400px]">
-              <img src="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=800&q=80" alt="Astrologie Ausbildung" className="w-full h-full object-cover opacity-70" />
+              <img src="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=800&q=80" alt="Astroversity Academy" className="w-full h-full object-cover opacity-70" />
               <div className="absolute bottom-5 left-5 right-5">
                 <div className="bg-[#1B1040]/85 backdrop-blur-sm rounded-lg p-4 border border-white/10">
-                  <div className="text-[#C9A84C] text-xs tracking-widest uppercase mb-1" style={{ fontFamily: 'Cinzel, serif' }}>Astrologie-Ausbildung</div>
-                  <div className="text-[#F0E6C8] font-semibold text-sm">6 Monate · Placidus-System · Zertifikat</div>
+                  <div className="text-[#C9A84C] text-xs tracking-widest uppercase mb-1" style={{ fontFamily: '"rl-limo-1", "rl-limo-2", sans-serif', fontWeight: 400 }}>Astroversity Academy</div>
+                  <div className="text-[#F0E6C8] font-semibold text-sm">Live-Sessions · Kurse · Community</div>
                 </div>
               </div>
             </div>
           </motion.div>
           <motion.div initial={{ opacity: 0, x: 24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/25 text-[#F0E6C8]/70 text-xs tracking-widest uppercase mb-6" style={{ fontFamily: 'Cinzel, serif' }}>
-              <BookOpen className="w-3 h-3" /> Ausbildung
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/25 text-[#F0E6C8]/70 text-xs tracking-widest uppercase mb-6" style={{ fontFamily: '"rl-limo-1", "rl-limo-2", sans-serif', fontWeight: 400 }}>
+              <BookOpen className="w-3 h-3" /> Astroversity Academy
             </div>
-            <h2 className="text-4xl text-[#F0E6C8] mb-5">In 6 Monaten zum Astrologen</h2>
+            <h2 className="text-4xl text-[#F0E6C8] mb-5">Dein Zugang zur Astroversity Academy</h2>
             <p className="text-[#F0E6C8]/70 leading-relaxed mb-7">
-              Roberts Ausbildung führt dich durch alle Grundlagen des Placidus-Systems – von Planeten und Zeichen bis zur vollständigen Horoskop-Deutung. Mit Zertifikat und optionaler Klarna-Ratenzahlung.
+              Monatliche Live-Sessions, neue Kurse und eine inspirierende Community – alles auf einer Plattform. Lerne Astrologie in deinem Tempo und tauche tief in die Welt der Sterne ein.
             </p>
             <div className="space-y-3 mb-8">
-              {['Planeten, Zeichen & Häuser vollständig verstehen', 'Geburtshoroskop professionell deuten', 'Transiten & aktuelle Lebensthemen analysieren', 'Optional: Astrologie-Business aufbauen'].map(f => (
+              {['Monatliche Live-Sessions mit Robert', 'Neue Kurse & Lernmaterialien jeden Monat', 'Exklusive Community Gleichgesinnter', 'Zertifikat nach Abschluss möglich'].map(f => (
                 <div key={f} className="flex items-center gap-3 text-sm">
                   <CheckCircle className="w-4 h-4 text-[#C9A84C] shrink-0" />
                   <span className="text-[#F0E6C8]/75">{f}</span>
                 </div>
               ))}
             </div>
-            <Link to="/ausbildung">
-              <Button variant="gold" size="lg" className="px-8">Zur Ausbildung – 3.600 € <ArrowRight className="w-4 h-4" /></Button>
+            <Link to="/astroversity">
+              <Button variant="gold" size="lg" className="px-8">Zur Astroversity Academy <ArrowRight className="w-4 h-4" /></Button>
             </Link>
           </motion.div>
         </div>
@@ -535,38 +693,124 @@ export default function Home() {
 
       {/* ── SOCIAL MEDIA ─ Gold ────────────────────────────────── */}
       <section className="py-24 px-6 bg-[#C9A84C]">
-        <div className="max-w-4xl mx-auto text-center">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-            <h2 className="text-4xl text-[#1B1040] mb-4" style={{ fontFamily: 'Cinzel, serif' }}>Folge der Community</h2>
-            <p className="text-[#1B1040]/65 mb-10">Tägliche Astrologie-Insights, Live-Sessions und mehr – kostenlos auf Social Media.</p>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              {[
-                { label: 'TikTok',     icon: TikTokIcon, desc: 'Kurze Astrologie-Snippets & Deutungen',    href: 'https://www.tiktok.com/@astrodaddy.official' },
-                { label: 'Instagram',  icon: Instagram,  desc: 'Stories, Reels & persönliche Einblicke',   href: 'https://www.instagram.com/astrodaddy.official' },
-                { label: 'YouTube',    icon: Youtube,    desc: 'Längere Videos & Ausbildungs-Content',      href: 'https://www.youtube.com/@astrodaddy.official' },
-              ].map(s => (
-                <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer">
-                  <div className="bg-[#1B1040]/10 hover:bg-[#1B1040]/20 border border-[#1B1040]/15 hover:border-[#1B1040]/30 rounded-xl p-6 text-left transition-all">
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className="w-9 h-9 rounded-lg bg-[#1B1040]/15 flex items-center justify-center text-[#1B1040]">
-                        <s.icon />
-                      </div>
-                      <div className="text-[#1B1040] font-semibold text-sm">{s.label}</div>
-                    </div>
-                    <p className="text-[#1B1040]/60 text-xs">{s.desc}</p>
-                  </div>
-                </a>
-              ))}
-            </div>
+        <div className="max-w-5xl mx-auto">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
+            <h2 className="text-4xl text-[#1B1040] mb-4" style={{ fontFamily: '"rl-limo-1", "rl-limo-2", sans-serif', fontWeight: 400 }}>Folge der Community</h2>
+            <p className="text-[#1B1040]/65">Tägliche Astrologie-Insights, Live-Sessions und mehr – kostenlos auf Social Media.</p>
           </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+
+            {/* TikTok */}
+            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0 }}>
+              <div className="bg-[#1B1040]/8 border border-[#1B1040]/12 rounded-2xl overflow-hidden flex flex-col h-full">
+                {/* Header */}
+                <a href="https://www.tiktok.com/@astrodaddy.official" target="_blank" rel="noopener noreferrer"
+                  className="flex items-center justify-between px-5 py-4 hover:bg-[#1B1040]/10 transition-colors">
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-lg bg-[#1B1040]/15 flex items-center justify-center text-[#1B1040]"><TikTokIcon /></div>
+                    <div>
+                      <div className="text-[#1B1040] font-semibold text-sm leading-tight">TikTok</div>
+                      <div className="text-[#1B1040]/50 text-xs">@astrodaddy.official</div>
+                    </div>
+                  </div>
+                  <CounterBadge target={39000} label="Follower" duration={1600} />
+                </a>
+                {/* TikTok embed */}
+                <div className="flex-1 mx-4 mb-4 rounded-xl overflow-hidden">
+                  <iframe
+                    src={`https://www.tiktok.com/embed/v2/${FEATURED_POSTS.tiktok}`}
+                    title="Meistgesehenes TikTok Video"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className="w-full rounded-xl"
+                    style={{ minHeight: '560px', border: 'none' }}
+                  />
+                </div>
+              </div>
+            </motion.div>
+
+            {/* YouTube — real embed */}
+            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
+              <div className="bg-[#1B1040]/8 border border-[#1B1040]/12 rounded-2xl overflow-hidden flex flex-col h-full">
+                <a href="https://www.youtube.com/@astrodaddy.official" target="_blank" rel="noopener noreferrer"
+                  className="flex items-center justify-between px-5 py-4 hover:bg-[#1B1040]/10 transition-colors">
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-lg bg-[#1B1040]/15 flex items-center justify-center text-[#1B1040]"><Youtube className="w-5 h-5" /></div>
+                    <div>
+                      <div className="text-[#1B1040] font-semibold text-sm leading-tight">YouTube</div>
+                      <div className="text-[#1B1040]/50 text-xs">@astrodaddy.official</div>
+                    </div>
+                  </div>
+                  <CounterBadge target={1500} label="Abonnenten" duration={1800} />
+                </a>
+                <div className="flex-1 mx-4 mb-4 rounded-xl overflow-hidden">
+                  <iframe
+                    src={`https://www.youtube.com/embed/${FEATURED_POSTS.youtube}?rel=0&modestbranding=1`}
+                    title="Aktuelles YouTube Video"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className="w-full aspect-video rounded-xl"
+                  />
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Instagram */}
+            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}>
+              <div className="bg-[#1B1040]/8 border border-[#1B1040]/12 rounded-2xl overflow-hidden flex flex-col h-full">
+                <a href="https://www.instagram.com/astrodaddy.official" target="_blank" rel="noopener noreferrer"
+                  className="flex items-center justify-between px-5 py-4 hover:bg-[#1B1040]/10 transition-colors">
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-lg bg-[#1B1040]/15 flex items-center justify-center text-[#1B1040]"><Instagram className="w-5 h-5" /></div>
+                    <div>
+                      <div className="text-[#1B1040] font-semibold text-sm leading-tight">Instagram</div>
+                      <div className="text-[#1B1040]/50 text-xs">@astrodaddy.official</div>
+                    </div>
+                  </div>
+                  <CounterBadge target={8500} label="Follower" duration={1700} />
+                </a>
+                {/* Instagram embed */}
+                <div className="flex-1 mx-4 mb-4 rounded-xl overflow-hidden">
+                  <iframe
+                    src={`https://www.instagram.com/reel/${FEATURED_POSTS.instagram}/embed/`}
+                    title="Meistgesehenes Instagram Reel"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className="w-full rounded-xl"
+                    style={{ minHeight: '560px', border: 'none' }}
+                  />
+                </div>
+              </div>
+            </motion.div>
+
+          </div>
+
         </div>
       </section>
 
       <WaveDivider fromColor="#C9A84C" toColor="#1B1040" />
 
       {/* ── TESTIMONIALS ─ Kosmos ──────────────────────────────── */}
-      <section className="py-24 px-6 bg-[#1B1040]">
-        <div className="max-w-4xl mx-auto">
+      <section className="relative py-24 overflow-hidden bg-[#1B1040]">
+        {/* Space video background — NASA public domain */}
+        <div className="absolute inset-0 pointer-events-none" aria-hidden>
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover opacity-30"
+          >
+            <source src="https://svs.gsfc.nasa.gov/vis/a010000/a014900/a014950/14950_Galaxies_FlyThrough_1080.mp4" type="video/mp4" />
+          </video>
+          {/* Dark overlay to keep text readable */}
+          <div className="absolute inset-0 bg-[#1B1040]/60" />
+          {/* Top/bottom vignette to blend with wave dividers */}
+          <div className="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-[#1B1040] to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#1B1040] to-transparent" />
+        </div>
+        <div className="relative z-10 max-w-6xl mx-auto px-6">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-14">
             <div className="flex items-center justify-center gap-1.5 mb-3">
               {Array.from({ length: 5 }).map((_, i) => <Star key={i} className="w-5 h-5 fill-[#C9A84C] text-[#C9A84C]" />)}
@@ -574,7 +818,7 @@ export default function Home() {
             <h2 className="text-4xl text-[#F0E6C8] mb-2">5 von 5 Sternen auf Google</h2>
             <p className="text-[#F0E6C8]/40 text-sm">100% Zufriedenheitsrate</p>
           </motion.div>
-          <TestimonialCarousel items={testimonials} />
+          <TestimonialMarquee items={testimonials} />
         </div>
       </section>
 
@@ -589,11 +833,21 @@ export default function Home() {
           </motion.div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {pricing.map((p, i) => (
-              <motion.div key={p.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
+              <motion.div key={p.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
+                className={`pricing-card relative${p.highlight ? ' pricing-card--highlight' : ''}`}
+              >
+                {/* Sparkles — driven by .pricing-card:hover CSS selector */}
+                {SPARKLE_POS.map((sp, si) => (
+                  <span
+                    key={si}
+                    className="sparkle-item absolute z-20 text-[#C9A84C] select-none"
+                    style={{ left: sp.x, top: sp.y, fontSize: sp.sz, animationDelay: `${sp.delay}s` }}
+                  >✦</span>
+                ))}
                 <TiltCard>
                 <div className={`rounded-xl p-7 h-full flex flex-col relative border ${p.highlight ? 'bg-[#C9A84C] border-[#C9A84C]' : 'bg-white/8 border-white/15'}`}>
                   {p.highlight && <div className="absolute -top-3 left-5"><span className="px-3 py-1 rounded bg-[#1B1040] text-[#C9A84C] text-xs font-semibold">Empfohlen</span></div>}
-                  <div className={`pt-2 mb-1 text-xs tracking-widest uppercase ${p.highlight ? 'text-[#1B1040]/60' : 'text-[#F0E6C8]/40'}`} style={{ fontFamily: 'Cinzel, serif' }}>{p.duration}</div>
+                  <div className={`pt-2 mb-1 text-xs tracking-widest uppercase ${p.highlight ? 'text-[#1B1040]/60' : 'text-[#F0E6C8]/40'}`} style={{ fontFamily: '"rl-limo-1", "rl-limo-2", sans-serif', fontWeight: 400 }}>{p.duration}</div>
                   <h3 className={`text-xl font-semibold mb-2 ${p.highlight ? 'text-[#1B1040]' : 'text-[#F0E6C8]'}`}>{p.title}</h3>
                   <div className={`text-3xl font-bold mb-6 ${p.highlight ? 'text-[#1B1040]' : 'text-[#C9A84C]'}`}>{p.price}</div>
                   <ul className="space-y-2.5 mb-7 flex-1">
@@ -604,11 +858,11 @@ export default function Home() {
                       </li>
                     ))}
                   </ul>
-                  <a href="https://www.astrodaddy.de" target="_blank" rel="noopener noreferrer">
-                    <button className={`w-full py-2.5 rounded-lg text-sm font-medium border transition-all ${p.highlight ? 'bg-[#1B1040] text-[#C9A84C] border-[#1B1040] hover:bg-[#2a1d6b]' : 'bg-transparent text-[#F0E6C8]/70 border-white/20 hover:text-[#F0E6C8] hover:border-white/40'}`}>
-                      {p.highlight ? 'Beliebteste Option' : 'Jetzt buchen'}
-                    </button>
-                  </a>
+                  <button
+                    onClick={() => bookProduct(p.productId)}
+                    className={`w-full py-2.5 rounded-lg text-sm font-medium border transition-all ${p.highlight ? 'bg-[#1B1040] text-[#C9A84C] border-[#1B1040] hover:bg-[#2a1d6b]' : 'bg-transparent text-[#F0E6C8]/70 border-white/20 hover:text-[#F0E6C8] hover:border-white/40'}`}>
+                    {p.highlight ? 'Jetzt buchen' : 'Jetzt buchen'}
+                  </button>
                 </div>
                 </TiltCard>
               </motion.div>
@@ -631,12 +885,20 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── NEWSLETTER ────────────────────────────────────────── */}
+      <NewsletterSignup
+        headline="Kosmische Einblicke, direkt in dein Postfach."
+        subline="Mondphasen, Astro-Impulse und exklusive Angebote – kostenlos, jederzeit abbestellbar."
+        badge="Newsletter"
+        bg="kosmos"
+      />
+
       {/* ── FINAL CTA ─ Gold ───────────────────────────────────── */}
       <section className="py-24 px-6 bg-[#C9A84C]">
         <div className="max-w-2xl mx-auto text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
             <Moon className="w-8 h-8 text-[#1B1040]/60 mx-auto mb-6" />
-            <h2 className="text-4xl text-[#1B1040] mb-4" style={{ fontFamily: 'Cinzel, serif' }}>Die Sterne warten auf Dich</h2>
+            <h2 className="text-4xl text-[#1B1040] mb-4" style={{ fontFamily: '"rl-limo-1", "rl-limo-2", sans-serif', fontWeight: 400 }}>Die Sterne warten auf Dich</h2>
             <p className="text-[#1B1040]/60 mb-8">Starte deine Reise zur Selbsterkenntnis – kostenlos oder mit persönlicher Beratung.</p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link to="/community">
@@ -644,9 +906,9 @@ export default function Home() {
                   Community beitreten
                 </button>
               </Link>
-              <Link to="/login?tab=register">
+              <Link to="/angebote">
                 <button className="px-8 py-3 rounded-lg bg-transparent text-[#1B1040] font-semibold text-sm border border-[#1B1040]/30 hover:bg-[#1B1040]/10 transition-colors">
-                  Kostenlos registrieren
+                  Mein Angebot
                 </button>
               </Link>
             </div>

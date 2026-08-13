@@ -51,7 +51,7 @@ export default function Login() {
 
           <div className="text-center mb-7">
             <Moon className="w-7 h-7 text-[#C9A84C] mx-auto mb-3" />
-            <div className="text-xl text-[#F0E6C8] tracking-widest" style={{ fontFamily: 'Cinzel, serif' }}>ROBERT WAGNER</div>
+            <div className="text-xl text-[#F0E6C8] tracking-widest" style={{ fontFamily: '"rl-limo-1", "rl-limo-2", sans-serif', fontWeight: 400 }}>ROBERT WAGNER</div>
             <p className="text-xs text-[#F0E6C8]/35 mt-1">Entdecke Dein Universum</p>
           </div>
 

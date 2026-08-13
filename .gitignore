@@ -1,2 +1,16 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Local env (never commit real secrets – see .env.local.example)
+.env
+.env.local
+.env.*.local
+
+# OS / editor
 .DS_Store
+
+# Vercel
 .vercel

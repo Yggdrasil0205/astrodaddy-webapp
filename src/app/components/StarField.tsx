@@ -7,9 +7,12 @@ interface Star {
   baseOpacity: number;
   twinkleSpeed: number;
   twinkleOffset: number;
+  isGold: boolean;       // colour-shifting stars
+  colorPhase: number;    // random phase for color oscillation
+  colorSpeed: number;    // how fast it shifts
 }
 
-export function StarField({ className = '' }: { className?: string }) {
+export function StarField({ className = '', noConnect = false }: { className?: string; noConnect?: boolean }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mouseRef = useRef({ x: -9999, y: -9999 });
   const starsRef = useRef<Star[]>([]);
@@ -27,8 +30,11 @@ export function StarField({ className = '' }: { className?: string }) {
         y: Math.random() * canvas.height,
         size: Math.random() * 1.8 + 0.4,
         baseOpacity: Math.random() * 0.55 + 0.15,
-        twinkleSpeed: Math.random() * 0.015 + 0.004,
+        twinkleSpeed: Math.random() * 0.022 + 0.006,
         twinkleOffset: Math.random() * Math.PI * 2,
+        isGold: Math.random() < 0.18,            // ~18% are colour-shifting
+        colorPhase: Math.random() * Math.PI * 2,
+        colorSpeed: Math.random() * 0.008 + 0.003,
       }));
     };
 
@@ -56,6 +62,35 @@ export function StarField({ className = '' }: { className?: string }) {
 
       const { x: mx, y: my } = mouseRef.current;
       const stars = starsRef.current;
+
+      if (noConnect) {
+        // Twinkling stars with colour-shift — no connections, no cursor
+        for (const s of stars) {
+          // stronger twinkle: amplitude 0.55 so opacity swings widely
+          const twinkle = Math.sin(t * s.twinkleSpeed + s.twinkleOffset) * 0.55 + 0.45;
+          const opacity  = Math.min(1, s.baseOpacity * twinkle);
+
+          let color: string;
+          if (s.isGold) {
+            // smoothly oscillate between pergament (#F0E6C8) and gold (#C9A84C)
+            const mix = (Math.sin(t * s.colorSpeed + s.colorPhase) + 1) / 2; // 0–1
+            const r = Math.round(240 - (240 - 201) * mix); // 240→201
+            const g = Math.round(230 - (230 - 168) * mix); // 230→168
+            const b = Math.round(200 - (200 -  76) * mix); // 200→76
+            color = `rgba(${r},${g},${b},${opacity})`;
+          } else {
+            color = `rgba(240,230,200,${opacity})`;
+          }
+
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+          ctx.fillStyle = color;
+          ctx.fill();
+        }
+        rafRef.current = requestAnimationFrame(draw);
+        return;
+      }
+
       const hasMousePos = mx > -9000;
 
       // Cursor glow

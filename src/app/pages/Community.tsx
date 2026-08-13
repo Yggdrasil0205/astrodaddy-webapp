@@ -29,10 +29,10 @@ export default function Community() {
         <div className="max-w-6xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#7B5FD4]/30 text-[#7B5FD4] text-xs tracking-widest uppercase mb-6"
-              style={{ fontFamily: 'Cinzel, serif' }}>
+              style={{ fontFamily: '"rl-limo-1", "rl-limo-2", sans-serif', fontWeight: 400 }}>
               <Users className="w-3 h-3" /> Community
             </div>
-            <h1 className="text-5xl text-[#F0E6C8] mb-3" style={{ fontFamily: 'Cinzel, serif' }}>Mitgliedschaft</h1>
+            <h1 className="text-5xl text-[#F0E6C8] mb-3" style={{ fontFamily: '"rl-limo-1", "rl-limo-2", sans-serif', fontWeight: 400 }}>Mitgliedschaft</h1>
             <p className="text-[#F0E6C8]/50 max-w-xl">Lerne, wachse und verbinde dich mit Gleichgesinnten auf dem astrologischen Weg.</p>
           </motion.div>
         </div>
@@ -105,7 +105,7 @@ export default function Community() {
       <section className="bg-[#C9A84C] py-14 px-6">
         <div className="max-w-3xl mx-auto text-center">
           <Users className="w-8 h-8 text-[#1B1040] mx-auto mb-4 opacity-60" />
-          <h2 className="text-2xl font-bold text-[#1B1040] mb-3" style={{ fontFamily: 'Cinzel, serif' }}>
+          <h2 className="text-2xl font-bold text-[#1B1040] mb-3" style={{ fontFamily: '"rl-limo-1", "rl-limo-2", sans-serif', fontWeight: 400 }}>
             Werde Teil der Robert Wagner Community
           </h2>
           <p className="text-[#1B1040]/70 mb-7">Kostenlos starten – jederzeit upgraden.</p>

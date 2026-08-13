@@ -1,636 +1,395 @@
 import React, { useState } from 'react';
-import { motion } from 'motion/react';
+import { Link } from 'react-router';
+import { motion, AnimatePresence } from 'motion/react';
+import { StarField } from '../components/StarField';
 import { GlassCard } from '../components/GlassCard';
 import { Button } from '../components/ui/button';
-import { ImageWithFallback } from '../components/figma/ImageWithFallback';
 import { useCart } from '../context/CartContext';
-import { Link, useNavigate } from 'react-router';
-import { ArrowLeft, CreditCard, Truck, Shield, Check, ShoppingCart, Trash2, Wallet } from 'lucide-react';
+import {
+  ArrowRight, ArrowLeft, Calendar, Clock,
+  MapPin, Globe, User, Trash2, Mail, Lock, Sparkles, Users,
+} from 'lucide-react';
+import { SKOOL_MEMBERSHIP_ID } from '../data/products';
 
-type PaymentMethod = 'card' | 'paypal' | 'klarna' | 'sepa' | 'applepay' | 'googlepay';
+// ── Types ─────────────────────────────────────────────────────────────────────
 
-export default function Checkout() {
-  const { items, totalPrice, clearCart, removeFromCart } = useCart();
-  const navigate = useNavigate();
-  const [isProcessing, setIsProcessing] = useState(false);
-  const [orderComplete, setOrderComplete] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('card');
+interface BirthData {
+  birthday: string;
+  birthtime: string;
+  birthplace: string;
+  birthcountry: string;
+}
 
-  const [formData, setFormData] = useState({
-    email: '',
-    firstName: '',
-    lastName: '',
-    address: '',
-    city: '',
-    postalCode: '',
-    country: 'Deutschland',
-    cardNumber: '',
-    cardName: '',
-    expiryDate: '',
-    cvv: '',
-    iban: ''
-  });
+const emptyBirthData = (): BirthData => ({ birthday: '', birthtime: '', birthplace: '', birthcountry: '' });
+const isPartnerProduct = (name: string) => name.toLowerCase().includes('partner');
+const isMembership = (id: number) => id === SKOOL_MEMBERSHIP_ID;
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
+// ── Birth data form ───────────────────────────────────────────────────────────
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsProcessing(true);
-
-    // Simulate payment processing
-    await new Promise(resolve => setTimeout(resolve, 2000));
-
-    setIsProcessing(false);
-    setOrderComplete(true);
-    
-    // Clear cart after successful order
-    setTimeout(() => {
-      clearCart();
-      navigate('/');
-    }, 3000);
-  };
-
-  if (items.length === 0 && !orderComplete) {
-    return (
-      <div className="min-h-screen pt-32 pb-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-          >
-            <GlassCard className="rounded-3xl p-12">
-              <h1 className="text-3xl font-bold mb-4">Dein Warenkorb ist leer</h1>
-              <p className="text-muted-foreground mb-8">
-                Füge Produkte hinzu, um mit dem Checkout fortzufahren.
-              </p>
-              <Link to="/shop">
-                <Button size="lg" className="bg-[#1b2a23]/80 hover:bg-[#1b2a23]/90 text-white">
-                  Zum Shop
-                </Button>
-              </Link>
-            </GlassCard>
-          </motion.div>
-        </div>
-      </div>
-    );
-  }
-
-  if (orderComplete) {
-    return (
-      <div className="min-h-screen pt-32 pb-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="text-center"
-          >
-            <GlassCard className="rounded-3xl p-12">
-              <motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ delay: 0.2, type: "spring" }}
-                className="w-24 h-24 rounded-full bg-gradient-to-br from-[#1b2a23] to-[#8268AB] mx-auto mb-6 flex items-center justify-center"
-              >
-                <Check className="w-12 h-12 text-white" />
-              </motion.div>
-              <h1 className="text-4xl font-bold mb-4">Bestellung erfolgreich!</h1>
-              <p className="text-xl text-muted-foreground mb-8">
-                Vielen Dank für deine Bestellung. Du erhältst in Kürze eine Bestätigungsmail.
-              </p>
-              <p className="text-sm text-muted-foreground">
-                Du wirst in wenigen Sekunden zur Startseite weitergeleitet...
-              </p>
-            </GlassCard>
-          </motion.div>
-        </div>
-      </div>
-    );
-  }
-
-  const shippingCost = 4.90;
-  const total = totalPrice + shippingCost;
-
+function BirthDataForm({ label, data, onChange }: { label: string; data: BirthData; onChange: (d: BirthData) => void }) {
+  const set = (field: keyof BirthData) => (e: React.ChangeEvent<HTMLInputElement>) => onChange({ ...data, [field]: e.target.value });
+  const fields = [
+    { icon: Calendar, label: 'Geburtstag *',  key: 'birthday'    as keyof BirthData, type: 'date', placeholder: '' },
+    { icon: Clock,    label: 'Geburtszeit',   key: 'birthtime'   as keyof BirthData, type: 'time', placeholder: '12:30' },
+    { icon: MapPin,   label: 'Geburtsort *',  key: 'birthplace'  as keyof BirthData, type: 'text', placeholder: 'Berlin' },
+    { icon: Globe,    label: 'Geburtsland *', key: 'birthcountry'as keyof BirthData, type: 'text', placeholder: 'Deutschland' },
+  ];
   return (
-    <div className="min-h-screen relative overflow-hidden">
-      {/* Background */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <motion.div
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.2, 0.4, 0.2],
-          }}
-          transition={{ duration: 20, repeat: Infinity }}
-          className="absolute top-1/4 right-0 w-96 h-96 rounded-full bg-gradient-to-br from-[#F9C4B5]/20 to-transparent blur-3xl"
-        />
-      </div>
-
-      <div className="relative pt-32 pb-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          {/* Back Button */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="mb-8"
-          >
-            <Button
-              variant="ghost"
-              onClick={() => navigate(-1)}
-              className="gap-2"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              Zurück
-            </Button>
-          </motion.div>
-
-          {/* Header */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="mb-12"
-          >
-            <div className="inline-flex items-center px-3 py-1 rounded-full bg-gradient-to-r from-[#8268AB]/20 to-[#BFADD5]/20 backdrop-blur-sm mb-4">
-              <ShoppingCart className="w-4 h-4 mr-2 text-[#8268AB]" />
-              <span className="text-sm text-[#8268AB] font-medium">Bestellung abschließen</span>
-            </div>
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              <span className="bg-gradient-to-r from-[#1b2a23] via-[#8268AB] to-[#F9C4B5] bg-clip-text text-transparent">Checkout</span>
-            </h1>
-            <p className="text-xl text-muted-foreground">
-              Schließe deine Bestellung ab
-            </p>
-          </motion.div>
-
-          <div className="grid lg:grid-cols-3 gap-8">
-            {/* Checkout Form */}
-            <div className="lg:col-span-2 space-y-6">
-              <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Contact Information */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 }}
-                >
-                  <GlassCard className="rounded-2xl p-6">
-                    <h2 className="text-2xl font-bold mb-4">Kontaktinformationen</h2>
-                    <div className="space-y-4">
-                      <div>
-                        <label className="text-sm font-medium mb-2 block">
-                          E-Mail Adresse
-                        </label>
-                        <input
-                          type="email"
-                          name="email"
-                          required
-                          value={formData.email}
-                          onChange={handleInputChange}
-                          className="w-full px-4 py-3 rounded-xl bg-white/40 backdrop-blur-sm border border-white/30 focus:outline-none focus:ring-2 focus:ring-[#2D5953]"
-                          placeholder="deine@email.de"
-                        />
-                      </div>
-                    </div>
-                  </GlassCard>
-                </motion.div>
-
-                {/* Shipping Address */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2 }}
-                >
-                  <GlassCard className="rounded-2xl p-6">
-                    <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
-                      <Truck className="w-6 h-6 text-[#2D5953]" />
-                      Versandadresse
-                    </h2>
-                    <div className="grid md:grid-cols-2 gap-4">
-                      <div>
-                        <label className="text-sm font-medium mb-2 block">
-                          Vorname
-                        </label>
-                        <input
-                          type="text"
-                          name="firstName"
-                          required
-                          value={formData.firstName}
-                          onChange={handleInputChange}
-                          className="w-full px-4 py-3 rounded-xl bg-white/40 backdrop-blur-sm border border-white/30 focus:outline-none focus:ring-2 focus:ring-[#2D5953]"
-                        />
-                      </div>
-                      <div>
-                        <label className="text-sm font-medium mb-2 block">
-                          Nachname
-                        </label>
-                        <input
-                          type="text"
-                          name="lastName"
-                          required
-                          value={formData.lastName}
-                          onChange={handleInputChange}
-                          className="w-full px-4 py-3 rounded-xl bg-white/40 backdrop-blur-sm border border-white/30 focus:outline-none focus:ring-2 focus:ring-[#2D5953]"
-                        />
-                      </div>
-                      <div className="md:col-span-2">
-                        <label className="text-sm font-medium mb-2 block">
-                          Straße und Hausnummer
-                        </label>
-                        <input
-                          type="text"
-                          name="address"
-                          required
-                          value={formData.address}
-                          onChange={handleInputChange}
-                          className="w-full px-4 py-3 rounded-xl bg-white/40 backdrop-blur-sm border border-white/30 focus:outline-none focus:ring-2 focus:ring-[#2D5953]"
-                        />
-                      </div>
-                      <div>
-                        <label className="text-sm font-medium mb-2 block">
-                          Postleitzahl
-                        </label>
-                        <input
-                          type="text"
-                          name="postalCode"
-                          required
-                          value={formData.postalCode}
-                          onChange={handleInputChange}
-                          className="w-full px-4 py-3 rounded-xl bg-white/40 backdrop-blur-sm border border-white/30 focus:outline-none focus:ring-2 focus:ring-[#2D5953]"
-                        />
-                      </div>
-                      <div>
-                        <label className="text-sm font-medium mb-2 block">
-                          Stadt
-                        </label>
-                        <input
-                          type="text"
-                          name="city"
-                          required
-                          value={formData.city}
-                          onChange={handleInputChange}
-                          className="w-full px-4 py-3 rounded-xl bg-white/40 backdrop-blur-sm border border-white/30 focus:outline-none focus:ring-2 focus:ring-[#2D5953]"
-                        />
-                      </div>
-                      <div className="md:col-span-2">
-                        <label className="text-sm font-medium mb-2 block">
-                          Land
-                        </label>
-                        <select
-                          name="country"
-                          value={formData.country}
-                          onChange={handleInputChange}
-                          className="w-full px-4 py-3 rounded-xl bg-white/40 backdrop-blur-sm border border-white/30 focus:outline-none focus:ring-2 focus:ring-[#2D5953]"
-                        >
-                          <option>Deutschland</option>
-                          <option>Österreich</option>
-                          <option>Schweiz</option>
-                        </select>
-                      </div>
-                    </div>
-                  </GlassCard>
-                </motion.div>
-
-                {/* Payment Information */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3 }}
-                >
-                  <GlassCard className="rounded-2xl p-6">
-                    <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
-                      <Wallet className="w-6 h-6 text-[#8268AB]" />
-                      Zahlungsmethode
-                    </h2>
-                    
-                    {/* Payment Method Selection */}
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-6">
-                      <button
-                        type="button"
-                        onClick={() => setPaymentMethod('card')}
-                        className={`p-4 rounded-xl border-2 transition-all ${
-                          paymentMethod === 'card'
-                            ? 'border-[#8268AB] bg-[#8268AB]/10'
-                            : 'border-white/30 bg-white/20 hover:bg-white/30'
-                        }`}
-                      >
-                        <CreditCard className="w-6 h-6 mx-auto mb-2" />
-                        <div className="text-sm font-medium">Kreditkarte</div>
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() => setPaymentMethod('paypal')}
-                        className={`p-4 rounded-xl border-2 transition-all ${
-                          paymentMethod === 'paypal'
-                            ? 'border-[#8268AB] bg-[#8268AB]/10'
-                            : 'border-white/30 bg-white/20 hover:bg-white/30'
-                        }`}
-                      >
-                        <svg className="w-6 h-6 mx-auto mb-2" viewBox="0 0 24 24" fill="currentColor">
-                          <path d="M20.067 8.478c.492.88.556 2.014.3 3.327-.74 3.806-3.276 5.12-6.514 5.12h-.5a.805.805 0 0 0-.794.68l-.04.22-.63 3.993-.028.15a.806.806 0 0 1-.796.68H8.29c-.32 0-.558-.25-.505-.563L9.863 8.467c.055-.366.376-.645.75-.645h4.78c.69 0 1.342.05 1.95.168 1.616.315 2.725 1.216 2.725 2.488z"/>
-                        </svg>
-                        <div className="text-sm font-medium">PayPal</div>
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() => setPaymentMethod('klarna')}
-                        className={`p-4 rounded-xl border-2 transition-all ${
-                          paymentMethod === 'klarna'
-                            ? 'border-[#8268AB] bg-[#8268AB]/10'
-                            : 'border-white/30 bg-white/20 hover:bg-white/30'
-                        }`}
-                      >
-                        <svg className="w-6 h-6 mx-auto mb-2" viewBox="0 0 24 24" fill="currentColor">
-                          <path d="M4 4h4v16H4V4zm6 0h4v6.5c0 1.5 1 2.5 2.5 2.5s2.5-1 2.5-2.5V4h4v6.5c0 3.5-2.5 6-6 6s-6-2.5-6-6V4z"/>
-                        </svg>
-                        <div className="text-sm font-medium">Klarna</div>
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() => setPaymentMethod('sepa')}
-                        className={`p-4 rounded-xl border-2 transition-all ${
-                          paymentMethod === 'sepa'
-                            ? 'border-[#8268AB] bg-[#8268AB]/10'
-                            : 'border-white/30 bg-white/20 hover:bg-white/30'
-                        }`}
-                      >
-                        <svg className="w-6 h-6 mx-auto mb-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                          <rect x="2" y="5" width="20" height="14" rx="2"/>
-                          <line x1="2" y1="10" x2="22" y2="10"/>
-                        </svg>
-                        <div className="text-sm font-medium">SEPA</div>
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() => setPaymentMethod('applepay')}
-                        className={`p-4 rounded-xl border-2 transition-all ${
-                          paymentMethod === 'applepay'
-                            ? 'border-[#8268AB] bg-[#8268AB]/10'
-                            : 'border-white/30 bg-white/20 hover:bg-white/30'
-                        }`}
-                      >
-                        <svg className="w-6 h-6 mx-auto mb-2" viewBox="0 0 24 24" fill="currentColor">
-                          <path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09l.01-.01zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/>
-                        </svg>
-                        <div className="text-sm font-medium">Apple Pay</div>
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() => setPaymentMethod('googlepay')}
-                        className={`p-4 rounded-xl border-2 transition-all ${
-                          paymentMethod === 'googlepay'
-                            ? 'border-[#8268AB] bg-[#8268AB]/10'
-                            : 'border-white/30 bg-white/20 hover:bg-white/30'
-                        }`}
-                      >
-                        <svg className="w-6 h-6 mx-auto mb-2" viewBox="0 0 24 24" fill="currentColor">
-                          <path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"/>
-                        </svg>
-                        <div className="text-sm font-medium">Google Pay</div>
-                      </button>
-                    </div>
-
-                    {/* Payment Method Forms */}
-                    <motion.div
-                      key={paymentMethod}
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: 'auto' }}
-                      exit={{ opacity: 0, height: 0 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      {paymentMethod === 'card' && (
-                        <div className="space-y-4">
-                          <div>
-                            <label className="text-sm font-medium mb-2 block">
-                              Karteninhaber
-                            </label>
-                            <input
-                              type="text"
-                              name="cardName"
-                              required
-                              value={formData.cardName}
-                              onChange={handleInputChange}
-                              className="w-full px-4 py-3 rounded-xl bg-white/40 backdrop-blur-sm border border-white/30 focus:outline-none focus:ring-2 focus:ring-[#8268AB]"
-                            />
-                          </div>
-                          <div>
-                            <label className="text-sm font-medium mb-2 block">
-                              Kartennummer
-                            </label>
-                            <input
-                              type="text"
-                              name="cardNumber"
-                              required
-                              value={formData.cardNumber}
-                              onChange={handleInputChange}
-                              placeholder="1234 5678 9012 3456"
-                              className="w-full px-4 py-3 rounded-xl bg-white/40 backdrop-blur-sm border border-white/30 focus:outline-none focus:ring-2 focus:ring-[#8268AB]"
-                            />
-                          </div>
-                          <div className="grid grid-cols-2 gap-4">
-                            <div>
-                              <label className="text-sm font-medium mb-2 block">
-                                Ablaufdatum
-                              </label>
-                              <input
-                                type="text"
-                                name="expiryDate"
-                                required
-                                value={formData.expiryDate}
-                                onChange={handleInputChange}
-                                placeholder="MM/JJ"
-                                className="w-full px-4 py-3 rounded-xl bg-white/40 backdrop-blur-sm border border-white/30 focus:outline-none focus:ring-2 focus:ring-[#8268AB]"
-                              />
-                            </div>
-                            <div>
-                              <label className="text-sm font-medium mb-2 block">
-                                CVV
-                              </label>
-                              <input
-                                type="text"
-                                name="cvv"
-                                required
-                                value={formData.cvv}
-                                onChange={handleInputChange}
-                                placeholder="123"
-                                maxLength={3}
-                                className="w-full px-4 py-3 rounded-xl bg-white/40 backdrop-blur-sm border border-white/30 focus:outline-none focus:ring-2 focus:ring-[#8268AB]"
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      )}
-
-                      {paymentMethod === 'paypal' && (
-                        <div className="text-center py-6">
-                          <svg className="w-16 h-16 mx-auto mb-4 text-[#0070ba]" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M20.067 8.478c.492.88.556 2.014.3 3.327-.74 3.806-3.276 5.12-6.514 5.12h-.5a.805.805 0 0 0-.794.68l-.04.22-.63 3.993-.028.15a.806.806 0 0 1-.796.68H8.29c-.32 0-.558-.25-.505-.563L9.863 8.467c.055-.366.376-.645.75-.645h4.78c.69 0 1.342.05 1.95.168 1.616.315 2.725 1.216 2.725 2.488z"/>
-                          </svg>
-                          <p className="text-sm text-muted-foreground">
-                            Du wirst nach der Bestellung zu PayPal weitergeleitet, um die Zahlung abzuschließen.
-                          </p>
-                        </div>
-                      )}
-
-                      {paymentMethod === 'klarna' && (
-                        <div className="text-center py-6">
-                          <svg className="w-16 h-16 mx-auto mb-4 text-[#ffb3c7]" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M4 4h4v16H4V4zm6 0h4v6.5c0 1.5 1 2.5 2.5 2.5s2.5-1 2.5-2.5V4h4v6.5c0 3.5-2.5 6-6 6s-6-2.5-6-6V4z"/>
-                          </svg>
-                          <p className="text-sm text-muted-foreground">
-                            Bezahle in 30 Tagen oder in Raten. Du wirst nach der Bestellung zu Klarna weitergeleitet.
-                          </p>
-                        </div>
-                      )}
-
-                      {paymentMethod === 'sepa' && (
-                        <div className="space-y-4">
-                          <div>
-                            <label className="text-sm font-medium mb-2 block">
-                              IBAN
-                            </label>
-                            <input
-                              type="text"
-                              name="iban"
-                              required
-                              value={formData.iban}
-                              onChange={handleInputChange}
-                              placeholder="DE89 3704 0044 0532 0130 00"
-                              className="w-full px-4 py-3 rounded-xl bg-white/40 backdrop-blur-sm border border-white/30 focus:outline-none focus:ring-2 focus:ring-[#8268AB]"
-                            />
-                          </div>
-                          <div className="bg-[#F9C4B5]/10 border border-[#F9C4B5]/30 rounded-xl p-3 text-sm text-muted-foreground">
-                            <p>Mit der Bestellung erteilst du ein SEPA-Lastschriftmandat.</p>
-                          </div>
-                        </div>
-                      )}
-
-                      {paymentMethod === 'applepay' && (
-                        <div className="text-center py-6">
-                          <svg className="w-16 h-16 mx-auto mb-4" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09l.01-.01zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/>
-                          </svg>
-                          <p className="text-sm text-muted-foreground">
-                            Bezahle schnell und sicher mit Apple Pay. Du wirst nach der Bestellung weitergeleitet.
-                          </p>
-                        </div>
-                      )}
-
-                      {paymentMethod === 'googlepay' && (
-                        <div className="text-center py-6">
-                          <svg className="w-16 h-16 mx-auto mb-4" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"/>
-                          </svg>
-                          <p className="text-sm text-muted-foreground">
-                            Bezahle schnell und sicher mit Google Pay. Du wirst nach der Bestellung weitergeleitet.
-                          </p>
-                        </div>
-                      )}
-                    </motion.div>
-                  </GlassCard>
-                </motion.div>
-
-                {/* Submit Button */}
-                <Button
-                  type="submit"
-                  size="lg"
-                  disabled={isProcessing}
-                  className="w-full bg-[#2D5953]/80 hover:bg-[#2D5953]/90 text-white"
-                >
-                  {isProcessing ? (
-                    <span className="flex items-center gap-2">
-                      <motion.div
-                        animate={{ rotate: 360 }}
-                        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                        className="w-5 h-5 border-2 border-white border-t-transparent rounded-full"
-                      />
-                      Wird verarbeitet...
-                    </span>
-                  ) : (
-                    <>Jetzt kaufen</>
-                  )}
-                </Button>
-              </form>
-            </div>
-
-            {/* Order Summary */}
-            <div className="lg:col-span-1">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
-                className="sticky top-32"
-              >
-                <GlassCard className="rounded-2xl p-6">
-                  <h2 className="text-2xl font-bold mb-6">Bestellübersicht</h2>
-                  
-                  {/* Items */}
-                  <div className="space-y-4 mb-6">
-                    {items.map((item) => (
-                      <div key={item.id} className="flex gap-3">
-                        <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
-                          <ImageWithFallback
-                            src={item.image}
-                            alt={item.name}
-                            className="w-full h-full object-cover object-left"
-                          />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <h4 className="font-medium text-sm truncate">{item.name}</h4>
-                          <p className="text-sm text-muted-foreground">
-                            Menge: {item.quantity}
-                          </p>
-                          <p className="text-sm font-bold text-[#2D5953]">
-                            {(item.price * item.quantity).toFixed(2).replace('.', ',')}€
-                          </p>
-                        </div>
-                        <Button
-                          size="sm"
-                          variant="ghost"
-                          onClick={() => removeFromCart(item.id)}
-                          className="text-[#2D5953]"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </Button>
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* Pricing */}
-                  <div className="space-y-3 pt-4 border-t border-white/20">
-                    <div className="flex justify-between text-sm">
-                      <span>Zwischensumme:</span>
-                      <span>{totalPrice.toFixed(2).replace('.', ',')}€</span>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                      <span>Versand:</span>
-                      <span>{shippingCost.toFixed(2).replace('.', ',')}€</span>
-                    </div>
-                    <div className="flex justify-between text-lg font-bold pt-3 border-t border-white/20">
-                      <span>Gesamt:</span>
-                      <span className="text-[#2D5953]">
-                        {total.toFixed(2).replace('.', ',')}€
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Security Badge */}
-                  <div className="mt-6 pt-6 border-t border-white/20">
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <Shield className="w-5 h-5 text-[#2D5953]" />
-                      <span>Sichere Zahlung mit SSL-Verschlüsselung</span>
-                    </div>
-                  </div>
-                </GlassCard>
-              </motion.div>
+    <div>
+      {label && (
+        <div className="flex items-center gap-2 mb-4">
+          <User className="w-4 h-4 text-[#C9A84C]" />
+          <span className="text-[#C9A84C] text-sm font-semibold tracking-wide uppercase"
+            style={{ fontFamily: '"rl-limo-1", "rl-limo-2", sans-serif', fontWeight: 400 }}>{label}</span>
+        </div>
+      )}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {fields.map(f => (
+          <div key={f.key}>
+            <label className="block text-[#F0E6C8]/60 text-xs mb-1.5 tracking-wide">{f.label}</label>
+            <div className="relative">
+              <f.icon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#7B5FD4]/70 pointer-events-none" />
+              <input type={f.type} value={data[f.key]} onChange={set(f.key)} placeholder={f.placeholder}
+                className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-[#F0E6C8] text-sm placeholder-[#F0E6C8]/25 focus:outline-none focus:border-[#C9A84C]/50 focus:bg-white/8 transition-all [color-scheme:dark]" />
             </div>
           </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ── Redirect loading screen ───────────────────────────────────────────────────
+
+function RedirectScreen() {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className="fixed inset-0 z-50 bg-[#1B1040] flex flex-col items-center justify-center px-6"
+    >
+      <StarField noConnect />
+      <div className="relative z-10 text-center">
+        {/* Pulsing orb */}
+        <div className="relative w-24 h-24 mx-auto mb-8">
+          <motion.div
+            animate={{ scale: [1, 1.3, 1], opacity: [0.4, 0.1, 0.4] }}
+            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+            className="absolute inset-0 rounded-full bg-[#C9A84C]"
+          />
+          <div className="absolute inset-3 rounded-full bg-[#C9A84C]/20 border border-[#C9A84C]/40 flex items-center justify-center">
+            <Sparkles className="w-8 h-8 text-[#C9A84C]" />
+          </div>
+        </div>
+
+        <h2 className="text-2xl text-[#F0E6C8] mb-3"
+          style={{ fontFamily: '"rl-limo-1", "rl-limo-2", sans-serif', fontWeight: 400 }}>
+          Sie werden weitergeleitet …
+        </h2>
+        <p className="text-[#F0E6C8]/45 text-sm max-w-xs mx-auto leading-relaxed">
+          Du wirst jetzt sicher zu unserem Zahlungsanbieter Mollie weitergeleitet, um die Zahlung abzuschließen.
+        </p>
+
+        {/* Progress dots */}
+        <div className="flex justify-center gap-2 mt-8">
+          {[0, 1, 2].map(i => (
+            <motion.div key={i}
+              animate={{ opacity: [0.2, 1, 0.2] }}
+              transition={{ duration: 1.2, repeat: Infinity, delay: i * 0.3 }}
+              className="w-2 h-2 rounded-full bg-[#C9A84C]"
+            />
+          ))}
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+// ── Main component ────────────────────────────────────────────────────────────
+
+export default function Checkout() {
+  const { items, totalPrice, removeFromCart, clearCart } = useCart();
+
+  // Birth data
+  const [birthData, setBirthData]     = useState<Record<number, BirthData>>({});
+  const [partnerData, setPartnerData] = useState<Record<number, BirthData>>({});
+  const getItem    = (id: number) => birthData[id]   ?? emptyBirthData();
+  const getPartner = (id: number) => partnerData[id] ?? emptyBirthData();
+  const setItem    = (id: number, d: BirthData) => setBirthData(p   => ({ ...p, [id]: d }));
+  const setPartner = (id: number, d: BirthData) => setPartnerData(p => ({ ...p, [id]: d }));
+
+  const birthComplete = items.every(item => {
+    if (isMembership(item.id)) return true; // Mitgliedschaft braucht keine Geburtsdaten
+    const d = getItem(item.id);
+    const base = d.birthday && d.birthplace && d.birthcountry;
+    if (isPartnerProduct(item.name)) {
+      const p = getPartner(item.id);
+      return base && p.birthday && p.birthplace && p.birthcountry;
+    }
+    return base;
+  });
+
+  const hasMembership = items.some(item => isMembership(item.id));
+  const onlyMembership = items.length > 0 && items.every(item => isMembership(item.id));
+
+  // Contact
+  const [email, setEmail] = useState('');
+  const emailValid = email.includes('@') && email.includes('.');
+
+  // Discount
+  const DISCOUNT_CODES: Record<string, number> = { 'ASTRO10': 10, 'ROBERT15': 15, 'WELCOME20': 20 };
+  const [discountInput, setDiscountInput]   = useState('');
+  const [appliedDiscount, setAppliedDiscount] = useState<{ code: string; percent: number } | null>(null);
+  const [discountError, setDiscountError]   = useState('');
+  const applyDiscount = (code: string) => {
+    const upper = code.trim().toUpperCase();
+    if (!upper) return;
+    const percent = DISCOUNT_CODES[upper];
+    if (percent) { setAppliedDiscount({ code: upper, percent }); setDiscountError(''); }
+    else { setDiscountError('Ungültiger Rabattcode'); }
+  };
+  const discountAmount = appliedDiscount ? totalPrice * (appliedDiscount.percent / 100) : 0;
+  const finalPrice = totalPrice - discountAmount;
+
+  // Payment state
+  const [redirecting, setRedirecting] = useState(false);
+  const [payError, setPayError]       = useState('');
+
+  const canPay = birthComplete && emailValid;
+
+  const handlePay = async () => {
+    if (!canPay || redirecting) return;
+    setRedirecting(true);
+    setPayError('');
+    try {
+      // Build birth data payload per item (membership has none)
+      const birthDataItems = items
+        .filter(item => !isMembership(item.id))
+        .map(item => ({
+          itemId: item.id,
+          itemName: item.name,
+          person1: getItem(item.id),
+          ...(isPartnerProduct(item.name) ? { person2: getPartner(item.id) } : {}),
+        }));
+
+      const res = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          productId: items[0]?.id?.toString() ?? '',
+          productName: items.map(i => i.name).join(', '),
+          amount: totalPrice,
+          finalAmount: finalPrice,
+          discountCode: appliedDiscount?.code ?? null,
+          customerEmail: email,
+          customerName: email,
+          customerPhone: '',
+          birthDataItems,
+          skoolMembership: hasMembership,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error ?? 'Fehler beim Erstellen der Zahlung');
+      clearCart();
+      window.location.href = data.checkoutUrl;
+    } catch (err: any) {
+      setPayError(err.message ?? 'Verbindungsfehler. Bitte versuch es nochmal.');
+      setRedirecting(false);
+    }
+  };
+
+  // ── Empty cart ──
+  if (items.length === 0 && !redirecting) {
+    return (
+      <div className="min-h-screen bg-[#1B1040] flex items-center justify-center px-6">
+        <StarField noConnect />
+        <div className="relative z-10 text-center">
+          <div className="text-[#C9A84C]/30 text-6xl mb-6">✦</div>
+          <h2 className="text-2xl text-[#F0E6C8] mb-3">Dein Warenkorb ist leer</h2>
+          <p className="text-[#F0E6C8]/50 mb-8">Füge Produkte hinzu, um fortzufahren.</p>
+          <Link to="/angebote"><Button variant="gold">Zum Shop <ArrowRight className="w-4 h-4" /></Button></Link>
+        </div>
+      </div>
+    );
+  }
+
+  // ── Redirect screen ──
+  if (redirecting) return <RedirectScreen />;
+
+  // ── Checkout form ──
+  return (
+    <div className="min-h-screen bg-[#1B1040]">
+      <StarField noConnect />
+
+      <div className="relative z-10 max-w-2xl mx-auto px-6 pt-28 pb-24">
+
+        {/* Header */}
+        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="mb-10">
+          <div className="flex items-center gap-6 mb-6">
+            <Link to="/angebote" className="inline-flex items-center gap-2 text-[#F0E6C8]/40 hover:text-[#F0E6C8] text-sm transition-colors">
+              <ArrowLeft className="w-3.5 h-3.5" /> Zurück zum Shop
+            </Link>
+            <div className="inline-flex items-center px-3 py-1 rounded-full border border-[#C9A84C]/30 text-[#C9A84C] text-sm tracking-widest uppercase"
+              style={{ fontFamily: '"rl-limo-1", "rl-limo-2", sans-serif', fontWeight: 400 }}>
+              Bestellung abschließen
+            </div>
+          </div>
+          <h1 className="text-4xl text-[#F0E6C8]"
+            style={{ fontFamily: '"rl-limo-1", "rl-limo-2", sans-serif', fontWeight: 400 }}>
+            Deine Angaben
+          </h1>
+          <p className="text-[#F0E6C8]/50 mt-2 text-sm">
+            {onlyMembership
+              ? 'Wir benötigen nur deine E-Mail-Adresse für die Einladung. Die Zahlung erfolgt sicher über Mollie.'
+              : 'Für deine Analyse benötigen wir deine Geburtsdaten. Die Zahlung erfolgt sicher über Mollie.'}
+          </p>
+        </motion.div>
+
+        <div className="space-y-5">
+
+          {/* Birth data per item */}
+          {items.map(item => (
+            <motion.div key={item.id} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}>
+              <GlassCard className="rounded-xl p-6 border-white/8">
+                {/* Product row */}
+                <div className="flex items-start justify-between gap-4 mb-6 pb-5 border-b border-white/8">
+                  <div className="flex items-center gap-4">
+                    <div className="w-14 h-14 rounded-lg overflow-hidden shrink-0 bg-white/5">
+                      <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                    </div>
+                    <div>
+                      <h3 className="text-[#F0E6C8] font-semibold text-sm">{item.name}</h3>
+                      <div className="text-[#C9A84C] font-bold text-lg mt-0.5">{item.priceFormatted}</div>
+                    </div>
+                  </div>
+                  <button onClick={() => removeFromCart(item.id)}
+                    className="p-2 hover:bg-white/8 rounded-lg transition-colors text-[#F0E6C8]/30 hover:text-red-400 shrink-0">
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
+
+                {/* Membership: no birth data, just an info note */}
+                {isMembership(item.id) ? (
+                  <div className="flex items-start gap-3 rounded-lg bg-[#C9A84C]/8 border border-[#C9A84C]/20 p-4">
+                    <Users className="w-4 h-4 text-[#C9A84C] shrink-0 mt-0.5" />
+                    <p className="text-[#F0E6C8]/65 text-sm leading-relaxed">
+                      Direkt nach der Zahlung erhältst du eine Einladung per E-Mail und kannst der Astroversity Academy auf Skool sofort beitreten. Für die Einladung brauchen wir nur deine E-Mail-Adresse.
+                    </p>
+                  </div>
+                ) : (
+                  <>
+                    <BirthDataForm
+                      label={isPartnerProduct(item.name) ? 'Deine Daten' : ''}
+                      data={getItem(item.id)}
+                      onChange={d => setItem(item.id, d)}
+                    />
+                    {isPartnerProduct(item.name) && (
+                      <div className="mt-6 pt-6 border-t border-white/8">
+                        <BirthDataForm
+                          label="Daten deines Partners / deiner Partnerin"
+                          data={getPartner(item.id)}
+                          onChange={d => setPartner(item.id, d)}
+                        />
+                      </div>
+                    )}
+                  </>
+                )}
+              </GlassCard>
+            </motion.div>
+          ))}
+
+          {/* Email */}
+          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }}>
+            <GlassCard className="rounded-xl p-6 border-white/8">
+              <h2 className="text-[#F0E6C8] font-semibold text-base mb-5 flex items-center gap-2">
+                <Mail className="w-4 h-4 text-[#C9A84C]" /> Deine E-Mail-Adresse
+              </h2>
+              <label className="block text-[#F0E6C8]/60 text-xs mb-1.5 tracking-wide">
+                E-Mail <span className="text-[#C9A84C]">*</span>
+              </label>
+              <div className="relative">
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#7B5FD4]/70 pointer-events-none" />
+                <input
+                  type="email" value={email} onChange={e => setEmail(e.target.value)}
+                  placeholder="deine@email.de"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-[#F0E6C8] text-sm placeholder-[#F0E6C8]/25 focus:outline-none focus:border-[#C9A84C]/50 focus:bg-white/8 transition-all"
+                />
+              </div>
+              <p className="text-[#F0E6C8]/30 text-xs mt-2">
+                Für deine Auftragsbestätigung und Rechnung.
+              </p>
+            </GlassCard>
+          </motion.div>
+
+          {/* Total + discount */}
+          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
+            <GlassCard className="rounded-xl p-5 border-white/8">
+              {/* Discount */}
+              <div className="mb-4">
+                <p className="text-[#F0E6C8]/50 text-xs mb-2">Rabattcode (optional)</p>
+                {appliedDiscount ? (
+                  <div className="flex items-center justify-between bg-[#C9A84C]/10 border border-[#C9A84C]/30 rounded-lg px-4 py-2.5">
+                    <span className="text-[#C9A84C] text-sm font-semibold">{appliedDiscount.code} – {appliedDiscount.percent}% Rabatt</span>
+                    <button onClick={() => setAppliedDiscount(null)} className="text-[#F0E6C8]/30 hover:text-[#F0E6C8] text-xs ml-3 transition-colors">✕</button>
+                  </div>
+                ) : (
+                  <div>
+                    <div className="flex gap-2">
+                      <input type="text" value={discountInput}
+                        onChange={e => { setDiscountInput(e.target.value); setDiscountError(''); }}
+                        onKeyDown={e => e.key === 'Enter' && applyDiscount(discountInput)}
+                        placeholder="Code eingeben"
+                        className="flex-1 px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-[#F0E6C8] text-sm placeholder-[#F0E6C8]/25 focus:outline-none focus:border-[#C9A84C]/50 transition-all" />
+                      <button onClick={() => applyDiscount(discountInput)}
+                        className="px-4 py-2 rounded-lg bg-[#C9A84C]/15 border border-[#C9A84C]/30 text-[#C9A84C] text-sm font-medium hover:bg-[#C9A84C]/25 transition-colors">
+                        Einlösen
+                      </button>
+                    </div>
+                    {discountError && <p className="text-red-400/80 text-xs mt-1.5">{discountError}</p>}
+                  </div>
+                )}
+              </div>
+
+              {/* Total */}
+              <div className="pt-3 border-t border-white/8 flex items-center justify-between">
+                <span className="text-[#F0E6C8]/60 text-sm">Gesamtbetrag</span>
+                <div className="text-right">
+                  {appliedDiscount && (
+                    <div className="text-[#F0E6C8]/30 text-sm line-through">{totalPrice.toFixed(2).replace('.', ',')} €</div>
+                  )}
+                  <span className="text-[#C9A84C] font-bold text-2xl">{finalPrice.toFixed(2).replace('.', ',')} €</span>
+                </div>
+              </div>
+            </GlassCard>
+          </motion.div>
+
+          {/* Pay button */}
+          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}
+            className="space-y-3">
+            <button
+              onClick={handlePay}
+              disabled={!canPay}
+              className="w-full py-4 rounded-xl bg-[#C9A84C] text-[#1B1040] font-bold text-base flex items-center justify-center gap-2 hover:bg-[#C9A84C]/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+              <Lock className="w-4 h-4" />
+              Jetzt zahlen – {finalPrice.toFixed(2).replace('.', ',')} €
+              <ArrowRight className="w-4 h-4" />
+            </button>
+
+            {!canPay && (
+              <p className="text-[#F0E6C8]/30 text-xs text-center">
+                {!birthComplete && 'Geburtsdaten ausfüllen · '}
+                {!emailValid && 'E-Mail-Adresse eingeben'}
+              </p>
+            )}
+            {payError && <p className="text-red-400/80 text-xs text-center">{payError}</p>}
+
+            <div className="flex items-center justify-center gap-2">
+              <Lock className="w-3 h-3 text-[#F0E6C8]/25" />
+              <span className="text-[#F0E6C8]/25 text-xs">SSL-verschlüsselt · Zahlung über Mollie</span>
+            </div>
+          </motion.div>
+
         </div>
       </div>
     </div>

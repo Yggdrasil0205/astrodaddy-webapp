@@ -101,7 +101,7 @@ export default function Login() {
 
               {isLogin && (
                 <div className="pt-2 text-center text-xs text-[#F0E6C8]/25">
-                  Testlogin: test@astrodaddy.de · test1234
+                  Testlogin: test@astroversity.academy · test1234
                 </div>
               )}
             </form>

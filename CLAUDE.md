@@ -1,4 +1,4 @@
-# CLAUDE.md – AstroDaddy Webapp
+# CLAUDE.md – Astroversity Academy Webapp
 
 ## Commands
 ```bash
@@ -25,7 +25,7 @@ Same structure as HappyAger template. Entry: `src/main.tsx` → `App.tsx` → `R
 - `/forgot-password`, `/impressum`, `/datenschutz`
 
 ## Test User
-Login without Supabase: **test@astrodaddy.de / test1234**
+Login without Supabase: **test@astroversity.academy / test1234**
 This works via hardcoded fallback in AuthContext.tsx.
 
 ## Theme colors (src/styles/theme.css)
@@ -39,4 +39,4 @@ AuthContext uses Supabase + hardcoded test user fallback.
 Supabase env vars: `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`
 
 ## Content source
-Based on astrodaddy.de – Robert Wagner, Astrologe & spiritueller Lebensberater (@astrodaddy.official)
+Based on astroversity.academy – Robert Wagner, Astrologe & spiritueller Lebensberater (@astrodaddy.official)

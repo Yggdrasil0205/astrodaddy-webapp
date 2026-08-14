@@ -226,7 +226,7 @@ export default function ReadingsWorkbooks() {
                         </li>
                       ))}
                     </ul>
-                    <a href="https://www.astrodaddy.de" target="_blank" rel="noopener noreferrer">
+                    <a href="https://astroversity.academy" target="_blank" rel="noopener noreferrer">
                       <button
                         className={`w-full py-2.5 rounded-lg text-sm font-medium border transition-all ${p.highlight ? 'bg-[#1B1040] text-[#C9A84C] border-[#1B1040] hover:bg-[#2a1d6b]' : 'bg-transparent text-[#F0E6C8]/70 border-white/20 hover:text-[#F0E6C8] hover:border-white/40'}`}
                       >
@@ -243,7 +243,7 @@ export default function ReadingsWorkbooks() {
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
             className="text-center mt-10"
           >
-            <a href="https://www.astrodaddy.de" target="_blank" rel="noopener noreferrer">
+            <a href="https://astroversity.academy" target="_blank" rel="noopener noreferrer">
               <Button variant="gold" size="lg" className="px-9">
                 Jetzt buchen <ArrowRight className="w-4 h-4" />
               </Button>
@@ -301,7 +301,7 @@ export default function ReadingsWorkbooks() {
                 </div>
               ))}
             </div>
-            <a href="https://www.astrodaddy.de" target="_blank" rel="noopener noreferrer">
+            <a href="https://astroversity.academy" target="_blank" rel="noopener noreferrer">
               <Button variant="gold" size="lg" className="px-8">
                 Tarot-Legung buchen <ArrowRight className="w-4 h-4" />
               </Button>

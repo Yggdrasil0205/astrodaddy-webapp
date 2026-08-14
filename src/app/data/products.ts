@@ -55,7 +55,7 @@ export const products: Product[] = [
       'Robert erstellt deine individuelle Jahresvorschau',
       'Lieferung als PDF per E-Mail',
     ],
-    affiliateUrl: 'https://www.astrodaddy.de',
+    affiliateUrl: 'https://astroversity.academy',
   },
   {
     id: 2,
@@ -84,7 +84,7 @@ export const products: Product[] = [
       'Robert erstellt die individuelle Synastrie-Analyse',
       'Lieferung als PDF per E-Mail',
     ],
-    affiliateUrl: 'https://www.astrodaddy.de',
+    affiliateUrl: 'https://astroversity.academy',
   },
   {
     id: 3,
@@ -114,7 +114,7 @@ export const products: Product[] = [
       'Robert erstellt deine personalisierte Astrokartographie-Karte',
       'Lieferung als PDF per E-Mail',
     ],
-    affiliateUrl: 'https://www.astrodaddy.de',
+    affiliateUrl: 'https://astroversity.academy',
   },
   {
     id: 4,
@@ -144,7 +144,7 @@ export const products: Product[] = [
       'Robert erstellt dein individuelles Persönlichkeitsprofil',
       'Lieferung als PDF per E-Mail',
     ],
-    affiliateUrl: 'https://www.astrodaddy.de',
+    affiliateUrl: 'https://astroversity.academy',
   },
   {
     id: 5,
@@ -175,7 +175,7 @@ export const products: Product[] = [
       'Robert meldet sich innerhalb von 24 Stunden zur Terminabsprache',
       'Persönlichen Zoom-Link erhalten & Session starten',
     ],
-    affiliateUrl: 'https://www.astrodaddy.de',
+    affiliateUrl: 'https://astroversity.academy',
   },
   {
     id: 6,
@@ -205,7 +205,7 @@ export const products: Product[] = [
       'Robert meldet sich innerhalb von 24 Stunden zur Terminabsprache',
       'Persönlichen Zoom-Link erhalten & Session starten',
     ],
-    affiliateUrl: 'https://www.astrodaddy.de',
+    affiliateUrl: 'https://astroversity.academy',
   },
   {
     id: 7,
@@ -234,7 +234,7 @@ export const products: Product[] = [
       'Radix (Geburtshoroskop) per WhatsApp erhalten',
       'Persönliche Videoanalyse per WhatsApp-Link erhalten',
     ],
-    affiliateUrl: 'https://www.astrodaddy.de',
+    affiliateUrl: 'https://astroversity.academy',
   },
   {
     id: SKOOL_MEMBERSHIP_ID,
@@ -265,7 +265,7 @@ export const products: Product[] = [
       'Einladungs-E-Mail „Robert Wagner invited you to join Astroversity Academy" erhalten',
       'Auf „JOIN NOW" klicken und sofort beitreten',
     ],
-    affiliateUrl: 'https://www.astrodaddy.de',
+    affiliateUrl: 'https://astroversity.academy',
     skoolMembership: true,
   },
 ];

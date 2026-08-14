@@ -3,7 +3,7 @@ import PDFDocument from 'pdfkit';
 // ── Constants ─────────────────────────────────────────────────────────────────
 
 const SELLER = {
-  name: 'AstroDaddy',
+  name: 'Robert Wagner Astrologie',
   contact: 'Robert Wagner',
   street: 'Westliche Ringstraße 25',
   city: '91781 Weißenburg i. Bay.',

@@ -15,7 +15,7 @@ function createTransport() {
   });
 }
 
-const FROM_DEFAULT = process.env.SMTP_FROM ?? 'AstroDaddy <noreply@astrodaddy.de>';
+const FROM_DEFAULT = process.env.SMTP_FROM ?? 'Astroversity Academy <noreply@astroversity.academy>';
 const ROBERT_EMAIL = 'adastra.lights@gmail.com';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
@@ -170,7 +170,7 @@ export async function sendInvoiceConfirmationEmail(input: OrderEmailInput) {
       <div style="font-family:Arial,sans-serif;max-width:640px;margin:0 auto;color:#1a1a2e;">
         <div style="background:#1B1040;padding:24px 32px;border-radius:8px 8px 0 0;display:flex;align-items:center;gap:12px;">
           <div>
-            <p style="color:#C9A84C;font-size:11px;letter-spacing:2px;text-transform:uppercase;margin:0 0 4px;">AstroDaddy</p>
+            <p style="color:#C9A84C;font-size:11px;letter-spacing:2px;text-transform:uppercase;margin:0 0 4px;">Astroversity Academy</p>
             <h1 style="color:#F0E6C8;font-size:20px;font-weight:400;margin:0;">Neue Bestellung: Nr. ${invoiceNumber}</h1>
           </div>
         </div>
@@ -185,7 +185,7 @@ export async function sendInvoiceConfirmationEmail(input: OrderEmailInput) {
             <p style="margin:0 0 8px;font-size:13px;color:#888;">
               Die Rechnung wurde automatisch erstellt und an den Kunden gesendet.<br>
               Alle Bestellungen findest du im
-              <a href="https://astrodaddy.de/robertlogin" style="color:#7B5FD4;">Admin-Dashboard</a>.
+              <a href="https://astroversity.academy/robertlogin" style="color:#7B5FD4;">Admin-Dashboard</a>.
             </p>
           </div>
           <p style="margin-top:20px;font-size:15px;font-weight:600;color:#1B1040;">Herzlichen Glückwunsch zum Verkauf! ✨</p>
@@ -210,7 +210,7 @@ export async function sendOrderConfirmationToCustomer(input: OrderEmailInput) {
 
         <!-- Header -->
         <div style="padding:32px 40px 24px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.06);">
-          <p style="color:#C9A84C;font-size:11px;letter-spacing:3px;text-transform:uppercase;margin:0 0 12px;">AstroDaddy · Bestellbestätigung</p>
+          <p style="color:#C9A84C;font-size:11px;letter-spacing:3px;text-transform:uppercase;margin:0 0 12px;">Astroversity Academy · Bestellbestätigung</p>
           <h1 style="color:#F0E6C8;font-size:22px;font-weight:400;margin:0 0 8px;">Vielen Dank für deine Bestellung!</h1>
           <p style="color:rgba(240,230,200,0.45);font-size:13px;margin:0;">
             Deine Zahlung ist erfolgreich eingegangen. Hier ist eine Zusammenfassung.
@@ -263,7 +263,7 @@ export async function sendOrderConfirmationToCustomer(input: OrderEmailInput) {
             Bei Fragen erreichst du uns unter
             <a href="mailto:${ROBERT_EMAIL}" style="color:#C9A84C;">${ROBERT_EMAIL}</a>.
           </p>
-          <a href="https://astrodaddy.de" style="display:inline-block;background:#C9A84C;color:#1B1040;padding:13px 32px;border-radius:10px;font-weight:600;font-size:14px;text-decoration:none;">
+          <a href="https://astroversity.academy" style="display:inline-block;background:#C9A84C;color:#1B1040;padding:13px 32px;border-radius:10px;font-weight:600;font-size:14px;text-decoration:none;">
             Zur Website →
           </a>
         </div>
@@ -271,7 +271,7 @@ export async function sendOrderConfirmationToCustomer(input: OrderEmailInput) {
         <!-- Footer -->
         <div style="padding:16px 40px;border-top:1px solid rgba(255,255,255,0.06);text-align:center;">
           <p style="color:rgba(240,230,200,0.15);font-size:11px;margin:0;">
-            Robert Wagner Astrologie · astrodaddy.de · Steuernummer: 220 297 29615
+            Robert Wagner Astrologie · astroversity.academy · Steuernummer: 220 297 29615
           </p>
         </div>
 
@@ -291,18 +291,18 @@ export async function sendOrderConfirmationToCustomer(input: OrderEmailInput) {
 export async function sendNewsletterWelcome(email: string) {
   const transport = createTransport();
   await transport.sendMail({
-    from: `Robert Wagner · AstroDaddy <${process.env.SMTP_USER ?? 'noreply@astrodaddy.de'}>`,
+    from: `Robert Wagner · Astroversity Academy <${process.env.SMTP_USER ?? 'noreply@astroversity.academy'}>`,
     to: email,
     subject: 'Willkommen im kosmischen Newsletter ✨',
     html: `
       <div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;background:#1B1040;border-radius:12px;overflow:hidden;">
         <div style="padding:40px 40px 24px;text-align:center;">
-          <p style="color:#C9A84C;font-size:11px;letter-spacing:3px;text-transform:uppercase;margin:0 0 16px;">Astrodaddy · Newsletter</p>
+          <p style="color:#C9A84C;font-size:11px;letter-spacing:3px;text-transform:uppercase;margin:0 0 16px;">Astroversity Academy · Newsletter</p>
           <h1 style="color:#F0E6C8;font-size:26px;font-weight:400;margin:0 0 12px;line-height:1.3;">Die Sterne haben deine Adresse.</h1>
           <p style="color:rgba(240,230,200,0.5);font-size:14px;line-height:1.6;margin:0 0 32px;">
             Du bist jetzt Teil unseres kosmischen Kreises. Ab sofort erhältst du Mondphasen-Updates, astrologische Impulse und exklusive Einblicke direkt in dein Postfach.
           </p>
-          <a href="https://astrodaddy.de" style="display:inline-block;background:#C9A84C;color:#1B1040;padding:14px 32px;border-radius:10px;font-weight:600;font-size:14px;text-decoration:none;">
+          <a href="https://astroversity.academy" style="display:inline-block;background:#C9A84C;color:#1B1040;padding:14px 32px;border-radius:10px;font-weight:600;font-size:14px;text-decoration:none;">
             Zur Website →
           </a>
         </div>

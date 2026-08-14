@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-const APP_URL = process.env.APP_URL ?? 'https://webapp-ten-ecru-42.vercel.app';
+const APP_URL = process.env.APP_URL ?? 'https://astroversity.academy';
 const MOLLIE_KEY = process.env.Mollie_API_Test ?? process.env.MOLLIE_API_KEY ?? '';
 
 export interface BirthDataEntry {

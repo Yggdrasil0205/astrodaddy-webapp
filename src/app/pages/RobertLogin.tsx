@@ -61,7 +61,7 @@ function downloadInvoice(inv: typeof MOCK_INVOICES[0]) {
     <div class="sub">Astrologie · Spiritualität · Tarot</div>
     <div style="margin-top:12px;font-size:12px;color:#555;">
       adastra.lights@gmail.com<br>
-      astrodaddy.de
+      astroversity.academy
     </div>
   </div>
   <div style="text-align:right;">
@@ -96,7 +96,7 @@ function downloadInvoice(inv: typeof MOCK_INVOICES[0]) {
 </div>
 
 <div class="footer">
-  Robert Wagner · Astrologie & Coaching · adastra.lights@gmail.com · astrodaddy.de<br>
+  Robert Wagner · Astrologie & Coaching · adastra.lights@gmail.com · astroversity.academy<br>
   Kleinunternehmer gemäß § 19 UStG · Keine Umsatzsteuer wird ausgewiesen.
 </div>
 </body>
@@ -115,7 +115,7 @@ function downloadBundle(invoices: typeof MOCK_INVOICES, label: string) {
         <div>
           <div class="logo">ROBERT WAGNER</div>
           <div class="sub">Astrologie · Spiritualität · Tarot</div>
-          <div style="margin-top:12px;font-size:12px;color:#555;">adastra.lights@gmail.com<br>astrodaddy.de</div>
+          <div style="margin-top:12px;font-size:12px;color:#555;">adastra.lights@gmail.com<br>astroversity.academy</div>
         </div>
         <div style="text-align:right;">
           <div style="font-size:24px;font-weight:bold;color:#1B1040;">RECHNUNG</div>
@@ -142,7 +142,7 @@ function downloadBundle(invoices: typeof MOCK_INVOICES, label: string) {
       </div>
       <div style="margin-top:16px;">Status: <span class="badge">✓ ${inv.status}</span></div>
       <div class="footer">
-        Robert Wagner · Astrologie & Coaching · adastra.lights@gmail.com · astrodaddy.de<br>
+        Robert Wagner · Astrologie & Coaching · adastra.lights@gmail.com · astroversity.academy<br>
         Kleinunternehmer gemäß § 19 UStG · Keine Umsatzsteuer wird ausgewiesen.
       </div>
     </div>
@@ -190,7 +190,7 @@ function downloadBundle(invoices: typeof MOCK_INVOICES, label: string) {
     <tr><td>Storniert</td><td style="text-align:right;">${invoices.filter(i => i.status === 'storniert').length}</td></tr>
     <tr style="border-top:2px solid #C9A84C;"><td style="padding-top:12px;"><strong>Gesamtumsatz (bezahlt)</strong></td><td style="text-align:right;padding-top:12px;" class="sum">${total.toFixed(2).replace('.', ',')} €</td></tr>
   </table>
-  <div style="margin-top:32px;font-size:11px;color:#888;">Exportiert am ${new Date().toLocaleDateString('de-DE')} · astrodaddy.de</div>
+  <div style="margin-top:32px;font-size:11px;color:#888;">Exportiert am ${new Date().toLocaleDateString('de-DE')} · astroversity.academy</div>
 </div>
 ${invoicePages}
 </body>

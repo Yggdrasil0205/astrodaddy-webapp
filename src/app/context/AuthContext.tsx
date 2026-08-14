@@ -3,7 +3,7 @@ import { supabase } from '../../lib/supabase';
 import type { User, Session } from '@supabase/supabase-js';
 
 // ─── Test user (active until Supabase is configured) ────────────────────────
-const TEST_CREDENTIALS = { email: 'test@astrodaddy.de', password: 'test1234' };
+const TEST_CREDENTIALS = { email: 'test@astroversity.academy', password: 'test1234' };
 const TEST_USER = {
   id: 'test-user-id',
   email: TEST_CREDENTIALS.email,
@@ -30,7 +30,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     // Restore test-user session from localStorage
-    const saved = localStorage.getItem('astrodaddy_test_user');
+    const saved = localStorage.getItem('astroversity_test_user');
     if (saved === 'true') {
       setUser(TEST_USER);
       setIsLoading(false);
@@ -56,7 +56,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = async (email: string, password: string) => {
     // Test user fallback (works without Supabase)
     if (email === TEST_CREDENTIALS.email && password === TEST_CREDENTIALS.password) {
-      localStorage.setItem('astrodaddy_test_user', 'true');
+      localStorage.setItem('astroversity_test_user', 'true');
       setUser(TEST_USER);
       return;
     }
@@ -75,7 +75,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const logout = async () => {
-    localStorage.removeItem('astrodaddy_test_user');
+    localStorage.removeItem('astroversity_test_user');
     setUser(null);
     setSession(null);
     await supabase.auth.signOut().catch(() => {});

@@ -66,6 +66,10 @@ export async function createLexofficeInvoice(input: InvoiceInput, finalize = tru
     ],
     totalPrice: { currency: 'EUR' },   // lexoffice berechnet netto / USt / brutto
     taxConditions: { taxType: 'gross' },
+    shippingConditions: {
+      shippingDate: new Date().toISOString(),
+      shippingType: 'service',         // Leistungsdatum (Dienstleistung)
+    },
     paymentConditions: {
       paymentTermLabel: 'Sofortzahlung',
       paymentTermDuration: 0,

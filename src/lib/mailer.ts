@@ -15,7 +15,7 @@ function createTransport() {
   });
 }
 
-const FROM_DEFAULT = process.env.SMTP_FROM ?? 'Astroversity Academy <noreply@astroversity.academy>';
+const FROM_DEFAULT = process.env.SMTP_FROM ?? 'Astroversity Academy <info@astroversity.academy>';
 const ROBERT_EMAIL = 'adastra.lights@gmail.com';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
@@ -291,7 +291,7 @@ export async function sendOrderConfirmationToCustomer(input: OrderEmailInput) {
 export async function sendNewsletterWelcome(email: string) {
   const transport = createTransport();
   await transport.sendMail({
-    from: `Robert Wagner · Astroversity Academy <${process.env.SMTP_USER ?? 'noreply@astroversity.academy'}>`,
+    from: `Robert Wagner · Astroversity Academy <${process.env.SMTP_USER ?? 'info@astroversity.academy'}>`,
     to: email,
     subject: 'Willkommen im kosmischen Newsletter ✨',
     html: `

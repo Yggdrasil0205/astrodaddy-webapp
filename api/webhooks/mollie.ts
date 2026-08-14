@@ -1,7 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { createLexofficeInvoice, sendLexofficeInvoiceByEmail } from '../../src/lib/lexoffice.js';
 import { sendInvoiceConfirmationEmail, sendOrderConfirmationToCustomer } from '../../src/lib/mailer.js';
-import { generateInvoicePdf } from '../../src/lib/invoice-pdf.js';
 
 const MOLLIE_KEY = process.env.Mollie_API_Test ?? process.env.MOLLIE_API_KEY ?? '';
 
@@ -105,40 +104,22 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
     }
 
-    // 2. Generate PDF invoice + send emails via IONOS SMTP (if configured)
+    // 2. Customer order confirmation + admin notification via IONOS SMTP.
+    //    The official invoice PDF is issued and emailed by lexoffice (above),
+    //    so we deliberately do NOT attach our own PDF here (no second invoice).
     if (process.env.SMTP_USER && process.env.SMTP_PASS) {
       const invNum = invoiceNumber || paymentId;
       const orderDate = new Date().toLocaleDateString('de-DE', { day: 'numeric', month: 'long', year: 'numeric' });
-
-      // Generate PDF invoice
-      let invoicePdfBuffer: Buffer | undefined;
-      try {
-        invoicePdfBuffer = await generateInvoicePdf({
-          invoiceNumber: invNum,
-          invoiceDate: orderDate,
-          orderNumber: invNum,
-          orderDate,
-          paymentMethod: payment.method ?? undefined,
-          customerName,
-          customerEmail,
-          productName,
-          productPrice: amount,
-          birthDataItems,
-        });
-      } catch (pdfErr) {
-        console.error('PDF generation error:', pdfErr);
-      }
 
       const emailInput = {
         customerName, customerEmail, productName, amount,
         invoiceNumber: invNum,
         birthDataItems,
         orderDate,
-        invoicePdfBuffer,
       };
       try {
-        await sendOrderConfirmationToCustomer(emailInput);
-        await sendInvoiceConfirmationEmail(emailInput);
+        await sendOrderConfirmationToCustomer(emailInput); // confirmation only, no PDF
+        await sendInvoiceConfirmationEmail(emailInput);    // admin notification to Robert
       } catch (err) {
         console.error('Email error:', err);
       }

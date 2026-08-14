@@ -34,7 +34,7 @@ export interface InvoiceResult {
 
 // ── Create invoice in Lexoffice ───────────────────────────────────────────────
 // Creates a finalized invoice. Kleinunternehmer: no VAT displayed.
-export async function createLexofficeInvoice(input: InvoiceInput): Promise<InvoiceResult> {
+export async function createLexofficeInvoice(input: InvoiceInput, finalize = true): Promise<InvoiceResult> {
   const { customerName, customerEmail, productName, amount, orderId } = input;
 
   // Split name into first/last (best-effort)
@@ -58,24 +58,14 @@ export async function createLexofficeInvoice(input: InvoiceInput): Promise<Invoi
         unitName: 'Stück',
         unitPrice: {
           currency: 'EUR',
-          netAmount: amount,    // Kleinunternehmer: net = gross (no VAT)
-          grossAmount: amount,
-          taxRatePercentage: 0, // § 19 UStG
+          grossAmount: amount,      // Bruttopreis inkl. USt (Shop-Preise sind brutto)
+          taxRatePercentage: 19,    // Regelsteuersatz
         },
         discountPercentage: 0,
-        lineItemAmount: amount,
       },
     ],
-    totalPrice: {
-      currency: 'EUR',
-      totalNetAmount: amount,
-      totalGrossAmount: amount,
-      totalTaxAmount: 0,
-    },
-    taxConditions: {
-      taxType: 'vatfree',               // Kleinunternehmerregelung
-      taxTypeNote: 'Gemäß § 19 UStG wird keine Umsatzsteuer berechnet.',
-    },
+    totalPrice: { currency: 'EUR' },   // lexoffice berechnet netto / USt / brutto
+    taxConditions: { taxType: 'gross' },
     paymentConditions: {
       paymentTermLabel: 'Sofortzahlung',
       paymentTermDuration: 0,
@@ -84,7 +74,7 @@ export async function createLexofficeInvoice(input: InvoiceInput): Promise<Invoi
     remark: 'Bei Fragen erreichen Sie mich unter adastra.lights@gmail.com',
   };
 
-  const res = await fetch(`${BASE_URL}/invoices?finalize=true`, {
+  const res = await fetch(`${BASE_URL}/invoices?finalize=${finalize}`, {
     method: 'POST',
     headers: headers(),
     body: JSON.stringify(body),

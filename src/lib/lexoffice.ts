@@ -47,6 +47,7 @@ export async function createLexofficeInvoice(input: InvoiceInput, finalize = tru
     voucherDate: new Date().toISOString(),
     address: {
       name: customerName,
+      countryCode: 'DE',
       contactPerson: { firstName, lastName, emailAddress: customerEmail },
     },
     lineItems: [

@@ -94,13 +94,13 @@ export function generateInvoicePdf(data: InvoiceData): Promise<Buffer> {
 
     // ── Header ────────────────────────────────────────────────────────────────
 
-    // Logo area (left) — text-based since no image file yet
+    // Logo area (left) — text-based wordmark (matches site header)
     doc.fontSize(22).fillColor(PURPLE).font('Helvetica-Bold')
-      .text('ASTRO', L, 50, { continued: true })
-      .fillColor(DARK).text('DADDY');
+      .text('ROBERT ', L, 50, { continued: true })
+      .fillColor(DARK).text('WAGNER');
 
     doc.fontSize(8).fillColor(GRAY).font('Helvetica')
-      .text('Robert Wagner Astrologie', L, 78);
+      .text('Astrologie & spirituelle Lebensberatung', L, 78);
 
     // Seller address (right column)
     const rightX = W / 2 + 10;

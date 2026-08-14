@@ -18,6 +18,8 @@ export default async function handler(_req: VercelRequest, res: VercelResponse) 
   let connection: string = 'skipped (SUPABASE_URL / SERVICE_ROLE_KEY fehlen)';
   const tables: Record<string, string> = {};
 
+  let schemaCheck: any = 'skipped';
+
   if (url && key) {
     try {
       const { createClient } = await import('@supabase/supabase-js');
@@ -26,11 +28,32 @@ export default async function handler(_req: VercelRequest, res: VercelResponse) 
         const { error } = await supabase.from(t).select('id', { count: 'exact', head: true });
         tables[t] = error ? `FEHLT/Fehler: ${error.message}` : 'ok';
       }
+
+      // Verify discount_codes schema matches api/vouchers.ts by test insert + delete
+      const testCode = `__DIAG_${Date.now()}__`;
+      const ins = await supabase
+        .from('discount_codes')
+        .insert({ code: testCode, type: 'percent', value: 5, valid_until: null, active: true })
+        .select()
+        .single();
+      if (ins.error) {
+        schemaCheck = { ok: false, error: ins.error.message };
+      } else {
+        schemaCheck = { ok: true, columns: Object.keys(ins.data ?? {}) };
+        await supabase.from('discount_codes').delete().eq('code', testCode);
+      }
+
       connection = 'ok';
     } catch (e: any) {
       connection = e?.message ?? String(e);
     }
   }
 
-  return res.status(200).json({ envs, connection, tables });
+  return res.status(200).json({
+    envs,
+    adminSecretSet: !!process.env.ADMIN_SECRET,
+    connection,
+    tables,
+    schemaCheck,
+  });
 }

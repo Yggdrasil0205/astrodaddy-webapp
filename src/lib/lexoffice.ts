@@ -12,7 +12,7 @@ const BASE_URL = 'https://api.lexoffice.io/v1';
 
 function headers() {
   return {
-    Authorization: `Bearer ${process.env.API_Lexware}`,
+    Authorization: `Bearer ${process.env.API_Lexware?.trim()}`,
     'Content-Type': 'application/json',
     Accept: 'application/json',
   };

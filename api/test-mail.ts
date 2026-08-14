@@ -15,10 +15,10 @@ export default async function handler(_req: VercelRequest, res: VercelResponse) 
 
   try {
     const transport = nodemailer.createTransport({
-      host: process.env.SMTP_HOST ?? 'smtp.ionos.de',
-      port: parseInt(process.env.SMTP_PORT ?? '587'),
+      host: (process.env.SMTP_HOST ?? 'smtp.ionos.de').trim(),
+      port: parseInt((process.env.SMTP_PORT ?? '587').trim(), 10),
       secure: false,
-      auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
+      auth: { user: process.env.SMTP_USER?.trim(), pass: process.env.SMTP_PASS?.trim() },
     });
 
     await transport.verify();

@@ -4,13 +4,14 @@ import nodemailer from 'nodemailer';
 // Required env vars: SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, SMTP_FROM
 
 function createTransport() {
+  // .trim() guards against stray whitespace/tabs/newlines pasted into env vars
   return nodemailer.createTransport({
-    host: process.env.SMTP_HOST ?? 'smtp.ionos.de',
-    port: parseInt(process.env.SMTP_PORT ?? '587'),
+    host: (process.env.SMTP_HOST ?? 'smtp.ionos.de').trim(),
+    port: parseInt((process.env.SMTP_PORT ?? '587').trim(), 10),
     secure: false,
     auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS,
+      user: process.env.SMTP_USER?.trim(),
+      pass: process.env.SMTP_PASS?.trim(),
     },
   });
 }

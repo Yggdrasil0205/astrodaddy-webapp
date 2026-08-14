@@ -136,20 +136,38 @@ export default function Checkout() {
   const [email, setEmail] = useState('');
   const emailValid = email.includes('@') && email.includes('.');
 
-  // Discount
-  const DISCOUNT_CODES: Record<string, number> = { 'ASTRO10': 10, 'ROBERT15': 15, 'WELCOME20': 20 };
+  // Discount — validated server-side against the DB (never trust a client price)
   const [discountInput, setDiscountInput]   = useState('');
-  const [appliedDiscount, setAppliedDiscount] = useState<{ code: string; percent: number } | null>(null);
+  const [appliedDiscount, setAppliedDiscount] = useState<{ code: string; label: string; finalAmount: number } | null>(null);
   const [discountError, setDiscountError]   = useState('');
-  const applyDiscount = (code: string) => {
-    const upper = code.trim().toUpperCase();
-    if (!upper) return;
-    const percent = DISCOUNT_CODES[upper];
-    if (percent) { setAppliedDiscount({ code: upper, percent }); setDiscountError(''); }
-    else { setDiscountError('Ungültiger Rabattcode'); }
+  const [discountLoading, setDiscountLoading] = useState(false);
+  const applyDiscount = async (code: string) => {
+    const trimmed = code.trim();
+    if (!trimmed || discountLoading) return;
+    setDiscountLoading(true);
+    setDiscountError('');
+    try {
+      const res = await fetch('/api/validate-voucher', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code: trimmed, items: items.map(i => ({ id: i.id, quantity: i.quantity })) }),
+      });
+      const data = await res.json();
+      if (data.valid) {
+        const label = data.type === 'percent'
+          ? `${data.value}% Rabatt`
+          : `${Number(data.value).toFixed(2).replace('.', ',')} € Rabatt`;
+        setAppliedDiscount({ code: data.code, label, finalAmount: data.finalAmount });
+      } else {
+        setDiscountError(data.error ?? 'Ungültiger Rabattcode');
+      }
+    } catch {
+      setDiscountError('Prüfung fehlgeschlagen. Bitte nochmal versuchen.');
+    } finally {
+      setDiscountLoading(false);
+    }
   };
-  const discountAmount = appliedDiscount ? totalPrice * (appliedDiscount.percent / 100) : 0;
-  const finalPrice = totalPrice - discountAmount;
+  const finalPrice = appliedDiscount ? appliedDiscount.finalAmount : totalPrice;
 
   // Payment state
   const [redirecting, setRedirecting] = useState(false);
@@ -176,10 +194,7 @@ export default function Checkout() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          productId: items[0]?.id?.toString() ?? '',
-          productName: items.map(i => i.name).join(', '),
-          amount: totalPrice,
-          finalAmount: finalPrice,
+          items: items.map(i => ({ id: i.id, quantity: i.quantity })),
           discountCode: appliedDiscount?.code ?? null,
           customerEmail: email,
           customerName: email,
@@ -329,7 +344,7 @@ export default function Checkout() {
                 <p className="text-[#F0E6C8]/50 text-xs mb-2">Rabattcode (optional)</p>
                 {appliedDiscount ? (
                   <div className="flex items-center justify-between bg-[#C9A84C]/10 border border-[#C9A84C]/30 rounded-lg px-4 py-2.5">
-                    <span className="text-[#C9A84C] text-sm font-semibold">{appliedDiscount.code} – {appliedDiscount.percent}% Rabatt</span>
+                    <span className="text-[#C9A84C] text-sm font-semibold">{appliedDiscount.code} – {appliedDiscount.label}</span>
                     <button onClick={() => setAppliedDiscount(null)} className="text-[#F0E6C8]/30 hover:text-[#F0E6C8] text-xs ml-3 transition-colors">✕</button>
                   </div>
                 ) : (
@@ -341,8 +356,9 @@ export default function Checkout() {
                         placeholder="Code eingeben"
                         className="flex-1 px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-[#F0E6C8] text-sm placeholder-[#F0E6C8]/25 focus:outline-none focus:border-[#C9A84C]/50 transition-all" />
                       <button onClick={() => applyDiscount(discountInput)}
-                        className="px-4 py-2 rounded-lg bg-[#C9A84C]/15 border border-[#C9A84C]/30 text-[#C9A84C] text-sm font-medium hover:bg-[#C9A84C]/25 transition-colors">
-                        Einlösen
+                        disabled={discountLoading}
+                        className="px-4 py-2 rounded-lg bg-[#C9A84C]/15 border border-[#C9A84C]/30 text-[#C9A84C] text-sm font-medium hover:bg-[#C9A84C]/25 transition-colors disabled:opacity-50">
+                        {discountLoading ? 'Prüfe…' : 'Einlösen'}
                       </button>
                     </div>
                     {discountError && <p className="text-red-400/80 text-xs mt-1.5">{discountError}</p>}

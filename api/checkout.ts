@@ -1,4 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { cartBaseTotal, cartProductName, applyVoucher, incrementVoucherUsage, type CartLine } from '../src/lib/vouchers.js';
 
 const APP_URL = process.env.APP_URL ?? 'https://astroversity.academy';
 const MOLLIE_KEY = process.env.Mollie_API_Test ?? process.env.MOLLIE_API_KEY ?? '';
@@ -16,25 +17,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   try {
     const {
-      productId,
-      productName,
-      amount,
+      items,
       customerEmail,
       customerName,
       customerPhone,
       discountCode,
-      finalAmount,
       birthDataItems,
       skoolMembership,
     } = req.body as {
-      productId: string;
-      productName: string;
-      amount: number;
+      items: CartLine[];
       customerEmail: string;
       customerName: string;
       customerPhone?: string;
       discountCode?: string;
-      finalAmount: number;
       birthDataItems?: BirthDataEntry[];
       skoolMembership?: boolean;
     };
@@ -42,6 +37,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (!MOLLIE_KEY) {
       return res.status(500).json({ error: 'Mollie API Key nicht konfiguriert.' });
     }
+
+    // ── Prices are computed server-side from the trusted catalog + DB ──────────
+    const baseAmount = cartBaseTotal(items);
+    const productName = cartProductName(items) || 'Bestellung';
+
+    const voucher = await applyVoucher(discountCode, baseAmount);
+    if (discountCode && !voucher.valid) {
+      return res.status(400).json({ error: voucher.error ?? 'Rabattcode ungültig.' });
+    }
+    const finalAmount = voucher.finalAmount;
 
     // Skool members land on a success page that explains the "JOIN NOW" step
     const redirectUrl = skoolMembership
@@ -56,24 +61,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        amount: {
-          currency: 'EUR',
-          value: Number(finalAmount).toFixed(2),
-        },
+        amount: { currency: 'EUR', value: finalAmount.toFixed(2) },
         description: productName,
         redirectUrl,
         webhookUrl: `${APP_URL}/api/webhooks/mollie`,
         metadata: {
-          productId,
           productName,
-          originalAmount: amount,
+          originalAmount: baseAmount,
           finalAmount,
-          discountCode: discountCode ?? null,
+          discountCode: voucher.code ?? null,
           customerEmail,
           customerName,
           customerPhone: customerPhone ?? '',
           skoolMembership: skoolMembership ? 'true' : 'false',
-          // Birth data as compact JSON string (Mollie metadata max ~1 KB)
           birthData: birthDataItems ? JSON.stringify(birthDataItems) : null,
         },
       }),
@@ -93,21 +93,22 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
         await supabase.from('orders').insert({
           mollie_payment_id: payment.id,
-          product_id: productId,
+          product_id: String(items?.[0]?.id ?? ''),
           product_name: productName,
           amount: finalAmount,
-          original_amount: amount,
-          discount_code: discountCode ?? null,
+          original_amount: baseAmount,
+          discount_code: voucher.code ?? null,
           customer_email: customerEmail,
           customer_name: customerName,
           customer_phone: customerPhone ?? '',
-          birth_data: birthDataItems ?? null,
-          status: 'open',
+          status: 'offen',
         });
       } catch (dbErr) {
         console.error('Supabase insert error:', dbErr);
       }
     }
+
+    if (voucher.code) void incrementVoucherUsage(voucher.code);
 
     return res.status(200).json({
       checkoutUrl: payment._links.checkout.href,
@@ -116,6 +117,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   } catch (err: any) {
     console.error('Checkout handler error:', err);
-    return res.status(500).json({ error: err?.message ?? 'Interner Fehler.' });
+    return res.status(400).json({ error: err?.message ?? 'Interner Fehler.' });
   }
 }

@@ -13,7 +13,8 @@ const supabase = createClient(
 );
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  if (req.headers['x-admin-secret'] !== process.env.ADMIN_SECRET) {
+  const adminSecret = process.env.ADMIN_SECRET;
+  if (!adminSecret || req.headers['x-admin-secret'] !== adminSecret) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
 

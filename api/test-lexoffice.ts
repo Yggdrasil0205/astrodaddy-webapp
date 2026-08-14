@@ -16,7 +16,7 @@ export default async function handler(_req: VercelRequest, res: VercelResponse) 
 
     // Read-only: list the most recent invoices to see if test purchases landed
     const listUrl = 'https://api.lexoffice.io/v1/voucherlist?voucherType=invoice'
-      + '&voucherStatus=draft,open,paid,voided,transferred,overdue'
+      + '&voucherStatus=draft,open,paid,voided,transferred'
       + '&sort=voucherDate,DESC&page=0&size=8';
     const lr = await fetch(listUrl, { headers: auth });
     const list: any = await lr.json().catch(() => ({}));

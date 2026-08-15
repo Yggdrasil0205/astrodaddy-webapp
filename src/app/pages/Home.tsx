@@ -536,7 +536,7 @@ export default function Home() {
 
                     {/* Video */}
                     <div className="aspect-video">
-                      <iframe src="https://www.youtube.com/embed/eVFkc8QfG3o?rel=0&modestbranding=1" title="Robert Wagner Astrologie" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen className="w-full h-full" />
+                      <iframe src="https://www.loom.com/embed/b2a5198326534e22b16238652d6c9509?hide_owner=true&hide_share=true&hideEmbedTopBar=true" title="Robert Wagner Astrologie" allow="fullscreen; picture-in-picture" allowFullScreen className="w-full h-full" />
                     </div>
 
                     {/* Bottom bar */}

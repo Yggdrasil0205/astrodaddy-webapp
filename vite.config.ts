@@ -40,6 +40,10 @@ export default defineConfig({
     },
   },
 
+  // Expose NEXT_PUBLIC_ vars to the client too (set by the Supabase Marketplace
+  // integration). They are public by convention — safe to inline.
+  envPrefix: ['VITE_', 'NEXT_PUBLIC_'],
+
   // File types to support raw imports. Never add .css, .tsx, or .ts files to this.
   assetsInclude: ['**/*.svg', '**/*.csv'],
 })

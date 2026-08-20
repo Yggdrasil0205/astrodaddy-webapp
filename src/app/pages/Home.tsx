@@ -433,7 +433,6 @@ export default function Home() {
     { title: 'Astrologische Beratung', desc: 'Persönliche Horoskop-Deutung – von 10 Min bis 90 Min Deep Dive.', img: 'https://images.unsplash.com/photo-1532968961962-8a0cb3a2d4f5?w=600&q=80', link: '/angebote' },
     { title: 'Praktische Workbooks',   desc: 'Lerne Astrologie in deinem Tempo mit durchdachten Lern-Materialien.', img: '/workbooks.png', link: '/angebote' },
     { title: 'Astroversity Academy',   desc: 'Kurse, Live-Sessions & Community – dein Weg in die Astrologie.', img: '/astroversity-leistungen.png', link: '/astroversity' },
-    { title: 'Tarot-Legungen',         desc: 'Klarheit für Liebe, Beruf & Entscheidungen durch einfühlsame Tarot-Deutung.', img: '/tarot.png', link: '/angebote' },
   ];
 
   const pricing = [
@@ -482,7 +481,7 @@ export default function Home() {
               <motion.div
                 initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
                 className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#C9A84C]/30 text-[#C9A84C] text-xs tracking-widest uppercase mb-8" style={{ fontFamily: '"rl-limo-1", "rl-limo-2", sans-serif', fontWeight: 400 }}>
-                <Star className="w-3 h-3 fill-current" /> Astrologie · Tarot · Academy
+                <Star className="w-3 h-3 fill-current" /> Astrologie · Academy
               </motion.div>
               <div className="overflow-hidden mb-3">
                 <motion.h1

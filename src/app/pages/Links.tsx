@@ -71,7 +71,7 @@ export default function Links() {
           <h1 className="text-xl text-[#F0E6C8] tracking-widest mb-1" style={{ fontFamily: '"rl-limo-1", "rl-limo-2", sans-serif', fontWeight: 400 }}>
             Robert Wagner
           </h1>
-          <p className="text-[#F0E6C8]/50 text-sm text-center">Astrologie · Spiritualität · Tarot</p>
+          <p className="text-[#F0E6C8]/50 text-sm text-center">Astrologie · Spiritualität</p>
         </motion.div>
 
         {/* Link buttons */}

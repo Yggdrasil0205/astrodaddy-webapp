@@ -76,13 +76,6 @@ const workbooks = [
   },
 ];
 
-const tarotFeatures = [
-  '45 Minuten Tarot-Legung',
-  'Für alle Lebensbereiche',
-  'Ehrliche & einfühlsame Deutung',
-  'Handlungsempfehlungen',
-  'Aufzeichnung auf Wunsch',
-];
 
 export default function ReadingsWorkbooks() {
   return (
@@ -252,65 +245,6 @@ export default function ReadingsWorkbooks() {
         </div>
       </section>
 
-      <WaveDivider fromColor="#1B1040" toColor="#3D2A8A" />
-
-      {/* ── SECTION 3 — TAROT ─────────────────────────────────────── */}
-      <section className="py-24 px-6 bg-[#3D2A8A]">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
-          {/* Left: Image */}
-          <motion.div
-            initial={{ opacity: 0, x: -24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
-          >
-            <div className="relative rounded-xl overflow-hidden border border-white/15 h-[420px]">
-              <img
-                src="https://images.unsplash.com/photo-1509114397022-ed747cca3f65?w=800&q=80"
-                alt="Tarot Legung"
-                className="w-full h-full object-cover opacity-70"
-              />
-              <div className="absolute bottom-5 left-5 right-5">
-                <div className="bg-[#1B1040]/85 backdrop-blur-sm rounded-lg p-4 border border-white/10">
-                  <div className="text-[#C9A84C] text-xs tracking-widest uppercase mb-1" style={{ fontFamily: '"rl-limo-1", "rl-limo-2", sans-serif', fontWeight: 400 }}>Tarot-Legung</div>
-                  <div className="text-[#F0E6C8] font-semibold text-sm">45 Minuten · Ehrlich & einfühlsam</div>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Right: Text */}
-          <motion.div
-            initial={{ opacity: 0, x: 24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
-          >
-            <div
-              className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/25 text-[#F0E6C8]/70 text-xs tracking-widest uppercase mb-6"
-              style={{ fontFamily: '"rl-limo-1", "rl-limo-2", sans-serif', fontWeight: 400 }}
-            >
-              <Sparkles className="w-3 h-3" /> Tarot
-            </div>
-            <h2 className="text-4xl text-[#F0E6C8] mb-5" style={{ fontFamily: '"rl-limo-1", "rl-limo-2", sans-serif', fontWeight: 400 }}>
-              Tarot-Legungen
-            </h2>
-            <p className="text-[#F0E6C8]/70 leading-relaxed mb-6">
-              Robert legt für dich die Karten und deutet, was Tarot für deine aktuelle Lebenssituation, Beziehungen oder Entscheidungen zeigt. Tiefgehend, ehrlich und einfühlsam.
-            </p>
-            <div className="text-4xl font-bold text-[#C9A84C] mb-6">199 €</div>
-            <div className="space-y-3 mb-8">
-              {tarotFeatures.map(f => (
-                <div key={f} className="flex items-center gap-3 text-sm">
-                  <CheckCircle className="w-4 h-4 text-[#C9A84C] shrink-0" />
-                  <span className="text-[#F0E6C8]/75">{f}</span>
-                </div>
-              ))}
-            </div>
-            <a href="https://astroversity.academy" target="_blank" rel="noopener noreferrer">
-              <Button variant="gold" size="lg" className="px-8">
-                Tarot-Legung buchen <ArrowRight className="w-4 h-4" />
-              </Button>
-            </a>
-          </motion.div>
-        </div>
-      </section>
-
-      <WaveDivider fromColor="#3D2A8A" toColor="#1B1040" />
 
       {/* ── SECTION 4 — WORKBOOKS ────────────────────────────────── */}
       <section className="py-24 px-6 bg-[#1B1040]">

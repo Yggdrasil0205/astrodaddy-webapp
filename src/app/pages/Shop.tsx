@@ -28,7 +28,7 @@ export default function Angebote() {
               <Star className="w-3 h-3 fill-current" /> Angebote
             </div>
             <h1 className="text-5xl text-[#F0E6C8] mb-3" style={{ fontFamily: '"rl-limo-1", "rl-limo-2", sans-serif', fontWeight: 400 }}>Meine Angebote</h1>
-            <p className="text-[#F0E6C8]/50 max-w-xl">Beratungen, Ausbildung & Tarot – finde das Richtige für deine Reise.</p>
+            <p className="text-[#F0E6C8]/50 max-w-xl">Beratungen & Ausbildung – finde das Richtige für deine Reise.</p>
           </motion.div>
         </div>
       </section>

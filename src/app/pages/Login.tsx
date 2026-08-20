@@ -98,12 +98,6 @@ export default function Login() {
               <Button type="submit" variant="gold" disabled={isLoading} className="w-full mt-2">
                 {isLoading ? 'Bitte warten…' : isLogin ? 'Anmelden' : 'Registrieren'}
               </Button>
-
-              {isLogin && (
-                <div className="pt-2 text-center text-xs text-[#F0E6C8]/25">
-                  Testlogin: test@astroversity.academy · test1234
-                </div>
-              )}
             </form>
           )}
         </GlassCard>

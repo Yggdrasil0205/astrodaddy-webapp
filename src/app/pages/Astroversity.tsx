@@ -271,9 +271,11 @@ export default function Astroversity() {
 
           <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.85, duration: 0.6 }}
             className="flex flex-col items-center gap-3">
-            <Button variant="gold" size="lg" className="px-10">
-              Jetzt Founding Member werden — 50 €/Monat <ArrowRight className="w-4 h-4" />
-            </Button>
+            <a href="https://www.skool.com/astroversity-academy" target="_blank" rel="noopener noreferrer">
+              <Button variant="gold" size="lg" className="px-10">
+                Jetzt Founding Member werden — 50 €/Monat <ArrowRight className="w-4 h-4" />
+              </Button>
+            </a>
             <div className="text-[#F0E6C8]/40 text-xs">
               Nur die ersten 50 Plätze · Dauerhafter Preis · Monatlich kündbar
             </div>
@@ -644,9 +646,10 @@ export default function Astroversity() {
               ))}
             </div>
 
-            <button className="w-full py-4 rounded-xl bg-[#C9A84C] text-[#1B1040] font-semibold hover:bg-[#d4b455] transition-colors">
+            <a href="https://www.skool.com/astroversity-academy" target="_blank" rel="noopener noreferrer"
+              className="block w-full py-4 rounded-xl bg-[#C9A84C] text-[#1B1040] font-semibold text-center hover:bg-[#d4b455] transition-colors">
               Jetzt Founding Member werden — 50 €/Monat →
-            </button>
+            </a>
             <p className="text-[#F0E6C8]/40 text-xs text-center mt-4">
               Monatlich kündbar · 14 Tage Widerrufsrecht · Kein Risiko, kein Vertrag, der dich bindet
             </p>
@@ -764,9 +767,10 @@ export default function Astroversity() {
             <p className="text-[#1B1040]/70 mb-8 leading-relaxed">
               Die Astroversity Academy ist nicht für alle. Sie ist für die, die wissen wollen. Die in die Tiefe gehen wollen. Die ihre Sterne ernst nehmen — als Spiegel ihrer Seele, nicht als Horoskop-Kolumne. Wenn du dazugehörst, dann <span className="font-semibold">gehörst du ins Universum.</span>
             </p>
-            <button className="bg-[#1B1040] text-[#F0E6C8] hover:bg-[#2a1a50] transition-colors px-10 py-4 rounded-xl text-base font-semibold">
+            <a href="https://www.skool.com/astroversity-academy" target="_blank" rel="noopener noreferrer"
+              className="inline-block bg-[#1B1040] text-[#F0E6C8] hover:bg-[#2a1a50] transition-colors px-10 py-4 rounded-xl text-base font-semibold">
               Jetzt Founding Member werden <ArrowRight className="w-4 h-4 inline ml-1" />
-            </button>
+            </a>
             <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 mt-4">
               {['50 Founding-Member-Plätze', 'Dauerhafter Preis', 'Monatlich kündbar'].map(t => (
                 <span key={t} className="text-[#1B1040]/45 text-xs">{t}</span>

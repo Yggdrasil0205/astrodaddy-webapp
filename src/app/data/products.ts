@@ -24,16 +24,17 @@ export interface Product {
 /** Product-ID der Astroversity-Academy-Mitgliedschaft (Skool). */
 export const SKOOL_MEMBERSHIP_ID = 8;
 
+/** Öffentliche Skool-Gruppe – Beitritt & Abrechnung laufen direkt über Skool. */
+export const SKOOL_GROUP_URL = 'https://www.skool.com/astroversity-academy';
+
 export const products: Product[] = [
   {
     id: 4,
     name: 'Astrologische Tiefenanalyse (schriftlich)',
     shortDescription: 'Entdecke deine astrologische DNA – inspiriert von deinem individuellen Geburtshoroskop.',
     description: 'Eine schriftliche Tiefenanalyse auf Basis deines Geburtshoroskops – ca. 25–30 Seiten, individuell auf deine Geburtsdaten zugeschnitten. Bewusste und unbewusste Charakterzüge, Planetenstellungen, Aspekte und Häuser aus psychologischer und spiritueller Perspektive.',
-    price: 49.99,
-    priceFormatted: '49,99 €',
-    originalPrice: 69.99,
-    originalPriceFormatted: '69,99 €',
+    price: 69.99,
+    priceFormatted: '69,99 €',
     image: '/tiefenanalyse.png',
     badge: 'Angebot',
     category: 'Analyse',
@@ -121,10 +122,8 @@ export const products: Product[] = [
     name: 'Astrokartographie',
     shortDescription: 'Dein Schlüssel zur Welt – entdecke deine kosmischen Kraftorte auf einer personalisierten Weltkarte.',
     description: 'Entdecke die kosmischen Einflüsse, die deinen Weg auf der Erde prägen. Die Astrokartographie gibt dir Orientierung auf höchstem Niveau – erkenne deine Kraftorte, meide Hindernisse und plane Lebensentscheidungen mit Präzision.',
-    price: 59.99,
-    priceFormatted: '59,99 €',
-    originalPrice: 89.99,
-    originalPriceFormatted: '89,99 €',
+    price: 39.99,
+    priceFormatted: '39,99 €',
     image: '/astrokartographie.png',
     previewImages: ['/astrokartographie-beispiel.jpg'],
     badge: 'Angebot',

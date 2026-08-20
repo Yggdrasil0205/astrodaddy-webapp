@@ -88,9 +88,17 @@ export default function AngebotDetail() {
                 </div>
               )}
 
-              <Button variant="gold" size="lg" className="w-full mb-4" onClick={bookNow}>
-                <ShoppingCart className="w-4 h-4" /> Jetzt buchen
-              </Button>
+              {product.skoolMembership ? (
+                <a href="https://www.skool.com/astroversity-academy" target="_blank" rel="noopener noreferrer" className="block mb-4">
+                  <Button variant="gold" size="lg" className="w-full">
+                    Zur Academy auf Skool <ChevronRight className="w-4 h-4" />
+                  </Button>
+                </a>
+              ) : (
+                <Button variant="gold" size="lg" className="w-full mb-4" onClick={bookNow}>
+                  <ShoppingCart className="w-4 h-4" /> Jetzt buchen
+                </Button>
+              )}
 
               <div className="flex items-center gap-2 text-xs text-[#F0E6C8]/30">
                 <Star className="w-3.5 h-3.5 fill-[#C9A84C] text-[#C9A84C]" />

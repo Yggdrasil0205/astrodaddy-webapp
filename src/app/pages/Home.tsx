@@ -505,8 +505,8 @@ export default function Home() {
                 Entdecke was die Planeten mit Dir zu tun haben. Mit Robert Wagner – Astrologe & spiritueller Lebensberater.
               </p>
               <div className="flex flex-col sm:flex-row gap-3">
-                <Link to="/angebote"><Button variant="gold" size="lg" className="px-9">Beratung buchen <ArrowRight className="w-4 h-4" /></Button></Link>
-                <Link to="/astroversity"><Button variant="outline" size="lg" className="px-9 border-white/15 text-[#F0E6C8]/60 hover:text-[#F0E6C8] hover:border-white/30">Zur Academy</Button></Link>
+                <Link to="/astroversity"><Button variant="gold" size="lg" className="px-9">Zur Academy <ArrowRight className="w-4 h-4" /></Button></Link>
+                <Link to="/angebote"><Button variant="outline" size="lg" className="px-9 border-white/15 text-[#F0E6C8]/60 hover:text-[#F0E6C8] hover:border-white/30">Beratung buchen</Button></Link>
               </div>
             </motion.div>
 

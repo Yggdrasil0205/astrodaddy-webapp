@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link, useLocation } from 'react-router';
 import { useAuth } from '../context/AuthContext';
 import { Home, ShoppingBag, LogOut, LogIn, User, BookOpen, Moon, ScrollText, Link2 } from 'lucide-react';
 import { Button } from './ui/button';
@@ -15,7 +15,9 @@ export function Navigation() {
     return () => window.removeEventListener('scroll', fn);
   }, []);
 
-  const active = (p: string) => location.pathname === p;
+  const { pathname } = useLocation();
+  const active = (p: string) =>
+    p === '/' ? pathname === '/' : pathname === p || pathname.startsWith(p + '/');
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 border-b transition-all duration-300 ${

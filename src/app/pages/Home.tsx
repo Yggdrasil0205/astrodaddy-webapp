@@ -506,7 +506,7 @@ export default function Home() {
               </p>
               <div className="flex flex-col sm:flex-row gap-3">
                 <Link to="/astroversity"><Button variant="gold" size="lg" className="px-9">Zur Academy <ArrowRight className="w-4 h-4" /></Button></Link>
-                <Link to="/angebote"><Button variant="outline" size="lg" className="px-9 border-white/15 text-[#F0E6C8]/60 hover:text-[#F0E6C8] hover:border-white/30">Beratung buchen</Button></Link>
+                <Link to="/angebote"><Button variant="outline" size="lg" className="px-9 border-white/40 text-[#F0E6C8]/85 hover:text-[#F0E6C8] hover:border-white/60">Beratung buchen</Button></Link>
               </div>
             </motion.div>
 

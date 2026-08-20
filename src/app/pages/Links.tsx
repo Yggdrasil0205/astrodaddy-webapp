@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import { motion } from 'motion/react';
 import { StarField } from '../components/StarField';
-import { Instagram, Youtube, Mail, ArrowRight, ShoppingBag, Sparkles } from 'lucide-react';
+import { Instagram, Youtube, Mail, Twitch, ArrowRight, ShoppingBag, Sparkles } from 'lucide-react';
 
 const TikTokIcon = () => (
   <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
@@ -30,7 +30,7 @@ const links = [
     highlight: true,
   },
   {
-    label: 'Astrologische Persönlichkeitsanalyse',
+    label: 'Astrologische Tiefenanalyse',
     sub: 'Entdecke deine astrologische DNA',
     to: '/angebote/4',
     external: false,
@@ -53,6 +53,7 @@ const socials = [
   { icon: Instagram, href: 'https://www.instagram.com/robert.wagner_astrologie/', label: 'Instagram' },
   { icon: TikTokIcon, href: 'https://www.tiktok.com/@astrodaddy.official', label: 'TikTok' },
   { icon: Youtube, href: 'https://www.youtube.com/@robertwagnerastrologie', label: 'YouTube' },
+  { icon: Twitch, href: 'https://www.twitch.tv/astrodaddyofficial', label: 'Twitch' },
   { icon: Mail, href: 'mailto:adastra.lights@gmail.com', label: 'E-Mail' },
 ];
 
@@ -72,6 +73,20 @@ export default function Links() {
             Robert Wagner
           </h1>
           <p className="text-[#F0E6C8]/50 text-sm text-center">Astrologie · Spiritualität</p>
+        </motion.div>
+
+        {/* Social icons */}
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.15 }}
+          className="flex items-center justify-center gap-4 mb-8">
+          {socials.map(s => {
+            const Icon = s.icon;
+            return (
+              <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer"
+                className="w-10 h-10 rounded-full bg-white/6 border border-white/10 flex items-center justify-center text-[#F0E6C8]/50 hover:text-[#C9A84C] hover:border-[#C9A84C]/40 hover:bg-[#C9A84C]/8 transition-all">
+                <Icon />
+              </a>
+            );
+          })}
         </motion.div>
 
         {/* Link buttons */}
@@ -117,20 +132,6 @@ export default function Links() {
               : <Link key={link.to} to={link.to}>{inner}</Link>;
           })}
         </div>
-
-        {/* Social icons */}
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}
-          className="flex items-center justify-center gap-4">
-          {socials.map(s => {
-            const Icon = s.icon;
-            return (
-              <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-white/6 border border-white/10 flex items-center justify-center text-[#F0E6C8]/50 hover:text-[#C9A84C] hover:border-[#C9A84C]/40 hover:bg-[#C9A84C]/8 transition-all">
-                <Icon />
-              </a>
-            );
-          })}
-        </motion.div>
 
         {/* Footer */}
         <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }}

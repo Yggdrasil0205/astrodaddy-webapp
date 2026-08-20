@@ -190,7 +190,7 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
   };
   return (
     <div ref={ref} className="overflow-hidden h-44" onMouseMove={onMove} onMouseLeave={onLeave}>
-      <img src={src} alt={alt} className="w-full h-full object-cover opacity-70 group-hover:opacity-90" style={{ transition: 'transform 0.35s ease, opacity 0.5s ease' }} />
+      <img src={src} alt={alt} loading="lazy" decoding="async" className="w-full h-full object-cover opacity-70 group-hover:opacity-90" style={{ transition: 'transform 0.35s ease, opacity 0.5s ease' }} />
     </div>
   );
 }
@@ -248,8 +248,9 @@ function UeberRobertSection() {
       {/* Space parallax background */}
       <div ref={parallaxRef} style={{ position: 'absolute', top: '-22%', bottom: '-22%', left: 0, right: 0, willChange: 'transform' }}>
         <img
-          src="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=1920&q=80"
+          src="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=1280&q=75"
           alt=""
+          decoding="async"
           style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
         />
       </div>
@@ -298,7 +299,7 @@ function UeberRobertSection() {
           initial={{ opacity: 0, x: 24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
           className="relative h-[500px] lg:h-auto"
         >
-          <img src="/robert.png" alt="Robert Wagner" className="absolute inset-0 w-full h-full object-cover object-top" />
+          <img src="/robert.png" alt="Robert Wagner" loading="lazy" decoding="async" className="absolute inset-0 w-full h-full object-cover object-top" />
           {/* Subtle gold light-leak only */}
           <div className="absolute inset-0 bg-gradient-to-bl from-[#C9A84C]/12 via-transparent to-transparent pointer-events-none" />
         </motion.div>
@@ -377,7 +378,7 @@ function LeistungenSection({ services }: { services: { title: string; desc: stri
                 <GlassCard hover className="rounded-xl overflow-hidden border-white/8 cursor-pointer group">
                   {/* Square image on top */}
                   <div className="aspect-square overflow-hidden">
-                    <img src={s.img} alt={s.title} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500" />
+                    <img src={s.img} alt={s.title} loading="lazy" decoding="async" className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500" />
                   </div>
                   {/* Content below */}
                   <div className="p-5">
@@ -539,7 +540,7 @@ export default function Home() {
 
                     {/* Video */}
                     <div className="aspect-video">
-                      <iframe src="https://www.loom.com/embed/b2a5198326534e22b16238652d6c9509?hide_owner=true&hide_share=true&hideEmbedTopBar=true" title="Robert Wagner Astrologie" allow="fullscreen; picture-in-picture" allowFullScreen className="w-full h-full" />
+                      <iframe src="https://www.loom.com/embed/b2a5198326534e22b16238652d6c9509?hide_owner=true&hide_share=true&hideEmbedTopBar=true" title="Robert Wagner Astrologie" loading="lazy" allow="fullscreen; picture-in-picture" allowFullScreen className="w-full h-full" />
                     </div>
 
                     {/* Bottom bar */}
@@ -596,7 +597,7 @@ export default function Home() {
         <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
           <motion.div initial={{ opacity: 0, x: -24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
             <div className="relative rounded-xl overflow-hidden border border-white/15 h-[400px]">
-              <img src="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=800&q=80" alt="Astroversity Academy" className="w-full h-full object-cover opacity-70" />
+              <img src="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=800&q=80" alt="Astroversity Academy" loading="lazy" decoding="async" className="w-full h-full object-cover opacity-70" />
               <div className="absolute bottom-5 left-5 right-5">
                 <div className="bg-[#1B1040]/85 backdrop-blur-sm rounded-lg p-4 border border-white/10">
                   <div className="text-[#C9A84C] text-xs tracking-widest uppercase mb-1" style={{ fontFamily: '"rl-limo-1", "rl-limo-2", sans-serif', fontWeight: 400 }}>Astroversity Academy</div>
@@ -724,6 +725,7 @@ export default function Home() {
                   <iframe
                     src={`https://www.tiktok.com/embed/v2/${FEATURED_POSTS.tiktok}`}
                     title="Meistgesehenes TikTok Video"
+                    loading="lazy"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
                     className="w-full rounded-xl"
@@ -751,6 +753,7 @@ export default function Home() {
                   <iframe
                     src={`https://www.youtube.com/embed/${FEATURED_POSTS.youtube}?rel=0&modestbranding=1`}
                     title="Aktuelles YouTube Video"
+                    loading="lazy"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
                     className="w-full aspect-video rounded-xl"
@@ -778,6 +781,7 @@ export default function Home() {
                   <iframe
                     src={`https://www.instagram.com/reel/${FEATURED_POSTS.instagram}/embed/`}
                     title="Meistgesehenes Instagram Reel"
+                    loading="lazy"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
                     className="w-full rounded-xl"
@@ -803,7 +807,8 @@ export default function Home() {
             muted
             loop
             playsInline
-            className="absolute inset-0 w-full h-full object-cover opacity-30"
+            preload="none"
+            className="hidden md:block absolute inset-0 w-full h-full object-cover opacity-30"
           >
             <source src="https://svs.gsfc.nasa.gov/vis/a010000/a014900/a014950/14950_Galaxies_FlyThrough_1080.mp4" type="video/mp4" />
           </video>

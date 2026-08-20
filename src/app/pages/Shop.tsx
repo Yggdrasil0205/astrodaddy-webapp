@@ -56,7 +56,7 @@ export default function Angebote() {
                 <Link to={`/angebote/${p.id}`} className="block h-full">
                   <GlassCard className="rounded-xl overflow-hidden h-full flex flex-col border-white/10 hover:border-[#C9A84C]/30 transition-colors cursor-pointer group">
                     <div className="overflow-hidden bg-[#0a0812]">
-                      <img src={p.image} alt={p.name} className="w-full aspect-square object-cover scale-[1.08] group-hover:scale-[1.13] transition-transform duration-500" />
+                      <img src={p.image} alt={p.name} loading="lazy" decoding="async" className="w-full aspect-square object-cover scale-[1.08] group-hover:scale-[1.13] transition-transform duration-500" />
                     </div>
                     <div className="p-5 flex flex-col flex-1">
                       <div className="flex items-center gap-2 mb-3">

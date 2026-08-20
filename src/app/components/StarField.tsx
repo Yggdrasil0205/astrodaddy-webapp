@@ -27,12 +27,15 @@ export function StarField({ className = '', noConnect = false }: { className?: s
     // Touch devices have no cursor → drive the connections with an autonomous,
     // slowly & randomly wandering virtual point instead.
     const isTouch = typeof window.matchMedia === 'function' && window.matchMedia('(hover: none)').matches;
+    const prefersReduced = typeof window.matchMedia === 'function'
+      && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     let W = 0;
     let H = 0;
 
     const buildStars = () => {
-      const count = isTouch ? 160 : 280; // fewer on mobile → crisper & lighter
+      // Far fewer points on mobile → lighter to render and less "busy".
+      const count = isTouch ? 90 : 280;
       starsRef.current = Array.from({ length: count }, () => ({
         x: Math.random() * W,
         y: Math.random() * H,
@@ -66,8 +69,14 @@ export function StarField({ className = '', noConnect = false }: { className?: s
     if (!isTouch) window.addEventListener('mousemove', onMouseMove);
     window.addEventListener('resize', resize);
 
-    const CONNECT_RADIUS = isTouch ? 190 : 240;
+    // Tighter reach on mobile → fewer, shorter lines.
+    const CONNECT_RADIUS = isTouch ? 150 : 240;
+    const CONNECT_R2 = CONNECT_RADIUS * CONNECT_RADIUS;
     const STAR_CONNECT = 120;
+    const STAR_CONNECT2 = STAR_CONNECT * STAR_CONNECT;
+    // The star↔star web is the heaviest part (O(n²)) and the busiest visually —
+    // drop it on mobile, keep only the cursor→star constellation.
+    const drawStarWeb = !isTouch;
     let t = 0;
 
     // Autonomous "virtual cursor" for touch devices
@@ -81,15 +90,15 @@ export function StarField({ className = '', noConnect = false }: { className?: s
       t += 1;
       ctx.clearRect(0, 0, W, H);
 
-      // Slowly wander toward random targets (touch, connect mode only)
+      // Wander toward random targets (touch, connect mode only) — faster & livelier.
       if (!noConnect && isTouch) {
         if (t >= retargetAt) {
           tx = Math.random() * W;
           ty = Math.random() * H;
-          retargetAt = t + 180 + Math.random() * 240; // new target every ~3–7s
+          retargetAt = t + 100 + Math.random() * 140; // new target every ~1.6–4s
         }
-        vx += (tx - vx) * 0.01; // slow ease
-        vy += (ty - vy) * 0.01;
+        vx += (tx - vx) * 0.02; // quicker ease
+        vy += (ty - vy) * 0.02;
         mouseRef.current = { x: vx, y: vy };
       }
 
@@ -118,7 +127,7 @@ export function StarField({ className = '', noConnect = false }: { className?: s
           ctx.fillStyle = color;
           ctx.fill();
         }
-        rafRef.current = requestAnimationFrame(draw);
+        if (!prefersReduced) rafRef.current = requestAnimationFrame(draw);
         return;
       }
 
@@ -142,50 +151,61 @@ export function StarField({ className = '', noConnect = false }: { className?: s
         ctx.fill();
       }
 
-      // Stars near cursor
-      const nearStars = stars.filter(s => {
-        const d = Math.hypot(s.x - mx, s.y - my);
-        return d < CONNECT_RADIUS;
-      });
+      // Stars near cursor (squared-distance test → no sqrt for far stars)
+      const nearStars: { s: Star; d: number }[] = [];
+      if (hasMousePos) {
+        for (const s of stars) {
+          const dx = s.x - mx, dy = s.y - my;
+          const d2 = dx * dx + dy * dy;
+          if (d2 < CONNECT_R2) nearStars.push({ s, d: Math.sqrt(d2) });
+        }
+      }
 
       // Lines: cursor → nearby stars (gold)
-      for (const s of nearStars) {
-        const d = Math.hypot(s.x - mx, s.y - my);
-        const a = (1 - d / CONNECT_RADIUS) * 0.65;
+      for (const n of nearStars) {
+        const a = (1 - n.d / CONNECT_RADIUS) * 0.65;
         ctx.beginPath();
         ctx.moveTo(mx, my);
-        ctx.lineTo(s.x, s.y);
+        ctx.lineTo(n.s.x, n.s.y);
         ctx.strokeStyle = `rgba(201,168,76,${a})`;
         ctx.lineWidth = 0.9;
         ctx.stroke();
       }
 
-      // Lines: star ↔ star within nearStars (pergament)
-      for (let i = 0; i < nearStars.length; i++) {
-        for (let j = i + 1; j < nearStars.length; j++) {
-          const d = Math.hypot(nearStars[i].x - nearStars[j].x, nearStars[i].y - nearStars[j].y);
-          if (d < STAR_CONNECT) {
-            const a = (1 - d / STAR_CONNECT) * 0.28;
-            ctx.beginPath();
-            ctx.moveTo(nearStars[i].x, nearStars[i].y);
-            ctx.lineTo(nearStars[j].x, nearStars[j].y);
-            ctx.strokeStyle = `rgba(240,230,200,${a})`;
-            ctx.lineWidth = 0.5;
-            ctx.stroke();
+      // Lines: star ↔ star within nearStars (pergament) — desktop only
+      if (drawStarWeb) {
+        for (let i = 0; i < nearStars.length; i++) {
+          const a1 = nearStars[i].s;
+          for (let j = i + 1; j < nearStars.length; j++) {
+            const b1 = nearStars[j].s;
+            const dx = a1.x - b1.x, dy = a1.y - b1.y;
+            const d2 = dx * dx + dy * dy;
+            if (d2 < STAR_CONNECT2) {
+              const a = (1 - Math.sqrt(d2) / STAR_CONNECT) * 0.28;
+              ctx.beginPath();
+              ctx.moveTo(a1.x, a1.y);
+              ctx.lineTo(b1.x, b1.y);
+              ctx.strokeStyle = `rgba(240,230,200,${a})`;
+              ctx.lineWidth = 0.5;
+              ctx.stroke();
+            }
           }
         }
       }
 
-      // Draw stars
+      // Draw stars (sqrt only for the ones actually near the cursor)
       for (const s of stars) {
         const twinkle = Math.sin(t * s.twinkleSpeed + s.twinkleOffset) * 0.35 + 0.65;
-        const d = Math.hypot(s.x - mx, s.y - my);
-        const isNear = d < CONNECT_RADIUS;
-        const proximity = isNear ? (1 - d / CONNECT_RADIUS) : 0;
+        let proximity = 0;
+        if (hasMousePos) {
+          const dx = s.x - mx, dy = s.y - my;
+          const d2 = dx * dx + dy * dy;
+          if (d2 < CONNECT_R2) proximity = 1 - Math.sqrt(d2) / CONNECT_RADIUS;
+        }
 
         const opacity = s.baseOpacity * twinkle + proximity * 0.65;
         const radius = s.size * (1 + proximity * 1.2);
-        const color = isNear
+        const color = proximity > 0
           ? `rgba(201,168,76,${Math.min(1, opacity)})`
           : `rgba(240,230,200,${Math.min(1, opacity)})`;
 
@@ -195,7 +215,7 @@ export function StarField({ className = '', noConnect = false }: { className?: s
         ctx.fill();
       }
 
-      rafRef.current = requestAnimationFrame(draw);
+      if (!prefersReduced) rafRef.current = requestAnimationFrame(draw);
     };
 
     draw();

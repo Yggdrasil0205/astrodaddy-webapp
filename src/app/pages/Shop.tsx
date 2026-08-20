@@ -55,8 +55,8 @@ export default function Angebote() {
               <motion.div key={p.id} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}>
                 <Link to={`/angebote/${p.id}`} className="block h-full">
                   <GlassCard className="rounded-xl overflow-hidden h-full flex flex-col border-white/10 hover:border-[#C9A84C]/30 transition-colors cursor-pointer group">
-                    <div className="overflow-hidden">
-                      <img src={p.image} alt={p.name} className="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <div className="overflow-hidden bg-[#0a0812]">
+                      <img src={p.image} alt={p.name} className="w-full aspect-square object-cover scale-[1.06] group-hover:scale-[1.11] transition-transform duration-500" />
                     </div>
                     <div className="p-5 flex flex-col flex-1">
                       <div className="flex items-center gap-2 mb-3">

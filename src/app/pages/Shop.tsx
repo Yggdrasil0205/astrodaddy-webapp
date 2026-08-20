@@ -27,7 +27,7 @@ export default function Angebote() {
               style={{ fontFamily: '"rl-limo-1", "rl-limo-2", sans-serif', fontWeight: 400 }}>
               <Star className="w-3 h-3 fill-current" /> Angebote
             </div>
-            <h1 className="text-5xl text-[#F0E6C8] mb-3" style={{ fontFamily: '"rl-limo-1", "rl-limo-2", sans-serif', fontWeight: 400 }}>Unsere Angebote</h1>
+            <h1 className="text-5xl text-[#F0E6C8] mb-3" style={{ fontFamily: '"rl-limo-1", "rl-limo-2", sans-serif', fontWeight: 400 }}>Meine Angebote</h1>
             <p className="text-[#F0E6C8]/50 max-w-xl">Beratungen, Ausbildung & Tarot – finde das Richtige für deine Reise.</p>
           </motion.div>
         </div>
@@ -56,7 +56,7 @@ export default function Angebote() {
                 <Link to={`/angebote/${p.id}`} className="block h-full">
                   <GlassCard className="rounded-xl overflow-hidden h-full flex flex-col border-white/10 hover:border-[#C9A84C]/30 transition-colors cursor-pointer group">
                     <div className="overflow-hidden bg-[#0a0812]">
-                      <img src={p.image} alt={p.name} className="w-full aspect-square object-cover scale-[1.06] group-hover:scale-[1.11] transition-transform duration-500" />
+                      <img src={p.image} alt={p.name} className="w-full aspect-square object-cover scale-[1.08] group-hover:scale-[1.13] transition-transform duration-500" />
                     </div>
                     <div className="p-5 flex flex-col flex-1">
                       <div className="flex items-center gap-2 mb-3">

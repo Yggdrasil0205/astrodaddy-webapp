@@ -273,14 +273,18 @@ function UeberRobertSection() {
           <div className="self-start inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#C9A84C]/40 text-[#C9A84C] text-xs tracking-widest uppercase mb-6" style={{ fontFamily: '"rl-limo-1", "rl-limo-2", sans-serif', fontWeight: 400 }}>Über Robert</div>
           <h2 className="text-4xl text-[#F0E6C8] mb-5">Astrologe & spiritueller Lebensberater</h2>
           <p className="text-[#F0E6C8]/70 leading-relaxed mb-5">
-            Ich bin Robert Wagner – bekannt als <span className="text-[#C9A84C]">@astrodaddy.official</span> auf TikTok, Instagram und YouTube. Seit Jahren helfe ich Menschen dabei, sich selbst durch die Sprache der Sterne besser zu verstehen.
+            Ich bin Robert Wagner – bekannt auf <span className="text-[#C9A84C]">TikTok, Instagram und YouTube</span>. Seit Jahren helfe ich Menschen dabei, sich selbst durch die Sprache der Sterne besser zu verstehen.
           </p>
           <p className="text-[#F0E6C8]/70 leading-relaxed mb-8">
             Astrologie ist für mich kein Orakel – sie ist ein Werkzeug zur Selbsterkenntnis. Dein Horoskop zeigt, wer du wirklich bist. <span className="text-[#F0E6C8]">Es gibt viel zu entschlüsseln.</span>
           </p>
           <div className="flex flex-wrap gap-3">
-            {[{ icon: TikTokIcon, label: 'TikTok' }, { icon: Instagram, label: 'Instagram' }, { icon: Youtube, label: 'YouTube' }].map(s => (
-              <a key={s.label} href="https://www.instagram.com/astrodaddy.official" target="_blank" rel="noopener noreferrer">
+            {[
+              { icon: TikTokIcon, label: 'TikTok', href: 'https://www.tiktok.com/@astrodaddy.official' },
+              { icon: Instagram, label: 'Instagram', href: 'https://www.instagram.com/robert.wagner_astrologie/' },
+              { icon: Youtube, label: 'YouTube', href: 'https://www.youtube.com/@robertwagnerastrologie' },
+            ].map(s => (
+              <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer">
                 <div className="flex items-center gap-2 px-4 py-2 rounded-lg border border-white/20 text-[#F0E6C8]/60 hover:text-[#F0E6C8] hover:border-white/40 transition-all text-sm">
                   <s.icon /> {s.label}
                 </div>
@@ -713,7 +717,7 @@ export default function Home() {
                       <div className="text-[#1B1040]/50 text-xs">@astrodaddy.official</div>
                     </div>
                   </div>
-                  <CounterBadge target={39000} label="Follower" duration={1600} />
+                  <CounterBadge target={43000} label="Follower" duration={1600} />
                 </a>
                 {/* TikTok embed */}
                 <div className="flex-1 mx-4 mb-4 rounded-xl overflow-hidden">
@@ -732,16 +736,16 @@ export default function Home() {
             {/* YouTube — real embed */}
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
               <div className="bg-[#1B1040]/8 border border-[#1B1040]/12 rounded-2xl overflow-hidden flex flex-col h-full">
-                <a href="https://www.youtube.com/@astrodaddy.official" target="_blank" rel="noopener noreferrer"
+                <a href="https://www.youtube.com/@robertwagnerastrologie" target="_blank" rel="noopener noreferrer"
                   className="flex items-center justify-between px-5 py-4 hover:bg-[#1B1040]/10 transition-colors">
                   <div className="flex items-center gap-3">
                     <div className="w-9 h-9 rounded-lg bg-[#1B1040]/15 flex items-center justify-center text-[#1B1040]"><Youtube className="w-5 h-5" /></div>
                     <div>
                       <div className="text-[#1B1040] font-semibold text-sm leading-tight">YouTube</div>
-                      <div className="text-[#1B1040]/50 text-xs">@astrodaddy.official</div>
+                      <div className="text-[#1B1040]/50 text-xs">@robertwagnerastrologie</div>
                     </div>
                   </div>
-                  <CounterBadge target={1500} label="Abonnenten" duration={1800} />
+                  <CounterBadge target={2500} label="Abonnenten" duration={1800} />
                 </a>
                 <div className="flex-1 mx-4 mb-4 rounded-xl overflow-hidden">
                   <iframe
@@ -758,16 +762,16 @@ export default function Home() {
             {/* Instagram */}
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}>
               <div className="bg-[#1B1040]/8 border border-[#1B1040]/12 rounded-2xl overflow-hidden flex flex-col h-full">
-                <a href="https://www.instagram.com/astrodaddy.official" target="_blank" rel="noopener noreferrer"
+                <a href="https://www.instagram.com/robert.wagner_astrologie/" target="_blank" rel="noopener noreferrer"
                   className="flex items-center justify-between px-5 py-4 hover:bg-[#1B1040]/10 transition-colors">
                   <div className="flex items-center gap-3">
                     <div className="w-9 h-9 rounded-lg bg-[#1B1040]/15 flex items-center justify-center text-[#1B1040]"><Instagram className="w-5 h-5" /></div>
                     <div>
                       <div className="text-[#1B1040] font-semibold text-sm leading-tight">Instagram</div>
-                      <div className="text-[#1B1040]/50 text-xs">@astrodaddy.official</div>
+                      <div className="text-[#1B1040]/50 text-xs">@robert.wagner_astrologie</div>
                     </div>
                   </div>
-                  <CounterBadge target={8500} label="Follower" duration={1700} />
+                  <CounterBadge target={20000} label="Follower" duration={1700} />
                 </a>
                 {/* Instagram embed */}
                 <div className="flex-1 mx-4 mb-4 rounded-xl overflow-hidden">

@@ -50,9 +50,9 @@ const links = [
 ];
 
 const socials = [
-  { icon: Instagram, href: 'https://www.instagram.com/astrodaddy.official', label: 'Instagram' },
+  { icon: Instagram, href: 'https://www.instagram.com/robert.wagner_astrologie/', label: 'Instagram' },
   { icon: TikTokIcon, href: 'https://www.tiktok.com/@astrodaddy.official', label: 'TikTok' },
-  { icon: Youtube, href: 'https://www.youtube.com/@Astrodaddy.official', label: 'YouTube' },
+  { icon: Youtube, href: 'https://www.youtube.com/@robertwagnerastrologie', label: 'YouTube' },
   { icon: Mail, href: 'mailto:adastra.lights@gmail.com', label: 'E-Mail' },
 ];
 

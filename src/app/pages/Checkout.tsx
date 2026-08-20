@@ -7,7 +7,7 @@ import { Button } from '../components/ui/button';
 import { useCart } from '../context/CartContext';
 import {
   ArrowRight, ArrowLeft, Calendar, Clock,
-  MapPin, Globe, User, Trash2, Mail, Lock, Sparkles, Users,
+  MapPin, Globe, User, Trash2, Mail, Phone, Lock, Sparkles, Users,
 } from 'lucide-react';
 import { SKOOL_MEMBERSHIP_ID } from '../data/products';
 
@@ -135,6 +135,8 @@ export default function Checkout() {
   // Contact
   const [email, setEmail] = useState('');
   const emailValid = email.includes('@') && email.includes('.');
+  const [phone, setPhone] = useState('');
+  const phoneValid = phone.replace(/\D/g, '').length >= 6;
 
   // Discount — validated server-side against the DB (never trust a client price)
   const [discountInput, setDiscountInput]   = useState('');
@@ -173,7 +175,7 @@ export default function Checkout() {
   const [redirecting, setRedirecting] = useState(false);
   const [payError, setPayError]       = useState('');
 
-  const canPay = birthComplete && emailValid;
+  const canPay = birthComplete && emailValid && phoneValid;
 
   const handlePay = async () => {
     if (!canPay || redirecting) return;
@@ -198,7 +200,7 @@ export default function Checkout() {
           discountCode: appliedDiscount?.code ?? null,
           customerEmail: email,
           customerName: email,
-          customerPhone: '',
+          customerPhone: phone,
           birthDataItems,
           skoolMembership: hasMembership,
         }),
@@ -317,7 +319,7 @@ export default function Checkout() {
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }}>
             <GlassCard className="rounded-xl p-6 border-white/8">
               <h2 className="text-[#F0E6C8] font-semibold text-base mb-5 flex items-center gap-2">
-                <Mail className="w-4 h-4 text-[#C9A84C]" /> Deine E-Mail-Adresse
+                <Mail className="w-4 h-4 text-[#C9A84C]" /> Deine Kontaktdaten
               </h2>
               <label className="block text-[#F0E6C8]/60 text-xs mb-1.5 tracking-wide">
                 E-Mail <span className="text-[#C9A84C]">*</span>
@@ -332,6 +334,21 @@ export default function Checkout() {
               </div>
               <p className="text-[#F0E6C8]/30 text-xs mt-2">
                 Für deine Auftragsbestätigung und Rechnung.
+              </p>
+
+              <label className="block text-[#F0E6C8]/60 text-xs mb-1.5 mt-5 tracking-wide">
+                Handynummer <span className="text-[#C9A84C]">*</span>
+              </label>
+              <div className="relative">
+                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#7B5FD4]/70 pointer-events-none" />
+                <input
+                  type="tel" value={phone} onChange={e => setPhone(e.target.value)}
+                  placeholder="+49 170 1234567"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-[#F0E6C8] text-sm placeholder-[#F0E6C8]/25 focus:outline-none focus:border-[#C9A84C]/50 focus:bg-white/8 transition-all"
+                />
+              </div>
+              <p className="text-[#F0E6C8]/30 text-xs mt-2">
+                Für Rückfragen &amp; Terminabsprache.
               </p>
             </GlassCard>
           </motion.div>
@@ -394,8 +411,11 @@ export default function Checkout() {
 
             {!canPay && (
               <p className="text-[#F0E6C8]/30 text-xs text-center">
-                {!birthComplete && 'Geburtsdaten ausfüllen · '}
-                {!emailValid && 'E-Mail-Adresse eingeben'}
+                {[
+                  !birthComplete && 'Geburtsdaten ausfüllen',
+                  !emailValid && 'E-Mail-Adresse eingeben',
+                  !phoneValid && 'Handynummer eingeben',
+                ].filter(Boolean).join(' · ')}
               </p>
             )}
             {payError && <p className="text-red-400/80 text-xs text-center">{payError}</p>}

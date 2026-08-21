@@ -391,8 +391,10 @@ function LeistungenSection({ services }: { services: { title: string; desc: stri
           {/* Image + overlaid text — shifted 200px to the left */}
           <div className="relative w-[90%] max-w-[680px]" style={{ marginLeft: '-200px' }}>
             <motion.img
-              src="/astro-radix.png"
+              src="/astro-radix.jpg"
               alt=""
+              loading="lazy"
+              decoding="async"
               initial={{ x: -300, opacity: 0 }}
               whileInView={{ x: 0, opacity: 1 }}
               viewport={{ once: true, amount: 0.05 }}

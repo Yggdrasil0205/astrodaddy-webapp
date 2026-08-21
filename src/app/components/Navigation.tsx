@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router';
 import { useAuth } from '../context/AuthContext';
-import { Home, ShoppingBag, LogOut, LogIn, User, BookOpen, ScrollText, Link2 } from 'lucide-react';
+import { Home, ShoppingBag, LogOut, LogIn, User, BookOpen, ScrollText } from 'lucide-react';
 import { Button } from './ui/button';
 import { CartDropdown } from './CartDropdown';
 
@@ -47,7 +47,6 @@ export function Navigation() {
           <div className="flex items-center gap-1">
             {[
               { to: '/',                    label: 'Start',                 icon: Home },
-              { to: '/links',               label: 'Links',                 icon: Link2 },
               { to: '/angebote',            label: 'Shop',                  icon: ShoppingBag },
               { to: '/readings-workbooks',  label: 'Readings & Workbooks',  icon: ScrollText },
               { to: '/astroversity',        label: 'Astroversity Academy',  icon: BookOpen },

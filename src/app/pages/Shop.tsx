@@ -14,7 +14,8 @@ export default function Angebote() {
     { id: 'Analyse',       name: 'Analysen' },
     { id: 'Mitgliedschaft', name: 'Mitgliedschaft' },
   ];
-  const filtered = cat === 'all' ? products : products.filter(p => p.category === cat);
+  const visible = products.filter(p => !p.hidden);
+  const filtered = cat === 'all' ? visible : visible.filter(p => p.category === cat);
 
   return (
     <div className="min-h-screen bg-[#1B1040]">

@@ -1,4 +1,14 @@
 import nodemailer from 'nodemailer';
+import { ROBERT_WAGNER_LOGO_PNG } from './logo.js';
+
+// Inline logo for the dark email headers (referenced as <img src="cid:rwlogo">).
+const LOGO_ATTACHMENT = {
+  filename: 'robert-wagner-logo.png',
+  content: ROBERT_WAGNER_LOGO_PNG,
+  cid: 'rwlogo',
+  contentType: 'image/png',
+};
+const LOGO_IMG = '<img src="cid:rwlogo" alt="Robert Wagner" width="180" style="display:block;width:180px;height:auto;border:0;outline:none;margin:0 auto 16px;" />';
 
 // ── SMTP transport (IONOS) ────────────────────────────────────────────────────
 // Required env vars: SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, SMTP_FROM
@@ -167,13 +177,13 @@ export async function sendInvoiceConfirmationEmail(input: OrderEmailInput) {
     from: FROM_DEFAULT,
     to: ROBERT_EMAIL,
     subject: `Neue Bestellung: ${productName}`,
+    attachments: [LOGO_ATTACHMENT],
     html: `
       <div style="font-family:Arial,sans-serif;max-width:640px;margin:0 auto;color:#1a1a2e;">
-        <div style="background:#1B1040;padding:24px 32px;border-radius:8px 8px 0 0;display:flex;align-items:center;gap:12px;">
-          <div>
-            <p style="color:#C9A84C;font-size:11px;letter-spacing:2px;text-transform:uppercase;margin:0 0 4px;">Astroversity Academy</p>
-            <h1 style="color:#F0E6C8;font-size:20px;font-weight:400;margin:0;">Neue Bestellung: Nr. ${invoiceNumber}</h1>
-          </div>
+        <div style="background:#1B1040;padding:24px 32px;border-radius:8px 8px 0 0;text-align:center;">
+          ${LOGO_IMG}
+          <p style="color:#C9A84C;font-size:11px;letter-spacing:2px;text-transform:uppercase;margin:0 0 4px;">Astroversity Academy</p>
+          <h1 style="color:#F0E6C8;font-size:20px;font-weight:400;margin:0;">Neue Bestellung: Nr. ${invoiceNumber}</h1>
         </div>
         <div style="background:#f9f7ff;padding:24px 32px;border-radius:0 0 8px 8px;border:1px solid #e5e0f5;border-top:none;">
           <p style="margin:0 0 20px;font-size:14px;">
@@ -211,6 +221,7 @@ export async function sendOrderConfirmationToCustomer(input: OrderEmailInput) {
 
         <!-- Header -->
         <div style="padding:32px 40px 24px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.06);">
+          ${LOGO_IMG}
           <p style="color:#C9A84C;font-size:11px;letter-spacing:3px;text-transform:uppercase;margin:0 0 12px;">Astroversity Academy · Bestellbestätigung</p>
           <h1 style="color:#F0E6C8;font-size:22px;font-weight:400;margin:0 0 8px;">Vielen Dank für deine Bestellung!</h1>
           <p style="color:rgba(240,230,200,0.45);font-size:13px;margin:0;">
@@ -278,13 +289,14 @@ export async function sendOrderConfirmationToCustomer(input: OrderEmailInput) {
 
       </div>
     `,
-    ...(invoicePdfBuffer ? {
-      attachments: [{
+    attachments: [
+      LOGO_ATTACHMENT,
+      ...(invoicePdfBuffer ? [{
         filename: `Rechnung-${invoiceNumber}.pdf`,
         content: invoicePdfBuffer,
         contentType: 'application/pdf',
-      }],
-    } : {}),
+      }] : []),
+    ],
   });
 }
 
@@ -295,9 +307,11 @@ export async function sendNewsletterWelcome(email: string) {
     from: `Robert Wagner · Astroversity Academy <${process.env.SMTP_USER ?? 'info@astroversity.academy'}>`,
     to: email,
     subject: 'Willkommen im kosmischen Newsletter ✨',
+    attachments: [LOGO_ATTACHMENT],
     html: `
       <div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;background:#1B1040;border-radius:12px;overflow:hidden;">
         <div style="padding:40px 40px 24px;text-align:center;">
+          ${LOGO_IMG}
           <p style="color:#C9A84C;font-size:11px;letter-spacing:3px;text-transform:uppercase;margin:0 0 16px;">Astroversity Academy · Newsletter</p>
           <h1 style="color:#F0E6C8;font-size:26px;font-weight:400;margin:0 0 12px;line-height:1.3;">Die Sterne haben deine Adresse.</h1>
           <p style="color:rgba(240,230,200,0.5);font-size:14px;line-height:1.6;margin:0 0 32px;">

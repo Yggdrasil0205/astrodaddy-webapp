@@ -76,7 +76,7 @@ export async function createLexofficeInvoice(input: InvoiceInput, finalize = tru
       paymentTermDuration: 0,
     },
     introduction: 'Vielen Dank für Ihre Bestellung bei Robert Wagner Astrologie.',
-    remark: 'Bei Fragen erreichen Sie mich unter adastra.lights@gmail.com',
+    remark: 'Bei Fragen erreichen Sie mich unter info@astroversity.academy',
   };
 
   const res = await fetch(`${BASE_URL}/invoices?finalize=${finalize}`, {
@@ -106,7 +106,7 @@ export async function sendLexofficeInvoiceByEmail(
   const body = {
     emailAddress: recipientEmail,
     emailSubject: 'Ihre Rechnung von Robert Wagner Astrologie',
-    emailBody: `Vielen Dank für Ihre Bestellung!\n\nIm Anhang finden Sie Ihre Rechnung als PDF.\n\nBei Fragen stehe ich Ihnen gerne zur Verfügung.\n\nHerzliche Grüße\nRobert Wagner\nadastra.lights@gmail.com`,
+    emailBody: `Vielen Dank für Ihre Bestellung!\n\nIm Anhang finden Sie Ihre Rechnung als PDF.\n\nBei Fragen stehe ich Ihnen gerne zur Verfügung.\n\nHerzliche Grüße\nRobert Wagner\ninfo@astroversity.academy`,
   };
 
   const res = await fetch(`${BASE_URL}/invoices/${invoiceId}/document/email`, {
@@ -119,6 +119,21 @@ export async function sendLexofficeInvoiceByEmail(
     const err = await res.json().catch(() => ({}));
     throw new Error(`Lexoffice email send failed: ${JSON.stringify(err)}`);
   }
+}
+
+// ── Download the finalized invoice PDF as a Buffer ────────────────────────────
+export async function getLexofficeInvoicePdf(invoiceId: string): Promise<Buffer> {
+  const docRes = await fetch(`${BASE_URL}/invoices/${invoiceId}/document`, { headers: headers() });
+  if (!docRes.ok) {
+    const err = await docRes.json().catch(() => ({}));
+    throw new Error(`Lexoffice document render failed: ${JSON.stringify(err)}`);
+  }
+  const { documentFileId } = await docRes.json() as { documentFileId: string };
+  const fileRes = await fetch(`${BASE_URL}/files/${documentFileId}`, {
+    headers: { Authorization: `Bearer ${process.env.API_Lexware?.trim()}`, Accept: 'application/pdf' },
+  });
+  if (!fileRes.ok) throw new Error(`Lexoffice file download failed: ${fileRes.status}`);
+  return Buffer.from(await fileRes.arrayBuffer());
 }
 
 // ── Fetch all invoices from Lexoffice (for admin dashboard fallback) ───────────

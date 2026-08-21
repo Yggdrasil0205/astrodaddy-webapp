@@ -67,7 +67,7 @@ export default function Links() {
         {/* Profile */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col items-center mb-8">
           <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-[#C9A84C]/40 mb-4 shadow-lg shadow-black/40">
-            <img src="/robert-links.png" alt="Robert Wagner" className="w-full h-full object-cover" />
+            <img src="/robert-links.jpg" alt="Robert Wagner" className="w-full h-full object-cover" />
           </div>
           <h1 className="text-xl text-[#F0E6C8] tracking-widest mb-1" style={{ fontFamily: '"rl-limo-1", "rl-limo-2", sans-serif', fontWeight: 400 }}>
             Robert Wagner

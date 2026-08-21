@@ -42,6 +42,7 @@ export interface BirthDataEntry {
 export interface OrderEmailInput {
   customerName: string;
   customerEmail: string;
+  customerPhone?: string;
   productName: string;
   amount: number;
   invoiceNumber: string;
@@ -126,7 +127,7 @@ function birthDataRowsDark(items: BirthDataEntry[]): string {
 
 // ── Shared order table for Robert notification ─────────────────────────────────
 function orderTableLight(input: OrderEmailInput): string {
-  const { customerName, customerEmail, productName, amount, invoiceNumber, birthDataItems, orderDate } = input;
+  const { customerName, customerEmail, customerPhone, productName, amount, invoiceNumber, birthDataItems, orderDate } = input;
   const dateStr = orderDate ?? new Date().toLocaleDateString('de-DE', { day: 'numeric', month: 'long', year: 'numeric' });
 
   return `
@@ -165,6 +166,7 @@ function orderTableLight(input: OrderEmailInput): string {
       <p style="margin:0 0 4px;font-size:13px;color:#666;">Kunde</p>
       <p style="margin:0;font-size:14px;font-weight:600;">${customerName || customerEmail}</p>
       <p style="margin:0;font-size:13px;color:#666;">${customerEmail}</p>
+      ${customerPhone ? `<p style="margin:0;font-size:13px;color:#666;">Tel.: ${customerPhone}</p>` : ''}
     </div>
   `;
 }

@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { createLexofficeInvoice, sendLexofficeInvoiceByEmail } from '../../src/lib/lexoffice.js';
+import { createLexofficeInvoice, sendLexofficeInvoiceByEmail, getLexofficeInvoicePdf } from '../../src/lib/lexoffice.js';
 import { sendInvoiceConfirmationEmail, sendOrderConfirmationToCustomer } from '../../src/lib/mailer.js';
 
 const MOLLIE_KEY = process.env.Mollie_API_Test ?? process.env.MOLLIE_API_KEY ?? '';
@@ -58,6 +58,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (status === 'paid') {
     const customerName  = meta.customerName  ?? order?.customer_name  ?? '';
     const customerEmail = meta.customerEmail ?? order?.customer_email ?? '';
+    const customerPhone = meta.customerPhone ?? order?.customer_phone ?? '';
     const productName   = meta.productName   ?? order?.product_name   ?? '';
     const amount        = parseFloat(payment.amount.value);
 
@@ -78,6 +79,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     let invoiceNumber = '';
+    let invoicePdfBuffer: Buffer | undefined;
 
     // 1. Create invoice in Lexoffice (if configured)
     if (process.env.API_Lexware) {
@@ -97,28 +99,34 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             .eq('id', order.id);
         }
 
-        // Lexoffice sends the invoice PDF directly to the customer
-        await sendLexofficeInvoiceByEmail(invoiceId, customerEmail);
+        // Fetch the finalized invoice PDF and attach it to our own confirmation
+        // email. If that fails, fall back to letting lexoffice email it separately.
+        try {
+          invoicePdfBuffer = await getLexofficeInvoicePdf(invoiceId);
+        } catch (pdfErr) {
+          console.error('Lexoffice PDF fetch failed, using lexoffice email fallback:', pdfErr);
+          try { await sendLexofficeInvoiceByEmail(invoiceId, customerEmail); } catch (e) { console.error(e); }
+        }
       } catch (err) {
         console.error('Lexoffice error:', err);
       }
     }
 
-    // 2. Customer order confirmation + admin notification via IONOS SMTP.
-    //    The official invoice PDF is issued and emailed by lexoffice (above),
-    //    so we deliberately do NOT attach our own PDF here (no second invoice).
+    // 2. Customer order confirmation (with the lexoffice invoice PDF attached)
+    //    + admin notification via IONOS SMTP.
     if (process.env.SMTP_USER && process.env.SMTP_PASS) {
       const invNum = invoiceNumber || paymentId;
       const orderDate = new Date().toLocaleDateString('de-DE', { day: 'numeric', month: 'long', year: 'numeric' });
 
       const emailInput = {
-        customerName, customerEmail, productName, amount,
+        customerName, customerEmail, customerPhone, productName, amount,
         invoiceNumber: invNum,
         birthDataItems,
         orderDate,
+        invoicePdfBuffer,
       };
       try {
-        await sendOrderConfirmationToCustomer(emailInput); // confirmation only, no PDF
+        await sendOrderConfirmationToCustomer(emailInput); // confirmation incl. invoice PDF
         await sendInvoiceConfirmationEmail(emailInput);    // admin notification to Robert
       } catch (err) {
         console.error('Email error:', err);

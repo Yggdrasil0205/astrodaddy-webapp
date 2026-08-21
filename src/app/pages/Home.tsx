@@ -101,14 +101,21 @@ function LoomHero() {
       type="button"
       onClick={() => setPlay(true)}
       aria-label="Video abspielen"
-      className="group relative w-full h-full flex items-center justify-center overflow-hidden"
-      style={{ background: 'radial-gradient(circle at 50% 42%, rgba(61,42,138,0.65), #1B1040 72%)' }}
+      className="group relative w-full h-full flex items-center justify-center overflow-hidden bg-[#1B1040]"
     >
+      <img
+        src="/loom-poster.jpg"
+        alt=""
+        aria-hidden
+        decoding="async"
+        className="absolute inset-0 w-full h-full object-cover"
+      />
+      <div className="absolute inset-0 bg-[#1B1040]/45 group-hover:bg-[#1B1040]/30 transition-colors" />
       <span className="relative z-10 flex flex-col items-center gap-3">
-        <span className="w-16 h-16 rounded-full bg-[#C9A84C] flex items-center justify-center shadow-[0_0_34px_rgba(201,168,76,0.5)] group-hover:scale-110 transition-transform">
+        <span className="w-16 h-16 rounded-full bg-[#C9A84C] flex items-center justify-center shadow-[0_0_34px_rgba(201,168,76,0.55)] group-hover:scale-110 transition-transform">
           <svg viewBox="0 0 24 24" className="w-6 h-6 text-[#1B1040] ml-1" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
         </span>
-        <span className="text-[#F0E6C8]/85 text-sm tracking-wide">Video abspielen</span>
+        <span className="text-[#F0E6C8] text-sm tracking-wide drop-shadow-[0_1px_4px_rgba(0,0,0,0.6)]">Video abspielen</span>
       </span>
     </button>
   );

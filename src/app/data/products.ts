@@ -263,17 +263,4 @@ export const products: Product[] = [
     affiliateUrl: 'https://astroversity.academy',
     skoolMembership: true,
   },
-  {
-    id: 99,
-    name: 'Testprodukt (Live-Test)',
-    shortDescription: 'Internes 1-€-Testprodukt fuer den Zahlungs-Test – bitte nicht kaufen.',
-    description: 'Internes Testprodukt, um den Live-Checkout (Mollie + Rechnung) zu pruefen. Nicht oeffentlich im Shop gelistet.',
-    price: 1,
-    priceFormatted: '1,00 €',
-    image: '/tiefenanalyse.png',
-    category: 'Test',
-    details: 'Internes Testprodukt fuer den Live-Zahlungstest.',
-    affiliateUrl: 'https://astroversity.academy',
-    hidden: true,
-  },
 ];

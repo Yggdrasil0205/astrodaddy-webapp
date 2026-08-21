@@ -28,6 +28,7 @@ function createTransport() {
 
 const FROM_DEFAULT = process.env.SMTP_FROM ?? 'Astroversity Academy <info@astroversity.academy>';
 const ROBERT_EMAIL = 'adastra.lights@gmail.com';
+const CONTACT_EMAIL = 'info@astroversity.academy';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -175,7 +176,7 @@ export async function sendInvoiceConfirmationEmail(input: OrderEmailInput) {
   const transport = createTransport();
   await transport.sendMail({
     from: FROM_DEFAULT,
-    to: ROBERT_EMAIL,
+    to: `${CONTACT_EMAIL}, ${ROBERT_EMAIL}`,
     subject: `Neue Bestellung: ${productName}`,
     attachments: [LOGO_ATTACHMENT],
     html: `
@@ -273,7 +274,7 @@ export async function sendOrderConfirmationToCustomer(input: OrderEmailInput) {
               ? 'Deine Rechnung findest du als PDF-Anhang in dieser E-Mail.'
               : 'Deine Rechnung erhältst du in Kürze als separate E-Mail.'}<br>
             Bei Fragen erreichst du uns unter
-            <a href="mailto:${ROBERT_EMAIL}" style="color:#C9A84C;">${ROBERT_EMAIL}</a>.
+            <a href="mailto:${CONTACT_EMAIL}" style="color:#C9A84C;">${CONTACT_EMAIL}</a>.
           </p>
           <a href="https://astroversity.academy" style="display:inline-block;background:#C9A84C;color:#1B1040;padding:13px 32px;border-radius:10px;font-weight:600;font-size:14px;text-decoration:none;">
             Zur Website →
@@ -323,7 +324,7 @@ export async function sendNewsletterWelcome(email: string) {
         </div>
         <div style="padding:20px 40px;border-top:1px solid rgba(255,255,255,0.06);text-align:center;">
           <p style="color:rgba(240,230,200,0.15);font-size:11px;margin:0;">
-            Robert Wagner Astrologie · adastra.lights@gmail.com
+            Robert Wagner Astrologie · ${CONTACT_EMAIL}
           </p>
         </div>
       </div>

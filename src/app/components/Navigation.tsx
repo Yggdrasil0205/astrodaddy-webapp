@@ -19,6 +19,12 @@ export function Navigation() {
   const active = (p: string) =>
     p === '/' ? pathname === '/' : pathname === p || pathname.startsWith(p + '/');
 
+  // On the Astroversity subpage the header carries the Astroversity logo instead.
+  const onAstroversity = pathname.startsWith('/astroversity');
+  const logo = onAstroversity
+    ? { src: '/astroversity-logo.svg', alt: 'Astroversity Academy', mobileW: 'w-8' }
+    : { src: '/robert-wagner-logo.svg', alt: 'Robert Wagner', mobileW: 'w-8' };
+
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 border-b transition-all duration-300 ${
       scrolled
@@ -28,9 +34,13 @@ export function Navigation() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-18 py-3">
 
-          {/* Logo */}
-          <Link to="/" className="flex items-center group shrink-0" aria-label="Robert Wagner – Startseite">
-            <img src="/robert-wagner-logo.svg" alt="Robert Wagner" className="h-6 sm:h-8 w-auto" />
+          {/* Logo — full wordmark on desktop, emblem-only (clipped) on mobile.
+              Swaps to the Astroversity logo on the Astroversity subpage. */}
+          <Link to="/" className="flex items-center group shrink-0" aria-label="Startseite">
+            <span className={`sm:hidden block h-6 ${logo.mobileW} overflow-hidden`}>
+              <img src={logo.src} alt={logo.alt} className="h-6 w-auto max-w-none" />
+            </span>
+            <img src={logo.src} alt={logo.alt} className="hidden sm:block h-6 md:h-7 w-auto" />
           </Link>
 
           {/* Links */}

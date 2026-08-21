@@ -58,6 +58,62 @@ function CounterBadge({ target, duration }: { target: number; label: string; dur
   );
 }
 
+// ── Mount heavy iframes only once scrolled near the viewport ──────────
+// Embed players (Loom/TikTok/YouTube/Instagram) are huge and, loaded eagerly,
+// they block first paint for several seconds on mobile. Rendering them only
+// when in view keeps them off the initial load entirely.
+function InViewMount({ children, className, style }: {
+  children: React.ReactNode; className?: string; style?: React.CSSProperties;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [show, setShow] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) { setShow(true); io.disconnect(); }
+    }, { rootMargin: '400px' });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  return <div ref={ref} className={className} style={style}>{show ? children : null}</div>;
+}
+
+// ── Hero video: click-to-play facade ──────────────────────────────────
+// The Loom player never loads (and so never blocks the hero from painting)
+// until the visitor actually chooses to watch. The poster is a pure CSS
+// gradient — zero extra bytes.
+function LoomHero() {
+  const [play, setPlay] = useState(false);
+  if (play) {
+    return (
+      <iframe
+        src="https://www.loom.com/embed/b2a5198326534e22b16238652d6c9509?hide_owner=true&hide_share=true&hideEmbedTopBar=true&autoplay=1"
+        title="Robert Wagner Astrologie"
+        allow="autoplay; fullscreen; picture-in-picture"
+        allowFullScreen
+        className="w-full h-full"
+      />
+    );
+  }
+  return (
+    <button
+      type="button"
+      onClick={() => setPlay(true)}
+      aria-label="Video abspielen"
+      className="group relative w-full h-full flex items-center justify-center overflow-hidden"
+      style={{ background: 'radial-gradient(circle at 50% 42%, rgba(61,42,138,0.65), #1B1040 72%)' }}
+    >
+      <span className="relative z-10 flex flex-col items-center gap-3">
+        <span className="w-16 h-16 rounded-full bg-[#C9A84C] flex items-center justify-center shadow-[0_0_34px_rgba(201,168,76,0.5)] group-hover:scale-110 transition-transform">
+          <svg viewBox="0 0 24 24" className="w-6 h-6 text-[#1B1040] ml-1" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        </span>
+        <span className="text-[#F0E6C8]/85 text-sm tracking-wide">Video abspielen</span>
+      </span>
+    </button>
+  );
+}
+
 // ── Social post embed cards ───────────────────────────────────────────
 // Update these URLs whenever there's a new post to feature
 const FEATURED_POSTS = {
@@ -540,7 +596,7 @@ export default function Home() {
 
                     {/* Video */}
                     <div className="aspect-video">
-                      <iframe src="https://www.loom.com/embed/b2a5198326534e22b16238652d6c9509?hide_owner=true&hide_share=true&hideEmbedTopBar=true" title="Robert Wagner Astrologie" loading="lazy" allow="fullscreen; picture-in-picture" allowFullScreen className="w-full h-full" />
+                      <LoomHero />
                     </div>
 
                     {/* Bottom bar */}
@@ -722,15 +778,17 @@ export default function Home() {
                 </a>
                 {/* TikTok embed */}
                 <div className="flex-1 mx-4 mb-4 rounded-xl overflow-hidden">
-                  <iframe
-                    src={`https://www.tiktok.com/embed/v2/${FEATURED_POSTS.tiktok}`}
-                    title="Meistgesehenes TikTok Video"
-                    loading="lazy"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                    className="w-full rounded-xl"
-                    style={{ minHeight: '560px', border: 'none' }}
-                  />
+                  <InViewMount className="w-full rounded-xl overflow-hidden" style={{ minHeight: '560px' }}>
+                    <iframe
+                      src={`https://www.tiktok.com/embed/v2/${FEATURED_POSTS.tiktok}`}
+                      title="Meistgesehenes TikTok Video"
+                      loading="lazy"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      className="w-full rounded-xl"
+                      style={{ minHeight: '560px', border: 'none' }}
+                    />
+                  </InViewMount>
                 </div>
               </div>
             </motion.div>
@@ -750,14 +808,16 @@ export default function Home() {
                   <CounterBadge target={2500} label="Abonnenten" duration={1800} />
                 </a>
                 <div className="flex-1 mx-4 mb-4 rounded-xl overflow-hidden">
-                  <iframe
-                    src={`https://www.youtube.com/embed/${FEATURED_POSTS.youtube}?rel=0&modestbranding=1`}
-                    title="Aktuelles YouTube Video"
-                    loading="lazy"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                    className="w-full aspect-video rounded-xl"
-                  />
+                  <InViewMount className="w-full aspect-video rounded-xl overflow-hidden">
+                    <iframe
+                      src={`https://www.youtube.com/embed/${FEATURED_POSTS.youtube}?rel=0&modestbranding=1`}
+                      title="Aktuelles YouTube Video"
+                      loading="lazy"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      className="w-full h-full rounded-xl"
+                    />
+                  </InViewMount>
                 </div>
               </div>
             </motion.div>
@@ -778,15 +838,17 @@ export default function Home() {
                 </a>
                 {/* Instagram embed */}
                 <div className="flex-1 mx-4 mb-4 rounded-xl overflow-hidden">
-                  <iframe
-                    src={`https://www.instagram.com/reel/${FEATURED_POSTS.instagram}/embed/`}
-                    title="Meistgesehenes Instagram Reel"
-                    loading="lazy"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                    className="w-full rounded-xl"
-                    style={{ minHeight: '560px', border: 'none' }}
-                  />
+                  <InViewMount className="w-full rounded-xl overflow-hidden" style={{ minHeight: '560px' }}>
+                    <iframe
+                      src={`https://www.instagram.com/reel/${FEATURED_POSTS.instagram}/embed/`}
+                      title="Meistgesehenes Instagram Reel"
+                      loading="lazy"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      className="w-full rounded-xl"
+                      style={{ minHeight: '560px', border: 'none' }}
+                    />
+                  </InViewMount>
                 </div>
               </div>
             </motion.div>

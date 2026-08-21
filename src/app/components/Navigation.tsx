@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router';
 import { useAuth } from '../context/AuthContext';
-import { Home, ShoppingBag, LogOut, LogIn, User, BookOpen, Moon, ScrollText, Link2 } from 'lucide-react';
+import { Home, ShoppingBag, LogOut, LogIn, User, BookOpen, ScrollText, Link2 } from 'lucide-react';
 import { Button } from './ui/button';
 import { CartDropdown } from './CartDropdown';
 
@@ -29,12 +29,8 @@ export function Navigation() {
         <div className="flex justify-between items-center h-18 py-3">
 
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2.5 group">
-            <Moon className="w-6 h-6 text-[#C9A84C]" />
-            <span className="text-lg font-semibold tracking-widest text-[#F0E6C8]"
-              style={{ fontFamily: '"rl-limo-1", "rl-limo-2", sans-serif', fontWeight: 400 }}>
-              ROBERT WAGNER
-            </span>
+          <Link to="/" className="flex items-center group shrink-0" aria-label="Robert Wagner – Startseite">
+            <img src="/robert-wagner-logo.svg" alt="Robert Wagner" className="h-6 sm:h-8 w-auto" />
           </Link>
 
           {/* Links */}

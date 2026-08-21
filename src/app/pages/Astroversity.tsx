@@ -248,13 +248,13 @@ export default function Astroversity() {
             </div>
           </motion.div>
 
-          <div className="overflow-hidden mb-1">
+          <div className="mb-4">
             <motion.h1
-              initial={{ clipPath: 'inset(0 100% 0 0)' }} animate={{ clipPath: 'inset(0 0% 0 0)' }}
-              transition={{ duration: 0.9, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              className="text-[clamp(2.4rem,5vw,4.8rem)] leading-[1.1] text-[#F0E6C8]"
-              style={{ fontFamily: '"rl-limo-1", "rl-limo-2", sans-serif', fontWeight: 400 }}>
-              Astroversity <span className="text-[#C9A84C]">Academy</span>
+              initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              className="flex justify-center">
+              <img src="/astroversity-logo.svg" alt="Astroversity Academy"
+                className="w-full max-w-[320px] sm:max-w-[440px] h-auto" />
             </motion.h1>
           </div>
 

@@ -362,7 +362,7 @@ function UeberRobertSection() {
           initial={{ opacity: 0, x: 24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
           className="relative h-[500px] lg:h-auto"
         >
-          <img src="/robert2.png" alt="Robert Wagner" loading="lazy" decoding="async" className="absolute inset-0 w-full h-full object-cover object-center" />
+          <img src="/robert.png" alt="Robert Wagner" loading="lazy" decoding="async" className="absolute inset-0 w-full h-full object-contain object-bottom" />
           {/* Subtle gold light-leak only */}
           <div className="absolute inset-0 bg-gradient-to-bl from-[#C9A84C]/12 via-transparent to-transparent pointer-events-none" />
         </motion.div>

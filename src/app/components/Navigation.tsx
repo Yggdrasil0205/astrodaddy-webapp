@@ -22,8 +22,8 @@ export function Navigation() {
   // On the Astroversity subpage the header carries the Astroversity logo instead.
   const onAstroversity = pathname.startsWith('/astroversity');
   const logo = onAstroversity
-    ? { src: '/astroversity-logo.svg', alt: 'Astroversity Academy', mobileW: 'w-8' }
-    : { src: '/robert-wagner-logo.svg', alt: 'Robert Wagner', mobileW: 'w-8' };
+    ? { src: '/astroversity-logo.svg', alt: 'Astroversity Academy', mobileW: 'w-10', mobileH: 'h-8', deskH: 'h-9 md:h-10' }
+    : { src: '/robert-wagner-logo.svg', alt: 'Robert Wagner', mobileW: 'w-8', mobileH: 'h-6', deskH: 'h-6 md:h-7' };
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 border-b transition-all duration-300 ${
@@ -37,10 +37,10 @@ export function Navigation() {
           {/* Logo — full wordmark on desktop, emblem-only (clipped) on mobile.
               Swaps to the Astroversity logo on the Astroversity subpage. */}
           <Link to="/" className="flex items-center group shrink-0" aria-label="Startseite">
-            <span className={`sm:hidden block h-6 ${logo.mobileW} overflow-hidden`}>
-              <img src={logo.src} alt={logo.alt} className="h-6 w-auto max-w-none" />
+            <span className={`sm:hidden block ${logo.mobileH} ${logo.mobileW} overflow-hidden`}>
+              <img src={logo.src} alt={logo.alt} className={`${logo.mobileH} w-auto max-w-none`} />
             </span>
-            <img src={logo.src} alt={logo.alt} className="hidden sm:block h-6 md:h-7 w-auto" />
+            <img src={logo.src} alt={logo.alt} className={`hidden sm:block ${logo.deskH} w-auto`} />
           </Link>
 
           {/* Links */}

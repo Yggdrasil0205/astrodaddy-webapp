@@ -209,6 +209,47 @@ export async function sendInvoiceConfirmationEmail(input: OrderEmailInput) {
   });
 }
 
+// ── Cosmic-wheel jackpot: notify Robert that a 20-min call was won ────────────
+export async function sendCallJackpotNotification(input: {
+  customerName: string;
+  customerEmail: string;
+  customerPhone?: string;
+  productName: string;
+  code: string;
+  orderDate?: string;
+}) {
+  const { customerName, customerEmail, customerPhone, productName, code, orderDate } = input;
+  const transport = createTransport();
+  await transport.sendMail({
+    from: FROM_DEFAULT,
+    to: `${CONTACT_EMAIL}, ${ROBERT_EMAIL}`,
+    subject: `🌙 Kosmisches Rad – 20-Min-Call gewonnen (${customerName || customerEmail})`,
+    attachments: [LOGO_ATTACHMENT],
+    html: `
+      <div style="font-family:Arial,sans-serif;max-width:640px;margin:0 auto;color:#1a1a2e;">
+        <div style="background:#1B1040;padding:24px 32px;border-radius:8px 8px 0 0;text-align:center;">
+          ${LOGO_IMG}
+          <p style="color:#C9A84C;font-size:11px;letter-spacing:2px;text-transform:uppercase;margin:0 0 4px;">Kosmisches Rad · Jackpot</p>
+          <h1 style="color:#F0E6C8;font-size:20px;font-weight:400;margin:0;">Ein Kunde hat den 20-Minuten-Call gewonnen ★</h1>
+        </div>
+        <div style="background:#f9f7ff;padding:24px 32px;border-radius:0 0 8px 8px;border:1px solid #e5e0f5;border-top:none;">
+          <p style="margin:0 0 20px;font-size:14px;">
+            Beim Kauf hat <strong>${customerName || customerEmail}</strong> am kosmischen Rad den Jackpot gedreht.
+            Bitte melde dich für die Terminabsprache des 20-Minuten-Calls.
+          </p>
+          <div style="padding:16px;background:#fff;border:1px solid #e5e0f5;border-radius:8px;font-size:14px;line-height:1.7;">
+            <div><strong>E-Mail:</strong> <a href="mailto:${customerEmail}" style="color:#7B5FD4;">${customerEmail}</a></div>
+            ${customerPhone ? `<div><strong>Telefon:</strong> <a href="tel:${customerPhone}" style="color:#7B5FD4;">${customerPhone}</a></div>` : ''}
+            <div><strong>Bestellung:</strong> ${productName}</div>
+            ${orderDate ? `<div><strong>Datum:</strong> ${orderDate}</div>` : ''}
+            <div><strong>Bonus-Code:</strong> ${code}</div>
+          </div>
+        </div>
+      </div>
+    `,
+  });
+}
+
 // ── 2. Send order confirmation to customer (with PDF invoice attached) ────────
 export async function sendOrderConfirmationToCustomer(input: OrderEmailInput) {
   const { customerEmail, productName, amount, invoiceNumber, birthDataItems, orderDate, invoicePdfBuffer } = input;

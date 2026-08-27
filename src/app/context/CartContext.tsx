@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
+import type { SpinReward } from '../components/CosmicWheel';
 
 export interface Product {
   id: number;
@@ -24,12 +25,16 @@ interface CartContextType {
   clearCart: () => void;
   totalItems: number;
   totalPrice: number;
+  spinReward: SpinReward | null;
+  applySpin: (reward: SpinReward) => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
+  const [spinReward, setSpinReward] = useState<SpinReward | null>(null);
+  const applySpin = (reward: SpinReward) => setSpinReward(reward);
 
   const addToCart = (product: Product) => {
     setItems(currentItems => {
@@ -66,6 +71,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const clearCart = () => {
     setItems([]);
+    setSpinReward(null);
   };
 
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
@@ -81,6 +87,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
         clearCart,
         totalItems,
         totalPrice,
+        spinReward,
+        applySpin,
       }}
     >
       {children}

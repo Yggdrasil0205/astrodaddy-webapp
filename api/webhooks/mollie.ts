@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { createLexofficeInvoice, sendLexofficeInvoiceByEmail, getLexofficeInvoicePdf } from '../../src/lib/lexoffice.js';
-import { sendInvoiceConfirmationEmail, sendOrderConfirmationToCustomer } from '../../src/lib/mailer.js';
+import { sendInvoiceConfirmationEmail, sendOrderConfirmationToCustomer, sendCallJackpotNotification } from '../../src/lib/mailer.js';
 
 const MOLLIE_KEY = process.env.Mollie_API_Test ?? process.env.MOLLIE_API_KEY ?? '';
 
@@ -130,6 +130,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         await sendInvoiceConfirmationEmail(emailInput);    // admin notification to Robert
       } catch (err) {
         console.error('Email error:', err);
+      }
+
+      // Cosmic-wheel jackpot: the customer won a 20-min call with Robert.
+      const discountCode: string = meta.discountCode ?? order?.discount_code ?? '';
+      if (discountCode.startsWith('KOSMOS-CALL-')) {
+        try {
+          await sendCallJackpotNotification({
+            customerName, customerEmail, customerPhone, productName,
+            code: discountCode, orderDate,
+          });
+        } catch (err) {
+          console.error('Jackpot notification error:', err);
+        }
       }
     }
   }

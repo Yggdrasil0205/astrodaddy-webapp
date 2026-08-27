@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router';
 import { motion, AnimatePresence } from 'motion/react';
 import { StarField } from '../components/StarField';
@@ -108,7 +108,7 @@ function RedirectScreen() {
 // ── Main component ────────────────────────────────────────────────────────────
 
 export default function Checkout() {
-  const { items, totalPrice, removeFromCart, clearCart } = useCart();
+  const { items, totalPrice, removeFromCart, clearCart, spinReward } = useCart();
 
   // Birth data
   const [birthData, setBirthData]     = useState<Record<number, BirthData>>({});
@@ -170,6 +170,15 @@ export default function Checkout() {
     }
   };
   const finalPrice = appliedDiscount ? appliedDiscount.finalAmount : totalPrice;
+
+  // Auto-apply the cosmic-wheel bonus once, if the customer won one.
+  const autoApplied = useRef(false);
+  useEffect(() => {
+    if (spinReward?.code && !appliedDiscount && !autoApplied.current && items.length > 0) {
+      autoApplied.current = true;
+      applyDiscount(spinReward.code);
+    }
+  }, [spinReward, appliedDiscount, items.length]);
 
   // Payment state
   const [redirecting, setRedirecting] = useState(false);

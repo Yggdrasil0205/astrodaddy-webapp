@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ShoppingCart, X, Plus, Minus, Trash2 } from 'lucide-react';
 import { useCart } from '../context/CartContext';
@@ -6,11 +6,26 @@ import { Button } from './ui/button';
 import { GlassCard } from './GlassCard';
 import { Link } from 'react-router';
 import { ImageWithFallback } from './figma/ImageWithFallback';
+import { products } from '../data/products';
+import { CosmicWheel } from './CosmicWheel';
 
 export function CartDropdown() {
   const [isOpen, setIsOpen] = useState(false);
-  const { items, totalItems, totalPrice, updateQuantity, removeFromCart } = useCart();
+  const [wheelOpen, setWheelOpen] = useState(false);
+  const { items, totalItems, totalPrice, updateQuantity, removeFromCart, addToCart, spinReward, applySpin } = useCart();
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Contextual cross-sell — a complementary product not already in the cart.
+  const recommended = useMemo(() => {
+    const inCart = new Set(items.map(i => i.id));
+    const pool = products.filter(p => !inCart.has(p.id) && !p.skoolMembership && !p.hidden);
+    const hasBeratung = items.some(i => products.find(p => p.id === i.id)?.category === 'Beratung');
+    return pool.find(p => (hasBeratung ? p.category === 'Analyse' : p.category === 'Beratung')) ?? pool[0] ?? null;
+  }, [items]);
+
+  const cartLines = items.map(i => ({ id: i.id, quantity: i.quantity }));
+  const bonusPct = spinReward?.type === 'pct' && totalItems >= 2 ? (spinReward.value ?? 0) : 0;
+  const finalTotal = bonusPct ? totalPrice * (1 - bonusPct / 100) : totalPrice;
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -134,12 +149,61 @@ export function CartDropdown() {
                     ))}
                   </div>
 
+                  {/* Kosmisches Rad — reward strip */}
+                  {totalItems >= 2 ? (
+                    spinReward ? (
+                      <div className="mb-3 rounded-xl px-3.5 py-3 border border-[#7B5FD4]/40 bg-[#7B5FD4]/12 text-sm text-[#F0E6C8] flex items-center gap-2">
+                        <span className="text-[#C9A84C]">✦</span>
+                        {spinReward.type === 'call'
+                          ? <span><b className="text-[#C9A84C]">20-Min-Call mit Robert</b> gewonnen — Terminlink kommt per Mail.</span>
+                          : <span><b className="text-[#C9A84C]">{spinReward.value}% Bonus</b> gesichert — wird an der Kasse angewendet.</span>}
+                      </div>
+                    ) : (
+                      <button
+                        onClick={() => setWheelOpen(true)}
+                        className="w-full mb-3 rounded-xl px-3.5 py-3 border border-[#C9A84C]/45 bg-[#C9A84C]/10 hover:bg-[#C9A84C]/16 transition-colors text-left flex items-center gap-3"
+                      >
+                        <span className="text-lg">✦</span>
+                        <span className="flex-1 text-sm text-[#F0E6C8]"><b className="text-[#C9A84C]">Bonus freigeschaltet!</b> Dreh am kosmischen Rad.</span>
+                        <span className="text-xs font-bold text-[#1B1040] rounded-lg px-3 py-1.5" style={{ background: 'linear-gradient(180deg,#E7CE86,#C9A84C)' }}>Drehen</span>
+                      </button>
+                    )
+                  ) : (
+                    recommended && (
+                      <div className="mb-3 rounded-xl p-3 border border-dashed border-[#C9A84C]/35 bg-[#C9A84C]/[0.06]">
+                        <div className="flex items-center gap-2 text-xs text-[#F0E6C8]/80 mb-2">
+                          <span className="text-[#C9A84C]">✦</span> Noch <b className="text-[#C9A84C]">1 Angebot</b> bis zu deinem kosmischen Bonus.
+                        </div>
+                        <button
+                          onClick={() => addToCart(recommended)}
+                          className="w-full flex items-center gap-3 rounded-lg px-3 py-2.5 bg-white/[0.04] border border-white/10 hover:border-[#C9A84C]/45 hover:bg-[#C9A84C]/[0.08] transition-colors text-left"
+                        >
+                          <div className="w-9 h-9 rounded-lg overflow-hidden flex-shrink-0 bg-[#0a0812]">
+                            <ImageWithFallback src={recommended.image} alt={recommended.name} className="w-full h-full object-cover" />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="text-sm font-medium text-[#F0E6C8] truncate">{recommended.name}</div>
+                            <div className="text-[11px] text-[#F0E6C8]/45">Dazu passend</div>
+                          </div>
+                          <span className="text-xs font-bold text-[#C9A84C] whitespace-nowrap">+ {recommended.priceFormatted}</span>
+                        </button>
+                      </div>
+                    )
+                  )}
+
                   {/* Total & Checkout */}
                   <div className="pt-4 border-t border-white/10 space-y-3">
+                    {bonusPct > 0 && (
+                      <div className="flex items-center justify-between text-sm text-[#C9A84C]">
+                        <span>Kosmischer Bonus −{bonusPct} %</span>
+                        <span>−{(totalPrice * bonusPct / 100).toFixed(2).replace('.', ',')}€</span>
+                      </div>
+                    )}
                     <div className="flex items-center justify-between">
                       <span className="font-medium text-[#F0E6C8]/70">Gesamt:</span>
                       <span className="text-xl font-bold text-[#C9A84C]">
-                        {totalPrice.toFixed(2).replace('.', ',')}€
+                        {bonusPct > 0 && <span className="text-[#F0E6C8]/40 line-through text-sm font-normal mr-2">{totalPrice.toFixed(2).replace('.', ',')}€</span>}
+                        {finalTotal.toFixed(2).replace('.', ',')}€
                       </span>
                     </div>
                     <Link to="/checkout" onClick={() => setIsOpen(false)}>
@@ -154,6 +218,15 @@ export function CartDropdown() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Kosmisches Rad overlay */}
+      {wheelOpen && (
+        <CosmicWheel
+          items={cartLines}
+          onWin={applySpin}
+          onClose={() => setWheelOpen(false)}
+        />
+      )}
     </div>
   );
 }

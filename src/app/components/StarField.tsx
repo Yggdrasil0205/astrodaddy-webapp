@@ -50,17 +50,29 @@ export function StarField({ className = '', noConnect = false }: { className?: s
     };
 
     const resize = () => {
+      const w = canvas.offsetWidth;
+      const h = canvas.offsetHeight;
+      // Bail until the canvas is actually laid out — offset size can be 0 or partial
+      // at mount (especially on mobile). Also skip redundant rebuilds when unchanged.
+      if (w === 0 || h === 0) return;
+      if (w === W && h === H && canvas.width) return;
       // Render at the device pixel ratio (capped) so it stays sharp on Retina/mobile,
       // but keep all drawing coordinates in CSS pixels via the transform.
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      W = canvas.offsetWidth;
-      H = canvas.offsetHeight;
+      W = w;
+      H = h;
       canvas.width = Math.round(W * dpr);
       canvas.height = Math.round(H * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       buildStars();
     };
     resize();
+
+    // Re-measure whenever the canvas is truly laid out or its size changes (initial
+    // layout, mobile address-bar show/hide, font-load reflow, orientation change).
+    // Fixes the "zoomed/blurry stars" bug from measuring a 0/partial size at mount.
+    const ro = new ResizeObserver(() => resize());
+    ro.observe(canvas);
 
     const onMouseMove = (e: MouseEvent) => {
       const rect = canvas.getBoundingClientRect();
@@ -221,6 +233,7 @@ export function StarField({ className = '', noConnect = false }: { className?: s
     draw();
     return () => {
       cancelAnimationFrame(rafRef.current);
+      ro.disconnect();
       if (!isTouch) window.removeEventListener('mousemove', onMouseMove);
       window.removeEventListener('resize', resize);
     };

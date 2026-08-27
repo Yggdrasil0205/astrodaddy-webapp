@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router';
 import { useAuth } from '../context/AuthContext';
-import { Home, ShoppingBag, LogOut, LogIn, User, BookOpen, ScrollText } from 'lucide-react';
+import { Home, ShoppingBag, LogOut, LogIn, User, BookOpen } from 'lucide-react';
 import { Button } from './ui/button';
 import { CartDropdown } from './CartDropdown';
 
@@ -48,7 +48,6 @@ export function Navigation() {
             {[
               { to: '/',                    label: 'Start',                 icon: Home },
               { to: '/angebote',            label: 'Shop',                  icon: ShoppingBag },
-              { to: '/readings-workbooks',  label: 'Readings & Workbooks',  icon: ScrollText },
               { to: '/astroversity',        label: 'Astroversity Academy',  icon: BookOpen },
             ].map(({ to, label, icon: Icon }) => (
               <Link key={to} to={to}>

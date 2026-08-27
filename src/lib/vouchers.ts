@@ -38,7 +38,7 @@ export interface VoucherResult {
   finalAmount: number;
 }
 
-export async function applyVoucher(rawCode: string | null | undefined, base: number): Promise<VoucherResult> {
+export async function applyVoucher(rawCode: string | null | undefined, base: number, itemCount = 0): Promise<VoucherResult> {
   const noDiscount: VoucherResult = { valid: true, discountAmount: 0, finalAmount: base };
   const code = String(rawCode ?? '').trim().toUpperCase();
   if (!code) return noDiscount;
@@ -55,6 +55,17 @@ export async function applyVoucher(rawCode: string | null | undefined, base: num
   if (!data.active) return { valid: false, error: 'Dieser Code ist nicht mehr aktiv.', discountAmount: 0, finalAmount: base };
   if (data.valid_until && new Date(`${data.valid_until}T23:59:59`) < new Date()) {
     return { valid: false, error: 'Dieser Code ist abgelaufen.', discountAmount: 0, finalAmount: base };
+  }
+
+  // "Kosmisches Rad" bonus codes: single-use, and only redeemable while the
+  // unlock condition still holds (at least 2 items in the cart).
+  if (code.startsWith('KOSMOS-')) {
+    if ((Number(data.times_used) || 0) >= 1) {
+      return { valid: false, error: 'Dieser Bonus-Code wurde bereits eingelöst.', discountAmount: 0, finalAmount: base };
+    }
+    if (itemCount < 2) {
+      return { valid: false, error: 'Dein kosmischer Bonus gilt nur mit mindestens einem weiteren Angebot im Warenkorb.', discountAmount: 0, finalAmount: base };
+    }
   }
 
   let discount = data.type === 'percent' ? base * (Number(data.value) / 100) : Number(data.value);

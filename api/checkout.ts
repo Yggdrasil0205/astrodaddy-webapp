@@ -41,8 +41,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // ── Prices are computed server-side from the trusted catalog + DB ──────────
     const baseAmount = cartBaseTotal(items);
     const productName = cartProductName(items) || 'Bestellung';
+    const itemCount = items.reduce((s, it) => s + Math.max(1, Math.floor(Number(it.quantity) || 1)), 0);
 
-    const voucher = await applyVoucher(discountCode, baseAmount);
+    const voucher = await applyVoucher(discountCode, baseAmount, itemCount);
     if (discountCode && !voucher.valid) {
       return res.status(400).json({ error: voucher.error ?? 'Rabattcode ungültig.' });
     }

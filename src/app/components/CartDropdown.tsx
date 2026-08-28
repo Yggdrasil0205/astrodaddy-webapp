@@ -174,7 +174,7 @@ export function CartDropdown() {
                       </div>
                     ) : (
                       <button
-                        onClick={() => setWheelOpen(true)}
+                        onClick={() => { setWheelOpen(true); setIsOpen(false); }}
                         className="w-full mb-3 rounded-xl px-3.5 py-3 border border-[#C9A84C]/45 bg-[#C9A84C]/10 hover:bg-[#C9A84C]/16 transition-colors text-left flex items-center gap-3"
                       >
                         <span className="text-lg">✦</span>

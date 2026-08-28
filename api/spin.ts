@@ -8,12 +8,12 @@ import { cartBaseTotal, type CartLine } from '../src/lib/vouchers.js';
 // KOSMOS-CALL- code (0 %, redeemed as a flag at checkout). Redemption is gated
 // on the cart still holding 2+ items (see applyVoucher).
 
+// Weights are percentages (they sum to 100). 20 % was dropped for being too high.
 const REWARDS = [
-  { type: 'pct',  value: 10, w: 20 },
-  { type: 'pct',  value: 5,  w: 12 },
-  { type: 'pct',  value: 15, w: 14 },
-  { type: 'pct',  value: 20, w: 8  },
-  { type: 'call', value: 0,  w: 7  },
+  { type: 'pct',  value: 10, w: 60 },
+  { type: 'pct',  value: 15, w: 20 },
+  { type: 'pct',  value: 5,  w: 19 },
+  { type: 'call', value: 0,  w: 1  },
 ] as const;
 
 function pickReward() {

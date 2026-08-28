@@ -392,7 +392,7 @@ export default function Checkout() {
                 >
                   <span className="text-xl">✦</span>
                   <span className="flex-1 text-sm text-[#F0E6C8]">
-                    <b className="text-[#C9A84C]">Dein kosmisches Rad wartet.</b> Dreh und sichere dir bis zu 20&nbsp;% oder einen Call mit Robert.
+                    <b className="text-[#C9A84C]">Dein kosmisches Rad wartet.</b> Dreh und sichere dir bis zu 15&nbsp;% oder einen Call mit Robert.
                   </span>
                   <span className="text-xs font-bold text-[#1B1040] rounded-lg px-3 py-1.5 whitespace-nowrap"
                     style={{ background: 'linear-gradient(180deg,#E7CE86,#C9A84C)' }}>Drehen</span>

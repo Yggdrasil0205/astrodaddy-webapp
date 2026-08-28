@@ -10,6 +10,7 @@ import {
   MapPin, Globe, User, Trash2, Mail, Phone, Lock, Sparkles, Users,
 } from 'lucide-react';
 import { SKOOL_MEMBERSHIP_ID } from '../data/products';
+import { CosmicWheel } from '../components/CosmicWheel';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -108,7 +109,8 @@ function RedirectScreen() {
 // ── Main component ────────────────────────────────────────────────────────────
 
 export default function Checkout() {
-  const { items, totalPrice, removeFromCart, clearCart, spinReward } = useCart();
+  const { items, totalItems, totalPrice, removeFromCart, clearCart, spinReward, applySpin } = useCart();
+  const [wheelOpen, setWheelOpen] = useState(false);
 
   // Birth data
   const [birthData, setBirthData]     = useState<Record<number, BirthData>>({});
@@ -247,6 +249,14 @@ export default function Checkout() {
     <div className="min-h-screen bg-[#1B1040]">
       <StarField noConnect />
 
+      {wheelOpen && (
+        <CosmicWheel
+          items={items.map(i => ({ id: i.id, quantity: i.quantity }))}
+          onWin={applySpin}
+          onClose={() => setWheelOpen(false)}
+        />
+      )}
+
       <div className="relative z-10 max-w-2xl mx-auto px-6 pt-28 pb-24">
 
         {/* Header */}
@@ -365,6 +375,35 @@ export default function Checkout() {
           {/* Total + discount */}
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
             <GlassCard className="rounded-xl p-5 border-white/8">
+              {/* Kosmisches Rad */}
+              {spinReward ? (
+                <div className="mb-4 flex items-center gap-2 rounded-lg bg-[#7B5FD4]/12 border border-[#7B5FD4]/35 px-4 py-3">
+                  <span className="text-[#C9A84C]">✦</span>
+                  <p className="text-sm text-[#F0E6C8]/80">
+                    {spinReward.type === 'call'
+                      ? <>Dein <b className="text-[#C9A84C]">20-Min-Call mit Robert</b> ist gesichert — du bekommst den Terminlink per Mail.</>
+                      : <>Dein <b className="text-[#C9A84C]">kosmischer Bonus</b> ist gesichert und wird auf deine Bestellung angewendet.</>}
+                  </p>
+                </div>
+              ) : totalItems >= 2 ? (
+                <button
+                  onClick={() => setWheelOpen(true)}
+                  className="mb-4 w-full flex items-center gap-3 rounded-lg border border-[#C9A84C]/45 bg-[#C9A84C]/10 hover:bg-[#C9A84C]/16 transition-colors px-4 py-3 text-left"
+                >
+                  <span className="text-xl">✦</span>
+                  <span className="flex-1 text-sm text-[#F0E6C8]">
+                    <b className="text-[#C9A84C]">Dein kosmisches Rad wartet.</b> Dreh und sichere dir bis zu 20&nbsp;% oder einen Call mit Robert.
+                  </span>
+                  <span className="text-xs font-bold text-[#1B1040] rounded-lg px-3 py-1.5 whitespace-nowrap"
+                    style={{ background: 'linear-gradient(180deg,#E7CE86,#C9A84C)' }}>Drehen</span>
+                </button>
+              ) : (
+                <div className="mb-4 flex items-center gap-2 rounded-lg border border-dashed border-[#C9A84C]/30 bg-[#C9A84C]/[0.05] px-4 py-3">
+                  <span className="text-[#C9A84C]">✦</span>
+                  <p className="text-sm text-[#F0E6C8]/70">Noch <b className="text-[#C9A84C]">1 Angebot</b> und du darfst am kosmischen Rad drehen.</p>
+                </div>
+              )}
+
               {/* Discount */}
               <div className="mb-4">
                 <p className="text-[#F0E6C8]/50 text-xs mb-2">Rabattcode (optional)</p>

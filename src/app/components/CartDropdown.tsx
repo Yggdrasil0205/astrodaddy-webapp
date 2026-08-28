@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import { ShoppingCart, X, Plus, Minus, Trash2 } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { Button } from './ui/button';
@@ -27,6 +27,10 @@ export function CartDropdown() {
   const bonusPct = spinReward?.type === 'pct' && totalItems >= 2 ? (spinReward.value ?? 0) : 0;
   const finalTotal = bonusPct ? totalPrice * (1 - bonusPct / 100) : totalPrice;
 
+  // Pulse the cart icon while a cosmic bonus is still up for grabs.
+  const reduceMotion = useReducedMotion();
+  const bonusPending = totalItems >= 1 && !spinReward;
+
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -46,21 +50,31 @@ export function CartDropdown() {
   return (
     <div className="relative" ref={dropdownRef}>
       {/* Cart Button */}
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="relative p-1.5 rounded-lg backdrop-blur-md bg-white/20 border border-white/30 hover:bg-white/30 transition-all duration-300 hover:scale-105"
-      >
-        <ShoppingCart className="w-3.5 h-3.5 text-foreground" />
-        {totalItems > 0 && (
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-[#1b2a23] flex items-center justify-center text-[10px] font-bold text-white border border-white"
-          >
-            {totalItems}
-          </motion.div>
+      <div className="relative">
+        {bonusPending && !reduceMotion && (
+          <motion.span
+            aria-hidden
+            className="pointer-events-none absolute -inset-1.5 rounded-xl bg-[#C9A84C] blur-md"
+            animate={{ opacity: [0.1, 0.5, 0.1], scale: [0.85, 1.12, 0.85] }}
+            transition={{ duration: 1.9, repeat: Infinity, ease: 'easeInOut' }}
+          />
         )}
-      </button>
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="relative p-1.5 rounded-lg backdrop-blur-md bg-white/20 border border-white/30 hover:bg-white/30 transition-all duration-300 hover:scale-105"
+        >
+          <ShoppingCart className="w-3.5 h-3.5 text-foreground" />
+          {totalItems > 0 && (
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              className={`absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full flex items-center justify-center text-[10px] font-bold border border-white ${bonusPending ? 'bg-[#C9A84C] text-[#1B1040]' : 'bg-[#1b2a23] text-white'}`}
+            >
+              {totalItems}
+            </motion.div>
+          )}
+        </button>
+      </div>
 
       {/* Dropdown */}
       <AnimatePresence>

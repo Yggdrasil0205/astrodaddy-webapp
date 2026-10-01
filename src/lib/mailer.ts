@@ -403,3 +403,48 @@ export async function sendNewsletterWelcome(email: string) {
     `,
   });
 }
+
+// ── 4. Account e-mails for Supabase Auth (Send Email Hook) ────────────────────
+// Confirmation / password reset / login links for customer accounts. Supabase
+// hands them to /api/auth-email so they go out via the same IONOS account as
+// all other mails.
+export async function sendAuthEmail(input: {
+  to: string;
+  subject: string;
+  title: string;
+  body: string;
+  button?: { label: string; url: string };
+  code?: string;
+  note: string;
+}) {
+  const { to, subject, title, body, button, code, note } = input;
+  const transport = createTransport();
+  await transport.sendMail({
+    from: FROM_DEFAULT,
+    to,
+    subject,
+    attachments: [LOGO_ATTACHMENT],
+    html: `
+      <div style="font-family:Arial,sans-serif;max-width:640px;margin:0 auto;color:#1a1a2e;">
+        <div style="background:#1B1040;padding:24px 32px;border-radius:8px 8px 0 0;text-align:center;">
+          ${LOGO_IMG}
+          <p style="color:#C9A84C;font-size:11px;letter-spacing:2px;text-transform:uppercase;margin:0 0 4px;">Astroversity Academy · Konto</p>
+          <h1 style="color:#F0E6C8;font-size:20px;font-weight:400;margin:0;">${title}</h1>
+        </div>
+        <div style="background:#f9f7ff;padding:24px 32px;border-radius:0 0 8px 8px;border:1px solid #e5e0f5;border-top:none;">
+          <p style="margin:0 0 20px;font-size:14px;line-height:1.6;">${body}</p>
+          ${button ? `
+          <p style="text-align:center;margin:0 0 24px;">
+            <a href="${button.url}" style="display:inline-block;background:#C9A84C;color:#1B1040;font-weight:bold;font-size:14px;text-decoration:none;padding:12px 28px;border-radius:8px;">${button.label}</a>
+          </p>` : ''}
+          ${code ? `
+          <p style="text-align:center;margin:0 0 24px;font-size:28px;letter-spacing:6px;font-weight:bold;color:#1B1040;">${code}</p>` : ''}
+          <p style="margin:0 0 8px;font-size:12px;color:#666;line-height:1.6;">${note}</p>
+          ${button ? `
+          <p style="margin:0;font-size:12px;color:#666;line-height:1.6;">Funktioniert der Button nicht? Kopiere diesen Link in deinen Browser:<br /><a href="${button.url}" style="color:#7B5FD4;word-break:break-all;">${button.url}</a></p>` : ''}
+        </div>
+        <p style="text-align:center;font-size:11px;color:#999;margin:16px 0 0;">Astroversity Academy · Robert Wagner · <a href="https://astroversity.academy" style="color:#999;">astroversity.academy</a></p>
+      </div>
+    `,
+  });
+}

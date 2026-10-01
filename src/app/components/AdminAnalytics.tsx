@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { BarChart3, RefreshCw, Eye, Users, CalendarDays, Info } from 'lucide-react';
 
 // ── Website statistics (Vercel Web Analytics archive) for /robertlogin ────────
-// Data comes from public.analytics_daily via /api/analytics, synced daily by the
+// Data comes from public.analytics_daily via /api/admin?r=analytics, synced daily by the
 // cron and on demand via the "Von Vercel holen" button.
 
 type AdminFetch = (path: string, opts?: RequestInit) => Promise<Response>;
@@ -76,7 +76,7 @@ export function AdminAnalytics({ adminFetch }: { adminFetch: AdminFetch }) {
   const load = useCallback(async () => {
     setLoading(true); setError('');
     try {
-      const res = await adminFetch(`/api/analytics?days=${days}`);
+      const res = await adminFetch(`/api/admin?r=analytics&days=${days}`);
       const d = await res.json();
       if (!res.ok) throw new Error(d.error ?? 'Fehler');
       setData(d);
@@ -90,7 +90,7 @@ export function AdminAnalytics({ adminFetch }: { adminFetch: AdminFetch }) {
   const sync = async () => {
     setSyncing(true); setSyncMsg('');
     try {
-      const res = await adminFetch('/api/analytics?days=31', { method: 'POST' });
+      const res = await adminFetch('/api/admin?r=analytics&days=31', { method: 'POST' });
       const d = await res.json();
       if (!res.ok) throw new Error(d.error ?? 'Fehler');
       setSyncMsg(d.failed?.length

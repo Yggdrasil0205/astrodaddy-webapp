@@ -39,7 +39,7 @@
     }
   ],
   "functions": {
-    "api/analytics.ts": {
+    "api/admin.ts": {
       "maxDuration": 60
     },
     "api/cron/watchdog.ts": {

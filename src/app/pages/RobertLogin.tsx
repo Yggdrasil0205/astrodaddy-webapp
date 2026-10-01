@@ -63,7 +63,7 @@ export default function RobertLogin() {
     if (!pw || loggingIn) return;
     setLoggingIn(true); setError('');
     try {
-      const res = await fetch('/api/invoices', { headers: { 'x-admin-secret': pw } });
+      const res = await fetch('/api/admin?r=orders', { headers: { 'x-admin-secret': pw } });
       if (res.ok) { sessionStorage.setItem(SECRET_KEY, pw); setAuthed(true); }
       else if (res.status === 401) setError('Falsches Passwort.');
       else if (res.status === 429) setError('Zu viele Fehlversuche. Bitte in 15 Minuten erneut versuchen.');
@@ -80,11 +80,11 @@ export default function RobertLogin() {
   const [filter, setFilter] = useState('alle');
 
   const loadOrders = useCallback(async () => {
-    const res = await adminFetch('/api/invoices');
+    const res = await adminFetch('/api/admin?r=orders');
     if (res.ok) setOrders((await res.json()).orders ?? []);
   }, []);
   const loadVouchers = useCallback(async () => {
-    const res = await adminFetch('/api/vouchers');
+    const res = await adminFetch('/api/admin?r=vouchers');
     if (res.ok) setVouchers((await res.json()).codes ?? []);
   }, []);
   const reload = useCallback(async () => {
@@ -107,7 +107,7 @@ export default function RobertLogin() {
     if (vBusy) return;
     setVError(''); setVBusy(true);
     try {
-      const res = await adminFetch('/api/vouchers', {
+      const res = await adminFetch('/api/admin?r=vouchers', {
         method: 'POST',
         body: JSON.stringify({ code: vCode, type: vType, value: Number(vValue), validUntil: vUntil || null }),
       });
@@ -118,7 +118,7 @@ export default function RobertLogin() {
     finally { setVBusy(false); }
   };
   const deleteVoucher = async (id: string) => {
-    await adminFetch(`/api/vouchers?id=${encodeURIComponent(id)}`, { method: 'DELETE' });
+    await adminFetch(`/api/admin?r=vouchers&id=${encodeURIComponent(id)}`, { method: 'DELETE' });
     await loadVouchers();
   };
 

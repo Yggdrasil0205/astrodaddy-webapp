@@ -7,7 +7,7 @@ const SELLER = {
   contact: 'Robert Wagner',
   street: 'Westliche Ringstraße 25',
   city: '91781 Weißenburg i. Bay.',
-  email: 'adastra.lights@gmail.com',
+  email: 'info@astroversity.academy',
   taxNumber: '220 297 29615',
 };
 

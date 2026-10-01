@@ -54,7 +54,7 @@ const socials = [
   { icon: TikTokIcon, href: 'https://www.tiktok.com/@astrodaddy.official', label: 'TikTok' },
   { icon: Youtube, href: 'https://www.youtube.com/@robertwagnerastrologie', label: 'YouTube' },
   { icon: Twitch, href: 'https://www.twitch.tv/astrodaddyofficial', label: 'Twitch' },
-  { icon: Mail, href: 'mailto:adastra.lights@gmail.com', label: 'E-Mail' },
+  { icon: Mail, href: 'mailto:info@astroversity.academy', label: 'E-Mail' },
 ];
 
 export default function Links() {

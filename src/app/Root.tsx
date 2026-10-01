@@ -5,15 +5,19 @@ import { AuthProvider } from './context/AuthContext';
 import { CookieProvider } from './context/CookieContext';
 import { CartProvider } from './context/CartContext';
 import { CookieBanner } from './components/CookieBanner';
+import { Footer } from './components/Footer';
 
 export default function Root() {
   return (
     <AuthProvider>
       <CartProvider>
         <CookieProvider>
-          <div className="min-h-screen">
+          <div className="min-h-screen flex flex-col">
             <Navigation />
-            <Outlet />
+            <div className="flex-1">
+              <Outlet />
+            </div>
+            <Footer />
             <CookieBanner />
           </div>
         </CookieProvider>

@@ -1,17 +1,10 @@
-# Supabase Auth – E-Mails für Kundenkonten
+# Kunden-Konten – E-Mails
 
-Bestätigungs-, Passwort-Reset- und Login-Mails werden **nicht** von Supabase selbst verschickt,
-sondern über den **Send Email Hook** an `api/auth-email.ts` übergeben und von dort über denselben
-IONOS-SMTP-Zugang wie alle Shop-Mails versendet (Texte/Design: `sendAuthEmail` in `src/lib/mailer.ts`).
+Registrierung und „Passwort vergessen" laufen über `api/account.ts`, **nicht** über Supabase's Mailer:
 
-Einrichtung (Supabase → Authentication → Hooks → **Send Email**):
-- Typ **HTTPS**, URL `https://astroversity.academy/api/auth-email`
-- „Generate secret" → den Wert (`v1,whsec_…`) in Vercel als `SEND_EMAIL_HOOK_SECRET` eintragen, dann redeployen.
+1. Supabase erzeugt nur den Einmal-Link (`auth.admin.generateLink`, verschickt nichts).
+2. Wir versenden ihn über denselben IONOS-SMTP-Zugang wie alle Shop-Mails (`sendAuthEmail` in `src/lib/mailer.ts`).
+3. Der Link führt auf `/auth/confirm` (`src/app/pages/AuthConfirm.tsx`), das ihn mit `verifyOtp` einlöst.
 
-Außerdem (Authentication):
-- **Sign In / Providers → Email → Confirm email**: aktiv.
-- **URL Configuration**: Site URL `https://astroversity.academy`,
-  Redirect URLs `https://astroversity.academy/**`.
-
-Die HTML-Dateien in diesem Ordner sind nur noch Fallback-Vorlagen, falls der Hook deaktiviert wird
-und Supabase wieder selbst per Custom SMTP versendet.
+Dadurch spielen die SMTP-Einstellungen, Site URL und Redirect-Allowlist in Supabase keine Rolle.
+Die HTML-Dateien hier sind nur Fallback-Vorlagen, falls wieder Supabase selbst versenden soll.

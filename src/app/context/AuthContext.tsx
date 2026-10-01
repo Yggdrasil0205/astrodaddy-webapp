@@ -66,13 +66,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (error) throw error;
   };
 
-  const register = async (email: string, password: string, name: string) => {
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: { data: { full_name: name }, emailRedirectTo: `${window.location.origin}/mitglieder` },
+  // Registration and password reset go through our API (api/account.ts), which
+  // e-mails the links via our own SMTP instead of Supabase's mailer.
+  const accountRequest = async (action: 'register' | 'reset', body: Record<string, string>) => {
+    const res = await fetch(`/api/account?action=${action}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
     });
-    if (error) throw error;
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.error ?? 'Ein Fehler ist aufgetreten.');
+  };
+
+  const register = async (email: string, password: string, name: string) => {
+    await accountRequest('register', { email, password, name });
   };
 
   const logout = async () => {
@@ -83,10 +90,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const resetPassword = async (email: string) => {
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/reset-password`,
-    });
-    if (error) throw error;
+    await accountRequest('reset', { email });
   };
 
   return (

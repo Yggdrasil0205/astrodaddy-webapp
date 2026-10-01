@@ -17,6 +17,7 @@ import Checkout from './pages/Checkout';
 import Links from './pages/Links';
 import RobertLogin from './pages/RobertLogin';
 import ResetPassword from './pages/ResetPassword';
+import AuthConfirm from './pages/AuthConfirm';
 import CheckoutSuccess from './pages/CheckoutSuccess';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import Root from './Root';
@@ -35,6 +36,7 @@ export const router = createBrowserRouter([
       { path: 'login', Component: Login },
       { path: 'forgot-password', Component: ForgotPassword },
       { path: 'reset-password', Component: ResetPassword },
+      { path: 'auth/confirm', Component: AuthConfirm },
       { path: 'checkout', Component: Checkout },
       { path: 'checkout/success', Component: CheckoutSuccess },
       { path: 'links', Component: Links },

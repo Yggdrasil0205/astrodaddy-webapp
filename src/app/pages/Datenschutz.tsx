@@ -26,7 +26,7 @@ export default function Datenschutz() {
           </Link>
 
           <GlassCard className="rounded-3xl p-8 md:p-12">
-            <h1 className="text-4xl md:text-5xl font-bold mb-8 text-[#F0E6C8]" style={serif}>
+            <h1 lang="de" className="text-3xl sm:text-4xl md:text-5xl font-bold mb-8 text-[#F0E6C8] break-words hyphens-auto" style={serif}>
               Datenschutzerklärung
             </h1>
 
@@ -179,13 +179,34 @@ export default function Datenschutz() {
 
               {/* 11 */}
               <section>
-                <h2 className={h2} style={serif}>11. Eingebettete Videos</h2>
+                <h2 className={h2} style={serif}>11. Eingebettete Inhalte, Schriftarten und Medien</h2>
                 <p>
-                  Auf unserer Website binden wir Videos über den Dienst Loom ein. Diese werden erst geladen, wenn du sie
-                  aktiv startest. Beim Abspielen können Daten an den Anbieter übertragen werden. Weitere Informationen:{' '}
-                  <a href="https://www.loom.com/privacy" target="_blank" rel="noopener noreferrer" className={a}>
-                    loom.com/privacy
-                  </a>.
+                  <strong>Videos und Social-Media-Beiträge:</strong> Auf unserer Website binden wir Inhalte von Loom
+                  (Loom, Inc.), YouTube (Google Ireland Ltd., im erweiterten Datenschutzmodus über youtube-nocookie.com),
+                  TikTok (TikTok Technology Ltd.) und Instagram (Meta Platforms Ireland Ltd.) ein. Diese Inhalte werden
+                  erst geladen, wenn du sie aktiv per Klick startest bzw. lädst oder in den Cookie-Einstellungen
+                  „Funktionale Cookies" erlaubt hast (Art. 6 Abs. 1 lit. a DSGVO). Erst dann werden Daten wie deine
+                  IP-Adresse an den jeweiligen Anbieter übertragen und ggf. Cookies gesetzt; eine Übermittlung in die USA
+                  ist dabei möglich. Weitere Informationen:{' '}
+                  <a href="https://www.loom.com/privacy" target="_blank" rel="noopener noreferrer" className={a}>loom.com/privacy</a>,{' '}
+                  <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" className={a}>policies.google.com/privacy</a>,{' '}
+                  <a href="https://www.tiktok.com/legal/privacy-policy-eea" target="_blank" rel="noopener noreferrer" className={a}>tiktok.com/legal/privacy-policy-eea</a>,{' '}
+                  <a href="https://privacycenter.instagram.com/policy" target="_blank" rel="noopener noreferrer" className={a}>privacycenter.instagram.com/policy</a>.
+                </p>
+                <p className="mt-3">
+                  <strong>Schriftarten:</strong> Die Schriften „Cormorant Garamond" und „Raleway" liegen auf unserem
+                  eigenen Server; dabei werden keine Daten an Dritte übertragen. Für die Schrift „rl-limo" nutzen wir
+                  Adobe Fonts (Adobe Systems Software Ireland Ltd.). Beim Seitenaufruf lädt dein Browser die Schrift von
+                  Servern von Adobe, wobei deine IP-Adresse an Adobe übertragen wird; eine Übermittlung in die USA ist
+                  möglich. Rechtsgrundlage ist unser berechtigtes Interesse an einer einheitlichen Darstellung
+                  (Art. 6 Abs. 1 lit. f DSGVO). Weitere Informationen:{' '}
+                  <a href="https://www.adobe.com/de/privacy/policies/adobe-fonts.html" target="_blank" rel="noopener noreferrer" className={a}>adobe.com/de/privacy/policies/adobe-fonts.html</a>.
+                </p>
+                <p className="mt-3">
+                  <strong>Bilder und Hintergrundvideo:</strong> Einige Hintergrundbilder werden von Unsplash
+                  (images.unsplash.com) und ein Hintergrundvideo von einem Server der NASA (svs.gsfc.nasa.gov)
+                  geladen. Dabei wird deine IP-Adresse an den jeweiligen Anbieter in den USA übertragen
+                  (Art. 6 Abs. 1 lit. f DSGVO, berechtigtes Interesse an der Gestaltung der Website).
                 </p>
               </section>
 

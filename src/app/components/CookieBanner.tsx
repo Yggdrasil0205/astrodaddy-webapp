@@ -38,24 +38,24 @@ export function CookieBanner() {
       key: 'functional' as const,
       icon: CheckCircle2,
       title: 'Funktionale Cookies',
-      description: 'Diese Cookies ermöglichen erweiterte Funktionalität und Personalisierung.',
-      examples: 'Community-Funktionen, Shop-Präferenzen, Newsletter-Einstellungen, Font-Optimierung',
+      description: 'Erlaubt das automatische Laden eingebetteter Inhalte von Drittanbietern. Dabei werden Daten (z. B. deine IP-Adresse) an diese übertragen.',
+      examples: 'Eingebettete Beiträge und Videos von YouTube, TikTok und Instagram',
       required: false
     },
     {
       key: 'analytics' as const,
       icon: Cookie,
       title: 'Analyse & Performance',
-      description: 'Diese Cookies helfen uns zu verstehen, wie Besucher mit der Website interagieren.',
-      examples: 'Google Analytics, Matomo, Hotjar, Seitenaufrufe, Verweildauer, Nutzerverhalten',
+      description: 'Derzeit setzen wir keine Analyse-Cookies ein. Unsere Besucherstatistik (Vercel Web Analytics) arbeitet ohne Cookies.',
+      examples: 'Derzeit keine',
       required: false
     },
     {
       key: 'marketing' as const,
       icon: Cookie,
       title: 'Marketing & Werbung',
-      description: 'Diese Cookies werden verwendet, um relevante Werbung anzuzeigen und Kampagnen zu messen.',
-      examples: 'Facebook Pixel, Google Ads, LinkedIn Insight Tag, TikTok Pixel, Remarketing, E-Mail-Marketing-Tools',
+      description: 'Derzeit setzen wir keine Marketing- oder Werbe-Cookies ein.',
+      examples: 'Derzeit keine',
       required: false
     }
   ];

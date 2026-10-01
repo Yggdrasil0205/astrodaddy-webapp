@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router';
+import { ConsentEmbed } from '../components/ConsentEmbed';
 import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
 import { useCart } from '../context/CartContext';
 import { GlassCard } from '../components/GlassCard';
@@ -56,27 +57,6 @@ function CounterBadge({ target, duration }: { target: number; label: string; dur
       </div>
     </div>
   );
-}
-
-// ── Mount heavy iframes only once scrolled near the viewport ──────────
-// Embed players (Loom/TikTok/YouTube/Instagram) are huge and, loaded eagerly,
-// they block first paint for several seconds on mobile. Rendering them only
-// when in view keeps them off the initial load entirely.
-function InViewMount({ children, className, style }: {
-  children: React.ReactNode; className?: string; style?: React.CSSProperties;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [show, setShow] = useState(false);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const io = new IntersectionObserver(([e]) => {
-      if (e.isIntersecting) { setShow(true); io.disconnect(); }
-    }, { rootMargin: '400px' });
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
-  return <div ref={ref} className={className} style={style}>{show ? children : null}</div>;
 }
 
 // ── Hero video: click-to-play facade ──────────────────────────────────
@@ -787,7 +767,7 @@ export default function Home() {
                 </a>
                 {/* TikTok embed */}
                 <div className="flex-1 mx-4 mb-4 rounded-xl overflow-hidden">
-                  <InViewMount className="w-full rounded-xl overflow-hidden" style={{ minHeight: '560px' }}>
+                  <ConsentEmbed provider="TikTok" className="w-full rounded-xl overflow-hidden" style={{ minHeight: '560px' }}>
                     <iframe
                       src={`https://www.tiktok.com/embed/v2/${FEATURED_POSTS.tiktok}`}
                       title="Meistgesehenes TikTok Video"
@@ -797,7 +777,7 @@ export default function Home() {
                       className="w-full rounded-xl"
                       style={{ minHeight: '560px', border: 'none' }}
                     />
-                  </InViewMount>
+                  </ConsentEmbed>
                 </div>
               </div>
             </motion.div>
@@ -817,16 +797,16 @@ export default function Home() {
                   <CounterBadge target={2500} label="Abonnenten" duration={1800} />
                 </a>
                 <div className="flex-1 mx-4 mb-4 rounded-xl overflow-hidden">
-                  <InViewMount className="w-full aspect-video rounded-xl overflow-hidden">
+                  <ConsentEmbed provider="YouTube" className="w-full aspect-video rounded-xl overflow-hidden">
                     <iframe
-                      src={`https://www.youtube.com/embed/${FEATURED_POSTS.youtube}?rel=0&modestbranding=1`}
+                      src={`https://www.youtube-nocookie.com/embed/${FEATURED_POSTS.youtube}?rel=0&modestbranding=1`}
                       title="Aktuelles YouTube Video"
                       loading="lazy"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                       allowFullScreen
                       className="w-full h-full rounded-xl"
                     />
-                  </InViewMount>
+                  </ConsentEmbed>
                 </div>
               </div>
             </motion.div>
@@ -847,7 +827,7 @@ export default function Home() {
                 </a>
                 {/* Instagram embed */}
                 <div className="flex-1 mx-4 mb-4 rounded-xl overflow-hidden">
-                  <InViewMount className="w-full rounded-xl overflow-hidden" style={{ minHeight: '560px' }}>
+                  <ConsentEmbed provider="Instagram" className="w-full rounded-xl overflow-hidden" style={{ minHeight: '560px' }}>
                     <iframe
                       src={`https://www.instagram.com/reel/${FEATURED_POSTS.instagram}/embed/`}
                       title="Meistgesehenes Instagram Reel"
@@ -857,7 +837,7 @@ export default function Home() {
                       className="w-full rounded-xl"
                       style={{ minHeight: '560px', border: 'none' }}
                     />
-                  </InViewMount>
+                  </ConsentEmbed>
                 </div>
               </div>
             </motion.div>

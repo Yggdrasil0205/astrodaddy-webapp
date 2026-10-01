@@ -25,7 +25,7 @@ export default function Impressum() {
           </Link>
 
           <GlassCard className="rounded-3xl p-8 md:p-12">
-            <h1 className="text-4xl md:text-5xl font-bold mb-8 text-[#F0E6C8]" style={serif}>
+            <h1 lang="de" className="text-3xl sm:text-4xl md:text-5xl font-bold mb-8 text-[#F0E6C8] break-words hyphens-auto" style={serif}>
               Impressum
             </h1>
 
@@ -60,18 +60,6 @@ export default function Impressum() {
                   Umsatzsteuer-Identifikationsnummer gemäß § 27 a Umsatzsteuergesetz:<br />
                   ausstehend<br />
                   Steuernummer: 220 297 29615
-                </p>
-              </section>
-
-              {/* EU-Streitschlichtung */}
-              <section>
-                <h2 className={h2} style={serif}>EU-Streitschlichtung</h2>
-                <p>
-                  Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit:
-                  <a href="https://ec.europa.eu/consumers/odr/" target="_blank" rel="noopener noreferrer" className="text-[#C9A84C] hover:underline ml-1">
-                    https://ec.europa.eu/consumers/odr/
-                  </a>.<br />
-                  Unsere E-Mail-Adresse finden Sie oben im Impressum.
                 </p>
               </section>
 

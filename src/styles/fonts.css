@@ -1,1 +1,6 @@
-@import url('https://use.typekit.net/txv6ofc.css');
+/* Webfonts.
+   - Cormorant Garamond + Raleway are self-hosted (imported in src/main.tsx via
+     @fontsource) – loading them from Google's servers transfers visitor IPs to
+     Google without consent (LG München, 20.01.2022, 3 O 17493/20).
+   - rl-limo (Adobe Fonts) cannot be self-hosted under its licence; it is loaded
+     non-blocking from use.typekit.net in index.html. */

@@ -25,7 +25,12 @@ export default function ForgotPassword() {
       await resetPassword(email);
       setIsSubmitted(true);
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Ein Fehler ist aufgetreten.');
+      const msg = err instanceof Error ? err.message : '';
+      setError(/sending .*email/i.test(msg)
+        ? 'Die E-Mail konnte gerade nicht versendet werden. Bitte versuche es später erneut oder schreib uns an info@astroversity.academy.'
+        : /rate limit/i.test(msg)
+          ? 'Zu viele Anfragen. Bitte warte einen Moment und versuche es erneut.'
+          : msg || 'Ein Fehler ist aufgetreten.');
     } finally {
       setIsLoading(false);
     }

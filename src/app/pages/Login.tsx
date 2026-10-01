@@ -38,6 +38,9 @@ export default function Login() {
       if (msg.includes('Invalid login credentials')) setError('E-Mail oder Passwort ist falsch.');
       else if (msg.includes('User already registered')) setError('Diese E-Mail ist bereits registriert.');
       else if (msg.includes('Password should be at least')) setError('Passwort muss mind. 6 Zeichen haben.');
+      else if (msg.includes('Email not confirmed')) setError('Bitte bestätige zuerst deine E-Mail-Adresse (Link in der Bestätigungs-Mail).');
+      else if (/sending .*email/i.test(msg)) setError('Die Bestätigungs-Mail konnte gerade nicht versendet werden. Bitte versuche es später erneut oder schreib uns an info@astroversity.academy.');
+      else if (/rate limit/i.test(msg)) setError('Zu viele Versuche. Bitte warte einen Moment und versuche es erneut.');
       else setError(msg);
     } finally { setIsLoading(false); }
   };

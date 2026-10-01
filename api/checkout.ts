@@ -1,5 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { cartBaseTotal, cartProductName, applyVoucher, type CartLine } from '../src/lib/vouchers.js';
+import { parseBillingAddress, fullName } from '../src/lib/billing.js';
 
 const APP_URL = process.env.APP_URL ?? 'https://astroversity.academy';
 const MOLLIE_KEY = process.env.Mollie_API_Test ?? process.env.MOLLIE_API_KEY ?? '';
@@ -38,16 +39,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const {
       items,
       customerEmail,
-      customerName,
       customerPhone,
+      billingAddress: rawAddress,
       discountCode,
       birthDataItems,
       skoolMembership,
     } = req.body as {
       items: CartLine[];
       customerEmail: string;
-      customerName: string;
       customerPhone?: string;
+      billingAddress?: unknown;
       discountCode?: string;
       birthDataItems?: BirthDataEntry[];
       skoolMembership?: boolean;
@@ -62,6 +63,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (!Array.isArray(items) || items.length === 0) {
       return res.status(400).json({ error: 'Dein Warenkorb ist leer.' });
     }
+    const billingAddress = parseBillingAddress(rawAddress);
+    if (!billingAddress) {
+      return res.status(400).json({ error: 'Bitte gib deinen vollständigen Namen und deine Rechnungsadresse an.' });
+    }
+    const customerName = fullName(billingAddress);
 
     // ── Prices are computed server-side from the trusted catalog + DB ──────────
     const baseAmount = cartBaseTotal(items);
@@ -79,6 +85,40 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       ? `${APP_URL}/checkout/success?type=skool`
       : `${APP_URL}/checkout/success`;
 
+    // ── Save the order first ─────────────────────────────────────────────────
+    // Birth data and billing address live in the orders table, not in Mollie's
+    // metadata (limited to ~1 KB – large carts with partner analyses would
+    // make the payment fail). Mollie only gets the order id.
+    let supabase: any = null;
+    let orderId: string | null = null;
+    let detailsStored = false; // billing address + birth data saved in the DB?
+    if (process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
+      const { createClient } = await import('@supabase/supabase-js');
+      supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
+      const base = {
+        product_id: String(items?.[0]?.id ?? ''),
+        product_name: productName,
+        amount: finalAmount,
+        original_amount: baseAmount,
+        discount_code: voucher.code ?? null,
+        customer_email: customerEmail,
+        customer_name: customerName,
+        customer_phone: customerPhone ?? '',
+        status: 'offen',
+      };
+      const details = { billing_address: billingAddress, birth_data: birthDataItems ?? null, skool_membership: !!skoolMembership };
+      let { data: row, error: insertErr } = await supabase.from('orders').insert({ ...base, ...details }).select('id').single();
+      if (insertErr) {
+        // Columns from migration 006 missing? Store the order without them.
+        console.error('Supabase insert error:', insertErr);
+        ({ data: row, error: insertErr } = await supabase.from('orders').insert(base).select('id').single());
+        if (insertErr) console.error('Supabase insert error (fallback):', insertErr);
+      } else {
+        detailsStored = true;
+      }
+      if (!insertErr) orderId = row.id;
+    }
+
     // ── Create Mollie payment ────────────────────────────────────────────────
     const mollieRes = await fetch('https://api.mollie.com/v2/payments', {
       method: 'POST',
@@ -88,19 +128,22 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       },
       body: JSON.stringify({
         amount: { currency: 'EUR', value: finalAmount.toFixed(2) },
-        description: productName,
+        description: productName.slice(0, 255),
         redirectUrl,
         webhookUrl: `${APP_URL}/api/webhooks/mollie`,
         metadata: {
-          productName,
-          originalAmount: baseAmount,
-          finalAmount,
+          orderId,
+          productName: productName.slice(0, 200),
           discountCode: voucher.code ?? null,
           customerEmail,
           customerName,
           customerPhone: customerPhone ?? '',
           skoolMembership: skoolMembership ? 'true' : 'false',
-          birthData: birthDataItems ? JSON.stringify(birthDataItems) : null,
+          // Fallback only if the details could not be stored in the DB.
+          ...(detailsStored ? {} : {
+            billingAddress: JSON.stringify(billingAddress),
+            birthData: birthDataItems ? JSON.stringify(birthDataItems) : null,
+          }),
         },
       }),
     });
@@ -109,30 +152,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     if (!mollieRes.ok) {
       console.error('Mollie error:', payment);
-      return res.status(500).json({ error: payment?.detail ?? 'Zahlung konnte nicht erstellt werden.' });
+      if (supabase && orderId) await supabase.from('orders').update({ status: 'fehlgeschlagen' }).eq('id', orderId);
+      return res.status(500).json({ error: 'Die Zahlung konnte nicht gestartet werden. Bitte versuche es erneut.' });
     }
 
-    // ── Save to Supabase (optional) ──────────────────────────────────────────
-    if (process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
-      try {
-        const { createClient } = await import('@supabase/supabase-js');
-        const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
-        const { error: insertErr } = await supabase.from('orders').insert({
-          mollie_payment_id: payment.id,
-          product_id: String(items?.[0]?.id ?? ''),
-          product_name: productName,
-          amount: finalAmount,
-          original_amount: baseAmount,
-          discount_code: voucher.code ?? null,
-          customer_email: customerEmail,
-          customer_name: customerName,
-          customer_phone: customerPhone ?? '',
-          status: 'offen',
-        });
-        if (insertErr) console.error('Supabase insert error:', insertErr);
-      } catch (dbErr) {
-        console.error('Supabase insert error:', dbErr);
-      }
+    if (supabase && orderId) {
+      const { error: updErr } = await supabase.from('orders').update({ mollie_payment_id: payment.id }).eq('id', orderId);
+      if (updErr) console.error('Supabase update error:', updErr);
     }
 
     // Voucher usage is counted in the Mollie webhook once the payment is PAID.

@@ -65,7 +65,7 @@ export default function Datenschutz() {
                   <li>Vor- und Nachname</li>
                   <li>Geburtsdatum, Geburtsort und Geburtszeit (für astrologische Analysen und Beratungen)</li>
                   <li>Kontaktdaten (E-Mail-Adresse, Telefonnummer)</li>
-                  <li>Rechnungsdaten (für Bestellungen und Buchungen)</li>
+                  <li>Rechnungsdaten (Name und Rechnungsanschrift, für Bestellungen und Buchungen)</li>
                   <li>Zahlungsdaten (werden ausschließlich durch unseren Zahlungsdienstleister verarbeitet, siehe Punkt 7)</li>
                   <li>Zugangsdaten deines Kundenkontos (E-Mail-Adresse und verschlüsseltes Passwort)</li>
                   <li>Technische Zugriffsdaten (z. B. IP-Adresse, Browsertyp, Zeitpunkt des Zugriffs)</li>

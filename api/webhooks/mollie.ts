@@ -2,6 +2,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { createLexofficeInvoice, sendLexofficeInvoiceByEmail, getLexofficeInvoicePdf } from '../../src/lib/lexoffice.js';
 import { sendInvoiceConfirmationEmail, sendOrderConfirmationToCustomer, sendCallJackpotNotification } from '../../src/lib/mailer.js';
 import { redeemVoucher, type RedeemResult } from '../../src/lib/vouchers.js';
+import type { BillingAddress } from '../../src/lib/billing.js';
 
 const MOLLIE_KEY = process.env.Mollie_API_Test ?? process.env.MOLLIE_API_KEY ?? '';
 
@@ -58,13 +59,26 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       } else if (rows && rows.length > 0) {
         order = rows[0];
       } else {
-        // Nothing changed: already in this status (re-delivery) or no order row.
-        const { data: existing } = await supabase
+        // Nothing changed: already in this status (re-delivery), or the payment
+        // id was never written to the order (then find it via metadata.orderId).
+        let { data: existing } = await supabase
           .from('orders')
           .select('*')
           .eq('mollie_payment_id', paymentId)
           .maybeSingle();
-        order = existing;
+        if (!existing && typeof meta.orderId === 'string' && meta.orderId) {
+          const { data: byId } = await supabase
+            .from('orders')
+            .update({ mollie_payment_id: paymentId, status: ourStatus, mollie_status: status, paid_at: status === 'paid' ? new Date().toISOString() : null })
+            .eq('id', meta.orderId)
+            .is('mollie_payment_id', null)
+            .select();
+          if (byId && byId.length > 0) { order = byId[0]; existing = null; }
+          else {
+            ({ data: existing } = await supabase.from('orders').select('*').eq('id', meta.orderId).maybeSingle());
+          }
+        }
+        if (existing) order = existing;
         if (existing && status === 'paid') {
           firstPaid = false;
           console.log(`Payment ${paymentId} already processed as paid – skipping invoice/e-mails.`);
@@ -93,10 +107,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       if (redeem === 'exhausted') console.warn(`Voucher ${discountCode} already used by another payment (${paymentId}).`);
     }
 
-    // Parse birth data from Mollie metadata (stored as JSON string)
-    let birthDataItems: any[] | undefined;
+    // Birth data + billing address come from the order row; Mollie metadata
+    // only carries them as a fallback (JSON strings) when the DB insert failed.
+    let birthDataItems: any[] | undefined = Array.isArray(order?.birth_data) ? order.birth_data : undefined;
+    let billingAddress: BillingAddress | null = order?.billing_address ?? null;
     try {
-      if (meta.birthData) birthDataItems = JSON.parse(meta.birthData);
+      if (!birthDataItems && meta.birthData) birthDataItems = JSON.parse(meta.birthData);
+      if (!billingAddress && meta.billingAddress) billingAddress = JSON.parse(meta.billingAddress);
     } catch { /* ignore parse errors */ }
 
     // ── Skool membership: invite the customer to the group ────────────────────
@@ -116,7 +133,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (process.env.API_Lexware) {
       try {
         const { invoiceId, invoiceNumber: invNum } = await createLexofficeInvoice({
-          customerName, customerEmail, productName, amount, orderId: order?.id ?? paymentId,
+          customerName, customerEmail, productName, amount, orderId: order?.id ?? paymentId, billingAddress,
         });
         invoiceNumber = invNum;
 

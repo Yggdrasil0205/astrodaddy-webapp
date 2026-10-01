@@ -8,6 +8,8 @@
 //   - Rechnung per E-Mail an Kunden senden
 //   - Archivierung + DATEV-Export für Steuerberater
 
+import type { BillingAddress } from './billing.js';
+
 const BASE_URL = 'https://api.lexoffice.io/v1';
 
 function headers() {
@@ -25,6 +27,7 @@ export interface InvoiceInput {
   productName: string;
   amount: number;     // Bruttobetrag in EUR
   orderId: string;    // our internal order ID (used as reference)
+  billingAddress?: BillingAddress | null;
 }
 
 export interface InvoiceResult {
@@ -33,21 +36,22 @@ export interface InvoiceResult {
 }
 
 // ── Create invoice in Lexoffice ───────────────────────────────────────────────
-// Creates a finalized invoice. Kleinunternehmer: no VAT displayed.
+// Creates a finalized invoice. Shop prices are gross incl. 19 % VAT (see lineItems).
 export async function createLexofficeInvoice(input: InvoiceInput, finalize = true): Promise<InvoiceResult> {
-  const { customerName, customerEmail, productName, amount, orderId } = input;
+  const { customerName, customerEmail, productName, amount, orderId, billingAddress: addr } = input;
 
-  // Split name into first/last (best-effort)
+  // Name from the billing address; older orders only have a single name field.
   const nameParts = customerName.trim().split(' ');
-  const firstName = nameParts.slice(0, -1).join(' ') || customerName;
-  const lastName = nameParts.at(-1) ?? '';
+  const firstName = addr?.firstName ?? (nameParts.slice(0, -1).join(' ') || customerName);
+  const lastName = addr?.lastName ?? (nameParts.at(-1) ?? '');
 
   const body = {
     archived: false,
     voucherDate: new Date().toISOString(),
     address: {
       name: customerName,
-      countryCode: 'DE',
+      ...(addr ? { street: addr.street, zip: addr.zip, city: addr.city } : {}),
+      countryCode: addr?.countryCode ?? 'DE',
       contactPerson: { firstName, lastName, emailAddress: customerEmail },
     },
     lineItems: [

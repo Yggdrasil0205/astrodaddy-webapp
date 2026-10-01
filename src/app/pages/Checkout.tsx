@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { SKOOL_MEMBERSHIP_ID } from '../data/products';
 import { CosmicWheel } from '../components/CosmicWheel';
+import { COUNTRIES, emptyBillingAddress, parseBillingAddress, type BillingAddress } from '../../lib/billing';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -137,6 +138,12 @@ export default function Checkout() {
   // Contact
   const [email, setEmail] = useState('');
   const emailValid = email.includes('@') && email.includes('.');
+
+  // Billing address – required for every order so each invoice is complete.
+  const [address, setAddress] = useState<BillingAddress>(emptyBillingAddress);
+  const setAddr = (field: keyof BillingAddress) =>
+    (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => setAddress(a => ({ ...a, [field]: e.target.value }));
+  const addressValid = parseBillingAddress(address) !== null;
   const [phone, setPhone] = useState('');
   const phoneValid = phone.replace(/\D/g, '').length >= 6;
 
@@ -186,7 +193,7 @@ export default function Checkout() {
   const [redirecting, setRedirecting] = useState(false);
   const [payError, setPayError]       = useState('');
 
-  const canPay = birthComplete && emailValid && phoneValid;
+  const canPay = birthComplete && emailValid && phoneValid && addressValid;
 
   const handlePay = async () => {
     if (!canPay || redirecting) return;
@@ -210,8 +217,8 @@ export default function Checkout() {
           items: items.map(i => ({ id: i.id, quantity: i.quantity })),
           discountCode: appliedDiscount?.code ?? null,
           customerEmail: email,
-          customerName: email,
           customerPhone: phone,
+          billingAddress: address,
           birthDataItems,
           skoolMembership: hasMembership,
         }),
@@ -374,6 +381,50 @@ export default function Checkout() {
             </GlassCard>
           </motion.div>
 
+          {/* Billing address */}
+          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.08 }}>
+            <GlassCard className="rounded-xl p-6 border-white/8">
+              <h2 className="text-[#F0E6C8] font-semibold text-base mb-1 flex items-center gap-2">
+                <MapPin className="w-4 h-4 text-[#C9A84C]" /> Rechnungsadresse
+              </h2>
+              <p className="text-[#F0E6C8]/30 text-xs mb-5">Erscheint auf deiner Rechnung.</p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {([
+                  { key: 'firstName', label: 'Vorname', auto: 'given-name', span: '' },
+                  { key: 'lastName', label: 'Nachname', auto: 'family-name', span: '' },
+                  { key: 'street', label: 'Straße und Hausnummer', auto: 'street-address', span: 'sm:col-span-2' },
+                  { key: 'zip', label: 'PLZ', auto: 'postal-code', span: '' },
+                  { key: 'city', label: 'Ort', auto: 'address-level2', span: '' },
+                ] as const).map(f => (
+                  <div key={f.key} className={f.span}>
+                    <label className="block text-[#F0E6C8]/60 text-xs mb-1.5 tracking-wide">
+                      {f.label} <span className="text-[#C9A84C]">*</span>
+                    </label>
+                    <input
+                      type="text" value={address[f.key]} onChange={setAddr(f.key)} autoComplete={f.auto}
+                      inputMode={f.key === 'zip' ? 'numeric' : undefined}
+                      className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-[#F0E6C8] text-sm placeholder-[#F0E6C8]/25 focus:outline-none focus:border-[#C9A84C]/50 focus:bg-white/8 transition-all"
+                    />
+                  </div>
+                ))}
+                <div className="sm:col-span-2">
+                  <label className="block text-[#F0E6C8]/60 text-xs mb-1.5 tracking-wide">
+                    Land <span className="text-[#C9A84C]">*</span>
+                  </label>
+                  <select
+                    value={address.countryCode} onChange={setAddr('countryCode')} autoComplete="country"
+                    className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-[#F0E6C8] text-sm focus:outline-none focus:border-[#C9A84C]/50 [color-scheme:dark]"
+                  >
+                    {COUNTRIES.map(c => <option key={c.code} value={c.code}>{c.name}</option>)}
+                  </select>
+                </div>
+              </div>
+              {address.countryCode === 'DE' && address.zip && !/^\d{5}$/.test(address.zip.trim()) && (
+                <p className="text-red-400/80 text-xs mt-2">Bitte gib eine gültige Postleitzahl (5 Ziffern) ein.</p>
+              )}
+            </GlassCard>
+          </motion.div>
+
           {/* Total + discount */}
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
             <GlassCard className="rounded-xl p-5 border-white/8">
@@ -465,6 +516,7 @@ export default function Checkout() {
                   !birthComplete && 'Geburtsdaten ausfüllen',
                   !emailValid && 'E-Mail-Adresse eingeben',
                   !phoneValid && 'Handynummer eingeben',
+                  !addressValid && 'Name & Rechnungsadresse ausfüllen',
                 ].filter(Boolean).join(' · ')}
               </p>
             )}

@@ -37,26 +37,46 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const ourStatus = statusMap[status] ?? 'offen';
 
   // ── Update order in Supabase (optional) ───────────────────────────────────
+  // Mollie calls this webhook again for the same payment (refunds, chargebacks,
+  // retries) while the status stays "paid". Only the call that actually moves
+  // the order to its new status may run the paid branch below — otherwise
+  // invoice + e-mails would go out twice.
   let order: any = null;
+  let firstPaid = status === 'paid'; // fail open if the DB is unavailable
   if (process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
     try {
       const { createClient } = await import('@supabase/supabase-js');
       const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
-      const { data, error } = await supabase
+      const { data: rows, error } = await supabase
         .from('orders')
         .update({ status: ourStatus, mollie_status: status, paid_at: status === 'paid' ? new Date().toISOString() : null })
         .eq('mollie_payment_id', paymentId)
-        .select()
-        .single();
-      if (error) console.error('Supabase update error:', error);
-      else order = data;
+        .neq('status', ourStatus)
+        .select();
+      if (error) {
+        console.error('Supabase update error:', error);
+      } else if (rows && rows.length > 0) {
+        order = rows[0];
+      } else {
+        // Nothing changed: already in this status (re-delivery) or no order row.
+        const { data: existing } = await supabase
+          .from('orders')
+          .select('*')
+          .eq('mollie_payment_id', paymentId)
+          .maybeSingle();
+        order = existing;
+        if (existing && status === 'paid') {
+          firstPaid = false;
+          console.log(`Payment ${paymentId} already processed as paid – skipping invoice/e-mails.`);
+        }
+      }
     } catch (dbErr) {
       console.error('Supabase error:', dbErr);
     }
   }
 
-  // ── On successful payment: create invoice + send emails ───────────────────
-  if (status === 'paid') {
+  // ── On successful payment: create invoice + send emails (once) ────────────
+  if (firstPaid) {
     const customerName  = meta.customerName  ?? order?.customer_name  ?? '';
     const customerEmail = meta.customerEmail ?? order?.customer_email ?? '';
     const customerPhone = meta.customerPhone ?? order?.customer_phone ?? '';

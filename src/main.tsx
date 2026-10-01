@@ -13,6 +13,12 @@ import '@fontsource/raleway/latin-500.css';
 import '@fontsource/raleway/latin-600.css';
 import './styles/index.css';
 
+// Adobe Fonts (rl-limo) – loaded without blocking the first paint.
+const typekit = document.createElement('link');
+typekit.rel = 'stylesheet';
+typekit.href = 'https://use.typekit.net/txv6ofc.css';
+document.head.appendChild(typekit);
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <App />

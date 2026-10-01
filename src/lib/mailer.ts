@@ -79,6 +79,21 @@ export interface OrderEmailInput {
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
+// Customer-supplied values (name, phone, birth data, …) are HTML-escaped before
+// they go into a mail template – otherwise a "customer" could inject links or
+// markup into the order mails Robert receives (phishing from his own shop).
+export function escapeHtml(v: string): string {
+  return v.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]!));
+}
+function escapeDeep<T>(v: T): T {
+  if (typeof v === 'string') return escapeHtml(v) as T;
+  if (Array.isArray(v)) return v.map(escapeDeep) as T;
+  if (v && typeof v === 'object' && !Buffer.isBuffer(v) && !(v instanceof Uint8Array)) {
+    return Object.fromEntries(Object.entries(v).map(([k, x]) => [k, escapeDeep(x)])) as T;
+  }
+  return v;
+}
+
 function formatDate(iso: string): string {
   if (!iso) return '–';
   try {
@@ -198,14 +213,15 @@ function orderTableLight(input: OrderEmailInput): string {
 }
 
 // ── 1. Notify Robert about a new paid order ───────────────────────────────────
-export async function sendInvoiceConfirmationEmail(input: OrderEmailInput) {
+export async function sendInvoiceConfirmationEmail(rawInput: OrderEmailInput) {
+  const input = escapeDeep(rawInput);
   const { customerName, customerEmail, productName, amount, invoiceNumber } = input;
 
   const transport = createTransport();
   await transport.sendMail({
     from: FROM_DEFAULT,
     to: `${CONTACT_EMAIL}, ${ROBERT_EMAIL}`,
-    subject: `Neue Bestellung: ${productName}`,
+    subject: `Neue Bestellung: ${rawInput.productName}`,
     attachments: [LOGO_ATTACHMENT],
     html: `
       <div style="font-family:Arial,sans-serif;max-width:640px;margin:0 auto;color:#1a1a2e;">
@@ -236,7 +252,7 @@ export async function sendInvoiceConfirmationEmail(input: OrderEmailInput) {
 }
 
 // ── Cosmic-wheel jackpot: notify Robert that a 20-min call was won ────────────
-export async function sendCallJackpotNotification(input: {
+export async function sendCallJackpotNotification(rawInput: {
   customerName: string;
   customerEmail: string;
   customerPhone?: string;
@@ -244,12 +260,13 @@ export async function sendCallJackpotNotification(input: {
   code: string;
   orderDate?: string;
 }) {
+  const input = escapeDeep(rawInput);
   const { customerName, customerEmail, customerPhone, productName, code, orderDate } = input;
   const transport = createTransport();
   await transport.sendMail({
     from: FROM_DEFAULT,
     to: `${CONTACT_EMAIL}, ${ROBERT_EMAIL}`,
-    subject: `🌙 Kosmisches Rad – 20-Min-Call gewonnen (${customerName || customerEmail})`,
+    subject: `🌙 Kosmisches Rad – 20-Min-Call gewonnen (${rawInput.customerName || rawInput.customerEmail})`,
     attachments: [LOGO_ATTACHMENT],
     html: `
       <div style="font-family:Arial,sans-serif;max-width:640px;margin:0 auto;color:#1a1a2e;">
@@ -277,15 +294,17 @@ export async function sendCallJackpotNotification(input: {
 }
 
 // ── 2. Send order confirmation to customer (with PDF invoice attached) ────────
-export async function sendOrderConfirmationToCustomer(input: OrderEmailInput) {
-  const { customerEmail, productName, amount, invoiceNumber, birthDataItems, orderDate, invoicePdfBuffer } = input;
+export async function sendOrderConfirmationToCustomer(rawInput: OrderEmailInput) {
+  const input = escapeDeep(rawInput);
+  const { productName, amount, invoiceNumber, birthDataItems, orderDate } = input;
+  const { customerEmail, invoicePdfBuffer } = rawInput;
   const dateStr = orderDate ?? new Date().toLocaleDateString('de-DE', { day: 'numeric', month: 'long', year: 'numeric' });
 
   const transport = createTransport();
   await transport.sendMail({
     from: FROM_DEFAULT,
     to: customerEmail,
-    subject: `Deine Bestellbestätigung – Nr. ${invoiceNumber}`,
+    subject: `Deine Bestellbestätigung – Nr. ${rawInput.invoiceNumber}`,
     html: `
       <div style="font-family:Arial,sans-serif;max-width:580px;margin:0 auto;background:#1B1040;border-radius:12px;overflow:hidden;color:#F0E6C8;">
 

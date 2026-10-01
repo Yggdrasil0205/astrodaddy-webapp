@@ -1,6 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { cartBaseTotal, cartProductName, applyVoucher, type CartLine } from '../src/lib/vouchers.js';
 import { parseBillingAddress, fullName } from '../src/lib/billing.js';
+import { products } from '../src/app/data/products.js';
 
 const APP_URL = process.env.APP_URL ?? 'https://astroversity.academy';
 const MOLLIE_KEY = process.env.Mollie_API_Test ?? process.env.MOLLIE_API_KEY ?? '';
@@ -27,6 +28,24 @@ async function paymentStatus(req: VercelRequest, res: VercelResponse) {
   return res.status(200).json({ status: p.status });
 }
 
+// Birth data comes from the browser: keep only entries for products in the
+// cart, take the product name from our catalogue (never from the client) and
+// trim every field – these values end up in e-mails and invoices.
+function cleanBirthData(raw: unknown, items: CartLine[]): BirthDataEntry[] {
+  const inCart = new Set(items.map(i => Number(i.id)));
+  const str = (v: unknown, max: number) => String(v ?? '').replace(/\s+/g, ' ').trim().slice(0, max);
+  const person = (p: any) => (p && typeof p === 'object')
+    ? { birthday: str(p.birthday, 10), birthtime: str(p.birthtime, 5), birthplace: str(p.birthplace, 100), birthcountry: str(p.birthcountry, 60) }
+    : undefined;
+  return (Array.isArray(raw) ? raw : []).slice(0, 20).flatMap((e: any) => {
+    const product = products.find(p => p.id === Number(e?.itemId));
+    const p1 = person(e?.person1);
+    if (!product || !inCart.has(product.id) || !p1) return [];
+    const p2 = person(e?.person2);
+    return [{ itemId: product.id, itemName: product.name, person1: p1, ...(p2 ? { person2: p2 } : {}) }];
+  });
+}
+
 const isEmail = (v: unknown): v is string =>
   typeof v === 'string' && v.length <= 254 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
 
@@ -42,7 +61,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       customerPhone,
       billingAddress: rawAddress,
       discountCode,
-      birthDataItems,
+      birthDataItems: rawBirthData,
       skoolMembership,
     } = req.body as {
       items: CartLine[];
@@ -68,6 +87,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(400).json({ error: 'Bitte gib deinen vollständigen Namen und deine Rechnungsadresse an.' });
     }
     const customerName = fullName(billingAddress);
+    const birthDataItems = cleanBirthData(rawBirthData, items);
+    const phone = String(customerPhone ?? '').replace(/[^\d+()\/ -]/g, '').trim().slice(0, 30);
 
     // ── Prices are computed server-side from the trusted catalog + DB ──────────
     const baseAmount = cartBaseTotal(items);
@@ -103,10 +124,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         discount_code: voucher.code ?? null,
         customer_email: customerEmail,
         customer_name: customerName,
-        customer_phone: customerPhone ?? '',
+        customer_phone: phone,
         status: 'offen',
       };
-      const details = { billing_address: billingAddress, birth_data: birthDataItems ?? null, skool_membership: !!skoolMembership };
+      const details = { billing_address: billingAddress, birth_data: birthDataItems.length ? birthDataItems : null, skool_membership: !!skoolMembership };
       let { data: row, error: insertErr } = await supabase.from('orders').insert({ ...base, ...details }).select('id').single();
       if (insertErr) {
         // Columns from migration 006 missing? Store the order without them.
@@ -137,12 +158,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           discountCode: voucher.code ?? null,
           customerEmail,
           customerName,
-          customerPhone: customerPhone ?? '',
+          customerPhone: phone,
           skoolMembership: skoolMembership ? 'true' : 'false',
           // Fallback only if the details could not be stored in the DB.
           ...(detailsStored ? {} : {
             billingAddress: JSON.stringify(billingAddress),
-            birthData: birthDataItems ? JSON.stringify(birthDataItems) : null,
+            birthData: birthDataItems.length ? JSON.stringify(birthDataItems) : null,
           }),
         },
       }),

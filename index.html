@@ -9,9 +9,9 @@
     <link rel="apple-touch-icon" href="/wagner-favicon.png" />
     <link rel="preconnect" href="https://use.typekit.net" />
     <link rel="preconnect" href="https://p.typekit.net" crossorigin />
-    <!-- Adobe Fonts (rl-limo) loaded non-render-blocking. Cormorant Garamond and
-         Raleway are self-hosted (see src/main.tsx). -->
-    <link rel="stylesheet" href="https://use.typekit.net/txv6ofc.css" media="print" onload="this.media='all'" />
+    <!-- Adobe Fonts (rl-limo) is added non-render-blocking from src/main.tsx (no
+         inline onload handler, so the Content-Security-Policy can forbid inline
+         scripts). Cormorant Garamond and Raleway are self-hosted. -->
     <noscript>
       <link rel="stylesheet" href="https://use.typekit.net/txv6ofc.css" />
     </noscript>

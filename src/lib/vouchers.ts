@@ -75,15 +75,23 @@ export async function applyVoucher(rawCode: string | null | undefined, base: num
   return { valid: true, code, type: data.type, value: Number(data.value), discountAmount: discount, finalAmount };
 }
 
-// Fire-and-forget usage counter (best-effort).
-export async function incrementVoucherUsage(code: string): Promise<void> {
+// Count a redemption once the payment is PAID (called from the Mollie webhook).
+// Atomic + idempotent in the DB (see redeem_voucher in 004_missing_tables.sql):
+//   'redeemed'          → counted now
+//   'already_processed' → this payment was counted before (webhook re-delivery)
+//   'exhausted'         → single-use KOSMOS- code already used by another payment
+// Returns null if the DB is unavailable or the call failed.
+export type RedeemResult = 'redeemed' | 'already_processed' | 'exhausted';
+
+export async function redeemVoucher(paymentId: string, code: string): Promise<RedeemResult | null> {
   const url = process.env.SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!url || !key) return;
-  try {
-    const supabase = createClient(url, key);
-    const { data } = await supabase.from('discount_codes').select('times_used').eq('code', code).maybeSingle();
-    const used = Number(data?.times_used ?? 0) + 1;
-    await supabase.from('discount_codes').update({ times_used: used }).eq('code', code);
-  } catch { /* ignore */ }
+  if (!url || !key) return null;
+  const supabase = createClient(url, key);
+  const { data, error } = await supabase.rpc('redeem_voucher', { p_payment_id: paymentId, p_code: code });
+  if (error) {
+    console.error('redeem_voucher error:', error);
+    return null;
+  }
+  return data as RedeemResult;
 }

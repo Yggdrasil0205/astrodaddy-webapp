@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { cartBaseTotal, cartProductName, applyVoucher, incrementVoucherUsage, type CartLine } from '../src/lib/vouchers.js';
+import { cartBaseTotal, cartProductName, applyVoucher, type CartLine } from '../src/lib/vouchers.js';
 
 const APP_URL = process.env.APP_URL ?? 'https://astroversity.academy';
 const MOLLIE_KEY = process.env.Mollie_API_Test ?? process.env.MOLLIE_API_KEY ?? '';
@@ -110,7 +110,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
     }
 
-    if (voucher.code) void incrementVoucherUsage(voucher.code);
+    // Voucher usage is counted in the Mollie webhook once the payment is PAID.
 
     return res.status(200).json({
       checkoutUrl: payment._links.checkout.href,

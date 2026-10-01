@@ -1,6 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { createLexofficeInvoice, sendLexofficeInvoiceByEmail, getLexofficeInvoicePdf } from '../../src/lib/lexoffice.js';
 import { sendInvoiceConfirmationEmail, sendOrderConfirmationToCustomer, sendCallJackpotNotification } from '../../src/lib/mailer.js';
+import { redeemVoucher, type RedeemResult } from '../../src/lib/vouchers.js';
 
 const MOLLIE_KEY = process.env.Mollie_API_Test ?? process.env.MOLLIE_API_KEY ?? '';
 
@@ -61,6 +62,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const customerPhone = meta.customerPhone ?? order?.customer_phone ?? '';
     const productName   = meta.productName   ?? order?.product_name   ?? '';
     const amount        = parseFloat(payment.amount.value);
+
+    // Count the voucher now that the payment is actually paid (abandoned
+    // payments no longer burn a code; parallel payments can't both claim a
+    // single-use KOSMOS- code).
+    const discountCode: string = meta.discountCode ?? order?.discount_code ?? '';
+    let redeem: RedeemResult | null = null;
+    if (discountCode) {
+      redeem = await redeemVoucher(paymentId, discountCode);
+      if (redeem === 'exhausted') console.warn(`Voucher ${discountCode} already used by another payment (${paymentId}).`);
+    }
 
     // Parse birth data from Mollie metadata (stored as JSON string)
     let birthDataItems: any[] | undefined;
@@ -134,8 +145,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
 
       // Cosmic-wheel jackpot: the customer won a 20-min call with Robert.
-      const discountCode: string = meta.discountCode ?? order?.discount_code ?? '';
-      if (discountCode.startsWith('KOSMOS-CALL-')) {
+      // Only on the first successful redemption (not on webhook re-deliveries).
+      // If the DB check failed (null), notify anyway — better a duplicate than a lost call.
+      if (discountCode.startsWith('KOSMOS-CALL-') && (redeem === 'redeemed' || redeem === null)) {
         try {
           await sendCallJackpotNotification({
             customerName, customerEmail, customerPhone, productName,

@@ -344,6 +344,35 @@ export async function sendOrderConfirmationToCustomer(input: OrderEmailInput) {
   });
 }
 
+// ── System watchdog alert (to the operators, not customers) ───────────────────
+export async function sendSystemAlert(subject: string, failedChecks: string[]) {
+  const transport = createTransport();
+  const when = new Date().toLocaleString('de-DE', { dateStyle: 'medium', timeStyle: 'short' });
+  const labels: Record<string, string> = {
+    database: 'Datenbank (Supabase) nicht erreichbar',
+    env_supabase: 'Supabase-Konfiguration fehlt',
+    env_mollie: 'Zahlungs-Konfiguration (Mollie) fehlt',
+    env_smtp: 'E-Mail-Konfiguration (SMTP) fehlt',
+  };
+  const items = failedChecks.map(c => `<li>${labels[c] ?? c}</li>`).join('');
+  await transport.sendMail({
+    from: FROM_DEFAULT,
+    to: `${CONTACT_EMAIL}, ${ROBERT_EMAIL}`,
+    subject,
+    html: `
+      <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1a1a2e;">
+        <div style="background:#1B1040;padding:20px 28px;border-radius:8px 8px 0 0;">
+          <h1 style="color:#F0E6C8;font-size:18px;font-weight:400;margin:0;">⚠️ System-Warnung · astroversity.academy</h1>
+        </div>
+        <div style="background:#f9f7ff;padding:20px 28px;border-radius:0 0 8px 8px;border:1px solid #e5e0f5;border-top:none;">
+          <p style="margin:0 0 12px;font-size:14px;">Der automatische Wächter hat am <strong>${when}</strong> ein Problem festgestellt:</p>
+          <ul style="margin:0 0 16px;padding-left:20px;color:#b00020;font-size:14px;">${items}</ul>
+          <p style="margin:0;font-size:13px;color:#555;">Live-Status: <a href="https://astroversity.academy/api/health" style="color:#7B5FD4;">astroversity.academy/api/health</a></p>
+        </div>
+      </div>`,
+  });
+}
+
 // ── 3. Newsletter welcome email ───────────────────────────────────────────────
 export async function sendNewsletterWelcome(email: string) {
   const transport = createTransport();

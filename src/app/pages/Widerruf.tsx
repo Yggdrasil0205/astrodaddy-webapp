@@ -25,7 +25,7 @@ export default function Widerruf() {
           </Link>
 
           <GlassCard className="rounded-3xl p-8 md:p-12">
-            <h1 className="text-4xl md:text-5xl font-bold mb-8 text-[#F0E6C8]" style={serif}>
+            <h1 lang="de" className="text-3xl sm:text-4xl md:text-5xl font-bold mb-8 text-[#F0E6C8] break-words hyphens-auto" style={serif}>
               Widerrufsbelehrung
             </h1>
 
@@ -116,7 +116,7 @@ export default function Widerruf() {
                     Hiermit widerrufe(n) ich/wir (*) den von mir/uns (*) abgeschlossenen Vertrag über den Kauf der
                     folgenden Waren (*)/die Erbringung der folgenden Dienstleistung (*):
                   </p>
-                  <p>_______________________________________________</p>
+                  <p className="break-all">_______________________________________________</p>
                   <p>Bestellt am (*)/erhalten am (*): _____________________</p>
                   <p>Name des/der Verbraucher(s): _____________________</p>
                   <p>Anschrift des/der Verbraucher(s): _____________________</p>

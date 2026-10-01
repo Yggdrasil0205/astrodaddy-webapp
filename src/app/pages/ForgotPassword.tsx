@@ -59,7 +59,7 @@ export default function ForgotPassword() {
         <GlassCard className="rounded-3xl p-8 md:p-10">
           <div className="text-center mb-8">
             <Link to="/login">
-              <img src="/logo.png" alt="Robert Wagner Astrologie" className="h-20 w-auto mx-auto mb-4" />
+              <img src="/robert-wagner-logo.png" alt="Robert Wagner Astrologie" className="h-20 w-auto mx-auto mb-4" />
             </Link>
             <div className="inline-flex items-center px-3 py-1 rounded-full bg-gradient-to-r from-[#7B5FD4]/20 to-[#3D2A8A]/20 backdrop-blur-sm mb-3">
               <Sparkles className="w-4 h-4 mr-2 text-[#7B5FD4]" />
@@ -164,8 +164,8 @@ export default function ForgotPassword() {
               <Sparkles className="w-5 h-5 text-[#F9C4B5] flex-shrink-0 mt-0.5" />
               <p>
                 Brauchst du Hilfe? Schreib uns:{' '}
-                <a href="mailto:hallo@happyager.com" className="text-[#1B1040] hover:underline">
-                  hallo@happyager.com
+                <a href="mailto:info@astroversity.academy" className="text-[#1B1040] hover:underline">
+                  info@astroversity.academy
                 </a>
               </p>
             </div>

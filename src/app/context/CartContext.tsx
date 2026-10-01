@@ -1,5 +1,6 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import type { SpinReward } from '../components/CosmicWheel';
+import { products } from '../data/products';
 
 export interface Product {
   id: number;
@@ -31,9 +32,35 @@ interface CartContextType {
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
+// The cart survives reloads and the round trip to the payment page.
+const CART_KEY = 'astroversity_cart';
+
+function loadCart(): { items: CartItem[]; spinReward: SpinReward | null } {
+  try {
+    const raw = JSON.parse(localStorage.getItem(CART_KEY) ?? 'null');
+    if (!raw || !Array.isArray(raw.items)) return { items: [], spinReward: null };
+    // Re-read product data from the current catalogue (prices/names may have changed).
+    const items = raw.items.flatMap((it: { id: number; quantity: number }) => {
+      const p = products.find(pr => pr.id === Number(it.id));
+      const qty = Math.max(1, Math.floor(Number(it.quantity) || 1));
+      return p ? [{ ...p, quantity: qty } as CartItem] : [];
+    });
+    return { items, spinReward: items.length ? raw.spinReward ?? null : null };
+  } catch {
+    return { items: [], spinReward: null };
+  }
+}
+
 export function CartProvider({ children }: { children: ReactNode }) {
-  const [items, setItems] = useState<CartItem[]>([]);
-  const [spinReward, setSpinReward] = useState<SpinReward | null>(null);
+  const [initial] = useState(loadCart);
+  const [items, setItems] = useState<CartItem[]>(initial.items);
+  const [spinReward, setSpinReward] = useState<SpinReward | null>(initial.spinReward);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(CART_KEY, JSON.stringify({ items: items.map(i => ({ id: i.id, quantity: i.quantity })), spinReward }));
+    } catch { /* private mode / storage full */ }
+  }, [items, spinReward]);
   const applySpin = (reward: SpinReward) => setSpinReward(reward);
 
   const addToCart = (product: Product) => {

@@ -1,10 +1,95 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router';
 import { motion } from 'motion/react';
-import { CheckCircle, Mail, ArrowRight, Star, Users, MousePointerClick } from 'lucide-react';
+import { CheckCircle, Mail, ArrowRight, Star, Users, MousePointerClick, XCircle, Clock } from 'lucide-react';
 import { StarField } from '../components/StarField';
+import { useCart } from '../context/CartContext';
 
+const PENDING_KEY = 'astroversity_pending_payment';
+type Outcome = 'checking' | 'paid' | 'processing' | 'failed';
+
+// Mollie sends the customer back here after every outcome (paid, canceled,
+// failed, expired), so the real status is looked up before saying "success".
+// The cart is only emptied once the payment went through.
 export default function CheckoutSuccess() {
+  const { clearCart } = useCart();
+  const [outcome, setOutcome] = useState<Outcome>('checking');
+
+  useEffect(() => {
+    let id: string | null = null;
+    try { id = localStorage.getItem(PENDING_KEY); } catch { /* private mode */ }
+    if (!id) { setOutcome('paid'); return; } // e.g. returned in another browser – fall back to the thank-you page
+
+    let tries = 0;
+    const check = async () => {
+      try {
+        const r = await fetch(`/api/checkout?id=${encodeURIComponent(id!)}`);
+        if (!r.ok) throw new Error(String(r.status));
+        const { status } = await r.json();
+        if (status === 'paid' || status === 'authorized') {
+          clearCart();
+          try { localStorage.removeItem(PENDING_KEY); } catch { /* ignore */ }
+          setOutcome('paid');
+        } else if (status === 'canceled' || status === 'failed' || status === 'expired' || (status === 'open' && ++tries >= 5)) {
+          // "open" after several checks = the customer came back without paying.
+          try { localStorage.removeItem(PENDING_KEY); } catch { /* ignore */ }
+          setOutcome('failed');
+        } else if (status === 'pending') {
+          // Bank transfer & co: the order is placed, confirmation follows by e-mail.
+          clearCart();
+          try { localStorage.removeItem(PENDING_KEY); } catch { /* ignore */ }
+          setOutcome('processing');
+        } else if (++tries < 8) {
+          setTimeout(check, 1500); // "open": Mollie may need a moment to report the result
+        } else {
+          setOutcome('paid');
+        }
+      } catch {
+        setOutcome('paid'); // never block the customer on a status lookup error
+      }
+    };
+    check();
+  }, []);
+
+  if (outcome === 'paid') return <PaidView />;
+  return (
+    <div className="min-h-screen bg-[#1B1040] flex items-center justify-center px-6 py-24">
+      <StarField noConnect />
+      <div className="relative z-10 text-center max-w-md w-full">
+        {outcome === 'checking' && (
+          <>
+            <div className="w-10 h-10 border-2 border-[#C9A84C] border-t-transparent rounded-full animate-spin mx-auto mb-5" />
+            <p className="text-[#F0E6C8]/60 text-sm">Deine Zahlung wird geprüft …</p>
+          </>
+        )}
+        {outcome === 'processing' && (
+          <>
+            <Clock className="w-12 h-12 text-[#C9A84C] mx-auto mb-5" />
+            <h1 className="text-3xl text-[#F0E6C8] mb-3" style={{ fontFamily: '"rl-limo-1", "rl-limo-2", sans-serif', fontWeight: 400 }}>Zahlung in Bearbeitung</h1>
+            <p className="text-[#F0E6C8]/55 mb-8 leading-relaxed">
+              Vielen Dank! Deine Zahlung wird noch vom Zahlungsanbieter bestätigt. Sobald sie eingegangen ist,
+              erhältst du deine Bestätigung und Rechnung per E-Mail.
+            </p>
+            <Link to="/" className="inline-block px-8 py-3 rounded-xl bg-[#C9A84C] text-[#1B1040] font-semibold text-sm">Zur Startseite</Link>
+          </>
+        )}
+        {outcome === 'failed' && (
+          <>
+            <XCircle className="w-12 h-12 text-[#D4796B] mx-auto mb-5" />
+            <h1 className="text-3xl text-[#F0E6C8] mb-3" style={{ fontFamily: '"rl-limo-1", "rl-limo-2", sans-serif', fontWeight: 400 }}>Zahlung nicht abgeschlossen</h1>
+            <p className="text-[#F0E6C8]/55 mb-8 leading-relaxed">
+              Die Zahlung wurde abgebrochen oder ist fehlgeschlagen – es wurde nichts berechnet.
+              Dein Warenkorb ist noch da, du kannst es einfach erneut versuchen.
+            </p>
+            <Link to="/checkout" className="inline-block px-8 py-3 rounded-xl bg-[#C9A84C] text-[#1B1040] font-semibold text-sm">Zurück zur Kasse</Link>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function PaidView() {
   const [params] = useSearchParams();
   const isSkool = params.get('type') === 'skool';
 

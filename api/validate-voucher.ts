@@ -1,11 +1,16 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { cartBaseTotal, applyVoucher, type CartLine } from '../src/lib/vouchers.js';
+import { rateLimit, clientIp } from '../src/lib/ratelimit.js';
 
 // POST /api/validate-voucher  { code, items:[{id,quantity}] }
 // Public — lets the checkout UI show the discount. The authoritative price is
 // still recomputed at /api/checkout, so this can't be abused to change a price.
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+  // Throttle code guessing.
+  if (!rateLimit(`voucher:${clientIp(req)}`, 15, 10 * 60_000)) {
+    return res.status(429).json({ valid: false, error: 'Zu viele Versuche. Bitte warte ein paar Minuten.' });
+  }
 
   try {
     const { code, items } = (req.body ?? {}) as { code?: string; items?: CartLine[] };

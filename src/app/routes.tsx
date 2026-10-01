@@ -18,6 +18,7 @@ import Links from './pages/Links';
 import RobertLogin from './pages/RobertLogin';
 import ResetPassword from './pages/ResetPassword';
 import AuthConfirm from './pages/AuthConfirm';
+import NotFound from './pages/NotFound';
 import CheckoutSuccess from './pages/CheckoutSuccess';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import Root from './Root';
@@ -26,6 +27,7 @@ export const router = createBrowserRouter([
   {
     path: '/',
     Component: Root,
+    ErrorBoundary: NotFound,
     children: [
       { index: true, Component: Home },
       { path: 'angebote', Component: Angebote },
@@ -49,6 +51,7 @@ export const router = createBrowserRouter([
         path: 'mitglieder',
         element: <ProtectedRoute><MemberDashboard /></ProtectedRoute>,
       },
+      { path: '*', Component: NotFound },
     ],
   },
 ]);

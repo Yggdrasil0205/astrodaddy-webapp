@@ -109,7 +109,7 @@ function RedirectScreen() {
 // ── Main component ────────────────────────────────────────────────────────────
 
 export default function Checkout() {
-  const { items, totalItems, totalPrice, removeFromCart, clearCart, spinReward, applySpin } = useCart();
+  const { items, totalItems, totalPrice, removeFromCart, spinReward, applySpin } = useCart();
   const [wheelOpen, setWheelOpen] = useState(false);
 
   // Birth data
@@ -218,7 +218,9 @@ export default function Checkout() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? 'Fehler beim Erstellen der Zahlung');
-      clearCart();
+      // The cart is only cleared once the success page has confirmed the
+      // payment – a cancelled payment must not lose the customer's cart.
+      try { localStorage.setItem('astroversity_pending_payment', data.paymentId); } catch { /* private mode */ }
       window.location.href = data.checkoutUrl;
     } catch (err: any) {
       setPayError(err.message ?? 'Verbindungsfehler. Bitte versuch es nochmal.');

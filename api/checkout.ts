@@ -11,8 +11,27 @@ export interface BirthDataEntry {
   person2?: { birthday: string; birthtime: string; birthplace: string; birthcountry: string };
 }
 
+// ── GET /api/checkout?id=tr_… ─────────────────────────────────────────────────
+// Lets the success page show the real outcome: Mollie redirects back to the
+// shop after paid, canceled, failed and expired payments alike. Returns only
+// the status – no customer data.
+async function paymentStatus(req: VercelRequest, res: VercelResponse) {
+  const id = String(req.query.id ?? '');
+  if (!/^tr_[A-Za-z0-9]{4,40}$/.test(id)) return res.status(400).json({ error: 'Ungültige Zahlungs-ID.' });
+  if (!MOLLIE_KEY) return res.status(500).json({ error: 'Mollie API Key nicht konfiguriert.' });
+  const r = await fetch(`https://api.mollie.com/v2/payments/${id}`, { headers: { Authorization: `Bearer ${MOLLIE_KEY}` } });
+  if (!r.ok) return res.status(r.status === 404 ? 404 : 502).json({ error: 'Zahlung nicht gefunden.' });
+  const p = await r.json() as any;
+  res.setHeader('Cache-Control', 'no-store');
+  return res.status(200).json({ status: p.status });
+}
+
+const isEmail = (v: unknown): v is string =>
+  typeof v === 'string' && v.length <= 254 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
+
 // ── POST /api/checkout ────────────────────────────────────────────────────────
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+  if (req.method === 'GET') return paymentStatus(req, res);
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   try {
@@ -36,6 +55,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     if (!MOLLIE_KEY) {
       return res.status(500).json({ error: 'Mollie API Key nicht konfiguriert.' });
+    }
+    if (!isEmail(customerEmail)) {
+      return res.status(400).json({ error: 'Bitte gib eine gültige E-Mail-Adresse ein.' });
+    }
+    if (!Array.isArray(items) || items.length === 0) {
+      return res.status(400).json({ error: 'Dein Warenkorb ist leer.' });
     }
 
     // ── Prices are computed server-side from the trusted catalog + DB ──────────

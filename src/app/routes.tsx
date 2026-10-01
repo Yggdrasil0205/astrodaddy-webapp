@@ -16,6 +16,7 @@ import MemberDashboard from './pages/MemberDashboard';
 import Checkout from './pages/Checkout';
 import Links from './pages/Links';
 import RobertLogin from './pages/RobertLogin';
+import ResetPassword from './pages/ResetPassword';
 import CheckoutSuccess from './pages/CheckoutSuccess';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import Root from './Root';
@@ -33,6 +34,7 @@ export const router = createBrowserRouter([
       { path: 'community', Component: Community },
       { path: 'login', Component: Login },
       { path: 'forgot-password', Component: ForgotPassword },
+      { path: 'reset-password', Component: ResetPassword },
       { path: 'checkout', Component: Checkout },
       { path: 'checkout/success', Component: CheckoutSuccess },
       { path: 'links', Component: Links },

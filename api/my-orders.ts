@@ -24,6 +24,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(401).json({ error: 'Sitzung ungültig' });
   }
 
+  // Orders are matched by e-mail, so the address must be verified – otherwise
+  // anyone could register with a stranger's address and see their orders
+  // (independent of the "Confirm email" setting in Supabase).
+  if (!userData.user.email_confirmed_at) {
+    return res.status(403).json({ error: 'Bitte bestätige zuerst deine E-Mail-Adresse, um deine Bestellungen zu sehen.' });
+  }
+
   const { data, error } = await supabase
     .from('orders')
     .select('id, created_at, product_name, amount, status, mollie_payment_id')

@@ -1,5 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { createClient } from '@supabase/supabase-js';
+import { requireAdmin } from '../src/lib/admin-auth.js';
 
 // ── Supabase admin client ─────────────────────────────────────────────────────
 const supabase = createClient(
@@ -9,7 +10,7 @@ const supabase = createClient(
 
 // ── GET /api/invoices ─────────────────────────────────────────────────────────
 // Returns all orders for the admin dashboard (/robertlogin).
-// Protected by a simple admin secret header.
+// Protected by the x-admin-secret header (see src/lib/admin-auth.ts).
 //
 // Query params:
 //   ?from=2026-04-01&to=2026-04-30   (optional date filter)
@@ -17,11 +18,8 @@ const supabase = createClient(
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' });
 
-  // ── Simple admin auth ─────────────────────────────────────────────────────
-  const expected = process.env.ADMIN_SECRET;
-  if (!expected || req.headers['x-admin-secret'] !== expected) {
-    return res.status(401).json({ error: 'Unauthorized' });
-  }
+  // ── Admin auth (constant-time compare + brute-force lockout) ─────────────
+  if (!(await requireAdmin(req, res))) return;
 
   const { from, to, status } = req.query as Record<string, string>;
 

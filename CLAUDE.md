@@ -25,7 +25,7 @@ Same structure as HappyAger template. Entry: `src/main.tsx` → `App.tsx` → `R
 - `/forgot-password`, `/impressum`, `/datenschutz`
 
 ## Test User
-Login without Supabase: **test@astroversity.academy / test1234**
+Login without Supabase (local `pnpm dev` only, disabled in production builds): **test@astroversity.academy / test1234**
 This works via hardcoded fallback in AuthContext.tsx.
 
 ## Theme colors (src/styles/theme.css)

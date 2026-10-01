@@ -2,7 +2,8 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 import { supabase } from '../../lib/supabase';
 import type { User, Session } from '@supabase/supabase-js';
 
-// ─── Test user (active until Supabase is configured) ────────────────────────
+// ─── Test user – local development only (never shipped in production builds) ─
+const TEST_USER_ENABLED = import.meta.env.DEV;
 const TEST_CREDENTIALS = { email: 'test@astroversity.academy', password: 'test1234' };
 const TEST_USER = {
   id: 'test-user-id',
@@ -31,7 +32,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     // Restore test-user session from localStorage
     const saved = localStorage.getItem('astroversity_test_user');
-    if (saved === 'true') {
+    if (TEST_USER_ENABLED && saved === 'true') {
       setUser(TEST_USER);
       setIsLoading(false);
       return;
@@ -55,7 +56,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = async (email: string, password: string) => {
     // Test user fallback (works without Supabase)
-    if (email === TEST_CREDENTIALS.email && password === TEST_CREDENTIALS.password) {
+    if (TEST_USER_ENABLED && email === TEST_CREDENTIALS.email && password === TEST_CREDENTIALS.password) {
       localStorage.setItem('astroversity_test_user', 'true');
       setUser(TEST_USER);
       return;

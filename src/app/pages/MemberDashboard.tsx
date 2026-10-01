@@ -56,7 +56,7 @@ export default function MemberDashboard() {
         if (!r.ok) throw new Error(d.error ?? 'Fehler');
         setOrders(d.orders ?? []);
       })
-      .catch(() => setOrdersError('Bestellungen konnten nicht geladen werden.'))
+      .catch((err: Error) => setOrdersError(err?.message && err.message !== 'Fehler' ? err.message : 'Bestellungen konnten nicht geladen werden.'))
       .finally(() => setOrdersLoading(false));
   }, [session]);
 

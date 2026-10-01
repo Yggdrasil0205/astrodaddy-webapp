@@ -1,11 +1,12 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { createClient } from '@supabase/supabase-js';
+import { requireAdmin } from '../src/lib/admin-auth.js';
 
 // ── Admin voucher management ──────────────────────────────────────────────────
 // GET    /api/vouchers            → list all codes
 // POST   /api/vouchers            → create { code, type, value, validUntil? }
 // DELETE /api/vouchers?id=…       → delete by id (or ?code=…)
-// Protected by the x-admin-secret header (ADMIN_SECRET).
+// Protected by the x-admin-secret header (see src/lib/admin-auth.ts).
 
 const supabase = createClient(
   process.env.SUPABASE_URL!,
@@ -13,10 +14,7 @@ const supabase = createClient(
 );
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  const adminSecret = process.env.ADMIN_SECRET;
-  if (!adminSecret || req.headers['x-admin-secret'] !== adminSecret) {
-    return res.status(401).json({ error: 'Unauthorized' });
-  }
+  if (!(await requireAdmin(req, res))) return;
 
   try {
     // ── List ────────────────────────────────────────────────────────────────
@@ -70,6 +68,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(405).json({ error: 'Method not allowed' });
   } catch (e: any) {
     console.error('vouchers error:', e);
-    return res.status(500).json({ error: e?.message ?? 'Serverfehler' });
+    return res.status(500).json({ error: 'Serverfehler' });
   }
 }

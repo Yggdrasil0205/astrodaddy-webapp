@@ -1,9 +1,14 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { sendNewsletterWelcome } from '../src/lib/mailer.js';
+import { rateLimit, clientIp } from '../src/lib/ratelimit.js';
 
 // ── POST /api/newsletter ──────────────────────────────────────────────────────
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+
+  if (!rateLimit(`newsletter:${clientIp(req)}`, 5, 60_000)) {
+    return res.status(429).json({ error: 'Zu viele Anfragen. Bitte versuch es gleich noch einmal.' });
+  }
 
   const { email } = req.body as { email?: string };
   if (!email || !email.includes('@')) {

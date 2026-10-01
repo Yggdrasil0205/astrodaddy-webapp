@@ -1,6 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { createClient } from '@supabase/supabase-js';
 import { cartBaseTotal, type CartLine } from '../src/lib/vouchers.js';
+import { rateLimit, clientIp } from '../src/lib/ratelimit.js';
 
 // ── "Kosmisches Rad" — server-authoritative spin ──────────────────────────────
 // The reward is decided HERE (never by the client). For a percentage win we
@@ -33,6 +34,10 @@ function randCode(n = 5): string {
 // POST /api/spin  { items: [{ id, quantity }] }
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+
+  if (!rateLimit(`spin:${clientIp(req)}`, 10, 60_000)) {
+    return res.status(429).json({ error: 'Zu viele Versuche. Bitte einen Moment warten.' });
+  }
 
   const { items } = (req.body ?? {}) as { items?: CartLine[] };
   const list = Array.isArray(items) ? items : [];

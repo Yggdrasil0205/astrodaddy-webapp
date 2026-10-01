@@ -10,6 +10,8 @@ import Community from './pages/Community';
 import ForgotPassword from './pages/ForgotPassword';
 import Impressum from './pages/Impressum';
 import Datenschutz from './pages/Datenschutz';
+import AGB from './pages/AGB';
+import Widerruf from './pages/Widerruf';
 import MemberDashboard from './pages/MemberDashboard';
 import Checkout from './pages/Checkout';
 import Links from './pages/Links';
@@ -37,6 +39,8 @@ export const router = createBrowserRouter([
       { path: 'robertlogin', Component: RobertLogin },
       { path: 'impressum', Component: Impressum },
       { path: 'datenschutz', Component: Datenschutz },
+      { path: 'agb', Component: AGB },
+      { path: 'widerruf', Component: Widerruf },
       {
         path: 'mitglieder',
         element: <ProtectedRoute><MemberDashboard /></ProtectedRoute>,

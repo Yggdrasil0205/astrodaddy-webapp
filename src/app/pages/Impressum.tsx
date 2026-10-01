@@ -49,7 +49,7 @@ export default function Impressum() {
                 <h2 className={h2} style={serif}>Kontakt</h2>
                 <p>
                   Telefon: +49 15202 099560<br />
-                  E-Mail: adastra.lights@gmail.com
+                  E-Mail: info@astroversity.academy
                 </p>
               </section>
 

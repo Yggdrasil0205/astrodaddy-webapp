@@ -50,7 +50,7 @@ export default function Datenschutz() {
                   Robert Wagner<br />
                   Westliche Ringstraße 25<br />
                   91781 Weißenburg i. Bay.<br />
-                  E-Mail: adastra.lights@gmail.com<br />
+                  E-Mail: info@astroversity.academy<br />
                   Telefon: 01520 / 2099560
                 </p>
               </section>
@@ -227,7 +227,7 @@ export default function Datenschutz() {
                 </ul>
                 <p>
                   Zur Geltendmachung deiner Rechte wende dich bitte an:{' '}
-                  <a href="mailto:adastra.lights@gmail.com" className={a}>adastra.lights@gmail.com</a>. Außerdem steht
+                  <a href="mailto:info@astroversity.academy" className={a}>info@astroversity.academy</a>. Außerdem steht
                   dir ein Beschwerderecht bei einer Datenschutz-Aufsichtsbehörde zu.
                 </p>
               </section>

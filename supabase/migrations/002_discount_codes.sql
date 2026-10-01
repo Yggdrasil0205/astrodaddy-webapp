@@ -16,7 +16,7 @@ create table if not exists public.discount_codes (
   times_used   integer not null default 0,        -- incremented on each successful redemption
 
   constraint discount_codes_type_check  check (type in ('percent', 'fixed')),
-  constraint discount_codes_value_check check (value > 0),
+  constraint discount_codes_value_check check (value >= 0),
   constraint discount_codes_percent_max check (type <> 'percent' or value <= 100)
 );
 

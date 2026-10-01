@@ -92,7 +92,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       try {
         const { createClient } = await import('@supabase/supabase-js');
         const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
-        await supabase.from('orders').insert({
+        const { error: insertErr } = await supabase.from('orders').insert({
           mollie_payment_id: payment.id,
           product_id: String(items?.[0]?.id ?? ''),
           product_name: productName,
@@ -104,6 +104,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           customer_phone: customerPhone ?? '',
           status: 'offen',
         });
+        if (insertErr) console.error('Supabase insert error:', insertErr);
       } catch (dbErr) {
         console.error('Supabase insert error:', dbErr);
       }

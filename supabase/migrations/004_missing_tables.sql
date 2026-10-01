@@ -47,7 +47,12 @@ create table if not exists public.newsletter_subscribers (
 );
 alter table public.newsletter_subscribers enable row level security;
 
--- 3) No privileges for the public roles – all access via service-role key.
+-- 3) discount_codes: the spin "call" jackpot inserts value = 0, which the
+--    original "value > 0" check rejected (→ 500 on 1 % of spins).
+alter table public.discount_codes drop constraint if exists discount_codes_value_check;
+alter table public.discount_codes add constraint discount_codes_value_check check (value >= 0);
+
+-- 4) No privileges for the public roles – all access via service-role key.
 revoke all on public.orders                 from anon, authenticated;
 revoke all on public.discount_codes         from anon, authenticated;
 revoke all on public.newsletter_subscribers from anon, authenticated;

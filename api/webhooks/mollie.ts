@@ -93,10 +93,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         if (order && process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
           const { createClient } = await import('@supabase/supabase-js');
           const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
-          await supabase
+          const { error: invErr } = await supabase
             .from('orders')
             .update({ lexoffice_invoice_id: invoiceId, invoice_number: invoiceNumber })
             .eq('id', order.id);
+          if (invErr) console.error('Supabase invoice update error:', invErr);
         }
 
         // Fetch the finalized invoice PDF and attach it to our own confirmation

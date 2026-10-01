@@ -98,6 +98,15 @@ export default function Datenschutz() {
                     vercel.com/legal/privacy-policy
                   </a>.
                 </p>
+                <p className="mt-3">
+                  Zur statistischen Auswertung der Websitenutzung verwenden wir Vercel Web Analytics. Dabei werden keine
+                  Cookies gesetzt und keine Nutzerprofile gebildet. Erfasst werden u. a. aufgerufene Seite, verweisende
+                  Website, Land, Gerätetyp, Browser und Betriebssystem. Besucher werden nur über einen Hash aus
+                  Anfragedaten unterschieden, der nach 24 Stunden verworfen wird. Wir speichern ausschließlich die daraus
+                  gebildeten, zusammengefassten Tageswerte (ohne Personenbezug) dauerhaft in unserer Datenbank.
+                  Rechtsgrundlage ist unser berechtigtes Interesse an der Optimierung unseres Angebots (Art. 6 Abs. 1
+                  lit. f DSGVO).
+                </p>
               </section>
 
               {/* 6 */}

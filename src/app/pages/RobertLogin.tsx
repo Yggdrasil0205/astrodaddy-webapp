@@ -4,6 +4,7 @@ import {
   Lock, LogOut, TrendingUp, ShoppingBag, Euro, Eye, EyeOff, CheckCircle, Clock, XCircle,
   Ticket, Plus, Trash2, RefreshCw,
 } from 'lucide-react';
+import { AdminAnalytics } from '../components/AdminAnalytics';
 
 // ── Admin auth: the entered secret IS the credential (ADMIN_SECRET). ───────────
 // It is verified server-side and kept only in sessionStorage — never in the bundle.
@@ -65,6 +66,7 @@ export default function RobertLogin() {
       const res = await fetch('/api/invoices', { headers: { 'x-admin-secret': pw } });
       if (res.ok) { sessionStorage.setItem(SECRET_KEY, pw); setAuthed(true); }
       else if (res.status === 401) setError('Falsches Passwort.');
+      else if (res.status === 429) setError('Zu viele Fehlversuche. Bitte in 15 Minuten erneut versuchen.');
       else setError('Anmeldung fehlgeschlagen.');
     } catch { setError('Verbindungsfehler.'); }
     finally { setLoggingIn(false); }
@@ -166,7 +168,7 @@ export default function RobertLogin() {
   return (
     <div className="min-h-screen bg-[#1B1040] px-4 py-8">
       <div className="max-w-6xl mx-auto">
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex flex-wrap items-center justify-between gap-3 mb-8">
           <div>
             <h1 className="text-2xl text-[#F0E6C8]" style={{ fontFamily: '"rl-limo-1","rl-limo-2",sans-serif', fontWeight: 400 }}>Admin Dashboard</h1>
             <p className="text-[#F0E6C8]/40 text-sm mt-0.5">Robert Wagner Astrologie</p>
@@ -200,6 +202,8 @@ export default function RobertLogin() {
             </motion.div>
           ))}
         </div>
+
+        <AdminAnalytics adminFetch={adminFetch} />
 
         {/* Voucher management */}
         <div className="bg-white/4 border border-white/8 rounded-2xl p-5 mb-6">

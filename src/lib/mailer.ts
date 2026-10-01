@@ -13,9 +13,29 @@ const LOGO_IMG = '<img src="cid:rwlogo" alt="Robert Wagner" width="180" style="d
 // ── SMTP transport (IONOS) ────────────────────────────────────────────────────
 // Required env vars: SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, SMTP_FROM
 
+// Plain-text version of an HTML mail. HTML-only mails score worse with spam
+// filters, so every mail gets a text/plain part (see the compile hook below).
+function htmlToText(html: string): string {
+  return html
+    .replace(/<(style|head)[\s\S]*?<\/\1>/gi, '')
+    .replace(/<a\s[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/gi, (_m, href, label) => {
+      const text = label.replace(/<[^>]+>/g, '').trim();
+      return text && text !== href ? `${text}: ${href}` : href;
+    })
+    .replace(/<br\s*\/?>/gi, '\n')
+    .replace(/<\/(p|div|h[1-6]|li|tr|table)>/gi, '\n')
+    .replace(/<li[^>]*>/gi, '• ')
+    .replace(/<[^>]+>/g, '')
+    .replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"').replace(/&#39;/g, "'")
+    .split('\n').map(l => l.replace(/\s+/g, ' ').trim()).join('\n')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
+}
+
 function createTransport() {
   // .trim() guards against stray whitespace/tabs/newlines pasted into env vars
-  return nodemailer.createTransport({
+  const transport = nodemailer.createTransport({
     host: (process.env.SMTP_HOST ?? 'smtp.ionos.de').trim(),
     port: parseInt((process.env.SMTP_PORT ?? '587').trim(), 10),
     secure: false,
@@ -24,6 +44,12 @@ function createTransport() {
       pass: process.env.SMTP_PASS?.trim(),
     },
   });
+  transport.use('compile', (mail, done) => {
+    if (!mail.data.text && typeof mail.data.html === 'string') mail.data.text = htmlToText(mail.data.html);
+    if (!mail.data.replyTo) mail.data.replyTo = CONTACT_EMAIL;
+    done();
+  });
+  return transport;
 }
 
 const FROM_DEFAULT = process.env.SMTP_FROM ?? 'Astroversity Academy <info@astroversity.academy>';

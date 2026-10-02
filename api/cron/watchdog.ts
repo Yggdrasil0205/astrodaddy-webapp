@@ -41,6 +41,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       const { error } = await supabase.from('admin_login_failures')
         .delete().lt('created_at', new Date(Date.now() - 86_400_000).toISOString());
       if (error) console.error('watchdog: prune admin_login_failures failed', error);
+
+      // 3) Remove expired one-day Glücksrad codes (KOSMOS-*) so they don't pile
+      //    up in discount_codes (they are valid only on the day they were won).
+      const today = new Date().toISOString().slice(0, 10);
+      const { error: spinErr } = await supabase.from('discount_codes')
+        .delete().like('code', 'KOSMOS-%').lt('valid_until', today);
+      if (spinErr) console.error('watchdog: prune spin codes failed', spinErr);
     } catch (e) {
       console.error('watchdog: prune failed', e);
     }

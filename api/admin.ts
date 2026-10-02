@@ -57,6 +57,7 @@ async function vouchers(req: VercelRequest, res: VercelResponse) {
     const { data, error } = await supabase
       .from('discount_codes')
       .select('*')
+      .not('code', 'like', 'KOSMOS-%') // hide the one-day Glücksrad codes
       .order('created_at', { ascending: false });
     if (error) throw error;
     return res.status(200).json({ codes: data });

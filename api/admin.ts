@@ -69,6 +69,11 @@ async function orders(req: VercelRequest, res: VercelResponse) {
 }
 
 // ── Vouchers ──────────────────────────────────────────────────────────────────
+function cleanIds(x: unknown): number[] {
+  if (!Array.isArray(x)) return [];
+  return [...new Set(x.map(Number).filter((n) => Number.isInteger(n) && n > 0))];
+}
+
 async function vouchers(req: VercelRequest, res: VercelResponse) {
   if (req.method === 'GET') {
     const { data, error } = await supabase
@@ -81,8 +86,8 @@ async function vouchers(req: VercelRequest, res: VercelResponse) {
   }
 
   if (req.method === 'POST') {
-    const { code, type, value, validUntil } = (req.body ?? {}) as {
-      code?: string; type?: string; value?: number | string; validUntil?: string;
+    const { code, type, value, validUntil, excludedProducts } = (req.body ?? {}) as {
+      code?: string; type?: string; value?: number | string; validUntil?: string; excludedProducts?: unknown;
     };
     const normCode = String(code ?? '').trim().toUpperCase();
     const t = type === 'fixed' ? 'fixed' : 'percent';
@@ -92,9 +97,10 @@ async function vouchers(req: VercelRequest, res: VercelResponse) {
     if (!Number.isFinite(v) || v <= 0) return res.status(400).json({ error: 'Wert muss größer als 0 sein.' });
     if (t === 'percent' && v > 100) return res.status(400).json({ error: 'Prozent darf höchstens 100 sein.' });
 
+    const excl = cleanIds(excludedProducts);
     const { data, error } = await supabase
       .from('discount_codes')
-      .insert({ code: normCode, type: t, value: v, valid_until: validUntil || null, active: true })
+      .insert({ code: normCode, type: t, value: v, valid_until: validUntil || null, active: true, ...(excl.length ? { excluded_products: excl } : {}) })
       .select()
       .single();
 
@@ -102,6 +108,22 @@ async function vouchers(req: VercelRequest, res: VercelResponse) {
       if (error.code === '23505') return res.status(409).json({ error: 'Dieser Code existiert bereits.' });
       throw error;
     }
+    return res.status(200).json({ code: data });
+  }
+
+  if (req.method === 'PATCH' || req.method === 'PUT') {
+    const id = (req.query.id as string) ?? '';
+    const codeQ = (req.query.code as string) ?? '';
+    if (!id && !codeQ) return res.status(400).json({ error: 'id oder code erforderlich.' });
+    const body = (req.body ?? {}) as { excludedProducts?: unknown; active?: boolean };
+    const patch: Record<string, unknown> = {};
+    if (body.excludedProducts !== undefined) patch.excluded_products = cleanIds(body.excludedProducts);
+    if (body.active !== undefined) patch.active = !!body.active;
+    if (Object.keys(patch).length === 0) return res.status(400).json({ error: 'Nichts zu ändern.' });
+
+    const upd = supabase.from('discount_codes').update(patch);
+    const { data, error } = await (id ? upd.eq('id', id) : upd.eq('code', codeQ.trim().toUpperCase())).select().single();
+    if (error) throw error;
     return res.status(200).json({ code: data });
   }
 

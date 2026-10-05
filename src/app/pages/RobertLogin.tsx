@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import { AdminAnalytics } from '../components/AdminAnalytics';
 import { LinktreeEditor } from '../components/LinktreeEditor';
+import { ProductExcludePicker } from '../components/ProductExcludePicker';
 
 // ── Admin auth: the entered secret IS the credential (ADMIN_SECRET). ───────────
 // It is verified server-side and kept only in sessionStorage — never in the bundle.
@@ -28,6 +29,7 @@ interface Order {
 interface Voucher {
   id: string; code: string; type: 'percent' | 'fixed'; value: number;
   active: boolean; valid_until: string | null; times_used: number;
+  excluded_products?: number[] | null;
 }
 
 const eur = (n: number) => `${Number(n).toFixed(2).replace('.', ',')} €`;
@@ -103,6 +105,12 @@ export default function RobertLogin() {
   const [vUntil, setVUntil] = useState('');
   const [vError, setVError] = useState('');
   const [vBusy, setVBusy] = useState(false);
+  const [vExcluded, setVExcluded] = useState<number[]>([]);
+  const [showExcl, setShowExcl] = useState(false);
+  // Edit the exclusions of an existing code
+  const [editId, setEditId] = useState<string | null>(null);
+  const [editExcluded, setEditExcluded] = useState<number[]>([]);
+  const [editBusy, setEditBusy] = useState(false);
 
   const createVoucher = async () => {
     if (vBusy) return;
@@ -110,10 +118,10 @@ export default function RobertLogin() {
     try {
       const res = await adminFetch('/api/admin?r=vouchers', {
         method: 'POST',
-        body: JSON.stringify({ code: vCode, type: vType, value: Number(vValue), validUntil: vUntil || null }),
+        body: JSON.stringify({ code: vCode, type: vType, value: Number(vValue), validUntil: vUntil || null, excludedProducts: vExcluded }),
       });
       const d = await res.json();
-      if (res.ok) { setVCode(''); setVValue(''); setVUntil(''); await loadVouchers(); }
+      if (res.ok) { setVCode(''); setVValue(''); setVUntil(''); setVExcluded([]); setShowExcl(false); await loadVouchers(); }
       else setVError(d.error ?? 'Fehler beim Anlegen.');
     } catch { setVError('Verbindungsfehler.'); }
     finally { setVBusy(false); }
@@ -121,6 +129,16 @@ export default function RobertLogin() {
   const deleteVoucher = async (id: string) => {
     await adminFetch(`/api/admin?r=vouchers&id=${encodeURIComponent(id)}`, { method: 'DELETE' });
     await loadVouchers();
+  };
+  const saveExclusions = async (id: string) => {
+    setEditBusy(true);
+    try {
+      await adminFetch(`/api/admin?r=vouchers&id=${encodeURIComponent(id)}`, {
+        method: 'PATCH', body: JSON.stringify({ excludedProducts: editExcluded }),
+      });
+      await loadVouchers();
+      setEditId(null);
+    } finally { setEditBusy(false); }
   };
 
   // ── KPIs ──
@@ -249,6 +267,19 @@ export default function RobertLogin() {
               <Plus className="w-4 h-4" /> Anlegen
             </button>
           </div>
+
+          {/* Exclude products from the new code */}
+          <div className="mb-4">
+            <button type="button" onClick={() => setShowExcl(s => !s)} className="text-[#F0E6C8]/50 text-xs hover:text-[#C9A84C]">
+              {showExcl ? '▾' : '▸'} Produkte ausschließen{vExcluded.length > 0 ? ` (${vExcluded.length})` : ''}
+            </button>
+            {showExcl && (
+              <div className="mt-2 rounded-lg bg-white/[0.03] border border-white/10 p-3">
+                <p className="text-[#F0E6C8]/40 text-[11px] mb-2">Der Rabatt gilt <b>nicht</b> für die rot markierten Produkte.</p>
+                <ProductExcludePicker selected={vExcluded} onChange={setVExcluded} />
+              </div>
+            )}
+          </div>
           {vError && <p className="text-red-400/80 text-xs mb-3">{vError}</p>}
 
           {/* List */}
@@ -256,7 +287,7 @@ export default function RobertLogin() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-white/8">
-                  {['Code', 'Rabatt', 'Gültig bis', 'Verwendet', ''].map(h => (
+                  {['Code', 'Rabatt', 'Gültig bis', 'Verwendet', 'Ausschlüsse', ''].map(h => (
                     <th key={h} className="text-left text-[#F0E6C8]/40 text-xs font-medium pb-3 pr-4 whitespace-nowrap">{h}</th>
                   ))}
                 </tr>
@@ -270,6 +301,11 @@ export default function RobertLogin() {
                       <td className="py-3 pr-4 text-[#F0E6C8]/80 text-xs">{v.type === 'percent' ? `${v.value} %` : eur(v.value)}</td>
                       <td className="py-3 pr-4 text-[#F0E6C8]/50 text-xs">{v.valid_until ? new Date(v.valid_until).toLocaleDateString('de-DE') : '–'}</td>
                       <td className="py-3 pr-4 text-[#F0E6C8]/50 text-xs">{v.times_used}×</td>
+                      <td className="py-3 pr-4 text-xs whitespace-nowrap">
+                        <span className="text-[#F0E6C8]/50">{(v.excluded_products?.length ?? 0) > 0 ? `${v.excluded_products!.length} Produkt${v.excluded_products!.length === 1 ? '' : 'e'}` : '–'}</span>
+                        <button onClick={() => { setEditId(v.id); setEditExcluded(v.excluded_products ?? []); }}
+                          className="ml-2 text-[#C9A84C] hover:underline">bearbeiten</button>
+                      </td>
                       <td className="py-3">
                         <button onClick={() => deleteVoucher(v.id)}
                           className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-red-400/10 border border-red-400/20 text-red-400 text-xs hover:bg-red-400/20 transition-colors">
@@ -283,6 +319,28 @@ export default function RobertLogin() {
             </table>
             {vouchers.length === 0 && <p className="text-[#F0E6C8]/30 text-xs py-4 text-center">Noch keine Gutscheincodes.</p>}
           </div>
+
+          {/* Edit exclusions of an existing code */}
+          {editId && (() => {
+            const v = vouchers.find(x => x.id === editId);
+            if (!v) return null;
+            return (
+              <div className="mt-4 rounded-lg bg-white/5 border border-[#C9A84C]/25 p-4">
+                <p className="text-[#F0E6C8]/70 text-xs mb-2">Produkte vom Code <span className="text-[#C9A84C] font-mono">{v.code}</span> ausschließen (rot = ausgeschlossen):</p>
+                <ProductExcludePicker selected={editExcluded} onChange={setEditExcluded} />
+                <div className="flex gap-2 mt-3">
+                  <button onClick={() => saveExclusions(v.id)} disabled={editBusy}
+                    className="px-3 py-1.5 rounded-lg bg-[#C9A84C] text-[#1B1040] text-xs font-semibold hover:bg-[#C9A84C]/90 disabled:opacity-50">
+                    {editBusy ? 'Speichern…' : 'Speichern'}
+                  </button>
+                  <button onClick={() => setEditId(null)}
+                    className="px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-[#F0E6C8]/60 text-xs hover:text-[#F0E6C8]">
+                    Abbrechen
+                  </button>
+                </div>
+              </div>
+            );
+          })()}
         </div>
 
         {/* Orders */}

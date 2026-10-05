@@ -38,7 +38,7 @@ export interface VoucherResult {
   finalAmount: number;
 }
 
-export async function applyVoucher(rawCode: string | null | undefined, base: number, itemCount = 0): Promise<VoucherResult> {
+export async function applyVoucher(rawCode: string | null | undefined, base: number, itemCount = 0, items: CartLine[] = []): Promise<VoucherResult> {
   const noDiscount: VoucherResult = { valid: true, discountAmount: 0, finalAmount: base };
   const code = String(rawCode ?? '').trim().toUpperCase();
   if (!code) return noDiscount;
@@ -68,8 +68,24 @@ export async function applyVoucher(rawCode: string | null | undefined, base: num
     }
   }
 
-  let discount = data.type === 'percent' ? base * (Number(data.value) / 100) : Number(data.value);
-  discount = Math.round(Math.min(discount, base) * 100) / 100;
+  // Product exclusions: the discount applies only to the non-excluded items.
+  const excluded: number[] = Array.isArray(data.excluded_products) ? data.excluded_products.map(Number) : [];
+  let eligibleBase = base;
+  if (excluded.length && items.length) {
+    eligibleBase = 0;
+    for (const it of items) {
+      if (excluded.includes(Number(it.id))) continue;
+      const p = products.find((pr) => pr.id === Number(it.id));
+      if (p) eligibleBase += p.price * Math.max(1, Math.floor(Number(it.quantity) || 1));
+    }
+    eligibleBase = Math.round(eligibleBase * 100) / 100;
+    if (eligibleBase <= 0) {
+      return { valid: false, error: 'Dieser Code gilt für keines der Produkte in deinem Warenkorb.', discountAmount: 0, finalAmount: base };
+    }
+  }
+
+  let discount = data.type === 'percent' ? eligibleBase * (Number(data.value) / 100) : Number(data.value);
+  discount = Math.round(Math.min(discount, eligibleBase) * 100) / 100;
   const finalAmount = Math.round((base - discount) * 100) / 100;
 
   return { valid: true, code, type: data.type, value: Number(data.value), discountAmount: discount, finalAmount };

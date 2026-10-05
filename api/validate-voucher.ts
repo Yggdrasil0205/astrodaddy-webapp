@@ -17,7 +17,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const list = items ?? [];
     const base = cartBaseTotal(list);
     const itemCount = list.reduce((s, it) => s + Math.max(1, Math.floor(Number(it.quantity) || 1)), 0);
-    const result = await applyVoucher(code, base, itemCount);
+    const result = await applyVoucher(code, base, itemCount, list);
 
     if (!result.valid) return res.status(200).json({ valid: false, error: result.error });
 

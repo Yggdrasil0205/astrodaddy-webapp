@@ -95,7 +95,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const productName = cartProductName(items) || 'Bestellung';
     const itemCount = items.reduce((s, it) => s + Math.max(1, Math.floor(Number(it.quantity) || 1)), 0);
 
-    const voucher = await applyVoucher(discountCode, baseAmount, itemCount);
+    const voucher = await applyVoucher(discountCode, baseAmount, itemCount, items);
     if (discountCode && !voucher.valid) {
       return res.status(400).json({ error: voucher.error ?? 'Rabattcode ungültig.' });
     }

@@ -2,6 +2,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { cartBaseTotal, cartProductName, applyVoucher, type CartLine } from '../src/lib/vouchers.js';
 import { parseBillingAddress, fullName } from '../src/lib/billing.js';
 import { products } from '../src/app/data/products.js';
+import { fulfillPayment } from '../src/lib/fulfillment.js';
 
 const APP_URL = process.env.APP_URL ?? 'https://astroversity.academy';
 const MOLLIE_KEY = process.env.Mollie_API_Test ?? process.env.MOLLIE_API_KEY ?? '';
@@ -25,6 +26,19 @@ async function paymentStatus(req: VercelRequest, res: VercelResponse) {
   if (!r.ok) return res.status(r.status === 404 ? 404 : 502).json({ error: 'Zahlung nicht gefunden.' });
   const p = await r.json() as any;
   res.setHeader('Cache-Control', 'no-store');
+
+  // Fast path: the success page polls this from the customer's browser, which
+  // passes Vercel's edge bot-challenge that blocks Mollie's own webhook. When the
+  // payment is paid, run fulfillment here (invoice + e-mails). Idempotent – the DB
+  // status transition guards against duplicates across the webhook/cron paths.
+  if (p.status === 'paid') {
+    try {
+      await fulfillPayment(id);
+    } catch (e) {
+      console.error('paymentStatus fulfillment error:', e);
+    }
+  }
+
   return res.status(200).json({ status: p.status });
 }
 

@@ -2,6 +2,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { runHealthChecks } from '../../src/lib/health.js';
 import { sendSystemAlert } from '../../src/lib/mailer.js';
 import { analyticsConfigured, lastDays, syncAnalyticsDays } from '../../src/lib/analytics-sync.js';
+import { fulfillPayment } from '../../src/lib/fulfillment.js';
 
 // Internal watchdog, triggered by a Vercel Cron (see vercel.json). Runs the deep
 // health checks and, if something is wrong, e-mails info@ + Robert. Protected by
@@ -20,6 +21,43 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       await sendSystemAlert('⚠️ System-Warnung – astroversity.academy', r.failed);
     } catch (e) {
       console.error('watchdog: alert mail failed', e);
+    }
+  }
+
+  // ── Reconcile stuck orders ────────────────────────────────────────────────
+  // Mollie's webhook is often blocked by Vercel's edge bot-challenge, so some
+  // paid orders stay "offen" without an invoice/e-mail (e.g. the customer closed
+  // the tab before the success page could finish). Re-check each recent open
+  // order against Mollie and fulfill it if it is actually paid. fulfillPayment()
+  // is idempotent, so orders already handled elsewhere are left untouched.
+  const reconciled: Array<{ id: string; payment: string; status: string; processed: boolean }> = [];
+  if (process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
+    try {
+      const { createClient } = await import('@supabase/supabase-js');
+      const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
+      const sevenDaysAgo = new Date(Date.now() - 7 * 86_400_000).toISOString();
+      const { data: stuck, error } = await supabase
+        .from('orders')
+        .select('id, mollie_payment_id')
+        .eq('status', 'offen')
+        .not('mollie_payment_id', 'is', null)
+        .gte('created_at', sevenDaysAgo)
+        .limit(50);
+      if (error) {
+        console.error('watchdog: stuck-order query failed', error);
+      } else {
+        for (const o of stuck ?? []) {
+          try {
+            const result = await fulfillPayment(o.mollie_payment_id as string);
+            reconciled.push({ id: o.id, payment: o.mollie_payment_id as string, status: result.status, processed: result.processed });
+            if (result.processed) console.log(`watchdog: fulfilled stuck order ${o.id} (${o.mollie_payment_id})`);
+          } catch (e) {
+            console.error(`watchdog: reconcile failed for order ${o.id}`, e);
+          }
+        }
+      }
+    } catch (e) {
+      console.error('watchdog: reconcile block failed', e);
     }
   }
   // Daily housekeeping (Hobby allows one daily cron, so it runs here).
@@ -53,5 +91,5 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
   }
 
-  return res.status(200).json({ ok: r.ok, failed: r.failed, analytics });
+  return res.status(200).json({ ok: r.ok, failed: r.failed, analytics, reconciled });
 }

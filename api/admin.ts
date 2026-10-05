@@ -10,7 +10,13 @@ import { analyticsConfigured, lastDays, syncAnalyticsDays } from '../src/lib/ana
 // DELETE /api/admin?r=vouchers&id=…       (or &code=…)
 // GET    /api/admin?r=analytics&days=30   (days=0 → all)
 // POST   /api/admin?r=analytics&days=31   pull the last N days from Vercel now
-// Protected by the x-admin-secret header (see src/lib/admin-auth.ts).
+// GET    /api/admin?r=links                PUBLIC – active linktree entries
+// GET    /api/admin?r=links&all=1          every entry incl. inactive (for the editor)
+// POST   /api/admin?r=links                { kind,label,sublabel,url,icon,badge,highlight,sort_order,active }
+// PATCH  /api/admin?r=links&id=…           partial update (reorder/toggle/edit)
+// DELETE /api/admin?r=links&id=…
+// Protected by the x-admin-secret header (see src/lib/admin-auth.ts) – except the
+// public GET of the linktree.
 
 const supabase = createClient(
   process.env.SUPABASE_URL!,
@@ -18,6 +24,16 @@ const supabase = createClient(
 );
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+  // Public read of the linktree (active links) for the /links page – no secret.
+  if (req.query.r === 'links' && req.method === 'GET' && !req.query.all) {
+    try {
+      return await publicLinks(res);
+    } catch (e) {
+      console.error('public links error:', e);
+      return res.status(500).json({ error: 'Serverfehler' });
+    }
+  }
+
   if (!(await requireAdmin(req, res))) return;
 
   try {
@@ -25,6 +41,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       case 'orders':    return await orders(req, res);
       case 'vouchers':  return await vouchers(req, res);
       case 'analytics': return await analytics(req, res);
+      case 'links':     return await links(req, res);
       default:          return res.status(404).json({ error: 'Unbekannte Ressource' });
     }
   } catch (e) {
@@ -125,4 +142,77 @@ async function analytics(req: VercelRequest, res: VercelResponse) {
     return res.status(500).json({ error: 'Datenbankfehler' });
   }
   return res.status(200).json({ configured: analyticsConfigured(), ...data });
+}
+
+// ── Linktree (/links) ─────────────────────────────────────────────────────────
+const LINK_COLS = 'id, kind, label, sublabel, url, icon, badge, highlight, sort_order, active';
+
+// Public: only the active links, for the /links page.
+async function publicLinks(res: VercelResponse) {
+  const { data, error } = await supabase
+    .from('site_links').select(LINK_COLS).eq('active', true)
+    .order('kind', { ascending: true })
+    .order('sort_order', { ascending: true })
+    .order('created_at', { ascending: true });
+  if (error) { console.error('site_links read error:', error); return res.status(500).json({ error: 'Datenbankfehler' }); }
+  res.setHeader('Cache-Control', 'public, max-age=30, s-maxage=30');
+  return res.status(200).json({ links: data ?? [] });
+}
+
+function sanitizeLink(body: any, partial = false): Record<string, any> {
+  const b = body ?? {};
+  const out: Record<string, any> = {};
+  const str = (x: any) => (x === null || x === undefined || String(x).trim() === '') ? null : String(x).trim();
+  if (!partial || b.kind       !== undefined) out.kind = b.kind === 'social' ? 'social' : 'button';
+  if (!partial || b.label      !== undefined) out.label = str(b.label) ?? '';
+  if (!partial || b.sublabel   !== undefined) out.sublabel = str(b.sublabel);
+  if (!partial || b.url        !== undefined) out.url = str(b.url) ?? '';
+  if (!partial || b.icon       !== undefined) out.icon = str(b.icon);
+  if (!partial || b.badge      !== undefined) out.badge = str(b.badge);
+  if (!partial || b.highlight  !== undefined) out.highlight = !!b.highlight;
+  if (!partial || b.sort_order !== undefined) out.sort_order = Number.isFinite(Number(b.sort_order)) ? Math.floor(Number(b.sort_order)) : 0;
+  if (!partial || b.active     !== undefined) out.active = b.active === undefined ? true : !!b.active;
+  return out;
+}
+
+// Admin CRUD for the linktree.
+async function links(req: VercelRequest, res: VercelResponse) {
+  if (req.method === 'GET') { // &all=1 → every entry incl. inactive (editor)
+    const { data, error } = await supabase
+      .from('site_links').select(LINK_COLS)
+      .order('kind', { ascending: true })
+      .order('sort_order', { ascending: true })
+      .order('created_at', { ascending: true });
+    if (error) throw error;
+    return res.status(200).json({ links: data ?? [] });
+  }
+
+  if (req.method === 'POST') {
+    const row = sanitizeLink(req.body);
+    if (!row.label || !row.url) return res.status(400).json({ error: 'Label und URL sind erforderlich.' });
+    const { data, error } = await supabase.from('site_links').insert(row).select(LINK_COLS).single();
+    if (error) throw error;
+    return res.status(200).json({ link: data });
+  }
+
+  if (req.method === 'PATCH' || req.method === 'PUT') {
+    const id = (req.query.id as string) ?? (req.body?.id as string) ?? '';
+    if (!id) return res.status(400).json({ error: 'id erforderlich.' });
+    const row = sanitizeLink(req.body, true);
+    if (row.label === '') return res.status(400).json({ error: 'Label darf nicht leer sein.' });
+    if (row.url === '')   return res.status(400).json({ error: 'URL darf nicht leer sein.' });
+    const { data, error } = await supabase.from('site_links').update(row).eq('id', id).select(LINK_COLS).single();
+    if (error) throw error;
+    return res.status(200).json({ link: data });
+  }
+
+  if (req.method === 'DELETE') {
+    const id = (req.query.id as string) ?? '';
+    if (!id) return res.status(400).json({ error: 'id erforderlich.' });
+    const { error } = await supabase.from('site_links').delete().eq('id', id);
+    if (error) throw error;
+    return res.status(200).json({ ok: true });
+  }
+
+  return res.status(405).json({ error: 'Method not allowed' });
 }

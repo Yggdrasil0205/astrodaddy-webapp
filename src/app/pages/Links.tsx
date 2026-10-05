@@ -1,63 +1,52 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router';
 import { motion } from 'motion/react';
 import { StarField } from '../components/StarField';
-import { Instagram, Youtube, Mail, Twitch, ArrowRight, ShoppingBag, Sparkles } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
+import { LinkIconByKey } from '../components/linkIcons';
 
-const TikTokIcon = () => (
-  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.34 6.34 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.76a4.85 4.85 0 0 1-1.01-.07z"/>
-  </svg>
-);
+interface LinkRow {
+  id?: string;
+  kind: string;                 // 'button' | 'social'
+  label: string;
+  sublabel?: string | null;
+  url: string;
+  icon?: string | null;
+  badge?: string | null;
+  highlight?: boolean;
+}
 
-const links = [
-  {
-    label: 'Shop',
-    sub: 'Alle Angebote & Analysen',
-    to: '/angebote',
-    external: false,
-    badge: null,
-    icon: ShoppingBag,
-    highlight: false,
-  },
-  {
-    label: 'Schriftliche Partnerschaftsanalyse',
-    sub: 'Synastrie-Analyse für euch als Paar',
-    to: '/angebote/2',
-    external: false,
-    badge: '»NEU«',
-    icon: Sparkles,
-    highlight: true,
-  },
-  {
-    label: 'Astrologische Tiefenanalyse',
-    sub: 'Entdecke deine astrologische DNA',
-    to: '/angebote/4',
-    external: false,
-    badge: null,
-    icon: Sparkles,
-    highlight: false,
-  },
-  {
-    label: 'Astrologische Beratung 90 Min',
-    sub: 'Tiefgreifende Transformation mit Robert',
-    to: '/angebote/6',
-    external: false,
-    badge: 'Premium',
-    icon: Sparkles,
-    highlight: false,
-  },
+// Shown until the DB answers, and as a fallback if the request fails – so the
+// page is never blank.
+const FALLBACK: LinkRow[] = [
+  { kind: 'button', label: 'Shop', sublabel: 'Alle Angebote & Analysen', url: '/angebote', icon: 'shop' },
+  { kind: 'button', label: 'Schriftliche Partnerschaftsanalyse', sublabel: 'Synastrie-Analyse für euch als Paar', url: '/angebote/2', icon: 'sparkles', badge: '»NEU«', highlight: true },
+  { kind: 'button', label: 'Astrologische Tiefenanalyse', sublabel: 'Entdecke deine astrologische DNA', url: '/angebote/4', icon: 'sparkles' },
+  { kind: 'button', label: 'Astrologische Beratung 90 Min', sublabel: 'Tiefgreifende Transformation mit Robert', url: '/angebote/6', icon: 'sparkles', badge: 'Premium' },
+  { kind: 'social', label: 'Instagram', url: 'https://www.instagram.com/robert.wagner_astrologie/', icon: 'instagram' },
+  { kind: 'social', label: 'TikTok', url: 'https://www.tiktok.com/@astrodaddy.official', icon: 'tiktok' },
+  { kind: 'social', label: 'YouTube', url: 'https://www.youtube.com/@robertwagnerastrologie', icon: 'youtube' },
+  { kind: 'social', label: 'Twitch', url: 'https://www.twitch.tv/astrodaddyofficial', icon: 'twitch' },
+  { kind: 'social', label: 'E-Mail', url: 'mailto:info@astroversity.academy', icon: 'mail' },
 ];
 
-const socials = [
-  { icon: Instagram, href: 'https://www.instagram.com/robert.wagner_astrologie/', label: 'Instagram' },
-  { icon: TikTokIcon, href: 'https://www.tiktok.com/@astrodaddy.official', label: 'TikTok' },
-  { icon: Youtube, href: 'https://www.youtube.com/@robertwagnerastrologie', label: 'YouTube' },
-  { icon: Twitch, href: 'https://www.twitch.tv/astrodaddyofficial', label: 'Twitch' },
-  { icon: Mail, href: 'mailto:info@astroversity.academy', label: 'E-Mail' },
-];
+const isInternal = (u: string) => u.startsWith('/');
 
 export default function Links() {
+  const [rows, setRows] = useState<LinkRow[]>(FALLBACK);
+
+  useEffect(() => {
+    let alive = true;
+    fetch('/api/admin?r=links')
+      .then(r => (r.ok ? r.json() : Promise.reject(r.status)))
+      .then(d => { if (alive && Array.isArray(d.links) && d.links.length) setRows(d.links); })
+      .catch(() => { /* keep fallback */ });
+    return () => { alive = false; };
+  }, []);
+
+  const buttons = rows.filter(r => r.kind === 'button');
+  const socials = rows.filter(r => r.kind === 'social');
+
   return (
     <div className="min-h-screen bg-[#1B1040] relative flex flex-col items-center justify-start py-16 px-4">
       <StarField noConnect />
@@ -76,26 +65,24 @@ export default function Links() {
         </motion.div>
 
         {/* Social icons */}
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.15 }}
-          className="flex items-center justify-center gap-4 mb-8">
-          {socials.map(s => {
-            const Icon = s.icon;
-            return (
-              <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer"
+        {socials.length > 0 && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.15 }}
+            className="flex items-center justify-center gap-4 mb-8 flex-wrap">
+            {socials.map((s, i) => (
+              <a key={s.id ?? `${s.label}-${i}`} href={s.url} target="_blank" rel="noopener noreferrer"
+                aria-label={s.label}
                 className="w-10 h-10 rounded-full bg-white/6 border border-white/10 flex items-center justify-center text-[#F0E6C8]/50 hover:text-[#C9A84C] hover:border-[#C9A84C]/40 hover:bg-[#C9A84C]/8 transition-all">
-                <Icon />
+                <LinkIconByKey name={s.icon} className="w-5 h-5" />
               </a>
-            );
-          })}
-        </motion.div>
+            ))}
+          </motion.div>
+        )}
 
         {/* Link buttons */}
         <div className="flex flex-col gap-3 mb-8">
-          {links.map((link, i) => {
-            const Icon = link.icon;
+          {buttons.map((link, i) => {
             const inner = (
               <motion.div
-                key={link.to}
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 + i * 0.07 }}
@@ -110,7 +97,7 @@ export default function Links() {
                 <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${
                   link.highlight ? 'bg-[#C9A84C]/20' : 'bg-white/8'
                 }`}>
-                  <Icon className={`w-4 h-4 ${link.highlight ? 'text-[#C9A84C]' : 'text-[#F0E6C8]/60'}`} />
+                  <LinkIconByKey name={link.icon} className={`w-4 h-4 ${link.highlight ? 'text-[#C9A84C]' : 'text-[#F0E6C8]/60'}`} />
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
@@ -121,15 +108,16 @@ export default function Links() {
                       <span className="px-1.5 py-0.5 rounded text-[10px] border border-[#C9A84C]/40 text-[#C9A84C]">{link.badge}</span>
                     )}
                   </div>
-                  <p className="text-[#F0E6C8]/40 text-xs mt-0.5">{link.sub}</p>
+                  {link.sublabel && <p className="text-[#F0E6C8]/40 text-xs mt-0.5">{link.sublabel}</p>}
                 </div>
                 <ArrowRight className={`w-4 h-4 shrink-0 ${link.highlight ? 'text-[#C9A84C]' : 'text-[#F0E6C8]/30'}`} />
               </motion.div>
             );
 
-            return link.external
-              ? <a key={link.to} href={link.to} target="_blank" rel="noopener noreferrer">{inner}</a>
-              : <Link key={link.to} to={link.to}>{inner}</Link>;
+            const key = link.id ?? `${link.url}-${i}`;
+            return isInternal(link.url)
+              ? <Link key={key} to={link.url}>{inner}</Link>
+              : <a key={key} href={link.url} target="_blank" rel="noopener noreferrer">{inner}</a>;
           })}
         </div>
 

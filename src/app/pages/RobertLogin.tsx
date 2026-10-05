@@ -5,6 +5,7 @@ import {
   Ticket, Plus, Trash2, RefreshCw,
 } from 'lucide-react';
 import { AdminAnalytics } from '../components/AdminAnalytics';
+import { LinktreeEditor } from '../components/LinktreeEditor';
 
 // ── Admin auth: the entered secret IS the credential (ADMIN_SECRET). ───────────
 // It is verified server-side and kept only in sessionStorage — never in the bundle.
@@ -204,6 +205,10 @@ export default function RobertLogin() {
         </div>
 
         <AdminAnalytics adminFetch={adminFetch} />
+
+        <div className="mb-6">
+          <LinktreeEditor adminFetch={adminFetch} />
+        </div>
 
         {/* Voucher management */}
         <div className="bg-white/4 border border-white/8 rounded-2xl p-5 mb-6">

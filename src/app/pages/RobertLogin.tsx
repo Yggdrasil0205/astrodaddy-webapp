@@ -222,7 +222,8 @@ export default function RobertLogin() {
           ))}
         </div>
 
-        <AdminAnalytics adminFetch={adminFetch} />
+        {/* Website-Statistik ausgeblendet (wieder einblenden: Zeile einkommentieren) */}
+        {/* <AdminAnalytics adminFetch={adminFetch} /> */}
 
         <div className="mb-6">
           <LinktreeEditor adminFetch={adminFetch} />

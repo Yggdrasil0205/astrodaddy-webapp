@@ -486,7 +486,7 @@ export default function Home() {
   ];
 
   const pricing = [
-    { title: 'Basis-Beratung', duration: '10 Minuten', price: '59,99 €', productId: 7, highlight: false, features: [
+    { title: 'Basis-Beratung', duration: '10 Minuten', price: '89,00 €', productId: 7, highlight: false, features: [
       'Detaillierte Horoskopdeutung',
       'Bequeme Video-Beratung',
       'Einsichten zu Lebensaufgaben',
@@ -494,7 +494,7 @@ export default function Home() {
       'Individuelle Analyse in kurzer Zeit',
       'Vorab-Zusendung deines Geburtshoroskops',
     ]},
-    { title: 'Transformation',  duration: '45 Minuten', price: '99,99 €', productId: 5, highlight: true,  features: [
+    { title: 'Transformation',  duration: '45 Minuten', price: '149,00 €', productId: 5, highlight: true,  features: [
       'Entdecke Stärken und Herausforderungen',
       'Beantwortung individueller Fragen',
       'Gemeinsame Reise der Selbsterkenntnis',
@@ -503,7 +503,7 @@ export default function Home() {
       'Klärung aktueller Themen',
       'Aufzeichnung zur späteren Einsicht',
     ]},
-    { title: 'Deep Work',       duration: '90 Minuten', price: '169,99 €', productId: 6, highlight: false, features: [
+    { title: 'Deep Work',       duration: '90 Minuten', price: '249,00 €', productId: 6, highlight: false, features: [
       'Aufdeckung innerer Blockaden',
       'Unterstützung beim Lösen von Ängsten',
       'Erkenne deine Stärken und Berufung',

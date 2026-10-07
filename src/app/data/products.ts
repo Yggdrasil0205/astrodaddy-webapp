@@ -50,7 +50,7 @@ export const products: Product[] = [
       'Als dauerhaftes Nachschlagewerk nutzbar',
       'Auch als durchdachtes Geschenk geeignet',
     ],
-    deliveryTime: 'Innerhalb von 48 Stunden',
+    deliveryTime: 'Erstellung bis zu 3 Werktage (je nach Andrang), Lieferung Mo–Fr',
     process: [
       'Geburtsdaten eingeben (Datum, Uhrzeit, Ort)',
       'Robert erstellt dein individuelles Persönlichkeitsprofil',
@@ -111,7 +111,7 @@ export const products: Product[] = [
       'Astrologischer Entwicklungsweg als Paar (inkl. Mondknoten)',
       'Karmische Themen & gemeinsame Seelenaufgabe',
     ],
-    deliveryTime: 'Bis zu 72 Stunden an Werktagen',
+    deliveryTime: 'Erstellung bis zu 3 Werktage (je nach Andrang), Lieferung Mo–Fr',
     process: [
       'Eigene & Partner-Geburtsdaten eingeben',
       'Robert erstellt die individuelle Synastrie-Analyse',
@@ -139,7 +139,7 @@ export const products: Product[] = [
       'Globale Orientierung für deine Ziele & Wünsche',
       'Inspiration für deinen Lebensweg & Wachstumsregionen',
     ],
-    deliveryTime: '2–3 Werktage',
+    deliveryTime: 'Erstellung bis zu 3 Werktage (je nach Andrang), Lieferung Mo–Fr',
     process: [
       'Geburtsdaten eingeben (Datum, Uhrzeit, Ort)',
       'Robert erstellt deine personalisierte Astrokartographie-Karte',
